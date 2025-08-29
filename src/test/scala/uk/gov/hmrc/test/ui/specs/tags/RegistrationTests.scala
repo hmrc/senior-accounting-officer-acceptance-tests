@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.ui.pages
+package uk.gov.hmrc.test.ui.specs.tags
 
-import uk.gov.hmrc.selenium.component.PageObject
+import org.scalatest.Tag
 
-trait BasePage extends PageObject {}
+object RegistrationTests extends Tag("RegistrationTests")

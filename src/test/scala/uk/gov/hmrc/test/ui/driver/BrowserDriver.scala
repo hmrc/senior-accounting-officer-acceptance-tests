@@ -14,25 +14,14 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.ui.specs
+package uk.gov.hmrc.test.ui.driver
 
-import org.scalatest.featurespec.AnyFeatureSpec
-import org.scalatest.matchers.should.Matchers
-import org.scalatest.{BeforeAndAfterEach, GivenWhenThen}
-import uk.gov.hmrc.selenium.webdriver.{Browser, ScreenshotOnFailure}
+import org.openqa.selenium.WebDriver
+import uk.gov.hmrc.selenium.webdriver.Driver
 
-trait BaseSpec
-    extends AnyFeatureSpec
-    with GivenWhenThen
-    with Matchers
-    with BeforeAndAfterEach
-    with Browser
-    with ScreenshotOnFailure {
+trait BrowserDriver {
 
-  override def beforeEach(): Unit =
-    startBrowser()
+  val browser: String = Option(System.getProperty("browser")).getOrElse("chrome")
 
-  override def afterEach(): Unit =
-    quitBrowser()
-
+  implicit def driver: WebDriver = Driver.instance
 }
