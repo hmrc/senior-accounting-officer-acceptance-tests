@@ -20,19 +20,16 @@ import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 
 object AuthLoginPage extends BasePage {
-  override val pageUrl: String = TestConfiguration.url("auth-login-stub") + "/gg-sign-in"
+  override val pageUrl: String = TestConfiguration.url("auth-login-stub")
 
   private val redirectionUrlById: By = By.id("redirectionUrl")
   private val affinityGroupById: By  = By.id("affinityGroupSelect")
   private val authSubmitById: By     = By.id("submit-top")
-//  private val presetDropDownById: By = By.id("presets-dropdown")
-//  private val presetSubmitById: By   = By.id("add-preset")
+  val errorMessageHeading: By        = By.xpath("//h1[contains(text(),'This page can’t be found')]")
 
-  private val redirectUrl: String =
-    TestConfiguration.url("senior-accounting-officer-registration-frontend") + "/registration"
+  private val redirectUrl: String = baseRegUrl
 
   private def loadPage: this.type = {
-    println(pageUrl+"Test URL ****")
     navigateTo(pageUrl)
     onPage()
     this
@@ -43,20 +40,31 @@ object AuthLoginPage extends BasePage {
 
   private def submitAuthPage(): Unit = click(authSubmitById)
 
-  private def submitAuthWithoutEnrolment(affinityGroup: String) = {
+  private def submitAuthWithoutEnrolment(affinityGroup: String): Unit = {
     loadPage
     sendKeys(redirectionUrlById, redirectUrl)
     selectAffinityGroup(affinityGroup)
     submitAuthPage()
   }
 
-  def loginAsNonAutomatchedOrgAdmin(): RegisterYourCompanyPage.type = {
-    submitAuthWithoutEnrolment("Organisation")
-    RegisterYourCompanyPage
+  private def submitInvalidAuthWithoutEnrolment(affinityGroup: String): Unit = {
+    loadPage
+    sendKeys(redirectionUrlById, redirectUrl + "s")
+    selectAffinityGroup(affinityGroup)
+    submitAuthPage()
   }
 
-  def loginAsNonAutomatchedIndAdmin(): RegisterYourCompanyPage.type = {
+  def loginAsNonAutomatchedOrgAdmin(): Unit =
+    submitAuthWithoutEnrolment("Organisation")
+
+  def loginAsInvalidNonAutomatchedOrgAdmin(): Unit =
+    submitInvalidAuthWithoutEnrolment("Organisation")
+
+  def loginAsNonAutomatchedIndAdmin(): Unit =
     submitAuthWithoutEnrolment("Individual")
-    RegisterYourCompanyPage
+
+  def errorMessageDisplayed(): Unit = {
+    val displayErrorHeading = driver.findElement(errorMessageHeading).getText
+    assert(displayErrorHeading.contains("This page can’t be found"))
   }
 }

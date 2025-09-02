@@ -18,26 +18,10 @@ package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
 
-object RegisterYourCompanyPage extends BasePage {
+object CompanyDetailsPage extends BasePage {
   override val pageUrl: String = baseRegUrl
 
-  private val companyDetails                 = By.xpath("//a[normalize-space()='Company details']")
-  private val contactDetails                 = By.xpath("//a[normalize-space()='Contact details']")
-  private val seniorAccountingOfficerDetails =
-    By.xpath("//a[contains(text(),'Check your answers before submitting your registra')]")
+  private val stubResponseButton = By.id("submit")
 
-  def clickCompanyDetails(): Unit = {
-    onPage()
-    click(companyDetails)
-  }
-
-  def clickContactDetails(): Unit = {
-    onPage()
-    click(contactDetails)
-  }
-
-  def clickSAODetails(): Unit = {
-    onPage()
-    click(seniorAccountingOfficerDetails)
-  }
+  def clickStubResponseButton(): Unit = click(stubResponseButton)
 }

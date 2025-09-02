@@ -31,8 +31,8 @@ trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageOb
   case class PageNotFoundException(message: String) extends Exception(message)
 
   val pageUrl: String
-  val baseUrl: String    = TestConfiguration.url("senior-accounting-officer") + "/registration"
-  val submitButtonId: By = By.id("submit")
+  val baseRegUrl: String =
+    TestConfiguration.url("senior-accounting-officer-registration-frontend")
   val backLinkText: By   = By.linkText("Back")
 
   def navigateTo(url: String): Unit = driver.navigate().to(url)
@@ -45,15 +45,8 @@ trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageOb
 
   def selectDropdownById(id: By): Select = new Select(driver.findElement(id: By))
 
-  def onPageSubmitById(): Unit = {
-    onPage()
-    click(submitButtonId)
-  }
-
-  def clickOnBackLink(): Unit = {
-    onPage()
+  def clickOnBackLink(): Unit =
     click(backLinkText)
-  }
 
   def clickOnByPartialLinkText(partialLinkText: By): Unit = {
     onPage()

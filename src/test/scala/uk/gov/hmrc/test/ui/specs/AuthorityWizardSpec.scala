@@ -19,34 +19,27 @@ package uk.gov.hmrc.test.ui.specs
 import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.specs.tags.*
 
-class RegisterYourCompanySpec extends BaseSpec {
+class AuthorityWizardSpec extends BaseSpec {
 
-  Feature("Register Your company page") {
+  Feature("Authority Wizard page") {
 
     Scenario(
-      "Select Company details",
+      "Select Redirect URL and Affinity group",
       RegistrationTests,
       ZapTests
     ) {
       Given("User enter localhost url and select redirect url, affinity group")
       AuthLoginPage.loginAsNonAutomatchedOrgAdmin()
-      When("User click on the Company details")
-      RegisterYourCompanyPage.clickCompanyDetails()
     }
 
     Scenario(
-      "Select Contact details",
+      "Select Invalid Redirect URL and valid Affinity group",
       RegistrationTests,
       ZapTests
     ) {
-      Given("User enter localhost url and select redirect url, affinity group")
-      AuthLoginPage.loginAsNonAutomatchedIndAdmin()
-      When("User click on the Company details")
-      RegisterYourCompanyPage.clickCompanyDetails()
-      Then("User navigate back to the Register your company page")
-      CompanyDetailsPage.clickStubResponseButton()
-      When("User click on the Contact details")
-      RegisterYourCompanyPage.clickContactDetails()
+      Given("User enter localhost url and select invalid redirect url, affinity group")
+      AuthLoginPage.loginAsInvalidNonAutomatchedOrgAdmin()
+      AuthLoginPage.errorMessageDisplayed()
     }
   }
 }
