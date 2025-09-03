@@ -17,14 +17,17 @@
 package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
+import uk.gov.hmrc.test.ui.pages.AuthLoginPage.getText
 
 object RegisterYourCompanyPage extends BasePage {
   override val pageUrl: String = baseRegUrl
 
-  private val companyDetails                 = By.xpath("//a[normalize-space()='Company details']")
-  private val contactDetails                 = By.xpath("//a[normalize-space()='Contact details']")
-  private val seniorAccountingOfficerDetails =
+  private val companyDetails                                   = By.xpath("//a[normalize-space()='Company details']")
+  private val contactDetails                                   = By.xpath("//a[normalize-space()='Contact details']")
+  private val checkYourAnswersBeforeSubmittingYourRegistration =
     By.xpath("//a[contains(text(),'Check your answers before submitting your registra')]")
+
+  private val serviceProblemMessage = By.xpath("//h1[normalize-space()='Sorry, there is a problem with the service']")
 
   def clickCompanyDetails(): Unit = {
     onPage()
@@ -36,8 +39,13 @@ object RegisterYourCompanyPage extends BasePage {
     click(contactDetails)
   }
 
-  def clickSAODetails(): Unit = {
+  def clickCheckYourAnswersBeforeSubmittingYourRegistration(): Unit = {
     onPage()
-    click(seniorAccountingOfficerDetails)
+    click(checkYourAnswersBeforeSubmittingYourRegistration)
+  }
+
+  def displayedServiceProblemMessage(): Unit = {
+    val displayServiceProblemMessage = getText(serviceProblemMessage)
+    displayServiceProblemMessage should include("Sorry, there is a problem with the service")
   }
 }

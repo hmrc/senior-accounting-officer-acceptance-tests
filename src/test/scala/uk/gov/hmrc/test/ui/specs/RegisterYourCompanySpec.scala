@@ -17,6 +17,7 @@
 package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.pages.*
+import uk.gov.hmrc.test.ui.pages.AuthLoginPage.clickOnBackLink
 import uk.gov.hmrc.test.ui.specs.tags.*
 
 class RegisterYourCompanySpec extends BaseSpec {
@@ -24,14 +25,16 @@ class RegisterYourCompanySpec extends BaseSpec {
   Feature("Register Your company page") {
 
     Scenario(
-      "Select Company details",
+      "Select Company details and navigate back",
       RegistrationTests,
       ZapTests
     ) {
-      Given("User enter localhost url and select redirect url, affinity group")
+      Given("The user enters the localhost URL and selects the redirect URL and affinity group")
       AuthLoginPage.loginAsNonAutomatchedOrgAdmin()
-      When("User click on the Company details")
+      Then("The user click on the Company details")
       RegisterYourCompanyPage.clickCompanyDetails()
+      And("The user navigate back")
+      clickOnBackLink()
     }
 
     Scenario(
@@ -39,14 +42,33 @@ class RegisterYourCompanySpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      Given("User enter localhost url and select redirect url, affinity group")
+      Given("The user enters the localhost URL and selects the redirect URL and affinity group")
       AuthLoginPage.loginAsNonAutomatchedIndAdmin()
-      When("User click on the Company details")
-      RegisterYourCompanyPage.clickCompanyDetails()
-      Then("User navigate back to the Register your company page")
-      CompanyDetailsPage.clickStubResponseButton()
-      When("User click on the Contact details")
+      When("The user clicks on the Contact Details link")
       RegisterYourCompanyPage.clickContactDetails()
+      Then("The user sees a service problem message")
+      RegisterYourCompanyPage.displayedServiceProblemMessage()
+      And("The user navigate back")
+      clickOnBackLink()
+      Then("The user clicks on the Company Details link")
+      RegisterYourCompanyPage.clickCompanyDetails()
+      Then("The user is navigated back to the Register your company page")
+      CompanyDetailsPage.clickStubResponseButton()
+      And("The user click on the Contact details link again")
+      RegisterYourCompanyPage.clickContactDetails()
+    }
+
+    Scenario(
+      "Select Review and submit",
+      RegistrationTests,
+      ZapTests
+    ) {
+      Given("The user enters the localhost URL and selects the redirect URL and affinity group")
+      AuthLoginPage.loginAsNonAutomatchedOrgAdmin()
+      When("The user click on the Check your answers before submitting your registration")
+      RegisterYourCompanyPage.clickCheckYourAnswersBeforeSubmittingYourRegistration()
+      Then("The user see a service problem message")
+      RegisterYourCompanyPage.displayedServiceProblemMessage()
     }
   }
 }

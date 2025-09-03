@@ -24,21 +24,22 @@ class AuthorityWizardSpec extends BaseSpec {
   Feature("Authority Wizard page") {
 
     Scenario(
-      "Select Redirect URL and Affinity group",
+      "Select a valid redirect URL and affinity group",
       RegistrationTests,
       ZapTests
     ) {
-      Given("User enter localhost url and select redirect url, affinity group")
+      Given("The user enters the localhost URL and selects the redirect URL and affinity group")
       AuthLoginPage.loginAsNonAutomatchedOrgAdmin()
     }
 
     Scenario(
-      "Select Invalid Redirect URL and valid Affinity group",
+      "Select an invalid redirect URL with a valid affinity group",
       RegistrationTests,
       ZapTests
     ) {
-      Given("User enter localhost url and select invalid redirect url, affinity group")
+      Given("The user enters the localhost URL and selects the redirect URL and affinity group")
       AuthLoginPage.loginAsInvalidNonAutomatchedOrgAdmin()
+      Then("The user sees an error message")
       AuthLoginPage.errorMessageDisplayed()
     }
   }

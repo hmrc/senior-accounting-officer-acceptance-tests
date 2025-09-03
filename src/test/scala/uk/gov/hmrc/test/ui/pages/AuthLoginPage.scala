@@ -45,6 +45,7 @@ object AuthLoginPage extends BasePage {
     sendKeys(redirectionUrlById, redirectUrl)
     selectAffinityGroup(affinityGroup)
     submitAuthPage()
+    ()
   }
 
   private def submitInvalidAuthWithoutEnrolment(affinityGroup: String): Unit = {
@@ -64,7 +65,7 @@ object AuthLoginPage extends BasePage {
     submitAuthWithoutEnrolment("Individual")
 
   def errorMessageDisplayed(): Unit = {
-    val displayErrorHeading = driver.findElement(errorMessageHeading).getText
-    assert(displayErrorHeading.contains("This page can’t be found"))
+    val displayErrorHeading = getText(errorMessageHeading)
+    displayErrorHeading should include("This page can’t be found")
   }
 }
