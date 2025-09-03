@@ -58,11 +58,20 @@ object AuthLoginPage extends BasePage {
   def loginAsNonAutomatchedOrgAdmin(): Unit =
     submitAuthWithoutEnrolment("Organisation")
 
-  def loginAsInvalidNonAutomatchedOrgAdmin(): Unit =
-    submitInvalidAuthWithoutEnrolment("Organisation")
-
   def loginAsNonAutomatchedIndAdmin(): Unit =
     submitAuthWithoutEnrolment("Individual")
+
+  def loginAsNonAutomatchedAgentAdmin(): Unit =
+    submitAuthWithoutEnrolment("Agent")
+
+  def loginAsInvalidRedirectURLNonAutomatchedOrgAdmin(): Unit =
+    submitInvalidAuthWithoutEnrolment("Organisation")
+
+  def loginAsInvalidRedirectURLNonAutomatchedIndAdmin(): Unit =
+    submitInvalidAuthWithoutEnrolment("Individual")
+
+  def loginAsInvalidRedirectURLNonAutomatchedAgentAdmin(): Unit =
+    submitInvalidAuthWithoutEnrolment("Agent")
 
   def errorMessageDisplayed(): Unit = {
     val displayErrorHeading = getText(errorMessageHeading)
