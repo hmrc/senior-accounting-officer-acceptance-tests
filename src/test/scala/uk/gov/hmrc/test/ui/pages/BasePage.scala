@@ -23,11 +23,10 @@ import uk.gov.hmrc.selenium.component.PageObject
 import uk.gov.hmrc.selenium.webdriver.Driver
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.driver.BrowserDriver
-import uk.gov.hmrc.test.ui.utils.IdGenerators
 
 import java.time.Duration
 
-trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageObject {
+trait BasePage extends BrowserDriver with Matchers with PageObject {
   case class PageNotFoundException(message: String) extends Exception(message)
 
   val pageUrl: String
@@ -37,7 +36,7 @@ trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageOb
 
   def navigateTo(url: String): Unit = driver.navigate().to(url)
 
-  private def fluentWait: Wait[WebDriver] = new FluentWait[WebDriver](Driver.instance)
+  def fluentWait: Wait[WebDriver] = new FluentWait[WebDriver](Driver.instance)
     .withTimeout(Duration.ofSeconds(2))
     .pollingEvery(Duration.ofMillis(200))
 

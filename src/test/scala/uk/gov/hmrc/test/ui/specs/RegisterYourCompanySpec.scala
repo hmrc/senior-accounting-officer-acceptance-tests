@@ -26,11 +26,10 @@ class RegisterYourCompanySpec extends BaseSpec {
 
     Scenario(
       "Select Company details and navigate back",
-      RegistrationTests,
-      ZapTests
+      RegistrationTests
     ) {
       Given("The user enters the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsNonAutomatchedOrgAdmin()
+      AuthLoginPage.loginAsNonAutomatchedUser("Organisation")
       Then("The user click on the Company details")
       RegisterYourCompanyPage.clickCompanyDetails()
       And("The user navigate back")
@@ -39,11 +38,10 @@ class RegisterYourCompanySpec extends BaseSpec {
 
     Scenario(
       "Select Contact details",
-      RegistrationTests,
-      ZapTests
+      RegistrationTests
     ) {
       Given("The user enters the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsNonAutomatchedIndAdmin()
+      AuthLoginPage.loginAsNonAutomatchedUser("Individual")
       When("The user clicks on the Contact Details link")
       RegisterYourCompanyPage.clickContactDetails()
       Then("The user sees a service problem message")
@@ -60,11 +58,10 @@ class RegisterYourCompanySpec extends BaseSpec {
 
     Scenario(
       "Select Review and submit",
-      RegistrationTests,
-      ZapTests
+      RegistrationTests
     ) {
       Given("The user enters the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsNonAutomatchedOrgAdmin()
+      AuthLoginPage.loginAsNonAutomatchedUser("Organisation")
       When("The user click on the Check your answers before submitting your registration")
       RegisterYourCompanyPage.clickCheckYourAnswersBeforeSubmittingYourRegistration()
       Then("The user see a service problem message")

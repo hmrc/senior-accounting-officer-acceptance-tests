@@ -17,6 +17,7 @@
 package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 
 object AuthLoginPage extends BasePage {
@@ -45,7 +46,6 @@ object AuthLoginPage extends BasePage {
     sendKeys(redirectionUrlById, redirectUrl)
     selectAffinityGroup(affinityGroup)
     submitAuthPage()
-    ()
   }
 
   private def submitInvalidAuthWithoutEnrolment(affinityGroup: String): Unit = {
@@ -55,26 +55,17 @@ object AuthLoginPage extends BasePage {
     submitAuthPage()
   }
 
-  def loginAsNonAutomatchedOrgAdmin(): Unit =
-    submitAuthWithoutEnrolment("Organisation")
+  def loginAsNonAutomatchedUser(affinityGroup: String): Unit =
+    submitAuthWithoutEnrolment(affinityGroup)
 
-  def loginAsNonAutomatchedIndAdmin(): Unit =
-    submitAuthWithoutEnrolment("Individual")
-
-  def loginAsNonAutomatchedAgentAdmin(): Unit =
-    submitAuthWithoutEnrolment("Agent")
-
-  def loginAsInvalidRedirectURLNonAutomatchedOrgAdmin(): Unit =
-    submitInvalidAuthWithoutEnrolment("Organisation")
-
-  def loginAsInvalidRedirectURLNonAutomatchedIndAdmin(): Unit =
-    submitInvalidAuthWithoutEnrolment("Individual")
-
-  def loginAsInvalidRedirectURLNonAutomatchedAgentAdmin(): Unit =
-    submitInvalidAuthWithoutEnrolment("Agent")
+  def loginAsInvalidRedirectURLNonAutomatchedUser(affinityGroup: String): Unit =
+    submitInvalidAuthWithoutEnrolment(affinityGroup)
 
   def errorMessageDisplayed(): Unit = {
-    val displayErrorHeading = getText(errorMessageHeading)
-    displayErrorHeading should include("This page can’t be found")
+    val displayErrorHeading: String = fluentWait
+      .until(ExpectedConditions.visibilityOfElementLocated(errorMessageHeading))
+      .getText
+
+    assert(displayErrorHeading.contains("This page can’t be found"))
   }
 }

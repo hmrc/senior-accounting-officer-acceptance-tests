@@ -25,60 +25,54 @@ class AuthorityWizardSpec extends BaseSpec {
 
     Scenario(
       "Select a valid redirect URL and Organisation affinity group",
-      RegistrationTests,
-      ZapTests
+      RegistrationTests
     ) {
       Given("The user enters the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsNonAutomatchedOrgAdmin()
+      AuthLoginPage.loginAsNonAutomatchedUser("Organisation")
     }
 
     Scenario(
       "Select an invalid redirect URL with Organisation affinity group",
-      RegistrationTests,
-      ZapTests
+      RegistrationTests
     ) {
       Given("The user enters the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsInvalidRedirectURLNonAutomatchedOrgAdmin()
+      AuthLoginPage.loginAsInvalidRedirectURLNonAutomatchedUser("Organisation")
       Then("The user sees an error message")
       AuthLoginPage.errorMessageDisplayed()
     }
 
     Scenario(
       "Select a valid redirect URL and Individual affinity group",
-      RegistrationTests,
-      ZapTests
+      RegistrationTests
     ) {
       Given("The user enters the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsNonAutomatchedIndAdmin()
+      AuthLoginPage.loginAsNonAutomatchedUser("Individual")
     }
 
     Scenario(
       "Select an invalid redirect URL with Individual affinity group",
-      RegistrationTests,
-      ZapTests
+      RegistrationTests
     ) {
       Given("The user enters the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsInvalidRedirectURLNonAutomatchedIndAdmin()
+      AuthLoginPage.loginAsInvalidRedirectURLNonAutomatchedUser("Individual")
       Then("The user sees an error message")
       AuthLoginPage.errorMessageDisplayed()
     }
 
     Scenario(
       "Select a valid redirect URL and Agent affinity group",
-      RegistrationTests,
-      ZapTests
+      RegistrationTests
     ) {
       Given("The user enters the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsNonAutomatchedAgentAdmin()
+      AuthLoginPage.loginAsNonAutomatchedUser("Agent")
     }
 
     Scenario(
       "Select an invalid redirect URL with Agent affinity group",
-      RegistrationTests,
-      ZapTests
+      RegistrationTests
     ) {
       Given("The user enters the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsInvalidRedirectURLNonAutomatchedAgentAdmin()
+      AuthLoginPage.loginAsInvalidRedirectURLNonAutomatchedUser("Agent")
       Then("The user sees an error message")
       AuthLoginPage.errorMessageDisplayed()
     }
