@@ -17,7 +17,10 @@
 package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
+import uk.gov.hmrc.selenium.webdriver.Driver
 import uk.gov.hmrc.test.ui.pages.AuthLoginPage.getText
+
+import java.time.Duration
 
 object RegisterYourCompanyPage extends BasePage {
   override val pageUrl: String = baseRegUrl
@@ -29,23 +32,43 @@ object RegisterYourCompanyPage extends BasePage {
 
   private val serviceProblemMessage = By.xpath("//h1[normalize-space()='Sorry, there is a problem with the service']")
 
-  def clickCompanyDetails(): Unit = {
-    onPage()
-    click(companyDetails)
+  def verifyCompanyDetailsLink(): Unit = {
+    Driver.instance.manage().timeouts().implicitlyWait(Duration.ofSeconds(1))
+    Driver.instance.findElement(companyDetails).isEnabled
   }
 
-  def clickContactDetails(): Unit = {
-    onPage()
-    click(contactDetails)
+  def clickCompanyDetails(): Unit = click(companyDetails)
+
+  def verifyContactDetailsLink(): Unit = {
+    Driver.instance.manage().timeouts().implicitlyWait(Duration.ofSeconds(1))
+    Driver.instance.findElement(contactDetails).isEnabled
   }
 
-  def clickCheckYourAnswersBeforeSubmittingYourRegistration(): Unit = {
-    onPage()
+  def clickContactDetails(): Unit = click(contactDetails)
+
+  def verifyCheckYourAnswersBeforeSubmittingYourRegistrationLink(): Unit = {
+    Driver.instance.manage().timeouts().implicitlyWait(Duration.ofSeconds(1))
+    Driver.instance.findElement(checkYourAnswersBeforeSubmittingYourRegistration).isEnabled
+  }
+
+  def clickCheckYourAnswersBeforeSubmittingYourRegistration(): Unit =
     click(checkYourAnswersBeforeSubmittingYourRegistration)
-  }
 
   def displayedServiceProblemMessage(): Unit = {
     val displayServiceProblemMessage = getText(serviceProblemMessage)
     displayServiceProblemMessage should include("Sorry, there is a problem with the service")
+  }
+
+  def verifyRegisterYourCompanyPageURL(): Unit = {
+    Driver.instance.manage().timeouts().implicitlyWait(Duration.ofSeconds(1))
+    val registerYourCompanyPageURL = Driver.instance.getCurrentUrl
+    registerYourCompanyPageURL should include(pageUrl)
+  }
+
+  def verifyRegisterYourCompanyPageTitle(): Unit = {
+    val registerYourCompanyPageTitle = Driver.instance.getTitle
+    registerYourCompanyPageTitle should include(
+      "Register your company - Senior Accounting Officer notification and certificate - GOV.UK"
+    )
   }
 }

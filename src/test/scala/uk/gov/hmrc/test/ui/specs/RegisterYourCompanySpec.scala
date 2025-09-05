@@ -25,14 +25,28 @@ class RegisterYourCompanySpec extends BaseSpec {
   Feature("Register Your company page") {
 
     Scenario(
+      "Verify Register Your Company Page URL and Page Details",
+      RegistrationTests
+    ) {
+      Given("The user accesses the localhost URL and selects the redirect URL and affinity group")
+      AuthLoginPage.loginAsNonAutomatchedUser("Organisation")
+      When("The User verifies the page URL")
+      RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
+      Then("The User verifies the page Title")
+      RegisterYourCompanyPage.verifyRegisterYourCompanyPageTitle()
+    }
+
+    Scenario(
       "Select Company details and navigate back",
       RegistrationTests
     ) {
-      Given("The user enters the localhost URL and selects the redirect URL and affinity group")
+      Given("The user accesses the localhost URL and selects the redirect URL and affinity group")
       AuthLoginPage.loginAsNonAutomatchedUser("Organisation")
-      Then("The user click on the Company details")
+      When("The User verifies that the Company Details link is enabled")
+      RegisterYourCompanyPage.verifyCompanyDetailsLink()
+      Then("The user click on the Company details link")
       RegisterYourCompanyPage.clickCompanyDetails()
-      And("The user navigate back")
+      And("The user navigate back to Register your company page")
       clickOnBackLink()
     }
 
@@ -40,9 +54,11 @@ class RegisterYourCompanySpec extends BaseSpec {
       "Select Contact details",
       RegistrationTests
     ) {
-      Given("The user enters the localhost URL and selects the redirect URL and affinity group")
+      Given("The user accesses the localhost URL and selects the redirect URL and affinity group")
       AuthLoginPage.loginAsNonAutomatchedUser("Individual")
-      When("The user clicks on the Contact Details link")
+      When("The User verifies that the Contact Details link is enabled")
+      RegisterYourCompanyPage.verifyContactDetailsLink()
+      Then("The user clicks on the Contact Details link")
       RegisterYourCompanyPage.clickContactDetails()
       Then("The user sees a service problem message")
       RegisterYourCompanyPage.displayedServiceProblemMessage()
@@ -60,9 +76,11 @@ class RegisterYourCompanySpec extends BaseSpec {
       "Select Review and submit",
       RegistrationTests
     ) {
-      Given("The user enters the localhost URL and selects the redirect URL and affinity group")
+      Given("The user accesses the localhost URL and selects the redirect URL and affinity group")
       AuthLoginPage.loginAsNonAutomatchedUser("Organisation")
-      When("The user click on the Check your answers before submitting your registration")
+      When("The User verifies the Check Your Answers Before Submitting Your Registration link is enabled")
+      RegisterYourCompanyPage.verifyCheckYourAnswersBeforeSubmittingYourRegistrationLink()
+      Then("The user click on the Check your answers before submitting your registration")
       RegisterYourCompanyPage.clickCheckYourAnswersBeforeSubmittingYourRegistration()
       Then("The user see a service problem message")
       RegisterYourCompanyPage.displayedServiceProblemMessage()
