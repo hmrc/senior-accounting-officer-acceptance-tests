@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.test.ui.specs
 
+import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.pages.AuthLoginPage.clickOnBackLink
 import uk.gov.hmrc.test.ui.specs.tags.*
@@ -24,65 +25,71 @@ class RegisterYourCompanySpec extends BaseSpec {
 
   Feature("Register Your company page") {
 
+    val envType = if (TestConfiguration.env == "local") "localhost" else "staging"
+
     Scenario(
       "Verify Register Your Company Page URL and Page Details",
-      RegistrationTests
+      RegistrationTests,
+      SoloTests
     ) {
-      Given("The user accesses the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsNonAutomatchedUser("Organisation")
-      When("The User verifies the page URL")
+      Given(s"Accesses the $envType url and selects the redirect URL and affinity group")
+      AuthLoginPage.selectRedirectedURLAndAffinityGroup("Organisation")
+      When("The page URL is verified")
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
-      Then("The User verifies the page Title")
+      Then("The page Title is verified")
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageTitle()
     }
 
     Scenario(
-      "Select Company details and navigate back",
-      RegistrationTests
+      "Select Company details and Navigate back",
+      RegistrationTests,
+      SoloTests
     ) {
-      Given("The user accesses the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsNonAutomatchedUser("Organisation")
-      When("The User verifies that the Company Details link is enabled")
+      Given(s"Accesses the $envType URL and selects the redirect URL and affinity group")
+      AuthLoginPage.selectRedirectedURLAndAffinityGroup("Organisation")
+      When("The Company Details link is verified to be enabled")
       RegisterYourCompanyPage.verifyCompanyDetailsLink()
-      Then("The user click on the Company details link")
+      Then("The Company details link is clicked")
       RegisterYourCompanyPage.clickCompanyDetails()
-      And("The user navigate back to Register your company page")
+      And("Navigation returns to the Register your company page")
       clickOnBackLink()
     }
 
     Scenario(
       "Select Contact details",
-      RegistrationTests
+      RegistrationTests,
+      SoloTests
     ) {
-      Given("The user accesses the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsNonAutomatchedUser("Individual")
-      When("The User verifies that the Contact Details link is enabled")
+      Given(s"Accesses the $envType URL and selects the redirect URL and affinity group")
+      AuthLoginPage.selectRedirectedURLAndAffinityGroup("Individual")
+      When("The Contact Details link is verified to be enabled")
       RegisterYourCompanyPage.verifyContactDetailsLink()
-      Then("The user clicks on the Contact Details link")
+      Then("The Contact Details link is clicked")
       RegisterYourCompanyPage.clickContactDetails()
-      Then("The user sees a service problem message")
+      Then("A service problem message is displayed")
       RegisterYourCompanyPage.displayedServiceProblemMessage()
-      And("The user navigate back")
+      And("The back link is clicked")
       clickOnBackLink()
-      Then("The user clicks on the Company Details link")
+      Then("The Company Details link is clicked")
       RegisterYourCompanyPage.clickCompanyDetails()
-      Then("The user is navigated back to the Register your company page")
+      Then("Navigation returns to the Register your company page")
       CompanyDetailsPage.clickStubResponseButton()
-      And("The user click on the Contact details link again")
+      And("The Contact details link is clicked again")
       RegisterYourCompanyPage.clickContactDetails()
     }
 
     Scenario(
       "Select Review and submit",
-      RegistrationTests
+      RegistrationTests,
+      SoloTests
     ) {
-      Given("The user accesses the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsNonAutomatchedUser("Organisation")
-      When("The User verifies the Check Your Answers Before Submitting Your Registration link is enabled")
+      Given(s"Accesses the $envType URL and selects the redirect URL and affinity group")
+      AuthLoginPage.selectRedirectedURLAndAffinityGroup("Organisation")
+      When("The Check Your Answers Before Submitting Your Registration link is enabled")
       RegisterYourCompanyPage.verifyCheckYourAnswersBeforeSubmittingYourRegistrationLink()
-      Then("The user click on the Check your answers before submitting your registration")
+      Then("The Check your answers before submitting your registration link is clicked")
       RegisterYourCompanyPage.clickCheckYourAnswersBeforeSubmittingYourRegistration()
-      Then("The user see a service problem message")
+      Then("A service problem message is displayed")
       RegisterYourCompanyPage.displayedServiceProblemMessage()
     }
   }

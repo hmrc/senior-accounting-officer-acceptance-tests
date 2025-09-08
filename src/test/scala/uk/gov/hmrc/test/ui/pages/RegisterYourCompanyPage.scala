@@ -17,6 +17,8 @@
 package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.ExpectedConditions
+import org.scalactic.Prettifier.default
 import uk.gov.hmrc.selenium.webdriver.Driver
 import uk.gov.hmrc.test.ui.pages.AuthLoginPage.getText
 
@@ -25,30 +27,78 @@ import java.time.Duration
 object RegisterYourCompanyPage extends BasePage {
   override val pageUrl: String = baseRegUrl
 
-  private val companyDetails                                   = By.xpath("//a[normalize-space()='Company details']")
-  private val contactDetails                                   = By.xpath("//a[normalize-space()='Contact details']")
+  private val companyDetails             = By.xpath("//a[normalize-space()='Company details']")
+  private val companyDetailsHref: String = pageUrl + "/business-match"
+  private val companyDetailsText: String = "Company details"
+
+  private val contactDetails             = By.xpath("//a[normalize-space()='Contact details']")
+  private val contactDetailsHref: String = pageUrl + "/contact-details"
+  private val contactDetailsText: String = "Contact details"
+
   private val checkYourAnswersBeforeSubmittingYourRegistration =
     By.xpath("//a[contains(text(),'Check your answers before submitting your registra')]")
+
+  private val checkYourAnswersBeforeSubmittingYourRegistrationHref: String = pageUrl + "/check-your-answers"
+
+  private val checkYourAnswersBeforeSubmittingYourRegistrationText: String =
+    "Check your answers before submitting your registration"
 
   private val serviceProblemMessage = By.xpath("//h1[normalize-space()='Sorry, there is a problem with the service']")
 
   def verifyCompanyDetailsLink(): Unit = {
-    Driver.instance.manage().timeouts().implicitlyWait(Duration.ofSeconds(1))
-    Driver.instance.findElement(companyDetails).isEnabled
+    val companyDetailsElement = fluentWait
+      .until(ExpectedConditions.visibilityOfElementLocated(companyDetails))
+
+    val isVisible = companyDetailsElement.isDisplayed
+    assert(isVisible == true)
+
+    val isEnabled = companyDetailsElement.isEnabled
+    assert(isEnabled == true)
+
+    val actualHref = companyDetailsElement.getAttribute("href")
+    actualHref.trim should be(companyDetailsHref)
+
+    val actualText = companyDetailsElement.getText
+    actualText.trim should be(companyDetailsText)
   }
 
   def clickCompanyDetails(): Unit = click(companyDetails)
 
   def verifyContactDetailsLink(): Unit = {
-    Driver.instance.manage().timeouts().implicitlyWait(Duration.ofSeconds(1))
-    Driver.instance.findElement(contactDetails).isEnabled
+    val contactDetailsElement = fluentWait
+      .until(ExpectedConditions.visibilityOfElementLocated(contactDetails))
+
+    val isVisible = contactDetailsElement.isDisplayed
+    assert(isVisible == true)
+
+    val isEnabled = contactDetailsElement.isEnabled
+    assert(isEnabled == true)
+
+    val actualHref = contactDetailsElement.getAttribute("href")
+    actualHref.trim should be(contactDetailsHref)
+
+    val actualText = contactDetailsElement.getText
+    actualText.trim should be(contactDetailsText)
   }
 
-  def clickContactDetails(): Unit = click(contactDetails)
+  def clickContactDetails(): Unit =
+    fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetails)).click()
 
   def verifyCheckYourAnswersBeforeSubmittingYourRegistrationLink(): Unit = {
-    Driver.instance.manage().timeouts().implicitlyWait(Duration.ofSeconds(1))
-    Driver.instance.findElement(checkYourAnswersBeforeSubmittingYourRegistration).isEnabled
+    val element = fluentWait
+      .until(ExpectedConditions.visibilityOfElementLocated(checkYourAnswersBeforeSubmittingYourRegistration))
+
+    val isVisible = element.isDisplayed
+    assert(isVisible == true)
+
+    val isEnabled = element.isEnabled
+    assert(isEnabled == true)
+
+    val actualHref = element.getAttribute("href")
+    actualHref.trim should be(checkYourAnswersBeforeSubmittingYourRegistrationHref)
+
+    val actualText = element.getText
+    actualText.trim should equal(checkYourAnswersBeforeSubmittingYourRegistrationText)
   }
 
   def clickCheckYourAnswersBeforeSubmittingYourRegistration(): Unit =
@@ -56,18 +106,18 @@ object RegisterYourCompanyPage extends BasePage {
 
   def displayedServiceProblemMessage(): Unit = {
     val displayServiceProblemMessage = getText(serviceProblemMessage)
-    displayServiceProblemMessage should include("Sorry, there is a problem with the service")
+    displayServiceProblemMessage should be("Sorry, there is a problem with the service")
   }
 
   def verifyRegisterYourCompanyPageURL(): Unit = {
-    Driver.instance.manage().timeouts().implicitlyWait(Duration.ofSeconds(1))
+    Driver.instance.manage().timeouts().implicitlyWait(Duration.ofSeconds(2))
     val registerYourCompanyPageURL = Driver.instance.getCurrentUrl
-    registerYourCompanyPageURL should include(pageUrl)
+    registerYourCompanyPageURL should be(pageUrl)
   }
 
   def verifyRegisterYourCompanyPageTitle(): Unit = {
     val registerYourCompanyPageTitle = Driver.instance.getTitle
-    registerYourCompanyPageTitle should include(
+    registerYourCompanyPageTitle should be(
       "Register your company - Senior Accounting Officer notification and certificate - GOV.UK"
     )
   }

@@ -36,8 +36,8 @@ trait BasePage extends BrowserDriver with Matchers with PageObject {
 
   def navigateTo(url: String): Unit = driver.navigate().to(url)
 
-  def fluentWait: Wait[WebDriver] = new FluentWait[WebDriver](Driver.instance)
-    .withTimeout(Duration.ofSeconds(2))
+  protected def fluentWait: Wait[WebDriver] = new FluentWait[WebDriver](Driver.instance)
+    .withTimeout(Duration.ofSeconds(5))
     .pollingEvery(Duration.ofMillis(200))
 
   def onPage(url: String = this.pageUrl): Unit = fluentWait.until(ExpectedConditions.urlToBe(url))

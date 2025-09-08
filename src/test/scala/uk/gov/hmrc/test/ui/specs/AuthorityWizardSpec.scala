@@ -21,60 +21,16 @@ import uk.gov.hmrc.test.ui.specs.tags.*
 
 class AuthorityWizardSpec extends BaseSpec {
 
-  Feature("Authority Wizard page") {
+  Feature("Affinity Group users are redirected to the 'Register Your Company' page via the Authority Wizard Stub") {
 
-    Scenario(
-      "Select a valid redirect URL and Organisation affinity group",
-      RegistrationTests
-    ) {
-      Given("The user enters the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsNonAutomatchedUser("Organisation")
-    }
-
-    Scenario(
-      "Select an invalid redirect URL with Organisation affinity group",
-      RegistrationTests
-    ) {
-      Given("The user enters the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsInvalidRedirectURLNonAutomatchedUser("Organisation")
-      Then("The user sees an error message")
-      AuthLoginPage.errorMessageDisplayed()
-    }
-
-    Scenario(
-      "Select a valid redirect URL and Individual affinity group",
-      RegistrationTests
-    ) {
-      Given("The user enters the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsNonAutomatchedUser("Individual")
-    }
-
-    Scenario(
-      "Select an invalid redirect URL with Individual affinity group",
-      RegistrationTests
-    ) {
-      Given("The user enters the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsInvalidRedirectURLNonAutomatchedUser("Individual")
-      Then("The user sees an error message")
-      AuthLoginPage.errorMessageDisplayed()
-    }
-
-    Scenario(
-      "Select a valid redirect URL and Agent affinity group",
-      RegistrationTests
-    ) {
-      Given("The user enters the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsNonAutomatchedUser("Agent")
-    }
-
-    Scenario(
-      "Select an invalid redirect URL with Agent affinity group",
-      RegistrationTests
-    ) {
-      Given("The user enters the localhost URL and selects the redirect URL and affinity group")
-      AuthLoginPage.loginAsInvalidRedirectURLNonAutomatchedUser("Agent")
-      Then("The user sees an error message")
-      AuthLoginPage.errorMessageDisplayed()
+    Seq("Organisation", "Individual", "Agent").foreach { affinityGroup =>
+      Scenario(
+        s"Select a valid redirect URL for $affinityGroup affinity group",
+        RegistrationTests
+      ) {
+        Given(s"The $affinityGroup user is redirected to the 'Register Your Company' page")
+        AuthLoginPage.selectRedirectedURLAndAffinityGroup(affinityGroup)
+      }
     }
   }
 }

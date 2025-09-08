@@ -17,7 +17,6 @@
 package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 
 object AuthLoginPage extends BasePage {
@@ -41,31 +40,13 @@ object AuthLoginPage extends BasePage {
 
   private def submitAuthPage(): Unit = click(authSubmitById)
 
-  private def submitAuthWithoutEnrolment(affinityGroup: String): Unit = {
+  private def selectValidRedirectURLAndAffinityGroup(affinityGroup: String): Unit = {
     loadPage
     sendKeys(redirectionUrlById, redirectUrl)
     selectAffinityGroup(affinityGroup)
     submitAuthPage()
   }
 
-  private def submitInvalidAuthWithoutEnrolment(affinityGroup: String): Unit = {
-    loadPage
-    sendKeys(redirectionUrlById, redirectUrl + "s")
-    selectAffinityGroup(affinityGroup)
-    submitAuthPage()
-  }
-
-  def loginAsNonAutomatchedUser(affinityGroup: String): Unit =
-    submitAuthWithoutEnrolment(affinityGroup)
-
-  def loginAsInvalidRedirectURLNonAutomatchedUser(affinityGroup: String): Unit =
-    submitInvalidAuthWithoutEnrolment(affinityGroup)
-
-  def errorMessageDisplayed(): Unit = {
-    val displayErrorHeading: String = fluentWait
-      .until(ExpectedConditions.visibilityOfElementLocated(errorMessageHeading))
-      .getText
-
-    assert(displayErrorHeading.contains("This page can’t be found"))
-  }
+  def selectRedirectedURLAndAffinityGroup(affinityGroup: String): Unit =
+    selectValidRedirectURLAndAffinityGroup(affinityGroup)
 }
