@@ -19,7 +19,6 @@ package uk.gov.hmrc.test.ui.pages
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalactic.Prettifier.default
-import uk.gov.hmrc.selenium.webdriver.Driver
 import uk.gov.hmrc.test.ui.pages.AuthLoginPage.getText
 import uk.gov.hmrc.test.ui.pages.CompanyDetailsPage.{companyDetailsHref, companyDetailsText}
 import uk.gov.hmrc.test.ui.pages.ContactDetailsPage.{contactDetailsHref, contactDetailsText}
@@ -103,11 +102,11 @@ object RegisterYourCompanyPage extends BasePage {
 
   def verifyRegisterYourCompanyPageURL(): Unit = {
     waitFor.until(ExpectedConditions.urlToBe(pageUrl))
-    assert(Driver.instance.getCurrentUrl == pageUrl)
+    assert(driver.getCurrentUrl == pageUrl)
   }
 
   def verifyRegisterYourCompanyPageTitle(): Unit = {
-    val registerYourCompanyPageTitle = Driver.instance.getTitle
+    val registerYourCompanyPageTitle = driver.getTitle
     registerYourCompanyPageTitle should be(
       "Register your company - Senior Accounting Officer notification and certificate - GOV.UK"
     )
