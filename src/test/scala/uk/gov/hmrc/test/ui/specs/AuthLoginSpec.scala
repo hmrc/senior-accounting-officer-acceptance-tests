@@ -18,12 +18,13 @@ package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.specs.tags.*
+import uk.gov.hmrc.test.ui.utils.AffinityGroupEnum
 
-class AuthorityWizardSpec extends BaseSpec {
+class AuthLoginSpec extends BaseSpec {
 
   Feature("Affinity Group users are redirected to the 'Register Your Company' page via the Authority Wizard Stub") {
 
-    Seq("Organisation", "Individual", "Agent").foreach { affinityGroup =>
+    AffinityGroupEnum.values.foreach { affinityGroup =>
       Scenario(
         s"Select a valid redirect URL for $affinityGroup affinity group",
         RegistrationTests

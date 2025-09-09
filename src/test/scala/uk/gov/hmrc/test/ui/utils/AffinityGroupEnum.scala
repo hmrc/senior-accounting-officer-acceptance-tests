@@ -14,17 +14,10 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages
+package uk.gov.hmrc.test.ui.utils
 
-import org.openqa.selenium.By
-
-object CompanyDetailsPage extends BasePage {
-  override val pageUrl: String = baseRegUrl
-
-  val companyDetailsHref: String = pageUrl + "/business-match"
-  val companyDetailsText: String = "Company details"
-
-  private val stubResponseButton = By.id("submit")
-
-  def clickStubResponseButton(): Unit = click(stubResponseButton)
+enum AffinityGroupEnum(val value: String) {
+  case Individual extends AffinityGroupEnum("Individual")
+  case Organisation extends AffinityGroupEnum("Organisation")
+  case Agent extends AffinityGroupEnum("Agent")
 }

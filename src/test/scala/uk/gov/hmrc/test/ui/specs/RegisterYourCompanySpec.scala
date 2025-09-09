@@ -16,24 +16,21 @@
 
 package uk.gov.hmrc.test.ui.specs
 
-import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.pages.AuthLoginPage.clickOnBackLink
 import uk.gov.hmrc.test.ui.specs.tags.*
+import uk.gov.hmrc.test.ui.utils.AffinityGroupEnum.{Agent, Individual, Organisation}
 
 class RegisterYourCompanySpec extends BaseSpec {
 
   Feature("Register Your company page") {
-
-    val envType = if (TestConfiguration.env == "local") "localhost" else "staging"
-
     Scenario(
       "Verify Register Your Company Page URL and Page Details",
       RegistrationTests,
-      SoloTests
+      ZapTests
     ) {
-      Given(s"Accesses the $envType url and selects the redirect URL and affinity group")
-      AuthLoginPage.selectRedirectedURLAndAffinityGroup("Organisation")
+      Given(s"Given an $Organisation user initiates SAO registration")
+      AuthLoginPage.selectRedirectedURLAndAffinityGroup(Organisation)
       When("The page URL is verified")
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
       Then("The page Title is verified")
@@ -43,10 +40,10 @@ class RegisterYourCompanySpec extends BaseSpec {
     Scenario(
       "Select Company details and Navigate back",
       RegistrationTests,
-      SoloTests
+      ZapTests
     ) {
-      Given(s"Accesses the $envType URL and selects the redirect URL and affinity group")
-      AuthLoginPage.selectRedirectedURLAndAffinityGroup("Organisation")
+      Given(s"Given an $Agent user initiates SAO registration")
+      AuthLoginPage.selectRedirectedURLAndAffinityGroup(Agent)
       When("The Company Details link is verified to be enabled")
       RegisterYourCompanyPage.verifyCompanyDetailsLink()
       Then("The Company details link is clicked")
@@ -58,10 +55,10 @@ class RegisterYourCompanySpec extends BaseSpec {
     Scenario(
       "Select Contact details",
       RegistrationTests,
-      SoloTests
+      ZapTests
     ) {
-      Given(s"Accesses the $envType URL and selects the redirect URL and affinity group")
-      AuthLoginPage.selectRedirectedURLAndAffinityGroup("Individual")
+      Given(s"Given an $Individual user initiates SAO registration")
+      AuthLoginPage.selectRedirectedURLAndAffinityGroup(Individual)
       When("The Contact Details link is verified to be enabled")
       RegisterYourCompanyPage.verifyContactDetailsLink()
       Then("The Contact Details link is clicked")
@@ -81,10 +78,10 @@ class RegisterYourCompanySpec extends BaseSpec {
     Scenario(
       "Select Review and submit",
       RegistrationTests,
-      SoloTests
+      ZapTests
     ) {
-      Given(s"Accesses the $envType URL and selects the redirect URL and affinity group")
-      AuthLoginPage.selectRedirectedURLAndAffinityGroup("Organisation")
+      Given(s"Given an $Organisation user initiates SAO registration")
+      AuthLoginPage.selectRedirectedURLAndAffinityGroup(Organisation)
       When("The Check Your Answers Before Submitting Your Registration link is enabled")
       RegisterYourCompanyPage.verifyCheckYourAnswersBeforeSubmittingYourRegistrationLink()
       Then("The Check your answers before submitting your registration link is clicked")

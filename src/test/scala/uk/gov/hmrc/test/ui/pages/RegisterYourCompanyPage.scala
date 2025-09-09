@@ -21,27 +21,19 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalactic.Prettifier.default
 import uk.gov.hmrc.selenium.webdriver.Driver
 import uk.gov.hmrc.test.ui.pages.AuthLoginPage.getText
+import uk.gov.hmrc.test.ui.pages.CompanyDetailsPage.{companyDetailsHref, companyDetailsText}
+import uk.gov.hmrc.test.ui.pages.ContactDetailsPage.{contactDetailsHref, contactDetailsText}
+import uk.gov.hmrc.test.ui.pages.ReviewAndSubmitPage.{checkYourAnswersBeforeSubmittingYourRegistrationHref, checkYourAnswersBeforeSubmittingYourRegistrationText}
 
-import java.time.Duration
+import scala.language.postfixOps
 
 object RegisterYourCompanyPage extends BasePage {
   override val pageUrl: String = baseRegUrl
 
-  private val companyDetails             = By.xpath("//a[normalize-space()='Company details']")
-  private val companyDetailsHref: String = pageUrl + "/business-match"
-  private val companyDetailsText: String = "Company details"
-
-  private val contactDetails             = By.xpath("//a[normalize-space()='Contact details']")
-  private val contactDetailsHref: String = pageUrl + "/contact-details"
-  private val contactDetailsText: String = "Contact details"
-
+  private val companyDetails                                   = By.xpath("//a[normalize-space()='Company details']")
+  private val contactDetails                                   = By.xpath("//a[normalize-space()='Contact details']")
   private val checkYourAnswersBeforeSubmittingYourRegistration =
     By.xpath("//a[contains(text(),'Check your answers before submitting your registra')]")
-
-  private val checkYourAnswersBeforeSubmittingYourRegistrationHref: String = pageUrl + "/check-your-answers"
-
-  private val checkYourAnswersBeforeSubmittingYourRegistrationText: String =
-    "Check your answers before submitting your registration"
 
   private val serviceProblemMessage = By.xpath("//h1[normalize-space()='Sorry, there is a problem with the service']")
 
@@ -50,10 +42,10 @@ object RegisterYourCompanyPage extends BasePage {
       .until(ExpectedConditions.visibilityOfElementLocated(companyDetails))
 
     val isVisible = companyDetailsElement.isDisplayed
-    assert(isVisible == true)
+    assert(isVisible)
 
     val isEnabled = companyDetailsElement.isEnabled
-    assert(isEnabled == true)
+    assert(isEnabled)
 
     val actualHref = companyDetailsElement.getAttribute("href")
     actualHref.trim should be(companyDetailsHref)
@@ -69,10 +61,10 @@ object RegisterYourCompanyPage extends BasePage {
       .until(ExpectedConditions.visibilityOfElementLocated(contactDetails))
 
     val isVisible = contactDetailsElement.isDisplayed
-    assert(isVisible == true)
+    assert(isVisible)
 
     val isEnabled = contactDetailsElement.isEnabled
-    assert(isEnabled == true)
+    assert(isEnabled)
 
     val actualHref = contactDetailsElement.getAttribute("href")
     actualHref.trim should be(contactDetailsHref)
@@ -89,10 +81,10 @@ object RegisterYourCompanyPage extends BasePage {
       .until(ExpectedConditions.visibilityOfElementLocated(checkYourAnswersBeforeSubmittingYourRegistration))
 
     val isVisible = element.isDisplayed
-    assert(isVisible == true)
+    assert(isVisible)
 
     val isEnabled = element.isEnabled
-    assert(isEnabled == true)
+    assert(isEnabled)
 
     val actualHref = element.getAttribute("href")
     actualHref.trim should be(checkYourAnswersBeforeSubmittingYourRegistrationHref)
@@ -110,9 +102,8 @@ object RegisterYourCompanyPage extends BasePage {
   }
 
   def verifyRegisterYourCompanyPageURL(): Unit = {
-    Driver.instance.manage().timeouts().implicitlyWait(Duration.ofSeconds(2))
-    val registerYourCompanyPageURL = Driver.instance.getCurrentUrl
-    registerYourCompanyPageURL should be(pageUrl)
+    waitFor.until(ExpectedConditions.urlToBe(pageUrl))
+    assert(Driver.instance.getCurrentUrl == pageUrl)
   }
 
   def verifyRegisterYourCompanyPageTitle(): Unit = {

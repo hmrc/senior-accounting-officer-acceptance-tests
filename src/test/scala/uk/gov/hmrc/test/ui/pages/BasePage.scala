@@ -16,17 +16,18 @@
 
 package uk.gov.hmrc.test.ui.pages
 
-import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait, Select, Wait}
+import org.openqa.selenium.support.ui.*
 import org.openqa.selenium.{By, WebDriver}
 import org.scalatest.matchers.should.Matchers
 import uk.gov.hmrc.selenium.component.PageObject
 import uk.gov.hmrc.selenium.webdriver.Driver
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.driver.BrowserDriver
+import uk.gov.hmrc.test.ui.utils.IdGenerators
 
 import java.time.Duration
 
-trait BasePage extends BrowserDriver with Matchers with PageObject {
+trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageObject {
   case class PageNotFoundException(message: String) extends Exception(message)
 
   val pageUrl: String
@@ -35,6 +36,8 @@ trait BasePage extends BrowserDriver with Matchers with PageObject {
   val backLinkText: By   = By.linkText("Back")
 
   def navigateTo(url: String): Unit = driver.navigate().to(url)
+
+  protected def waitFor = new WebDriverWait(Driver.instance, Duration.ofSeconds(2))
 
   protected def fluentWait: Wait[WebDriver] = new FluentWait[WebDriver](Driver.instance)
     .withTimeout(Duration.ofSeconds(5))

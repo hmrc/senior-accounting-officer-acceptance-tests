@@ -16,15 +16,11 @@
 
 package uk.gov.hmrc.test.ui.pages
 
-import org.openqa.selenium.By
-
-object CompanyDetailsPage extends BasePage {
+object ReviewAndSubmitPage extends BasePage {
   override val pageUrl: String = baseRegUrl
 
-  val companyDetailsHref: String = pageUrl + "/business-match"
-  val companyDetailsText: String = "Company details"
+  val checkYourAnswersBeforeSubmittingYourRegistrationHref: String = pageUrl + "/check-your-answers"
 
-  private val stubResponseButton = By.id("submit")
-
-  def clickStubResponseButton(): Unit = click(stubResponseButton)
+  val checkYourAnswersBeforeSubmittingYourRegistrationText: String =
+    "Check your answers before submitting your registration"
 }
