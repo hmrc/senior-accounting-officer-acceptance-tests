@@ -19,22 +19,30 @@ package uk.gov.hmrc.test.ui.pages
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalactic.Prettifier.default
-import uk.gov.hmrc.test.ui.pages.CompanyDetailsPage.{companyDetailsHref, companyDetailsStatusNotStarted, companyDetailsText}
-import uk.gov.hmrc.test.ui.pages.ContactDetailsPage.{contactDetailsStatusCannotStartedYet, contactDetailsText}
+import uk.gov.hmrc.test.ui.pages.CompanyDetailsPage.companyDetailsHref
 
 import scala.language.postfixOps
 
 object RegisterYourCompanyPage extends BasePage {
   override val pageUrl: String = baseRegUrl
 
-  private val companyDetailsTitle  = By.xpath("(//div[@class='govuk-task-list__name-and-hint']/a)[1]")
-  private val companyDetailsStatus = By.id("company-details-status")
-  private val contactDetailsTitle  = By.xpath("(//div[@class='govuk-task-list__name-and-hint'])[2]")
-  private val contactDetailsStatus = By.id("contacts-details-status")
+  // Company Details Section
+  private val companyDetailsField             = By.xpath(s"(//div[@class='govuk-task-list__name-and-hint'])[1]")
+  private val companyDetailsFieldText: String = "Enter your company details"
+  private val companyDetailsStatus            = By.id("company-details-status")
+
+  // Contact Details Section
+  private val contactDetailsField             = By.xpath("(//div[@class='govuk-task-list__name-and-hint'])[2]")
+  private val contactDetailsFieldText: String = "Enter your contact details"
+  private val contactDetailsStatus            = By.id("contacts-details-status")
+
+  // Dashboard Content
+  private val statusNotStarted: String       = "Not started"
+  private val statusCannotStartedYet: String = "Cannot start yet"
 
   def verifyCompanyDetailsField(): Unit = {
     val companyDetailsElement = fluentWait
-      .until(ExpectedConditions.visibilityOfElementLocated(companyDetailsTitle))
+      .until(ExpectedConditions.visibilityOfElementLocated(companyDetailsField))
 
     val isVisible = companyDetailsElement.isDisplayed
     isVisible mustBe true
@@ -42,11 +50,11 @@ object RegisterYourCompanyPage extends BasePage {
     val isEnabled = companyDetailsElement.isEnabled
     isEnabled mustBe true
 
-    val actualHref = companyDetailsElement.getAttribute("href")
+    val actualHref = companyDetailsElement.findElement(By.tagName("a")).getAttribute("href")
     actualHref.trim mustBe companyDetailsHref
 
     val actualText = companyDetailsElement.getText
-    actualText.trim mustBe companyDetailsText
+    actualText.trim mustBe companyDetailsFieldText
   }
 
   def verifyCompanyDetailsStatus(): Unit = {
@@ -60,14 +68,14 @@ object RegisterYourCompanyPage extends BasePage {
     isEnabled mustBe true
 
     val actualText = companyDetailsStatusText.getText
-    actualText.trim mustBe companyDetailsStatusNotStarted
+    actualText.trim mustBe statusNotStarted
   }
 
-  def clickCompanyDetails(): Unit = click(companyDetailsTitle)
+  def clickCompanyDetails(): Unit = click(companyDetailsField)
 
   def verifyContactDetailsField(): Unit = {
     val contactDetailsElement = fluentWait
-      .until(ExpectedConditions.visibilityOfElementLocated(contactDetailsTitle))
+      .until(ExpectedConditions.visibilityOfElementLocated(contactDetailsField))
 
     val isVisible = contactDetailsElement.isDisplayed
     isVisible mustBe true
@@ -76,7 +84,7 @@ object RegisterYourCompanyPage extends BasePage {
     isEnabled mustBe true
 
     val actualText = contactDetailsElement.getText
-    actualText.trim mustBe contactDetailsText
+    actualText.trim mustBe contactDetailsFieldText
   }
 
   def verifyContactDetailsStatus(): Unit = {
@@ -90,7 +98,7 @@ object RegisterYourCompanyPage extends BasePage {
     isEnabled mustBe true
 
     val actualText = contactDetailsStatusText.getText
-    actualText.trim mustBe contactDetailsStatusCannotStartedYet
+    actualText.trim mustBe statusCannotStartedYet
   }
 
   def verifyRegisterYourCompanyPageURL(): Unit = {
