@@ -21,8 +21,9 @@ import org.openqa.selenium.By
 object CompanyDetailsPage extends BasePage {
   override val pageUrl: String = baseRegUrl
 
-  val companyDetailsHref: String = pageUrl + "/business-match"
-  val companyDetailsText: String = "Company details"
+  val companyDetailsHref: String             = pageUrl + "/business-match"
+  val companyDetailsText: String             = "Enter your company details"
+  val companyDetailsStatusNotStarted: String = "Not started"
 
   private val stubResponseButton = By.id("submit")
 

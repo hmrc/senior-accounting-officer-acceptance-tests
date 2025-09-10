@@ -19,6 +19,7 @@ package uk.gov.hmrc.test.ui.pages
 object ContactDetailsPage extends BasePage {
   override val pageUrl: String = baseRegUrl
 
-  val contactDetailsHref: String = pageUrl + "/contact-details"
-  val contactDetailsText: String = "Contact details"
+  val contactDetailsHref: String                   = pageUrl + "/contact-details"
+  val contactDetailsText: String                   = "Enter your contact details"
+  val contactDetailsStatusCannotStartedYet: String = "Cannot start yet"
 }

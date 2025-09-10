@@ -19,85 +19,78 @@ package uk.gov.hmrc.test.ui.pages
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalactic.Prettifier.default
-import uk.gov.hmrc.test.ui.pages.AuthLoginPage.getText
-import uk.gov.hmrc.test.ui.pages.CompanyDetailsPage.{companyDetailsHref, companyDetailsText}
-import uk.gov.hmrc.test.ui.pages.ContactDetailsPage.{contactDetailsHref, contactDetailsText}
-import uk.gov.hmrc.test.ui.pages.ReviewAndSubmitPage.{checkYourAnswersBeforeSubmittingYourRegistrationHref, checkYourAnswersBeforeSubmittingYourRegistrationText}
+import uk.gov.hmrc.test.ui.pages.CompanyDetailsPage.{companyDetailsHref, companyDetailsStatusNotStarted, companyDetailsText}
+import uk.gov.hmrc.test.ui.pages.ContactDetailsPage.{contactDetailsStatusCannotStartedYet, contactDetailsText}
 
 import scala.language.postfixOps
 
 object RegisterYourCompanyPage extends BasePage {
   override val pageUrl: String = baseRegUrl
 
-  private val companyDetails                                   = By.xpath("//a[normalize-space()='Company details']")
-  private val contactDetails                                   = By.xpath("//a[normalize-space()='Contact details']")
-  private val checkYourAnswersBeforeSubmittingYourRegistration =
-    By.xpath("//a[contains(text(),'Check your answers before submitting your registra')]")
+  private val companyDetailsTitle  = By.xpath("(//div[@class='govuk-task-list__name-and-hint']/a)[1]")
+  private val companyDetailsStatus = By.id("company-details-status")
+  private val contactDetailsTitle  = By.xpath("(//div[@class='govuk-task-list__name-and-hint'])[2]")
+  private val contactDetailsStatus = By.id("contacts-details-status")
 
-  private val serviceProblemMessage = By.xpath("//h1[normalize-space()='Sorry, there is a problem with the service']")
-
-  def verifyCompanyDetailsLink(): Unit = {
+  def verifyCompanyDetailsField(): Unit = {
     val companyDetailsElement = fluentWait
-      .until(ExpectedConditions.visibilityOfElementLocated(companyDetails))
+      .until(ExpectedConditions.visibilityOfElementLocated(companyDetailsTitle))
 
     val isVisible = companyDetailsElement.isDisplayed
-    assert(isVisible)
+    isVisible mustBe true
 
     val isEnabled = companyDetailsElement.isEnabled
-    assert(isEnabled)
+    isEnabled mustBe true
 
     val actualHref = companyDetailsElement.getAttribute("href")
-    actualHref.trim should be(companyDetailsHref)
+    actualHref.trim mustBe companyDetailsHref
 
     val actualText = companyDetailsElement.getText
-    actualText.trim should be(companyDetailsText)
+    actualText.trim mustBe companyDetailsText
   }
 
-  def clickCompanyDetails(): Unit = click(companyDetails)
+  def verifyCompanyDetailsStatus(): Unit = {
+    val companyDetailsStatusText = fluentWait
+      .until(ExpectedConditions.visibilityOfElementLocated(companyDetailsStatus))
 
-  def verifyContactDetailsLink(): Unit = {
+    val isVisible = companyDetailsStatusText.isDisplayed
+    isVisible mustBe true
+
+    val isEnabled = companyDetailsStatusText.isEnabled
+    isEnabled mustBe true
+
+    val actualText = companyDetailsStatusText.getText
+    actualText.trim mustBe companyDetailsStatusNotStarted
+  }
+
+  def clickCompanyDetails(): Unit = click(companyDetailsTitle)
+
+  def verifyContactDetailsField(): Unit = {
     val contactDetailsElement = fluentWait
-      .until(ExpectedConditions.visibilityOfElementLocated(contactDetails))
+      .until(ExpectedConditions.visibilityOfElementLocated(contactDetailsTitle))
 
     val isVisible = contactDetailsElement.isDisplayed
-    assert(isVisible)
+    isVisible mustBe true
 
     val isEnabled = contactDetailsElement.isEnabled
-    assert(isEnabled)
-
-    val actualHref = contactDetailsElement.getAttribute("href")
-    actualHref.trim should be(contactDetailsHref)
+    isEnabled mustBe true
 
     val actualText = contactDetailsElement.getText
-    actualText.trim should be(contactDetailsText)
+    actualText.trim mustBe contactDetailsText
   }
 
-  def clickContactDetails(): Unit =
-    fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetails)).click()
+  def verifyContactDetailsStatus(): Unit = {
+    val contactDetailsStatusText = fluentWait
+      .until(ExpectedConditions.visibilityOfElementLocated(contactDetailsStatus))
 
-  def verifyCheckYourAnswersBeforeSubmittingYourRegistrationLink(): Unit = {
-    val element = fluentWait
-      .until(ExpectedConditions.visibilityOfElementLocated(checkYourAnswersBeforeSubmittingYourRegistration))
+    val isVisible = contactDetailsStatusText.isDisplayed
+    isVisible mustBe true
 
-    val isVisible = element.isDisplayed
-    assert(isVisible)
+    val isEnabled = contactDetailsStatusText.isEnabled
+    isEnabled mustBe true
 
-    val isEnabled = element.isEnabled
-    assert(isEnabled)
-
-    val actualHref = element.getAttribute("href")
-    actualHref.trim should be(checkYourAnswersBeforeSubmittingYourRegistrationHref)
-
-    val actualText = element.getText
-    actualText.trim should equal(checkYourAnswersBeforeSubmittingYourRegistrationText)
-  }
-
-  def clickCheckYourAnswersBeforeSubmittingYourRegistration(): Unit =
-    click(checkYourAnswersBeforeSubmittingYourRegistration)
-
-  def displayedServiceProblemMessage(): Unit = {
-    val displayServiceProblemMessage = getText(serviceProblemMessage)
-    displayServiceProblemMessage should be("Sorry, there is a problem with the service")
+    val actualText = contactDetailsStatusText.getText
+    actualText.trim mustBe contactDetailsStatusCannotStartedYet
   }
 
   def verifyRegisterYourCompanyPageURL(): Unit = {
@@ -107,8 +100,7 @@ object RegisterYourCompanyPage extends BasePage {
 
   def verifyRegisterYourCompanyPageTitle(): Unit = {
     val registerYourCompanyPageTitle = driver.getTitle
-    registerYourCompanyPageTitle should be(
+    registerYourCompanyPageTitle mustBe
       "Register your company - Senior Accounting Officer notification and certificate - GOV.UK"
-    )
   }
 }

@@ -17,7 +17,6 @@
 package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.pages.*
-import uk.gov.hmrc.test.ui.pages.AuthLoginPage.clickOnBackLink
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.utils.AffinityGroupEnum.{Agent, Individual, Organisation}
 
@@ -25,69 +24,42 @@ class RegisterYourCompanySpec extends BaseSpec {
 
   Feature("Register Your company page") {
     Scenario(
-      "Verify Register Your Company Page URL and Page Details",
+      "Verify Register Your Company Page URL and Page details",
       RegistrationTests,
       ZapTests
     ) {
-      Given(s"Given an $Organisation user initiates SAO registration")
+      Given(s"Given an $Organisation user has initiated SAO registration")
       AuthLoginPage.selectRedirectedURLAndAffinityGroup(Organisation)
-      When("The page URL is verified")
+      When("The Register your company page URL is verified")
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
-      Then("The page Title is verified")
+      Then("The Register your company page Title is verified")
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageTitle()
     }
 
     Scenario(
-      "Select Company details and Navigate back",
+      "View the Company details field and its status on the registration page",
       RegistrationTests,
       ZapTests
     ) {
-      Given(s"Given an $Agent user initiates SAO registration")
+      Given(s"Given an $Agent user has initiated SAO registration")
       AuthLoginPage.selectRedirectedURLAndAffinityGroup(Agent)
-      When("The Company Details link is verified to be enabled")
-      RegisterYourCompanyPage.verifyCompanyDetailsLink()
-      Then("The Company details link is clicked")
-      RegisterYourCompanyPage.clickCompanyDetails()
-      And("Navigation returns to the Register your company page")
-      clickOnBackLink()
+      When("The Company Details field is verified")
+      RegisterYourCompanyPage.verifyCompanyDetailsField()
+      Then("The Company Details Status is verified")
+      RegisterYourCompanyPage.verifyCompanyDetailsStatus()
     }
 
     Scenario(
-      "Select Contact details",
+      "View the Contacts details field and its status on the registration page",
       RegistrationTests,
       ZapTests
     ) {
-      Given(s"Given an $Individual user initiates SAO registration")
+      Given(s"Given an $Individual user has initiated SAO registration")
       AuthLoginPage.selectRedirectedURLAndAffinityGroup(Individual)
-      When("The Contact Details link is verified to be enabled")
-      RegisterYourCompanyPage.verifyContactDetailsLink()
-      Then("The Contact Details link is clicked")
-      RegisterYourCompanyPage.clickContactDetails()
-      Then("A service problem message is displayed")
-      RegisterYourCompanyPage.displayedServiceProblemMessage()
-      And("The back link is clicked")
-      clickOnBackLink()
-      Then("The Company Details link is clicked")
-      RegisterYourCompanyPage.clickCompanyDetails()
-      Then("Navigation returns to the Register your company page")
-      CompanyDetailsPage.clickStubResponseButton()
-      And("The Contact details link is clicked again")
-      RegisterYourCompanyPage.clickContactDetails()
-    }
-
-    Scenario(
-      "Select Review and submit",
-      RegistrationTests,
-      ZapTests
-    ) {
-      Given(s"Given an $Organisation user initiates SAO registration")
-      AuthLoginPage.selectRedirectedURLAndAffinityGroup(Organisation)
-      When("The Check Your Answers Before Submitting Your Registration link is enabled")
-      RegisterYourCompanyPage.verifyCheckYourAnswersBeforeSubmittingYourRegistrationLink()
-      Then("The Check your answers before submitting your registration link is clicked")
-      RegisterYourCompanyPage.clickCheckYourAnswersBeforeSubmittingYourRegistration()
-      Then("A service problem message is displayed")
-      RegisterYourCompanyPage.displayedServiceProblemMessage()
+      When("The Contact Details field is verified")
+      RegisterYourCompanyPage.verifyContactDetailsField()
+      Then("The Contact Details Status field is verified")
+      RegisterYourCompanyPage.verifyContactDetailsStatus()
     }
   }
 }
