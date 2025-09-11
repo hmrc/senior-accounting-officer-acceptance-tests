@@ -21,6 +21,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalactic.Prettifier.default
 import uk.gov.hmrc.test.ui.pages.CompanyDetailsPage.companyDetailsHref
 
+import scala.jdk.CollectionConverters.*
 import scala.language.postfixOps
 
 object RegisterYourCompanyPage extends BasePage {
@@ -83,6 +84,9 @@ object RegisterYourCompanyPage extends BasePage {
     val isEnabled = contactDetailsElement.isEnabled
     isEnabled mustBe true
 
+    val actualHref = contactDetailsElement.findElements(By.tagName("a")).asScala
+    actualHref mustBe empty
+
     val actualText = contactDetailsElement.getText
     actualText.trim mustBe contactDetailsFieldText
   }
@@ -110,5 +114,10 @@ object RegisterYourCompanyPage extends BasePage {
     val registerYourCompanyPageTitle = driver.getTitle
     registerYourCompanyPageTitle mustBe
       "Register your company - Senior Accounting Officer notification and certificate - GOV.UK"
+  }
+
+  def verifySubmitButtonDoestNotExist(): Unit = {
+    val submitButton = driver.findElements(By.id("submit")).asScala
+    submitButton mustBe empty
   }
 }
