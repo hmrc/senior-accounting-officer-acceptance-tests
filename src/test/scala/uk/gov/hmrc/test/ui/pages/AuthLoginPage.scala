@@ -18,7 +18,7 @@ package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.utils.AffinityGroupEnum
+import uk.gov.hmrc.test.ui.utils.AffinityGroup
 
 object AuthLoginPage extends BasePage {
   override val pageUrl: String = TestConfiguration.url("auth-login-stub")
@@ -26,7 +26,6 @@ object AuthLoginPage extends BasePage {
   private val redirectionUrlById: By = By.id("redirectionUrl")
   private val affinityGroupById: By  = By.id("affinityGroupSelect")
   private val authSubmitById: By     = By.id("submit-top")
-  val errorMessageHeading: By        = By.xpath("//h1[contains(text(),'This page can’t be found')]")
 
   private val redirectUrl: String = baseRegUrl
 
@@ -36,18 +35,18 @@ object AuthLoginPage extends BasePage {
     this
   }
 
-  private def selectAffinityGroup(affinityGroup: AffinityGroupEnum): Unit =
-    selectDropdownById(affinityGroupById).selectByVisibleText(affinityGroup.value)
+  private def selectAffinityGroup(affinityGroup: AffinityGroup): Unit =
+    selectDropdownById(affinityGroupById).selectByVisibleText(affinityGroup.toString)
 
   private def submitAuthPage(): Unit = click(authSubmitById)
 
-  private def selectValidRedirectURLAndAffinityGroup(affinityGroup: AffinityGroupEnum): Unit = {
+  private def selectValidRedirectUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit = {
     loadPage
     sendKeys(redirectionUrlById, redirectUrl)
     selectAffinityGroup(affinityGroup)
     submitAuthPage()
   }
 
-  def selectRedirectedURLAndAffinityGroup(affinityGroup: AffinityGroupEnum): Unit =
-    selectValidRedirectURLAndAffinityGroup(affinityGroup)
+  def selectRedirectedUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit =
+    selectValidRedirectUrlAndAffinityGroup(affinityGroup)
 }

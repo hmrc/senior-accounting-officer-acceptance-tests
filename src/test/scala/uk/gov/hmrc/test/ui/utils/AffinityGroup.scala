@@ -16,8 +16,6 @@
 
 package uk.gov.hmrc.test.ui.utils
 
-enum AffinityGroupEnum(val value: String) {
-  case Individual extends AffinityGroupEnum("Individual")
-  case Organisation extends AffinityGroupEnum("Organisation")
-  case Agent extends AffinityGroupEnum("Agent")
+enum AffinityGroup {
+  case Organisation, Individual, Agent
 }

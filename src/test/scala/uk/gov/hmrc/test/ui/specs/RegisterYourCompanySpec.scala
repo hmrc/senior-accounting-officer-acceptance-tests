@@ -18,47 +18,49 @@ package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.specs.tags.*
-import uk.gov.hmrc.test.ui.utils.AffinityGroupEnum.{Agent, Individual, Organisation}
+import uk.gov.hmrc.test.ui.utils.AffinityGroup.Organisation
 
 class RegisterYourCompanySpec extends BaseSpec {
 
   Feature("Register Your company page") {
     Scenario(
-      "Verify Register Your Company Page URL and Page details",
+      "Successfully view the Register your company page",
       RegistrationTests,
       ZapTests
     ) {
-      Given(s"Given an $Organisation user has initiated SAO registration")
-      AuthLoginPage.selectRedirectedURLAndAffinityGroup(Organisation)
-      When("The Register your company page URL is verified")
+      Given(s"An authenticated user with the Organisation affinity group has started SAO registration")
+      AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
+      Then("They should be on the 'Register your company' page")
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
-      Then("The Register your company page Title is verified")
+      Then(
+        "The page title should be 'Register your company - Senior Accounting Officer notification and certificate - GOV.UK'"
+      )
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageTitle()
     }
 
     Scenario(
-      "View the Company details field and its status on the registration page",
+      "Successfully view the Company Details in the Register your company page",
       RegistrationTests,
       ZapTests
     ) {
-      Given(s"Given an $Agent user has initiated SAO registration")
-      AuthLoginPage.selectRedirectedURLAndAffinityGroup(Agent)
-      When("The Company Details field is verified")
+      Given(s"An authenticated user with the Organisation affinity group has started SAO registration")
+      AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
+      Then("Then the title 'Enter your company details' should be visible")
       RegisterYourCompanyPage.verifyCompanyDetailsField()
-      Then("The Company Details Status is verified")
+      Then("The status of the Company Details should be displayed")
       RegisterYourCompanyPage.verifyCompanyDetailsStatus()
     }
 
     Scenario(
-      "View the Contacts details field and its status on the registration page",
+      "Successfully view the Contact Details in the Register your company page",
       RegistrationTests,
       ZapTests
     ) {
-      Given(s"Given an $Individual user has initiated SAO registration")
-      AuthLoginPage.selectRedirectedURLAndAffinityGroup(Individual)
-      When("The Contact Details field is verified")
+      Given(s"An authenticated user with the Organisation affinity group has started SAO registration")
+      AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
+      Then("Then the title 'Enter your contact details' should be visible")
       RegisterYourCompanyPage.verifyContactDetailsField()
-      Then("The Contact Details Status field is verified")
+      Then("The status of the Contact Details should be displayed")
       RegisterYourCompanyPage.verifyContactDetailsStatus()
     }
   }
