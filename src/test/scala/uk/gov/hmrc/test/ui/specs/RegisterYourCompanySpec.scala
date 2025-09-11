@@ -24,43 +24,25 @@ class RegisterYourCompanySpec extends BaseSpec {
 
   Feature("Register Your company page") {
     Scenario(
-      "Successfully view the Register your company page",
+      "Successfully view the Register your company page with Company and Contact Details",
       RegistrationTests,
       ZapTests
     ) {
       Given(s"An authenticated user with the Organisation affinity group has started SAO registration")
       AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
-      Then("They should be on the 'Register your company' page")
+      Then("They must be on the 'Register your company' page")
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
       Then(
-        "The page title should be 'Register your company - Senior Accounting Officer notification and certificate - GOV.UK'"
+        "The page title must be 'Register your company - Senior Accounting Officer notification and certificate - GOV.UK'"
       )
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageTitle()
-    }
-
-    Scenario(
-      "Successfully view the Company Details in the Register your company page",
-      RegistrationTests,
-      ZapTests
-    ) {
-      Given(s"An authenticated user with the Organisation affinity group has started SAO registration")
-      AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
-      Then("Then the title 'Enter your company details' should be visible")
+      Then("The title 'Enter your company details' must be visible")
       RegisterYourCompanyPage.verifyCompanyDetailsField()
-      Then("The status of the Company Details should be displayed")
+      Then("The status of the Company Details must be displayed")
       RegisterYourCompanyPage.verifyCompanyDetailsStatus()
-    }
-
-    Scenario(
-      "Successfully view the Contact Details in the Register your company page",
-      RegistrationTests,
-      ZapTests
-    ) {
-      Given(s"An authenticated user with the Organisation affinity group has started SAO registration")
-      AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
-      Then("Then the title 'Enter your contact details' should be visible")
+      Then("The title 'Enter your contact details' must be visible")
       RegisterYourCompanyPage.verifyContactDetailsField()
-      Then("The status of the Contact Details should be displayed")
+      Then("The status of the Contact Details must be displayed")
       RegisterYourCompanyPage.verifyContactDetailsStatus()
     }
   }
