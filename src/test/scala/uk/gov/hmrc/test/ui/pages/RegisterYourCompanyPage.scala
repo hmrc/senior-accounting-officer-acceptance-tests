@@ -25,7 +25,9 @@ import scala.jdk.CollectionConverters.*
 import scala.language.postfixOps
 
 object RegisterYourCompanyPage extends BasePage {
-  override val pageUrl: String = baseRegUrl
+  override val pageUrl: String  = baseRegUrl
+  private val pageTitle: String =
+    "Register your company - Senior Accounting Officer notification and certificate - GOV.UK"
 
   // Company Details Section
   private val companyDetailsField             = By.xpath(s"(//div[@class='govuk-task-list__name-and-hint'])[1]")
@@ -36,6 +38,9 @@ object RegisterYourCompanyPage extends BasePage {
   private val contactDetailsField             = By.xpath("(//div[@class='govuk-task-list__name-and-hint'])[2]")
   private val contactDetailsFieldText: String = "Enter your contact details"
   private val contactDetailsStatus            = By.id("contacts-details-status")
+
+  // Submit Button section
+  private val submitButton = By.id("submit")
 
   // Dashboard Content
   private val statusNotStarted: String       = "Not started"
@@ -112,12 +117,12 @@ object RegisterYourCompanyPage extends BasePage {
 
   def verifyRegisterYourCompanyPageTitle(): Unit = {
     val registerYourCompanyPageTitle = driver.getTitle
-    registerYourCompanyPageTitle mustBe
-      "Register your company - Senior Accounting Officer notification and certificate - GOV.UK"
+    registerYourCompanyPageTitle mustBe pageTitle
+
   }
 
   def verifySubmitButtonDoestNotExist(): Unit = {
-    val submitButton = driver.findElements(By.id("submit")).asScala
-    submitButton mustBe empty
+    val submitButtonElement = driver.findElements(submitButton).asScala
+    submitButtonElement mustBe empty
   }
 }
