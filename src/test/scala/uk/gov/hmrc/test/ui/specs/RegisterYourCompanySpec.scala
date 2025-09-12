@@ -30,13 +30,13 @@ class RegisterYourCompanySpec extends BaseSpec {
     ) {
       Given("An authenticated organisation user successfully navigated to the Register Your Company page")
       AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
-      Then("They view the 'Register your company' page")
+      When("They view the 'Register your company' page")
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
-      And(
+      Then(
         "The page title must be 'Register your company - Senior Accounting Officer notification and certificate - GOV.UK'"
       )
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageTitle()
-      Then("The title 'Enter your company details' must be visible")
+      And("The title 'Enter your company details' must be visible")
       RegisterYourCompanyPage.verifyCompanyDetailsField()
     }
 
@@ -47,9 +47,9 @@ class RegisterYourCompanySpec extends BaseSpec {
     ) {
       Given("An authenticated organisation user successfully navigated to the Register Your Company page")
       AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
-      Then("They view the 'Register your company' page")
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
-      And("The title 'Enter your company details' must be link")
+      When("They view the 'Register your company' page")
+      Then("The title 'Enter your company details' must be link")
       RegisterYourCompanyPage.verifyEnterYourCompanyDetailsLink()
       And("The status of the Company Details must be displayed")
       RegisterYourCompanyPage.verifyCompanyDetailsStatus()
