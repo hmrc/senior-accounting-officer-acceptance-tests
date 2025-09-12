@@ -30,8 +30,8 @@ class RegisterYourCompanySpec extends BaseSpec {
     ) {
       Given("An authenticated organisation user successfully navigated to the Register Your Company page")
       AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
-      When("They view the 'Register your company' page")
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
+      When("They view the 'Register your company' page")
       Then(
         "The page title must be 'Register your company - Senior Accounting Officer notification and certificate - GOV.UK'"
       )
