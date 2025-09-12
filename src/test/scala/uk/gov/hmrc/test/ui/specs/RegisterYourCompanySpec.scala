@@ -28,15 +28,16 @@ class RegisterYourCompanySpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      Given(s"An authenticated organisation user successfully navigated to the Register Your Company page")
+      Given("An authenticated organisation user successfully navigated to the Register Your Company page")
       AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
-      Then("They must be on the 'Register your company' page")
+      Then("They view the 'Register your company' page")
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
       And(
         "The page title must be 'Register your company - Senior Accounting Officer notification and certificate - GOV.UK'"
       )
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageTitle()
       Then("The title 'Enter your company details' must be visible")
+      RegisterYourCompanyPage.verifyCompanyDetailsField()
     }
 
     Scenario(
@@ -44,17 +45,19 @@ class RegisterYourCompanySpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      Given(s"An authenticated organisation user successfully navigated to the Register Your Company page")
+      Given("An authenticated organisation user successfully navigated to the Register Your Company page")
       AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
-      Then("The title 'Enter your company details' must be link")
-      RegisterYourCompanyPage.verifyCompanyDetailsField()
+      Then("They view the 'Register your company' page")
+      RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
+      And("The title 'Enter your company details' must be link")
+      RegisterYourCompanyPage.verifyEnterYourCompanyDetailsLink()
       And("The status of the Company Details must be displayed")
       RegisterYourCompanyPage.verifyCompanyDetailsStatus()
-      Then("The title 'Enter your contact details' is not a link")
+      And("The title 'Enter your contact details' is not a link")
       RegisterYourCompanyPage.verifyContactDetailsField()
       And("The status of the Contact Details must be displayed")
       RegisterYourCompanyPage.verifyContactDetailsStatus()
-      Then("The Submit button does not exist")
+      And("The Submit button does not exist")
       RegisterYourCompanyPage.verifySubmitButtonDoestNotExist()
     }
   }

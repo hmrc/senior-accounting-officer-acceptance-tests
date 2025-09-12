@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.test.ui.pages
 
-import org.openqa.selenium.By
+import org.openqa.selenium.{By, WebElement}
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalactic.Prettifier.default
 import uk.gov.hmrc.test.ui.pages.CompanyDetailsPage.companyDetailsHref
@@ -46,21 +46,23 @@ object RegisterYourCompanyPage extends BasePage {
   private val statusNotStarted: String       = "Not started"
   private val statusCannotStartedYet: String = "Cannot start yet"
 
-  def verifyCompanyDetailsField(): Unit = {
-    val companyDetailsElement = fluentWait
-      .until(ExpectedConditions.visibilityOfElementLocated(companyDetailsField))
+  def companyDetailsElement: WebElement =
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(companyDetailsField))
 
+  def verifyCompanyDetailsField(): Unit = {
     val isVisible = companyDetailsElement.isDisplayed
     isVisible mustBe true
 
     val isEnabled = companyDetailsElement.isEnabled
     isEnabled mustBe true
 
-    val actualHref = companyDetailsElement.findElement(By.tagName("a")).getAttribute("href")
-    actualHref.trim mustBe companyDetailsHref
-
     val actualText = companyDetailsElement.getText
     actualText.trim mustBe companyDetailsFieldText
+  }
+
+  def verifyEnterYourCompanyDetailsLink(): Unit = {
+    val actualHref = companyDetailsElement.findElement(By.tagName("a")).getAttribute("href")
+    actualHref.trim mustBe companyDetailsHref
   }
 
   def verifyCompanyDetailsStatus(): Unit = {
@@ -89,8 +91,8 @@ object RegisterYourCompanyPage extends BasePage {
     val isEnabled = contactDetailsElement.isEnabled
     isEnabled mustBe true
 
-    val actualHref = contactDetailsElement.findElements(By.tagName("a")).asScala
-    actualHref mustBe empty
+    val actualHrefs = contactDetailsElement.findElements(By.tagName("a")).asScala
+    actualHrefs mustBe empty
 
     val actualText = contactDetailsElement.getText
     actualText.trim mustBe contactDetailsFieldText
@@ -122,7 +124,7 @@ object RegisterYourCompanyPage extends BasePage {
   }
 
   def verifySubmitButtonDoestNotExist(): Unit = {
-    val submitButtonElement = driver.findElements(submitButton).asScala
-    submitButtonElement mustBe empty
+    val submitButtonElements = driver.findElements(submitButton).asScala
+    submitButtonElements mustBe empty
   }
 }
