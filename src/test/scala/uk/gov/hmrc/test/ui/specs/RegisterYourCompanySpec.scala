@@ -18,35 +18,47 @@ package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.specs.tags.*
+import uk.gov.hmrc.test.ui.utils.AffinityGroup.Organisation
 
 class RegisterYourCompanySpec extends BaseSpec {
 
   Feature("Register Your company page") {
-
     Scenario(
-      "Select Company details",
+      "Successfully navigated to the Register your company page",
       RegistrationTests,
       ZapTests
     ) {
-      Given("User enter localhost url and select redirect url, affinity group")
-      AuthLoginPage.loginAsNonAutomatchedOrgAdmin()
-      When("User click on the Company details")
-      RegisterYourCompanyPage.clickCompanyDetails()
+      Given("An authenticated organisation user successfully navigated to the Register Your Company page")
+      AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
+      RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
+      When("They view the 'Register your company' page")
+      Then(
+        "The page title must be 'Register your company - Senior Accounting Officer notification and certificate - GOV.UK'"
+      )
+      RegisterYourCompanyPage.verifyRegisterYourCompanyPageTitle()
+      And("The title 'Enter your company details' must be visible")
+      RegisterYourCompanyPage.verifyCompanyDetailsField()
     }
 
     Scenario(
-      "Select Contact details",
+      "Successfully view Company and Contact Details in the Register your company page",
       RegistrationTests,
       ZapTests
     ) {
-      Given("User enter localhost url and select redirect url, affinity group")
-      AuthLoginPage.loginAsNonAutomatchedIndAdmin()
-      When("User click on the Company details")
-      RegisterYourCompanyPage.clickCompanyDetails()
-      Then("User navigate back to the Register your company page")
-      CompanyDetailsPage.clickStubResponseButton()
-      When("User click on the Contact details")
-      RegisterYourCompanyPage.clickContactDetails()
+      Given("An authenticated organisation user successfully navigated to the Register Your Company page")
+      AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
+      RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
+      When("They view the 'Register your company' page")
+      Then("The title 'Enter your company details' must be link")
+      RegisterYourCompanyPage.verifyEnterYourCompanyDetailsLink()
+      And("The status of the Company Details must be displayed")
+      RegisterYourCompanyPage.verifyCompanyDetailsStatus()
+      And("The title 'Enter your contact details' is not a link")
+      RegisterYourCompanyPage.verifyContactDetailsField()
+      And("The status of the Contact Details must be displayed")
+      RegisterYourCompanyPage.verifyContactDetailsStatus()
+      And("The Submit button does not exist")
+      RegisterYourCompanyPage.verifySubmitButtonDoestNotExist()
     }
   }
 }

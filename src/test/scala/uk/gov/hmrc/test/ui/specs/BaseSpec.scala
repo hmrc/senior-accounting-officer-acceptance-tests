@@ -17,7 +17,7 @@
 package uk.gov.hmrc.test.ui.specs
 
 import org.scalatest.featurespec.AnyFeatureSpec
-import org.scalatest.matchers.should.Matchers
+import org.scalatest.matchers.must.Matchers
 import org.scalatest.{BeforeAndAfterEach, GivenWhenThen}
 import uk.gov.hmrc.selenium.webdriver.{Browser, ScreenshotOnFailure}
 import uk.gov.hmrc.test.ui.utils.IdGenerators
@@ -28,8 +28,8 @@ trait BaseSpec
     with Matchers
     with BeforeAndAfterEach
     with Browser
-    with ScreenshotOnFailure
-    with IdGenerators {
+    with IdGenerators
+    with ScreenshotOnFailure {
 
   override def beforeEach(): Unit =
     startBrowser()

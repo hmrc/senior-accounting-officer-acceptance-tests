@@ -13,4 +13,3 @@ fi
 # sbt scalafmtCheckAll scalafmtSbtCheck
 
 sbt clean -Dbrowser="${BROWSER_TYPE:=$DEFAULT_BROWSER}" -Denvironment="${ENV:=local}" "testOnly uk.gov.hmrc.test.ui.specs.* -- -n RegistrationTests" testReport
-#sbt clean -Dbrowser="${BROWSER_TYPE:=$DEFAULT_BROWSER}" -Denvironment="${ENV:=local}" "testOnly uk.gov.hmrc.test.ui.specs.* -- -n CurrentTest" testReport

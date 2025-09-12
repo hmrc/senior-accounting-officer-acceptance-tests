@@ -16,11 +16,10 @@
 
 package uk.gov.hmrc.test.ui.pages
 
-import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait, Select, Wait}
+import org.openqa.selenium.support.ui.*
 import org.openqa.selenium.{By, WebDriver}
-import org.scalatest.matchers.should.Matchers
+import org.scalatest.matchers.must.Matchers
 import uk.gov.hmrc.selenium.component.PageObject
-import uk.gov.hmrc.selenium.webdriver.Driver
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.driver.BrowserDriver
 import uk.gov.hmrc.test.ui.utils.IdGenerators
@@ -37,8 +36,10 @@ trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageOb
 
   def navigateTo(url: String): Unit = driver.navigate().to(url)
 
-  private def fluentWait: Wait[WebDriver] = new FluentWait[WebDriver](Driver.instance)
-    .withTimeout(Duration.ofSeconds(2))
+  protected def waitFor = new WebDriverWait(driver, Duration.ofSeconds(2))
+
+  protected def fluentWait: Wait[WebDriver] = new FluentWait[WebDriver](driver)
+    .withTimeout(Duration.ofSeconds(5))
     .pollingEvery(Duration.ofMillis(200))
 
   def onPage(url: String = this.pageUrl): Unit = fluentWait.until(ExpectedConditions.urlToBe(url))
