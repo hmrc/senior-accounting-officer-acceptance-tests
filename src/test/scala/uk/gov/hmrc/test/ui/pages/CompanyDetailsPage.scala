@@ -16,14 +16,34 @@
 
 package uk.gov.hmrc.test.ui.pages
 
-import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.ExpectedConditions
+import org.openqa.selenium.{By, WebElement}
+import uk.gov.hmrc.test.ui.pages.RegisterYourCompanyPage.{baseRegUrl, fluentWait}
 
 object CompanyDetailsPage extends BasePage {
   override val pageUrl: String = baseRegUrl
 
-  val companyDetailsHref: String = pageUrl + "/business-match"
+  val enterYourCompanyDetailsLink: String = pageUrl + "/business-match"
+  val companyDetailsPageUrl: String       = pageUrl + "/test-only/grs-stub"
 
   private val stubResponseButton = By.id("submit")
+
+  def stubResponseButtonElement: WebElement =
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(stubResponseButton))
+
+  def verifyCompanyDetailsPageURL(): Unit = waitFor.until(ExpectedConditions.urlContains(companyDetailsPageUrl))
+
+  def verifyStubResponseButton(): Unit = {
+    val isVisible = stubResponseButtonElement.isDisplayed
+    isVisible mustBe true
+
+    val isEnabled = stubResponseButtonElement.isEnabled
+    isEnabled mustBe true
+  }
+
+  def elementStubResponseButtonClickable(): Unit =
+    fluentWait
+      .until(ExpectedConditions.elementToBeClickable(stubResponseButton))
 
   def clickStubResponseButton(): Unit = click(stubResponseButton)
 }

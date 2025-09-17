@@ -16,13 +16,12 @@
 
 package uk.gov.hmrc.test.ui.pages
 
-import org.openqa.selenium.{By, WebElement}
 import org.openqa.selenium.support.ui.ExpectedConditions
-import org.scalactic.Prettifier.default
-import uk.gov.hmrc.test.ui.pages.CompanyDetailsPage.companyDetailsHref
+import org.openqa.selenium.{By, WebElement}
+import uk.gov.hmrc.test.ui.pages.CompanyDetailsPage.enterYourCompanyDetailsLink
+import uk.gov.hmrc.test.ui.pages.ContactDetailsPage.enterYourContactDetailsLink
 
 import scala.jdk.CollectionConverters.*
-import scala.language.postfixOps
 
 object RegisterYourCompanyPage extends BasePage {
   override val pageUrl: String  = baseRegUrl
@@ -42,9 +41,20 @@ object RegisterYourCompanyPage extends BasePage {
   // Submit Button section
   private val submitButton = By.id("submit")
 
-  // Dashboard Content
+  // Dashboard Content Status
   private val statusNotStarted: String       = "Not started"
   private val statusCannotStartedYet: String = "Cannot start yet"
+  private val statusCompleted: String        = "Completed"
+
+  def verifyRegisterYourCompanyPageURL(): Unit = {
+    waitFor.until(ExpectedConditions.urlToBe(pageUrl))
+    assert(driver.getCurrentUrl == pageUrl)
+  }
+
+  def verifyRegisterYourCompanyPageTitle(): Unit = {
+    val registerYourCompanyPageTitle = driver.getTitle
+    registerYourCompanyPageTitle mustBe pageTitle
+  }
 
   def companyDetailsElement: WebElement =
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(companyDetailsField))
@@ -62,10 +72,13 @@ object RegisterYourCompanyPage extends BasePage {
 
   def verifyEnterYourCompanyDetailsLink(): Unit = {
     val actualHref = companyDetailsElement.findElement(By.tagName("a")).getAttribute("href")
-    actualHref.trim mustBe companyDetailsHref
+    actualHref.trim mustBe enterYourCompanyDetailsLink
   }
 
-  def verifyCompanyDetailsStatus(): Unit = {
+  def clickEnterYourCompanyDetailsLink(): Unit =
+    companyDetailsElement.click()
+
+  def verifyCompanyDetailsStatus(expectedStatus: String): Unit = {
     val companyDetailsStatusText = fluentWait
       .until(ExpectedConditions.visibilityOfElementLocated(companyDetailsStatus))
 
@@ -76,10 +89,17 @@ object RegisterYourCompanyPage extends BasePage {
     isEnabled mustBe true
 
     val actualText = companyDetailsStatusText.getText
-    actualText.trim mustBe statusNotStarted
+    actualText.trim mustBe expectedStatus
   }
 
-  def clickCompanyDetails(): Unit = click(companyDetailsField)
+  def verifyCompanyDetailsStatusNotStarted(): Unit =
+    verifyCompanyDetailsStatus(statusNotStarted)
+
+  def verifyCompanyDetailsStatusCompleted(): Unit =
+    verifyCompanyDetailsStatus(statusCompleted)
+
+  def contactDetailsElement: WebElement =
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsField))
 
   def verifyContactDetailsField(): Unit = {
     val contactDetailsElement = fluentWait
@@ -98,7 +118,12 @@ object RegisterYourCompanyPage extends BasePage {
     actualText.trim mustBe contactDetailsFieldText
   }
 
-  def verifyContactDetailsStatus(): Unit = {
+  def verifyEnterYourContactDetailsLink(): Unit = {
+    val actualHref = contactDetailsElement.findElement(By.tagName("a")).getAttribute("href")
+    actualHref.trim mustBe enterYourContactDetailsLink
+  }
+
+  def verifyContactDetailsStatus(expectedStatus: String): Unit = {
     val contactDetailsStatusText = fluentWait
       .until(ExpectedConditions.visibilityOfElementLocated(contactDetailsStatus))
 
@@ -109,19 +134,14 @@ object RegisterYourCompanyPage extends BasePage {
     isEnabled mustBe true
 
     val actualText = contactDetailsStatusText.getText
-    actualText.trim mustBe statusCannotStartedYet
+    actualText.trim mustBe expectedStatus
   }
 
-  def verifyRegisterYourCompanyPageURL(): Unit = {
-    waitFor.until(ExpectedConditions.urlToBe(pageUrl))
-    assert(driver.getCurrentUrl == pageUrl)
-  }
+  def verifyContactDetailsStatusCannotStartedYet(): Unit =
+    verifyContactDetailsStatus(statusCannotStartedYet)
 
-  def verifyRegisterYourCompanyPageTitle(): Unit = {
-    val registerYourCompanyPageTitle = driver.getTitle
-    registerYourCompanyPageTitle mustBe pageTitle
-
-  }
+  def verifyContactDetailsStatusNotStarted(): Unit =
+    verifyContactDetailsStatus(statusNotStarted)
 
   def verifySubmitButtonDoestNotExist(): Unit = {
     val submitButtonElements = driver.findElements(submitButton).asScala
