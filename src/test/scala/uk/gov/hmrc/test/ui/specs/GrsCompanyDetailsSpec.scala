@@ -20,18 +20,17 @@ import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.utils.AffinityGroup.Organisation
 
-class ContactDetailsSpec extends BaseSpec {
+class GrsCompanyDetailsSpec extends BaseSpec {
 
-  Feature("Contact Details page") {
+  Feature("Company Details page") {
     Scenario(
-      "Successfully navigated to the Contact Details page with GRS microservice",
+      "Successfully integration with GRS microservice",
       RegistrationTests,
       ZapTests,
       SoloTests
     ) {
       Given("An authenticated organisation user successfully navigated to the Register Your Company page")
       AuthLoginPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
-
       And("They click on 'Enter your company details' link")
       RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
 
@@ -51,12 +50,6 @@ class ContactDetailsSpec extends BaseSpec {
       RegisterYourCompanyPage.verifyEnterYourCompanyDetailsLinkIsEmpty()
       And("The status of the Company Details must be Completed")
       RegisterYourCompanyPage.verifyCompanyDetailsStatusCompleted()
-      And("The title 'Enter your Contact details' must be link")
-      RegisterYourCompanyPage.verifyEnterYourContactDetailsLink()
-      And("The status of the Contact Details must be Not Started")
-      RegisterYourCompanyPage.verifyContactDetailsStatusNotStarted()
-      And("The Submit button does not exist")
-      RegisterYourCompanyPage.verifySubmitButtonDoestNotExist()
     }
   }
 }

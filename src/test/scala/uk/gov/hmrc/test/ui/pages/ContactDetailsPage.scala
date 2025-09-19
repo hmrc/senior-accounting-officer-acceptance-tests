@@ -25,7 +25,7 @@ object ContactDetailsPage extends BasePage {
 
   val enterYourContactDetailsLink: String = pageUrl + "/contact-details"
 
-  private val continueButton = By.id("submit")
+  private val continueButton: By = By.id("submit")
 
   def verifyContactDetailsPageURL(): Unit = waitFor.until(ExpectedConditions.urlToBe(enterYourContactDetailsLink))
 

@@ -51,14 +51,15 @@ class RegisterYourCompanySpec extends BaseSpec {
       When("They view the 'Register your company' page")
       Then("The title 'Enter your company details' must be link")
       RegisterYourCompanyPage.verifyEnterYourCompanyDetailsLink()
-      And("The status of the Company Details must be displayed")
+      And("The status of the Company Details must be Not Started")
       RegisterYourCompanyPage.verifyCompanyDetailsStatusNotStarted()
       And("The title 'Enter your contact details' is not a link")
       RegisterYourCompanyPage.verifyContactDetailsField()
-      And("The status of the Contact Details must be displayed")
-      RegisterYourCompanyPage.verifyContactDetailsStatusCannotStartedYet()
+      And("The status of the Contact Details must be Cannot start yet")
+      RegisterYourCompanyPage.verifyContactDetailsStatusCannotStartYet()
       And("The Submit button does not exist")
       RegisterYourCompanyPage.verifySubmitButtonDoestNotExist()
     }
+
   }
 }

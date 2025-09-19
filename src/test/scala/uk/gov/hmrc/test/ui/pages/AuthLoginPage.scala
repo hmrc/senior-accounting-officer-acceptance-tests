@@ -29,10 +29,9 @@ object AuthLoginPage extends BasePage {
 
   private val redirectUrl: String = baseRegUrl
 
-  private def loadPage: this.type = {
+  private def loadPage(): Unit = {
     navigateTo(pageUrl)
     onPage()
-    this
   }
 
   private def selectAffinityGroup(affinityGroup: AffinityGroup): Unit =
@@ -40,8 +39,27 @@ object AuthLoginPage extends BasePage {
 
   private def submitAuthPage(): Unit = click(authSubmitById)
 
+  private def selectFeatureEnabling(): Unit = {
+    FeatureEnablingPage.loadFeatureEnablingPage
+    FeatureEnablingPage.selectCompaniesHouseStubCheckbox()
+    FeatureEnablingPage.selectBusinessVerificationCheckbox()
+    FeatureEnablingPage.clickSubmitButtonByXpath()
+  }
+
+  private def selectGrsFeatureToggle(): Unit = {
+    GrsFeatureTogglePage.loadFeatureTogglePage()
+    GrsFeatureTogglePage.unselectStubGrsCheckbox()
+    clickSubmitButton()
+  }
+
+  def enableGrsMicroserviceAndServiceHomePage(affinityGroup: AffinityGroup): Unit = {
+    selectFeatureEnabling()
+    selectGrsFeatureToggle()
+    selectValidRedirectUrlAndAffinityGroup(affinityGroup)
+  }
+
   private def selectValidRedirectUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit = {
-    loadPage
+    loadPage()
     sendKeys(redirectionUrlById, redirectUrl)
     selectAffinityGroup(affinityGroup)
     submitAuthPage()

@@ -18,8 +18,8 @@ package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.{By, WebElement}
-import uk.gov.hmrc.test.ui.pages.CompanyDetailsPage.enterYourCompanyDetailsLink
 import uk.gov.hmrc.test.ui.pages.ContactDetailsPage.enterYourContactDetailsLink
+import uk.gov.hmrc.test.ui.pages.GrsCompanyDetailsPage.enterYourCompanyDetailsLink
 
 import scala.jdk.CollectionConverters.*
 
@@ -42,9 +42,9 @@ object RegisterYourCompanyPage extends BasePage {
   private val submitButton = By.id("submit")
 
   // Dashboard Content Status
-  private val statusNotStarted: String       = "Not started"
-  private val statusCannotStartedYet: String = "Cannot start yet"
-  private val statusCompleted: String        = "Completed"
+  private val statusNotStarted: String     = "Not started"
+  private val statusCannotStartYet: String = "Cannot start yet"
+  private val statusCompleted: String      = "Completed"
 
   def verifyRegisterYourCompanyPageURL(): Unit = {
     waitFor.until(ExpectedConditions.urlToBe(pageUrl))
@@ -73,6 +73,11 @@ object RegisterYourCompanyPage extends BasePage {
   def verifyEnterYourCompanyDetailsLink(): Unit = {
     val actualHref = companyDetailsElement.findElement(By.tagName("a")).getAttribute("href")
     actualHref.trim mustBe enterYourCompanyDetailsLink
+  }
+
+  def verifyEnterYourCompanyDetailsLinkIsEmpty(): Unit = {
+    val enterYourCompanyDetailsHrefs = companyDetailsElement.findElements(By.tagName("a")).asScala
+    enterYourCompanyDetailsHrefs mustBe empty
   }
 
   def clickEnterYourCompanyDetailsLink(): Unit =
@@ -137,8 +142,8 @@ object RegisterYourCompanyPage extends BasePage {
     actualText.trim mustBe expectedStatus
   }
 
-  def verifyContactDetailsStatusCannotStartedYet(): Unit =
-    verifyContactDetailsStatus(statusCannotStartedYet)
+  def verifyContactDetailsStatusCannotStartYet(): Unit =
+    verifyContactDetailsStatus(statusCannotStartYet)
 
   def verifyContactDetailsStatusNotStarted(): Unit =
     verifyContactDetailsStatus(statusNotStarted)
