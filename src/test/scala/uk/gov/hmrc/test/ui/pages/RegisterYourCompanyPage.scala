@@ -19,7 +19,6 @@ package uk.gov.hmrc.test.ui.pages
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.{By, WebElement}
 import uk.gov.hmrc.test.ui.pages.ContactDetailsPage.enterYourContactDetailsLink
-import uk.gov.hmrc.test.ui.pages.GrsCompanyDetailsPage.enterYourCompanyDetailsLink
 
 import scala.jdk.CollectionConverters.*
 
@@ -27,6 +26,8 @@ object RegisterYourCompanyPage extends BasePage {
   override val pageUrl: String  = baseRegUrl
   private val pageTitle: String =
     "Register your company - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  val enterYourCompanyDetailsLink: String = pageUrl + "/business-match"
 
   // Company Details Section
   private val companyDetailsField             = By.xpath(s"(//div[@class='govuk-task-list__name-and-hint'])[1]")

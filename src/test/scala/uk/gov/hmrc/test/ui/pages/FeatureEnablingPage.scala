@@ -17,11 +17,14 @@
 package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.AuthLoginPage.navigateTo
+import uk.gov.hmrc.test.ui.pages.GrsFeatureTogglePage.fluentWait
 
 object FeatureEnablingPage extends BasePage {
-  override val pageUrl: String = TestConfiguration.url("feature-switches")
+  override val pageUrl: String = TestConfiguration.url("incorporated-entity-identification-frontend")
+  val featureEnableUrl: String = s"$pageUrl/test-only/feature-switches"
 
   private val companiesHouseStubCheckbox: By   = By.id("feature-switch.companies-house-stub")
   private val businessVerificationCheckbox: By = By.id("feature-switch.business-verification-stub")
@@ -46,8 +49,7 @@ object FeatureEnablingPage extends BasePage {
   def clickSubmitButtonByXpath(): Unit =
     click(submitButtonByXpath)
 
-  def loadFeatureEnablingPage(): Unit = {
-    navigateTo(pageUrl)
-    onPage()
-  }
+  def loadFeatureEnablingPage(): Unit =
+    navigateTo(featureEnableUrl)
+    fluentWait.until(ExpectedConditions.urlToBe(featureEnableUrl))
 }

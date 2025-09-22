@@ -18,14 +18,13 @@ package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
+import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.RegisterYourCompanyPage.{baseRegUrl, fluentWait}
 
 object GrsCompanyDetailsPage extends BasePage {
   override val pageUrl: String = baseRegUrl
 
-  val enterYourCompanyDetailsLink: String = pageUrl + "/business-match"
-
-  val grsCompanyDetailsPageUrl: String = "http://localhost:9718/identify-your-incorporated-business"
+  val grsCompanyDetailsPageUrl: String = TestConfiguration.url("incorporated-entity-identification-frontend")
 
   private val companyRegistrationNumberTextBox: By = By.id("companyNumber")
   private val companyUtrNumberTextBox: By          = By.id("ctutr")

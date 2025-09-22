@@ -17,6 +17,7 @@
 package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.utils.AffinityGroup
 
@@ -31,7 +32,7 @@ object AuthLoginPage extends BasePage {
 
   private def loadPage(): Unit = {
     navigateTo(pageUrl)
-    onPage()
+    fluentWait.until(ExpectedConditions.urlToBe(pageUrl))
   }
 
   private def selectAffinityGroup(affinityGroup: AffinityGroup): Unit =

@@ -18,7 +18,7 @@ package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
-import uk.gov.hmrc.test.ui.pages.RegisterYourCompanyPage.{baseRegUrl, click}
+import uk.gov.hmrc.test.ui.pages.RegisterYourCompanyPage.click
 
 object GrsFeatureTogglePage extends BasePage {
   override val pageUrl: String = baseRegUrl

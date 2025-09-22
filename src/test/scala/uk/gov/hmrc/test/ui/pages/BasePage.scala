@@ -53,7 +53,7 @@ trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageOb
     click(backLinkText)
 
   def clickSubmitButton(): Unit = {
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(submitButton))
+    fluentWait.until(ExpectedConditions.elementToBeClickable(submitButton))
     click(submitButton)
   }
 
