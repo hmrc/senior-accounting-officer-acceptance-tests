@@ -29,16 +29,17 @@ object GrsFeatureTogglePage extends BasePage {
   private val grsAllowsRelativeUrlCheckbox: By = By.id("grsAllowsRelativeUrl")
 
   def unselectStubGrsCheckbox(): Unit = {
-    val radioButtonSelection = driver.findElement(stubGrsCheckbox)
-    if (radioButtonSelection.isSelected) {
-      radioButtonSelection.click() // Unselect
+    val checkboxElement = driver.findElement(stubGrsCheckbox)
+    if (checkboxElement.isSelected) {
+      checkboxElement.click() // Clicking to Unselect
     }
   }
 
   def selectGrsAllowsRelativeUrlCheckbox(): Unit =
     click(grsAllowsRelativeUrlCheckbox)
 
-  def loadFeatureTogglePage(): Unit =
+  def loadFeatureTogglePage(): Unit = {
     navigateTo(grsFeatureTogglePageUrl)
     fluentWait.until(ExpectedConditions.urlToBe(grsFeatureTogglePageUrl))
+  }
 }

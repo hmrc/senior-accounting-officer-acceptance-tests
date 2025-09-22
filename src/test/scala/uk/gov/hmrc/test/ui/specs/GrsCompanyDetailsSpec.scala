@@ -50,6 +50,8 @@ class GrsCompanyDetailsSpec extends BaseSpec {
       RegisterYourCompanyPage.verifyEnterYourCompanyDetailsLinkIsEmpty()
       And("The status of the Company Details must be Completed")
       RegisterYourCompanyPage.verifyCompanyDetailsStatusCompleted()
+      And("The Submit button does not exist")
+      RegisterYourCompanyPage.verifySubmitButtonDoestNotExist()
     }
   }
 }

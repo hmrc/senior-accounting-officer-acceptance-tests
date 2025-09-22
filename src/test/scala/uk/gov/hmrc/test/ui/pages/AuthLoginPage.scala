@@ -40,7 +40,7 @@ object AuthLoginPage extends BasePage {
   private def submitAuthPage(): Unit = click(authSubmitById)
 
   private def selectFeatureEnabling(): Unit = {
-    FeatureEnablingPage.loadFeatureEnablingPage
+    FeatureEnablingPage.loadFeatureEnablingPage()
     FeatureEnablingPage.selectCompaniesHouseStubCheckbox()
     FeatureEnablingPage.selectBusinessVerificationCheckbox()
     FeatureEnablingPage.clickSubmitButtonByXpath()

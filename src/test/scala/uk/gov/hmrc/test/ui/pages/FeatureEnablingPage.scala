@@ -46,9 +46,14 @@ object FeatureEnablingPage extends BasePage {
   def clickSubmitButtonByXpath(): Unit =
     click(submitButtonByXpath)
 
-  def loadFeatureEnablingPage: this.type = {
+//  def loadFeatureEnablingPage: this.type = {
+//    navigateTo(pageUrl)
+//    onPage()
+//    this
+//  }
+
+  def loadFeatureEnablingPage(): Unit = {
     navigateTo(pageUrl)
     onPage()
-    this
   }
 }
