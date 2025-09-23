@@ -77,8 +77,8 @@ object RegisterYourCompanyPage extends BasePage {
   }
 
   def verifyEnterYourCompanyDetailsLinkIsEmpty(): Unit = {
-    val enterYourCompanyDetailsHrefs = companyDetailsElement.findElements(By.tagName("a")).asScala
-    enterYourCompanyDetailsHrefs mustBe empty
+    val enterYourCompanyDetailsLink = companyDetailsElement.findElements(By.tagName("a")).asScala
+    enterYourCompanyDetailsLink mustBe empty
   }
 
   def clickEnterYourCompanyDetailsLink(): Unit =

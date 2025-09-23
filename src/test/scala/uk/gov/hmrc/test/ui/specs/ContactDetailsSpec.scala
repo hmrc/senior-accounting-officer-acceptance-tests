@@ -26,37 +26,22 @@ class ContactDetailsSpec extends BaseSpec {
     Scenario(
       "Successfully navigated to the Contact Details page with GRS microservice",
       RegistrationTests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("An authenticated organisation user successfully navigated to the Register Your Company page")
-      AuthLoginPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
+      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
 
       And("They click on 'Enter your company details' link")
       RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
 
-      And("On GRS they view the 'Company Details' page")
-      GrsCompanyDetailsPage.verifyGrsCompanyDetailsPageURL()
-      And("On GRS they Enter Company registration number")
-      GrsCompanyDetailsPage.enterCompanyRegistrationNumber()
-      And("On GRS they select 'Is this your business'")
-      GrsCompanyDetailsPage.selectYesForIsThisYourBusiness()
-      And("On GRS they enter 'Unique Taxpayer Reference' number")
-      GrsCompanyDetailsPage.enterUTRNumber()
-      And("On GRS they verify your answers at 'Check Your answers' page")
-      GrsCompanyDetailsPage.verifyCheckYourAnswers()
+      And("They click on Stub Response button")
+      GrsStubPage.clickStubResponseButton()
 
       When("They are back to the 'Register Your Company' page")
-      Then("The title 'Enter your company details' is not a link")
-      RegisterYourCompanyPage.verifyEnterYourCompanyDetailsLinkIsEmpty()
-      And("The status of the Company Details must be Completed")
-      RegisterYourCompanyPage.verifyCompanyDetailsStatusCompleted()
-      And("The title 'Enter your Contact details' must be link")
+      Then("The heading 'Enter your Contact details' must be link")
       RegisterYourCompanyPage.verifyEnterYourContactDetailsLink()
       And("The status of the Contact Details must be Not Started")
       RegisterYourCompanyPage.verifyContactDetailsStatusNotStarted()
-      And("The Submit button does not exist")
-      RegisterYourCompanyPage.verifySubmitButtonDoestNotExist()
     }
   }
 }

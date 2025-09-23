@@ -21,16 +21,24 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.RegisterYourCompanyPage.{baseRegUrl, fluentWait}
 
-object GrsCompanyDetailsPage extends BasePage {
+object GrsCompanyDetailsPages extends BasePage {
   override val pageUrl: String = baseRegUrl
 
   val grsCompanyDetailsPageUrl: String = TestConfiguration.url("incorporated-entity-identification-frontend")
 
   private val companyRegistrationNumberTextBox: By = By.id("companyNumber")
   private val companyUtrNumberTextBox: By          = By.id("ctutr")
-  private val selectYesRadioButton: By             = By.cssSelector("#confirmBusinessName")
+  private val selectYesRadioButton: By             = By.id("confirmBusinessName")
 
-  private val checkYourAnswersValues: By = By.cssSelector("dl[class='govuk-summary-list govuk-!-margin-bottom-9']")
+  private val checkYourAnswersCrnValue: By =
+    By.cssSelector(
+      "body > div:nth-child(4) > main:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > dl:nth-child(2) > div:nth-child(1) > dd:nth-child(2)"
+    )
+
+  private val checkYourAnswersUtrValue: By =
+    By.cssSelector(
+      "body > div:nth-child(4) > main:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > dl:nth-child(2) > div:nth-child(2) > dd:nth-child(2)"
+    )
 
   def verifyGrsCompanyDetailsPageURL(): Unit = waitFor.until(ExpectedConditions.urlContains(grsCompanyDetailsPageUrl))
 
@@ -41,6 +49,7 @@ object GrsCompanyDetailsPage extends BasePage {
   }
 
   def selectYesForIsThisYourBusiness(): Unit = {
+    fluentWait.until(ExpectedConditions.presenceOfElementLocated(selectYesRadioButton))
     click(selectYesRadioButton)
     clickContinueButton()
   }
@@ -52,12 +61,24 @@ object GrsCompanyDetailsPage extends BasePage {
   }
 
   def verifyCheckYourAnswers(): Unit = {
-    val checkYourAnswersSummaryValues = fluentWait
-      .until(ExpectedConditions.visibilityOfElementLocated(checkYourAnswersValues))
+    verifyCheckYourAnswersCrnValue()
+    verifyCheckYourAnswersUtrValue()
+    clickContinueButton()
+  }
+
+  def verifyCheckYourAnswersCrnValue(): Unit = {
+    val crnValue = fluentWait
+      .until(ExpectedConditions.visibilityOfElementLocated(checkYourAnswersCrnValue))
       .getText
 
-    checkYourAnswersSummaryValues must include("AB123456")
+    crnValue mustBe "AB123456"
+  }
 
-    clickContinueButton()
+  def verifyCheckYourAnswersUtrValue(): Unit = {
+    val utrValue = fluentWait
+      .until(ExpectedConditions.visibilityOfElementLocated(checkYourAnswersUtrValue))
+      .getText
+
+    utrValue mustBe "1234567890"
   }
 }

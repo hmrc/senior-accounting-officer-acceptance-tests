@@ -19,7 +19,6 @@ package uk.gov.hmrc.test.ui.pages
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.AuthLoginPage.navigateTo
 import uk.gov.hmrc.test.ui.pages.GrsFeatureTogglePage.fluentWait
 
 object FeatureEnablingPage extends BasePage {
@@ -30,18 +29,16 @@ object FeatureEnablingPage extends BasePage {
   private val businessVerificationCheckbox: By = By.id("feature-switch.business-verification-stub")
   private val submitButtonByXpath: By          = By.xpath("//button[@type='submit']")
 
-  def selectCompaniesHouseStubCheckbox(): Unit = {
+  def selectCompaniesHouseStubCheckbox(shouldBeChecked: Boolean): Unit = {
     val checkboxElement = driver.findElement(companiesHouseStubCheckbox)
-
-    if (!checkboxElement.isSelected) {
+    if (checkboxElement.isSelected != shouldBeChecked) {
       checkboxElement.click()
     }
   }
 
-  def selectBusinessVerificationCheckbox(): Unit = {
+  def selectBusinessVerificationCheckbox(shouldBeChecked: Boolean): Unit = {
     val checkboxElement = driver.findElement(businessVerificationCheckbox)
-
-    if (!checkboxElement.isSelected) {
+    if (checkboxElement.isSelected != shouldBeChecked) {
       checkboxElement.click()
     }
   }
@@ -49,7 +46,8 @@ object FeatureEnablingPage extends BasePage {
   def clickSubmitButtonByXpath(): Unit =
     click(submitButtonByXpath)
 
-  def loadFeatureEnablingPage(): Unit =
+  def loadFeatureEnablingPage(): Unit = {
     navigateTo(featureEnableUrl)
     fluentWait.until(ExpectedConditions.urlToBe(featureEnableUrl))
+  }
 }

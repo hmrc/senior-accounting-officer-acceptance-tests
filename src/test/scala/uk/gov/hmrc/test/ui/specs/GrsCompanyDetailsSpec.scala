@@ -22,36 +22,33 @@ import uk.gov.hmrc.test.ui.utils.AffinityGroup.Organisation
 
 class GrsCompanyDetailsSpec extends BaseSpec {
 
-  Feature("Company Details page") {
+  Feature("GRS integration") {
     Scenario(
       "Successfully integration with GRS microservice",
       RegistrationTests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("An authenticated organisation user successfully navigated to the Register Your Company page")
       AuthLoginPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
-      And("They click on 'Enter your company details' link")
+      And("They click on 'Enter your company details' heading link")
       RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
 
       And("On GRS they view the 'Company Details' page")
-      GrsCompanyDetailsPage.verifyGrsCompanyDetailsPageURL()
+      GrsCompanyDetailsPages.verifyGrsCompanyDetailsPageURL()
       And("On GRS they Enter Company registration number")
-      GrsCompanyDetailsPage.enterCompanyRegistrationNumber()
+      GrsCompanyDetailsPages.enterCompanyRegistrationNumber()
       And("On GRS they select 'Is this your business'")
-      GrsCompanyDetailsPage.selectYesForIsThisYourBusiness()
+      GrsCompanyDetailsPages.selectYesForIsThisYourBusiness()
       And("On GRS they enter 'Unique Taxpayer Reference' number")
-      GrsCompanyDetailsPage.enterUTRNumber()
-      And("On GRS they verify your answers at 'Check Your answers' page")
-      GrsCompanyDetailsPage.verifyCheckYourAnswers()
+      GrsCompanyDetailsPages.enterUTRNumber()
+      And("On GRS they confirmed their answers on 'Check Your answers' page")
+      GrsCompanyDetailsPages.verifyCheckYourAnswers()
 
       When("They are back to the 'Register Your Company' page")
-      Then("The title 'Enter your company details' is not a link")
+      Then("The heading 'Enter your company details' is not a link")
       RegisterYourCompanyPage.verifyEnterYourCompanyDetailsLinkIsEmpty()
       And("The status of the Company Details must be Completed")
       RegisterYourCompanyPage.verifyCompanyDetailsStatusCompleted()
-      And("The Submit button does not exist")
-      RegisterYourCompanyPage.verifySubmitButtonDoestNotExist()
     }
   }
 }

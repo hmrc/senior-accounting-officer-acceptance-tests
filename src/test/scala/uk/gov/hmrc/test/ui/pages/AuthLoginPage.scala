@@ -42,20 +42,33 @@ object AuthLoginPage extends BasePage {
 
   private def selectFeatureEnabling(): Unit = {
     FeatureEnablingPage.loadFeatureEnablingPage()
-    FeatureEnablingPage.selectCompaniesHouseStubCheckbox()
-    FeatureEnablingPage.selectBusinessVerificationCheckbox()
+    FeatureEnablingPage.selectCompaniesHouseStubCheckbox(true)
+    FeatureEnablingPage.selectBusinessVerificationCheckbox(
+      true
+    ) // by passing true or false we can toggle the selections
     FeatureEnablingPage.clickSubmitButtonByXpath()
   }
 
-  private def selectGrsFeatureToggle(): Unit = {
+  private def selectGrsMicroserviceFeatureToggle(): Unit = {
     GrsFeatureTogglePage.loadFeatureTogglePage()
-    GrsFeatureTogglePage.unselectStubGrsCheckbox()
+    GrsFeatureTogglePage.setStubGrsCheckboxState(false)
     clickSubmitButton()
+  }
+
+  private def selectGrsStub(): Unit = {
+    GrsFeatureTogglePage.loadFeatureTogglePage()
+    GrsFeatureTogglePage.setStubGrsCheckboxState(true)
+    clickSubmitButton()
+  }
+
+  def enableGrsStubAndServiceHomePage(affinityGroup: AffinityGroup): Unit = {
+    selectGrsStub()
+    selectValidRedirectUrlAndAffinityGroup(affinityGroup)
   }
 
   def enableGrsMicroserviceAndServiceHomePage(affinityGroup: AffinityGroup): Unit = {
     selectFeatureEnabling()
-    selectGrsFeatureToggle()
+    selectGrsMicroserviceFeatureToggle()
     selectValidRedirectUrlAndAffinityGroup(affinityGroup)
   }
 
