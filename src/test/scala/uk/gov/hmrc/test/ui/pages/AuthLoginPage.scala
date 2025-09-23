@@ -42,10 +42,8 @@ object AuthLoginPage extends BasePage {
 
   private def selectFeatureEnabling(): Unit = {
     FeatureEnablingPage.loadFeatureEnablingPage()
-    FeatureEnablingPage.selectCompaniesHouseStubCheckbox(true)
-    FeatureEnablingPage.selectBusinessVerificationCheckbox(
-      true
-    ) // by passing true or false we can toggle the selections
+    FeatureEnablingPage.setCompaniesHouseStubCheckbox(checked = true)
+    FeatureEnablingPage.setBusinessVerificationCheckbox(checked = true)
     FeatureEnablingPage.clickSubmitButtonByXpath()
   }
 

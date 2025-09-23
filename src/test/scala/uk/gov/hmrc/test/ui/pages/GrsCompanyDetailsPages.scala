@@ -31,14 +31,10 @@ object GrsCompanyDetailsPages extends BasePage {
   private val selectYesRadioButton: By             = By.id("confirmBusinessName")
 
   private val checkYourAnswersCrnValue: By =
-    By.cssSelector(
-      "body > div:nth-child(4) > main:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > dl:nth-child(2) > div:nth-child(1) > dd:nth-child(2)"
-    )
+    By.cssSelector("div.govuk-summary-list__row:nth-child(1) .govuk-summary-list__value")
 
   private val checkYourAnswersUtrValue: By =
-    By.cssSelector(
-      "body > div:nth-child(4) > main:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > dl:nth-child(2) > div:nth-child(2) > dd:nth-child(2)"
-    )
+    By.cssSelector("div.govuk-summary-list__row:nth-child(2) .govuk-summary-list__value")
 
   def verifyGrsCompanyDetailsPageURL(): Unit = waitFor.until(ExpectedConditions.urlContains(grsCompanyDetailsPageUrl))
 

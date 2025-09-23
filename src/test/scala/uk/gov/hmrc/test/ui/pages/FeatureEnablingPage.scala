@@ -29,18 +29,15 @@ object FeatureEnablingPage extends BasePage {
   private val businessVerificationCheckbox: By = By.id("feature-switch.business-verification-stub")
   private val submitButtonByXpath: By          = By.xpath("//button[@type='submit']")
 
-  def selectCompaniesHouseStubCheckbox(shouldBeChecked: Boolean): Unit = {
-    val checkboxElement = driver.findElement(companiesHouseStubCheckbox)
-    if (checkboxElement.isSelected != shouldBeChecked) {
-      checkboxElement.click()
-    }
+  def setCompaniesHouseStubCheckbox(checked: Boolean): Unit = {
+    val checkbox = driver.findElement(companiesHouseStubCheckbox)
+
+    if (checkbox.isSelected != checked) checkbox.click()
   }
 
-  def selectBusinessVerificationCheckbox(shouldBeChecked: Boolean): Unit = {
+  def setBusinessVerificationCheckbox(checked: Boolean): Unit = {
     val checkboxElement = driver.findElement(businessVerificationCheckbox)
-    if (checkboxElement.isSelected != shouldBeChecked) {
-      checkboxElement.click()
-    }
+    if (checkboxElement.isSelected != checked) checkboxElement.click()
   }
 
   def clickSubmitButtonByXpath(): Unit =
