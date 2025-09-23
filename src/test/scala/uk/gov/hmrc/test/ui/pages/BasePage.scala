@@ -32,7 +32,10 @@ trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageOb
   val pageUrl: String
   val baseRegUrl: String =
     TestConfiguration.url("senior-accounting-officer-registration-frontend")
-  val backLinkText: By   = By.linkText("Back")
+
+  protected val backLink: By       = By.cssSelector(".govuk-back-link")
+  protected val submitButton: By   = By.id("submit")
+  protected val continueButton: By = By.id("continue")
 
   def navigateTo(url: String): Unit = driver.navigate().to(url)
 
@@ -47,10 +50,15 @@ trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageOb
   def selectDropdownById(id: By): Select = new Select(driver.findElement(id: By))
 
   def clickOnBackLink(): Unit =
-    click(backLinkText)
+    click(backLink)
 
-  def clickOnByPartialLinkText(partialLinkText: By): Unit = {
-    onPage()
-    click(partialLinkText)
+  def clickSubmitButton(): Unit = {
+    fluentWait.until(ExpectedConditions.elementToBeClickable(submitButton))
+    click(submitButton)
+  }
+
+  def clickContinueButton(): Unit = {
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(continueButton))
+    click(continueButton)
   }
 }

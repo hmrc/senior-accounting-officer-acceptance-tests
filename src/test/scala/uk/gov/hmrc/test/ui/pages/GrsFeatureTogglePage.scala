@@ -17,13 +17,24 @@
 package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.ExpectedConditions
 
-object CompanyDetailsPage extends BasePage {
+object GrsFeatureTogglePage extends BasePage {
   override val pageUrl: String = baseRegUrl
 
-  val companyDetailsHref: String = pageUrl + "/business-match"
+  private val grsFeatureTogglePageUrl: String = s"$pageUrl/test-only/feature-toggle"
 
-  private val stubResponseButton = By.id("submit")
+  private val stubGrsCheckbox: By = By.id("stubGrs")
 
-  def clickStubResponseButton(): Unit = click(stubResponseButton)
+  def setStubGrsCheckboxState(shouldBeChecked: Boolean): Unit = {
+    val checkboxElement = driver.findElement(stubGrsCheckbox)
+    if (checkboxElement.isSelected != shouldBeChecked) {
+      checkboxElement.click()
+    }
+  }
+
+  def loadFeatureTogglePage(): Unit = {
+    driver.navigate().to(grsFeatureTogglePageUrl)
+    fluentWait.until(ExpectedConditions.urlToBe(grsFeatureTogglePageUrl))
+  }
 }

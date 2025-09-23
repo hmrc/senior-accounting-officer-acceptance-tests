@@ -51,14 +51,35 @@ class RegisterYourCompanySpec extends BaseSpec {
       When("They view the 'Register your company' page")
       Then("The title 'Enter your company details' must be link")
       RegisterYourCompanyPage.verifyEnterYourCompanyDetailsLink()
-      And("The status of the Company Details must be displayed")
-      RegisterYourCompanyPage.verifyCompanyDetailsStatus()
+      And("The status of the Company Details must be Not Started")
+      RegisterYourCompanyPage.verifyCompanyDetailsStatusNotStarted()
       And("The title 'Enter your contact details' is not a link")
       RegisterYourCompanyPage.verifyContactDetailsField()
-      And("The status of the Contact Details must be displayed")
-      RegisterYourCompanyPage.verifyContactDetailsStatus()
+      And("The status of the Contact Details must be Cannot start yet")
+      RegisterYourCompanyPage.verifyContactDetailsStatusCannotStartYet()
       And("The Submit button does not exist")
       RegisterYourCompanyPage.verifySubmitButtonDoestNotExist()
+    }
+
+    Scenario(
+      "Successfully navigated to the Contact Details page with GRS microservice",
+      RegistrationTests,
+      ZapTests
+    ) {
+      Given("An authenticated organisation user successfully navigated to the Register Your Company page")
+      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+
+      And("They click on 'Enter your company details' link")
+      RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
+
+      And("They click on Stub Response button")
+      GrsStubPage.clickStubResponseButton()
+
+      When("They are back to the 'Register Your Company' page")
+      Then("The heading 'Enter your Contact details' must be link")
+      RegisterYourCompanyPage.verifyEnterYourContactDetailsLink()
+      And("The status of the Contact Details must be Not Started")
+      RegisterYourCompanyPage.verifyContactDetailsStatusNotStarted()
     }
   }
 }

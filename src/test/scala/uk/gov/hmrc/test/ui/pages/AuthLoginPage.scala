@@ -17,6 +17,7 @@
 package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.utils.AffinityGroup
 
@@ -29,10 +30,9 @@ object AuthLoginPage extends BasePage {
 
   private val redirectUrl: String = baseRegUrl
 
-  private def loadPage: this.type = {
+  private def loadPage(): Unit = {
     navigateTo(pageUrl)
-    onPage()
-    this
+    fluentWait.until(ExpectedConditions.urlToBe(pageUrl))
   }
 
   private def selectAffinityGroup(affinityGroup: AffinityGroup): Unit =
@@ -40,8 +40,38 @@ object AuthLoginPage extends BasePage {
 
   private def submitAuthPage(): Unit = click(authSubmitById)
 
+  private def selectFeatureEnabling(): Unit = {
+    FeatureEnablingPage.loadFeatureEnablingPage()
+    FeatureEnablingPage.setCompaniesHouseStubCheckbox(checked = true)
+    FeatureEnablingPage.setBusinessVerificationCheckbox(checked = true)
+    FeatureEnablingPage.clickSubmitButtonByXpath()
+  }
+
+  private def selectGrsMicroserviceFeatureToggle(): Unit = {
+    GrsFeatureTogglePage.loadFeatureTogglePage()
+    GrsFeatureTogglePage.setStubGrsCheckboxState(false)
+    clickSubmitButton()
+  }
+
+  private def selectGrsStub(): Unit = {
+    GrsFeatureTogglePage.loadFeatureTogglePage()
+    GrsFeatureTogglePage.setStubGrsCheckboxState(true)
+    clickSubmitButton()
+  }
+
+  def enableGrsStubAndServiceHomePage(affinityGroup: AffinityGroup): Unit = {
+    selectGrsStub()
+    selectValidRedirectUrlAndAffinityGroup(affinityGroup)
+  }
+
+  def enableGrsMicroserviceAndServiceHomePage(affinityGroup: AffinityGroup): Unit = {
+    selectFeatureEnabling()
+    selectGrsMicroserviceFeatureToggle()
+    selectValidRedirectUrlAndAffinityGroup(affinityGroup)
+  }
+
   private def selectValidRedirectUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit = {
-    loadPage
+    loadPage()
     sendKeys(redirectionUrlById, redirectUrl)
     selectAffinityGroup(affinityGroup)
     submitAuthPage()
