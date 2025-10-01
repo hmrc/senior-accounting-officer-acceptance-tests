@@ -26,31 +26,38 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
 
   val enterYourContactDetailsLink: String = pageUrl + "/contact-details"
 
-  private val continueButton: By                  = By.id("submit")
-  private val contactDetailsTextField: By         = By.id("value")
-  private val contactDetailsErrorSummary: By      = By.className("a[href='#value']")
-  private val yesRadioButton: By                  = By.id("value_0")
-  private val noRadioButton: By                   = By.id("value_1")
-  private val contactDetailsPageTitle: By         = By.cssSelector("label[for='value']")
-  private val firstContactDetailsHeading: By      = By.xpath("//*[@id=\"main-content\"]//h2[1]")
-  private val firstContactDetailsFullName: By     = By.xpath("//form[@method='POST']//div[1]//dd[1]")
-  private val firstContactDetailsRole: By         = By.xpath("//form[@method='POST']//div[2]//dd[1]")
-  private val firstContactDetailsEmailAddress: By = By.xpath("//form[@method='POST']//div[3]//dd[1]")
-  private val firstContactDetailsPhoneNumber: By  = By.xpath("//form[@method='POST']//div[4]//dd[1]")
+  private val continueButton: By             = By.id("submit")
+  private val contactDetailsTextFieldBy: By  = By.id("value")
+  private val contactDetailsErrorSummary: By = By.className("a[href='#value']")
+  private val yesRadioButton: By             = By.id("value_0")
+  private val noRadioButton: By              = By.id("value_1")
 
-  private val secondContactDetailsHeading: By = By.xpath("//*[@id=\"main-content\"]//h2[2]")
+  private val contactDetailsPageTitle: By             = By.cssSelector("label[for='value']")
+  private val addedAllTheContactsYouNeedPageTitle: By = By.xpath("//h1[@class='govuk-fieldset__heading']")
+
+  private val firstContactDetailsHeading: By      = By.xpath("//*[@id=\"main-content\"]//h2[1]")
+  private val firstContactDetailsFullName: By     = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[1]/dd[1]")
+  private val firstContactDetailsRole: By         = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[2]/dd[1]")
+  private val firstContactDetailsEmailAddress: By = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[3]/dd[1]")
+  private val firstContactDetailsPhoneNumber: By  = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[4]/dd[1]")
+
+  private val secondContactDetailsHeading: By      = By.xpath("//*[@id=\"main-content\"]//h2[2]")
+  private val secondContactDetailsFullName: By     = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[1]/dd[1]")
+  private val secondContactDetailsRole: By         = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[2]/dd[1]")
+  private val secondContactDetailsEmailAddress: By = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[3]/dd[1]")
+  private val secondContactDetailsPhoneNumber: By  = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[4]/dd[1]")
+
+  // Random Test Data
+  val rndFullName: String     = randomFullName()
+  val rndRole: String         = randomRole()
+  val rndEmailAddress: String = randomEmail()
+  val rndPhoneNumber: String  = randomUkPhoneNumber()
 
   // Error Summary
   private val errorMessageForEnterFullName: String     = "Enter contactName"
   private val errorMessageForEnterEmailAddress: String = "Enter contactEmail"
   private val errorMessageForEnterRole: String         = "Enter contactRole"
   private val errorMessageForEnterPhoneNumber: String  = "Enter contactPhone"
-
-  // Random Test Data
-  val rndFullName: String     = randomName()
-  val rndRole: String         = randomRole()
-  val rndEmailAddress: String = randomEmail()
-  val rndPhoneNumber: String  = randomUkPhoneNumber()
 
   def verifyContactDetailsPageURL(): Unit = waitFor.until(ExpectedConditions.urlToBe(enterYourContactDetailsLink))
 
@@ -62,7 +69,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
   def enterFullName(): Unit = {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsPageTitle))
 
-    val enterFullNameField = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsTextField))
+    val enterFullNameField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextFieldBy))
     enterFullNameField.clear()
     enterFullNameField.sendKeys(rndFullName)
     clickContinueButtonElement()
@@ -72,7 +79,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsPageTitle))
 
     val enterEmailAddressField =
-      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsTextField))
+      fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextFieldBy))
     enterEmailAddressField.clear()
     enterEmailAddressField.sendKeys(rndEmailAddress)
     clickContinueButtonElement()
@@ -81,7 +88,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
   def enterRoll(): Unit = {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsPageTitle))
 
-    val enterRoleField = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsTextField))
+    val enterRoleField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextFieldBy))
     enterRoleField.clear()
     enterRoleField.sendKeys(rndRole)
     clickContinueButtonElement()
@@ -90,71 +97,47 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
   def enterPhoneNumber(): Unit = {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsPageTitle))
 
-    val enterPhoneNumberField = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsTextField))
+    val enterPhoneNumberField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextFieldBy))
     enterPhoneNumberField.clear()
     enterPhoneNumberField.sendKeys(rndPhoneNumber)
     clickContinueButtonElement()
   }
 
   def selectYes(): Unit = {
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(addedAllTheContactsYouNeedPageTitle))
+
     driver.findElement(yesRadioButton).click()
     clickContinueButtonElement()
   }
 
   def selectNo(): Unit = {
-    val noRadioButtonElement = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(noRadioButton))
-    noRadioButtonElement.click()
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(addedAllTheContactsYouNeedPageTitle))
+
+    driver.findElement(noRadioButton).click()
     clickContinueButtonElement()
   }
 
-  def verifyFirstContactDetailsTitleValue(): Unit = {
-    val firstContactDetailsHeadingElement =
-      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(firstContactDetailsHeading)).getText
+  def verifyContactDetailsFieldValue(elementLocator: By, expectedValue: String): Unit = {
+    val contactDetailsElementValue =
+      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator)).getText
 
-    firstContactDetailsHeadingElement.trim mustBe "First contact details"
-  }
-
-  def verifyFirstContactDetailsFullNameValue(): Unit = {
-    val firstContactDetailsHeadingElement =
-      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(firstContactDetailsFullName)).getText
-
-    firstContactDetailsHeadingElement.trim mustBe rndFullName
-  }
-
-  def verifyFirstContactDetailsRoleValue(): Unit = {
-    val firstContactDetailsHeadingElement =
-      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(firstContactDetailsRole)).getText
-
-    firstContactDetailsHeadingElement.trim mustBe rndRole
-  }
-
-  def verifyFirstContactDetailsEmailAddressValue(): Unit = {
-    val firstContactDetailsHeadingElement =
-      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(firstContactDetailsEmailAddress)).getText
-
-    firstContactDetailsHeadingElement.trim mustBe rndEmailAddress
-  }
-
-  def verifyFirstContactDetailsPhoneNumberValue(): Unit = {
-    val firstContactDetailsHeadingElement =
-      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(firstContactDetailsPhoneNumber)).getText
-
-    firstContactDetailsHeadingElement.trim mustBe rndPhoneNumber
-  }
-
-  def verifySecondContactInCheckYourAnswersPage(): Unit = {
-    val secondContactDetailsHeadingElement =
-      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(secondContactDetailsHeading)).getText
-
-    secondContactDetailsHeadingElement.trim mustBe "Second contact details"
+    contactDetailsElementValue.trim mustBe expectedValue
   }
 
   def verifyFirstContactDetailsInCheckYourAnswersPage(): Unit = {
-    verifyFirstContactDetailsTitleValue()
-    verifyFirstContactDetailsFullNameValue()
-    verifyFirstContactDetailsRoleValue()
-    verifyFirstContactDetailsEmailAddressValue()
-    verifyFirstContactDetailsPhoneNumberValue()
+    verifyContactDetailsFieldValue(firstContactDetailsHeading, "First contact details")
+    verifyContactDetailsFieldValue(firstContactDetailsFullName, rndFullName)
+    verifyContactDetailsFieldValue(firstContactDetailsRole, rndRole)
+    verifyContactDetailsFieldValue(firstContactDetailsEmailAddress, rndEmailAddress)
+    verifyContactDetailsFieldValue(firstContactDetailsPhoneNumber, rndPhoneNumber)
+  }
+
+  def verifySecondContactDetailsInCheckYourAnswersPage(): Unit = {
+    verifyContactDetailsFieldValue(secondContactDetailsHeading, "Second contact details")
+    verifyContactDetailsFieldValue(secondContactDetailsFullName, rndFullName)
+    verifyContactDetailsFieldValue(secondContactDetailsRole, rndRole)
+    verifyContactDetailsFieldValue(secondContactDetailsEmailAddress, rndEmailAddress)
+    verifyContactDetailsFieldValue(secondContactDetailsPhoneNumber, rndPhoneNumber)
   }
 
   def verifyContactDetailsEnterFullNameErrorSummary(): Unit =

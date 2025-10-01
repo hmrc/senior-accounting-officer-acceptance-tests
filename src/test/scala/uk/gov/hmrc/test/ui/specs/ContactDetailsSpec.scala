@@ -76,5 +76,81 @@ class ContactDetailsSpec extends BaseSpec {
       And("The 'Enter your contact details' status must be marked as 'Completed'")
       RegisterYourCompanyPage.verifyContactDetailsStatusCompleted()
     }
+
+    Scenario(
+      "Completion of Second Contact Details",
+      RegistrationTests,
+      ZapTests
+    ) {
+      Given("An authenticated organisation user who has just completed Business matching")
+      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+
+      And("They click on the 'Enter your contact details' link and Stub response button")
+      RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
+      GrsStubPage.clickStubResponseButton()
+
+      And("They must see the 'Contact Details' page")
+      RegisterYourCompanyPage.clickEnterYourContactDetailsLink()
+
+      When("They click the 'Continue' button on the Contact Details information page")
+      ContactDetailsPage.clickContinueButtonElement()
+
+      And("They must see the 'First Contact Details' page")
+      And("They Enter full name")
+      And("They click the 'Continue' button")
+      ContactDetailsPage.enterFullName()
+
+      And("They enter role")
+      And("They click the 'Continue' button")
+      ContactDetailsPage.enterRoll()
+
+      And("They must see the 'Contact Email Address' page")
+      And("They enter email address")
+      And("They click the 'Continue' button")
+      ContactDetailsPage.enterEmailAddress()
+
+      And("They enter phone number")
+      And("They click the 'Continue' button")
+      ContactDetailsPage.enterPhoneNumber()
+
+      And("They select 'No' for the question Have you added all the contacts you need")
+      And("They click the 'Continue' button")
+      ContactDetailsPage.selectNo()
+
+      And("They must see the 'Second Contact Details' page")
+      And("They Enter second full name")
+      And("They click the 'Continue' button")
+      ContactDetailsPage.enterFullName()
+
+      And("They enter second role")
+      And("They click the 'Continue' button")
+      ContactDetailsPage.enterRoll()
+
+      And("They must see the 'Contact Email Address' page")
+      And("They enter second email address")
+      And("They click the 'Continue' button")
+      ContactDetailsPage.enterEmailAddress()
+
+      And("They enter second phone number")
+      And("They click the 'Continue' button")
+      ContactDetailsPage.enterPhoneNumber()
+
+      And("They select 'Yes' for the question Have you added all the contacts you need")
+      And("They click the 'Continue' button")
+      ContactDetailsPage.selectYes()
+
+      And("They must see the 'Check Your Answers' page")
+      And("They must see 'Change' links next to each entered details")
+      And("They update previously entered details")
+      And("They must verify all the answers for the first contact details")
+      ContactDetailsPage.verifySecondContactDetailsInCheckYourAnswersPage()
+
+      And("They click the 'Save and Continue' button")
+      ContactDetailsPage.clickContinueButtonElement()
+
+      Then("They must be redirected back to the 'Register Your Company' page")
+      And("The 'Enter your contact details' status must be marked as 'Completed'")
+      RegisterYourCompanyPage.verifyContactDetailsStatusCompleted()
+    }
   }
 }

@@ -25,7 +25,7 @@ trait TestDataGenerator {
   def randomString(length: Int): String =
     rand.alphanumeric.filter(_.isLetter).take(length).mkString
 
-  def randomName(): String = {
+  def randomFullName(): String = {
     val firstName = randomString(6).capitalize
     val lastName  = randomString(8).capitalize
     s"$firstName $lastName"
