@@ -27,7 +27,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
   val enterYourContactDetailsLink: String = pageUrl + "/contact-details"
 
   private val continueButton: By             = By.id("submit")
-  private val contactDetailsTextFieldBy: By  = By.id("value")
+  private val contactDetailsTextField: By    = By.id("value")
   private val contactDetailsErrorSummary: By = By.className("a[href='#value']")
   private val yesRadioButton: By             = By.id("value_0")
   private val noRadioButton: By              = By.id("value_1")
@@ -69,7 +69,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
   def enterFullName(): Unit = {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsPageTitle))
 
-    val enterFullNameField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextFieldBy))
+    val enterFullNameField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
     enterFullNameField.clear()
     enterFullNameField.sendKeys(rndFullName)
     clickContinueButtonElement()
@@ -79,7 +79,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsPageTitle))
 
     val enterEmailAddressField =
-      fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextFieldBy))
+      fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
     enterEmailAddressField.clear()
     enterEmailAddressField.sendKeys(rndEmailAddress)
     clickContinueButtonElement()
@@ -88,7 +88,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
   def enterRoll(): Unit = {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsPageTitle))
 
-    val enterRoleField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextFieldBy))
+    val enterRoleField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
     enterRoleField.clear()
     enterRoleField.sendKeys(rndRole)
     clickContinueButtonElement()
@@ -97,7 +97,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
   def enterPhoneNumber(): Unit = {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsPageTitle))
 
-    val enterPhoneNumberField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextFieldBy))
+    val enterPhoneNumberField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
     enterPhoneNumberField.clear()
     enterPhoneNumberField.sendKeys(rndPhoneNumber)
     clickContinueButtonElement()
