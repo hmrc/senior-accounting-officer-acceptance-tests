@@ -32,8 +32,9 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
   private val yesRadioButton: By             = By.id("value_0")
   private val noRadioButton: By              = By.id("value_1")
 
-  private val contactDetailsPageTitle: By             = By.cssSelector("label[for='value']")
+  private val contactDetailsPageFieldTitle: By        = By.cssSelector("label[for='value']")
   private val addedAllTheContactsYouNeedPageTitle: By = By.xpath("//h1[@class='govuk-fieldset__heading']")
+  private val checkYourAnswersTitle: By               = By.cssSelector(".govuk-heading-l")
 
   private val firstContactDetailsHeading: By      = By.xpath("//*[@id=\"main-content\"]//h2[1]")
   private val firstContactDetailsFullName: By     = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[1]/dd[1]")
@@ -66,56 +67,48 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
     continueButtonElement.click()
   }
 
-  def enterFullName(): Unit = {
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsPageTitle))
+  def verifyContactDetailsFieldTitle(): Unit =
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsPageFieldTitle))
 
+  def enterFullName(): Unit = {
     val enterFullNameField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
     enterFullNameField.clear()
     enterFullNameField.sendKeys(rndFullName)
-    clickContinueButtonElement()
   }
 
   def enterEmailAddress(): Unit = {
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsPageTitle))
-
     val enterEmailAddressField =
       fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
     enterEmailAddressField.clear()
     enterEmailAddressField.sendKeys(rndEmailAddress)
-    clickContinueButtonElement()
   }
 
   def enterRoll(): Unit = {
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsPageTitle))
-
     val enterRoleField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
     enterRoleField.clear()
     enterRoleField.sendKeys(rndRole)
-    clickContinueButtonElement()
   }
 
   def enterPhoneNumber(): Unit = {
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsPageTitle))
-
     val enterPhoneNumberField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
     enterPhoneNumberField.clear()
     enterPhoneNumberField.sendKeys(rndPhoneNumber)
-    clickContinueButtonElement()
   }
 
   def selectYes(): Unit = {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(addedAllTheContactsYouNeedPageTitle))
 
     driver.findElement(yesRadioButton).click()
-    clickContinueButtonElement()
   }
 
   def selectNo(): Unit = {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(addedAllTheContactsYouNeedPageTitle))
 
     driver.findElement(noRadioButton).click()
-    clickContinueButtonElement()
   }
+
+  def verifyCheckYourAnswersTitle(): Unit =
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(checkYourAnswersTitle))
 
   def verifyContactDetailsFieldValue(elementLocator: By, expectedValue: String): Unit = {
     val contactDetailsElementValue =

@@ -28,52 +28,55 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      Given("An authenticated organisation user who has just completed Business matching")
+      Given("An authenticated organisation user has just completed Business matching")
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
 
       And("They click on the 'Enter your contact details' link and Stub response button")
       RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
 
-      And("They must see the 'Contact Details' page")
+      When(
+        "They click on the 'Enter Contact Details' link on dashboard and click 'Continue' button on the Contact Details information page"
+      )
       RegisterYourCompanyPage.clickEnterYourContactDetailsLink()
-
-      When("They click the 'Continue' button on the Contact Details information page")
       ContactDetailsPage.clickContinueButtonElement()
 
-      And("They must see the 'First Contact Details' page")
-      And("They Enter full name")
-      And("They click the 'Continue' button")
+      Then("They must see the 'Enter full name' Title")
+      ContactDetailsPage.verifyContactDetailsFieldTitle()
+
+      When("They Enter the full name details and click on continue button")
       ContactDetailsPage.enterFullName()
+      ContactDetailsPage.clickContinueButtonElement()
 
-      And("They enter role")
-      And("They click the 'Continue' button")
+      And("They enter the role details and click on continue button")
       ContactDetailsPage.enterRoll()
+      ContactDetailsPage.clickContinueButtonElement()
 
-      And("They must see the 'Contact Email Address' page")
-      And("They enter email address")
-      And("They click the 'Continue' button")
+      Then("They must see the 'Enter email address' Title")
+      ContactDetailsPage.verifyContactDetailsFieldTitle()
+
+      When("They enter the email address details and click on continue button")
       ContactDetailsPage.enterEmailAddress()
+      ContactDetailsPage.clickContinueButtonElement()
 
-      And("They enter phone number")
-      And("They click the 'Continue' button")
+      And("They enter the phone number details and click on continue button")
       ContactDetailsPage.enterPhoneNumber()
+      ContactDetailsPage.clickContinueButtonElement()
 
-      And("They select 'Yes' for the question Have you added all the contacts you need")
-      And("They click the 'Continue' button")
+      And("They select 'Yes' for the question Have you added all the contacts you need and click on continue button")
       ContactDetailsPage.selectYes()
+      ContactDetailsPage.clickContinueButtonElement()
 
-      And("They must see the 'Check Your Answers' page")
-      And("They must see 'Change' links next to each entered details")
-      And("They update previously entered details")
+      Then("They must see the 'Check Your Answers' Title")
+      ContactDetailsPage.verifyCheckYourAnswersTitle()
+
       And("They must verify all the answers for the first contact details")
       ContactDetailsPage.verifyFirstContactDetailsInCheckYourAnswersPage()
 
-      And("They click the 'Save and Continue' button")
+      When("They click the 'Save and Continue' button")
       ContactDetailsPage.clickContinueButtonElement()
 
-      Then("They must be redirected back to the 'Register Your Company' page")
-      And("The 'Enter your contact details' status must be marked as 'Completed'")
+      Then("The 'Enter your contact details' status must be marked as 'Completed' in Register your company page")
       RegisterYourCompanyPage.verifyContactDetailsStatusCompleted()
     }
 
@@ -89,67 +92,74 @@ class ContactDetailsSpec extends BaseSpec {
       RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
 
-      And("They must see the 'Contact Details' page")
+      When(
+        "They click on the 'Enter Contact Details' link on Register your company page and click 'Continue' button on the Contact Details information page"
+      )
       RegisterYourCompanyPage.clickEnterYourContactDetailsLink()
-
-      When("They click the 'Continue' button on the Contact Details information page")
       ContactDetailsPage.clickContinueButtonElement()
 
-      And("They must see the 'First Contact Details' page")
-      And("They Enter full name")
-      And("They click the 'Continue' button")
+      Then("They must see the 'Enter full name' Title")
+      ContactDetailsPage.verifyContactDetailsFieldTitle()
+
+      When("They Enter the first full name details and click on continue button")
       ContactDetailsPage.enterFullName()
+      ContactDetailsPage.clickContinueButtonElement()
 
-      And("They enter role")
-      And("They click the 'Continue' button")
+      And("They enter the first role details and click on continue button")
       ContactDetailsPage.enterRoll()
+      ContactDetailsPage.clickContinueButtonElement()
 
-      And("They must see the 'Contact Email Address' page")
-      And("They enter email address")
-      And("They click the 'Continue' button")
+      Then("They must see the 'Enter email address' Title")
+      ContactDetailsPage.verifyContactDetailsFieldTitle()
+
+      When("They enter the first email address details and click on continue button")
       ContactDetailsPage.enterEmailAddress()
+      ContactDetailsPage.clickContinueButtonElement()
 
-      And("They enter phone number")
-      And("They click the 'Continue' button")
+      And("They enter the first phone number details and click on continue button")
       ContactDetailsPage.enterPhoneNumber()
+      ContactDetailsPage.clickContinueButtonElement()
 
-      And("They select 'No' for the question Have you added all the contacts you need")
-      And("They click the 'Continue' button")
+      And("They select 'No' for the question Have you added all the contacts you need and click on 'Continue' button")
       ContactDetailsPage.selectNo()
+      ContactDetailsPage.clickContinueButtonElement()
 
-      And("They must see the 'Second Contact Details' page")
-      And("They Enter second full name")
-      And("They click the 'Continue' button")
+      Then("They must see the 'Enter full name' Title")
+      ContactDetailsPage.verifyContactDetailsFieldTitle()
+
+      When("They Enter the Second full name details and click on continue button")
       ContactDetailsPage.enterFullName()
+      ContactDetailsPage.clickContinueButtonElement()
 
-      And("They enter second role")
-      And("They click the 'Continue' button")
+      And("They enter the Second role details and click on continue button")
       ContactDetailsPage.enterRoll()
+      ContactDetailsPage.clickContinueButtonElement()
 
-      And("They must see the 'Contact Email Address' page")
-      And("They enter second email address")
-      And("They click the 'Continue' button")
+      Then("They must see the 'Enter email address' Title")
+      ContactDetailsPage.verifyContactDetailsFieldTitle()
+
+      When("They enter the Second email address details and click on continue button")
       ContactDetailsPage.enterEmailAddress()
+      ContactDetailsPage.clickContinueButtonElement()
 
-      And("They enter second phone number")
-      And("They click the 'Continue' button")
+      And("They enter the Second phone number details and click on continue button")
       ContactDetailsPage.enterPhoneNumber()
+      ContactDetailsPage.clickContinueButtonElement()
 
-      And("They select 'Yes' for the question Have you added all the contacts you need")
-      And("They click the 'Continue' button")
+      And("They select 'Yes' for the question Have you added all the contacts you need and click on continue button")
       ContactDetailsPage.selectYes()
+      ContactDetailsPage.clickContinueButtonElement()
 
-      And("They must see the 'Check Your Answers' page")
-      And("They must see 'Change' links next to each entered details")
-      And("They update previously entered details")
-      And("They must verify all the answers for the first contact details")
+      Then("They must see the 'Check Your Answers' Title")
+      ContactDetailsPage.verifyCheckYourAnswersTitle()
+
+      And("They must verify all the answers for the second contact details")
       ContactDetailsPage.verifySecondContactDetailsInCheckYourAnswersPage()
 
-      And("They click the 'Save and Continue' button")
+      When("They click the 'Save and Continue' button")
       ContactDetailsPage.clickContinueButtonElement()
 
-      Then("They must be redirected back to the 'Register Your Company' page")
-      And("The 'Enter your contact details' status must be marked as 'Completed'")
+      Then("The 'Enter your contact details' status must be marked as 'Completed' in Register your company page")
       RegisterYourCompanyPage.verifyContactDetailsStatusCompleted()
     }
   }
