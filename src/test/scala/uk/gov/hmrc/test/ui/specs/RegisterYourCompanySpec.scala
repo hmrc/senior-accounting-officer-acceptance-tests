@@ -72,8 +72,8 @@ class RegisterYourCompanySpec extends BaseSpec {
       When("They click on 'Enter your company details' link and Stub Response button")
       RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
-      
-      And("The heading 'Enter your Contact details' must be link")
+
+      Then("The heading 'Enter your Contact details' must be link")
       RegisterYourCompanyPage.verifyEnterYourContactDetailsLink()
 
       And("The status of the Contact Details must be Not Started")
