@@ -49,7 +49,7 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.clickContinueButtonElement()
 
       And("They enter the role details and click on continue button")
-      ContactDetailsPage.enterRoll()
+      ContactDetailsPage.enterRole()
       ContactDetailsPage.clickContinueButtonElement()
 
       Then("They must see the 'Enter email address' Title")
@@ -63,7 +63,7 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.enterPhoneNumber()
       ContactDetailsPage.clickContinueButtonElement()
 
-      And("They select 'Yes' for the question Have you added all the contacts you need and click on continue button")
+      And("They select 'Yes' for the question 'Have you added all the contacts you need' and click on continue button")
       ContactDetailsPage.selectYes()
       ContactDetailsPage.clickContinueButtonElement()
 
@@ -106,7 +106,7 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.clickContinueButtonElement()
 
       And("They enter the first role details and click on continue button")
-      ContactDetailsPage.enterRoll()
+      ContactDetailsPage.enterRole()
       ContactDetailsPage.clickContinueButtonElement()
 
       Then("They must see the 'Enter email address' Title")
@@ -120,7 +120,7 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.enterPhoneNumber()
       ContactDetailsPage.clickContinueButtonElement()
 
-      And("They select 'No' for the question Have you added all the contacts you need and click on 'Continue' button")
+      And("They select 'No' for the question 'Have you added all the contacts you need' and click on 'Continue' button")
       ContactDetailsPage.selectNo()
       ContactDetailsPage.clickContinueButtonElement()
 
@@ -132,7 +132,7 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.clickContinueButtonElement()
 
       And("They enter the Second role details and click on continue button")
-      ContactDetailsPage.enterRoll()
+      ContactDetailsPage.enterRole()
       ContactDetailsPage.clickContinueButtonElement()
 
       Then("They must see the 'Enter email address' Title")
@@ -146,7 +146,7 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.enterPhoneNumber()
       ContactDetailsPage.clickContinueButtonElement()
 
-      And("They select 'Yes' for the question Have you added all the contacts you need and click on continue button")
+      And("They select 'Yes' for the question 'Have you added all the contacts you need' and click on continue button")
       ContactDetailsPage.selectYes()
       ContactDetailsPage.clickContinueButtonElement()
 

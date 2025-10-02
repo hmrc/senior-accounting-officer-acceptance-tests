@@ -83,7 +83,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
     enterEmailAddressField.sendKeys(rndEmailAddress)
   }
 
-  def enterRoll(): Unit = {
+  def enterRole(): Unit = {
     val enterRoleField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
     enterRoleField.clear()
     enterRoleField.sendKeys(rndRole)
