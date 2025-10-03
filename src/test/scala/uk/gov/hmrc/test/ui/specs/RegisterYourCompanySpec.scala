@@ -48,7 +48,7 @@ class RegisterYourCompanySpec extends BaseSpec {
       Given("An authenticated organisation user successfully navigated to the Register Your Company page")
       AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
-      When("They view the 'Register your company' page")
+      And("They view the 'Register your company' page")
       Then("The title 'Enter your company details' must be link")
       RegisterYourCompanyPage.verifyEnterYourCompanyDetailsLink()
       And("The status of the Company Details must be Not Started")
@@ -62,22 +62,20 @@ class RegisterYourCompanySpec extends BaseSpec {
     }
 
     Scenario(
-      "Successfully navigated to the Contact Details page with GRS microservice",
+      "Can navigate to the Contact Details page after GRS",
       RegistrationTests,
       ZapTests
     ) {
       Given("An authenticated organisation user successfully navigated to the Register Your Company page")
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
 
-      And("They click on 'Enter your company details' link")
+      When("They click on 'Enter your company details' link and completed Business matching")
       RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
-
-      And("They click on Stub Response button")
       GrsStubPage.clickStubResponseButton()
 
-      When("They are back to the 'Register Your Company' page")
       Then("The heading 'Enter your Contact details' must be link")
       RegisterYourCompanyPage.verifyEnterYourContactDetailsLink()
+
       And("The status of the Contact Details must be Not Started")
       RegisterYourCompanyPage.verifyContactDetailsStatusNotStarted()
     }

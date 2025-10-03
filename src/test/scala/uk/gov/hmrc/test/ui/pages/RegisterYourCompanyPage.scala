@@ -149,6 +149,12 @@ object RegisterYourCompanyPage extends BasePage {
   def verifyContactDetailsStatusNotStarted(): Unit =
     verifyContactDetailsStatus(statusNotStarted)
 
+  def verifyContactDetailsStatusCompleted(): Unit =
+    verifyContactDetailsStatus(statusCompleted)
+
+  def clickEnterYourContactDetailsLink(): Unit =
+    contactDetailsElement.click()
+
   def verifySubmitButtonDoestNotExist(): Unit = {
     val submitButtonElements = driver.findElements(submitButton).asScala
     submitButtonElements mustBe empty
