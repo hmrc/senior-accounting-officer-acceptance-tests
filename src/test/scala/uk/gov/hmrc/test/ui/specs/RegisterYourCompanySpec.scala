@@ -66,7 +66,7 @@ class RegisterYourCompanySpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      Given("An authenticated organisation user who has just completed Business matching")
+      Given("An authenticated organisation user successfully navigated to the Register Your Company page")
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
 
       When("They click on 'Enter your company details' link and completed Business matching")

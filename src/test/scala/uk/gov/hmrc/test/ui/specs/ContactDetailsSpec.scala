@@ -28,7 +28,7 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      Given("An authenticated organisation user has just completed Business matching")
+      Given("An authenticated organisation user successfully navigated to the Register Your Company page")
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
 
       And("They click on the 'Enter your contact details' link and completed Business matching")
@@ -85,7 +85,7 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      Given("An authenticated organisation user who has just completed Business matching")
+      Given("An authenticated organisation user successfully navigated to the Register Your Company page")
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
 
       And("They click on the 'Enter your contact details' link and completed Business matching")
