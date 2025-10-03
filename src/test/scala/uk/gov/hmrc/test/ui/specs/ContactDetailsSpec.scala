@@ -31,7 +31,7 @@ class ContactDetailsSpec extends BaseSpec {
       Given("An authenticated organisation user has just completed Business matching")
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
 
-      And("They click on the 'Enter your contact details' link and Stub response button")
+      And("They click on the 'Enter your contact details' link and completed Business matching")
       RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
 
@@ -70,7 +70,7 @@ class ContactDetailsSpec extends BaseSpec {
       Then("They must see the 'Check Your Answers' Title")
       ContactDetailsPage.verifyCheckYourAnswersTitle()
 
-      And("They must verify all the answers for the first contact details")
+      And("They can verify all the answers for the first contact details")
       ContactDetailsPage.verifyFirstContactDetailsInCheckYourAnswersPage()
 
       When("They click the 'Save and Continue' button")
@@ -88,7 +88,7 @@ class ContactDetailsSpec extends BaseSpec {
       Given("An authenticated organisation user who has just completed Business matching")
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
 
-      And("They click on the 'Enter your contact details' link and Stub response button")
+      And("They click on the 'Enter your contact details' link and completed Business matching")
       RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
 
@@ -153,7 +153,7 @@ class ContactDetailsSpec extends BaseSpec {
       Then("They must see the 'Check Your Answers' Title")
       ContactDetailsPage.verifyCheckYourAnswersTitle()
 
-      And("They must verify all the answers for the second contact details")
+      And("They can verify all the answers for the second contact details")
       ContactDetailsPage.verifySecondContactDetailsInCheckYourAnswersPage()
 
       When("They click the 'Save and Continue' button")

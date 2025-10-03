@@ -69,7 +69,7 @@ class RegisterYourCompanySpec extends BaseSpec {
       Given("An authenticated organisation user who has just completed Business matching")
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
 
-      When("They click on 'Enter your company details' link and Stub Response button")
+      When("They click on 'Enter your company details' link and completed Business matching")
       RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
 
