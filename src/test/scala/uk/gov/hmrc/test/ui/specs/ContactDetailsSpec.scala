@@ -21,7 +21,7 @@ import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.utils.AffinityGroup.Organisation
 
 class ContactDetailsSpec extends BaseSpec {
-  Scenario("Completion of First Contact Details", RegistrationTests, ZapTests) {
+  Scenario("Successfully complete first contact details", RegistrationTests, ZapTests) {
     AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
 
     RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
@@ -58,7 +58,7 @@ class ContactDetailsSpec extends BaseSpec {
     RegisterYourCompanyPage.verifyContactDetailsStatusCompleted()
   }
 
-  Scenario("Completion of Second Contact Details", RegistrationTests, ZapTests) {
+  Scenario("Successfully complete second contact details", RegistrationTests, ZapTests) {
     AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
 
     RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
