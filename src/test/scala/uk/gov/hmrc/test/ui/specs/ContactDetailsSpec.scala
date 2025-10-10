@@ -21,99 +21,96 @@ import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.utils.AffinityGroup.Organisation
 
 class ContactDetailsSpec extends BaseSpec {
+  Scenario("Completion of First Contact Details", RegistrationTests, ZapTests) {
+    AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
 
-  Feature("Contact Details page") {
-    Scenario("Completion of First Contact Details", RegistrationTests, ZapTests) {
-      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+    RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
+    GrsStubPage.clickStubResponseButton()
 
-      RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
-      GrsStubPage.clickStubResponseButton()
+    RegisterYourCompanyPage.clickEnterYourContactDetailsLink()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      RegisterYourCompanyPage.clickEnterYourContactDetailsLink()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.verifyContactDetailsFieldTitle()
 
-      ContactDetailsPage.verifyContactDetailsFieldTitle()
+    ContactDetailsPage.enterFullName()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.enterFullName()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.enterRole()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.enterRole()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.verifyContactDetailsFieldTitle()
 
-      ContactDetailsPage.verifyContactDetailsFieldTitle()
+    ContactDetailsPage.enterEmailAddress()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.enterEmailAddress()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.enterPhoneNumber()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.enterPhoneNumber()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.selectYes()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.selectYes()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.verifyCheckYourAnswersTitle()
 
-      ContactDetailsPage.verifyCheckYourAnswersTitle()
+    ContactDetailsPage.verifyFirstContactDetailsInCheckYourAnswersPage()
 
-      ContactDetailsPage.verifyFirstContactDetailsInCheckYourAnswersPage()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.clickContinueButtonElement()
+    RegisterYourCompanyPage.verifyContactDetailsStatusCompleted()
+  }
 
-      RegisterYourCompanyPage.verifyContactDetailsStatusCompleted()
-    }
+  Scenario("Completion of Second Contact Details", RegistrationTests, ZapTests) {
+    AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
 
-    Scenario("Completion of Second Contact Details", RegistrationTests, ZapTests) {
-      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+    RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
+    GrsStubPage.clickStubResponseButton()
 
-      RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
-      GrsStubPage.clickStubResponseButton()
+    RegisterYourCompanyPage.clickEnterYourContactDetailsLink()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      RegisterYourCompanyPage.clickEnterYourContactDetailsLink()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.verifyContactDetailsFieldTitle()
 
-      ContactDetailsPage.verifyContactDetailsFieldTitle()
+    ContactDetailsPage.enterFullName()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.enterFullName()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.enterRole()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.enterRole()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.verifyContactDetailsFieldTitle()
 
-      ContactDetailsPage.verifyContactDetailsFieldTitle()
+    ContactDetailsPage.enterEmailAddress()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.enterEmailAddress()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.enterPhoneNumber()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.enterPhoneNumber()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.selectNo()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.selectNo()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.verifyContactDetailsFieldTitle()
 
-      ContactDetailsPage.verifyContactDetailsFieldTitle()
+    ContactDetailsPage.enterFullName()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.enterFullName()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.enterRole()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.enterRole()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.verifyContactDetailsFieldTitle()
 
-      ContactDetailsPage.verifyContactDetailsFieldTitle()
+    ContactDetailsPage.enterEmailAddress()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.enterEmailAddress()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.enterPhoneNumber()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.enterPhoneNumber()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.selectYes()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.selectYes()
-      ContactDetailsPage.clickContinueButtonElement()
+    ContactDetailsPage.verifyCheckYourAnswersTitle()
 
-      ContactDetailsPage.verifyCheckYourAnswersTitle()
+    ContactDetailsPage.verifySecondContactDetailsInCheckYourAnswersPage()
 
-      ContactDetailsPage.verifySecondContactDetailsInCheckYourAnswersPage()
+    ContactDetailsPage.clickContinueButtonElement()
 
-      ContactDetailsPage.clickContinueButtonElement()
-
-      RegisterYourCompanyPage.verifyContactDetailsStatusCompleted()
-    }
+    RegisterYourCompanyPage.verifyContactDetailsStatusCompleted()
   }
 }

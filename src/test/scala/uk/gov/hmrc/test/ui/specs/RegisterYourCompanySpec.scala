@@ -21,48 +21,45 @@ import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.utils.AffinityGroup.Organisation
 
 class RegisterYourCompanySpec extends BaseSpec {
+  Scenario("Successfully navigated to the Register your company page", RegistrationTests, ZapTests) {
+    AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
 
-  Feature("Register Your company page") {
-    Scenario("Successfully navigated to the Register your company page", RegistrationTests, ZapTests) {
-      AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
+    RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
 
-      RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
+    RegisterYourCompanyPage.verifyRegisterYourCompanyPageTitle()
 
-      RegisterYourCompanyPage.verifyRegisterYourCompanyPageTitle()
+    RegisterYourCompanyPage.verifyCompanyDetailsField()
+  }
 
-      RegisterYourCompanyPage.verifyCompanyDetailsField()
-    }
+  Scenario(
+    "Successfully view Company and Contact Details in the Register your company page",
+    RegistrationTests,
+    ZapTests
+  ) {
+    AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
 
-    Scenario(
-      "Successfully view Company and Contact Details in the Register your company page",
-      RegistrationTests,
-      ZapTests
-    ) {
-      AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
+    RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
 
-      RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
+    RegisterYourCompanyPage.verifyEnterYourCompanyDetailsLink()
 
-      RegisterYourCompanyPage.verifyEnterYourCompanyDetailsLink()
+    RegisterYourCompanyPage.verifyCompanyDetailsStatusNotStarted()
 
-      RegisterYourCompanyPage.verifyCompanyDetailsStatusNotStarted()
+    RegisterYourCompanyPage.verifyContactDetailsField()
 
-      RegisterYourCompanyPage.verifyContactDetailsField()
+    RegisterYourCompanyPage.verifyContactDetailsStatusCannotStartYet()
 
-      RegisterYourCompanyPage.verifyContactDetailsStatusCannotStartYet()
+    RegisterYourCompanyPage.verifySubmitButtonDoestNotExist()
+  }
 
-      RegisterYourCompanyPage.verifySubmitButtonDoestNotExist()
-    }
+  Scenario("Can navigate to the Contact Details page after GRS", RegistrationTests, ZapTests) {
+    AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
 
-    Scenario("Can navigate to the Contact Details page after GRS", RegistrationTests, ZapTests) {
-      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+    RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
 
-      RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
+    GrsStubPage.clickStubResponseButton()
 
-      GrsStubPage.clickStubResponseButton()
+    RegisterYourCompanyPage.verifyEnterYourContactDetailsLink()
 
-      RegisterYourCompanyPage.verifyEnterYourContactDetailsLink()
-
-      RegisterYourCompanyPage.verifyContactDetailsStatusNotStarted()
-    }
+    RegisterYourCompanyPage.verifyContactDetailsStatusNotStarted()
   }
 }
