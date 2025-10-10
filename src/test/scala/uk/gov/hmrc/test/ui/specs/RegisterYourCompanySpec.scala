@@ -23,20 +23,13 @@ import uk.gov.hmrc.test.ui.utils.AffinityGroup.Organisation
 class RegisterYourCompanySpec extends BaseSpec {
 
   Feature("Register Your company page") {
-    Scenario(
-      "Successfully navigated to the Register your company page",
-      RegistrationTests,
-      ZapTests
-    ) {
-      Given("An authenticated organisation user successfully navigated to the Register Your Company page")
+    Scenario("Successfully navigated to the Register your company page", RegistrationTests, ZapTests) {
       AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
+
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
-      When("They view the 'Register your company' page")
-      Then(
-        "The page title must be 'Register your company - Senior Accounting Officer notification and certificate - GOV.UK'"
-      )
+
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageTitle()
-      And("The title 'Enter your company details' must be visible")
+
       RegisterYourCompanyPage.verifyCompanyDetailsField()
     }
 
@@ -45,38 +38,30 @@ class RegisterYourCompanySpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      Given("An authenticated organisation user successfully navigated to the Register Your Company page")
       AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
+
       RegisterYourCompanyPage.verifyRegisterYourCompanyPageURL()
-      And("They view the 'Register your company' page")
-      Then("The title 'Enter your company details' must be link")
+
       RegisterYourCompanyPage.verifyEnterYourCompanyDetailsLink()
-      And("The status of the Company Details must be Not Started")
+
       RegisterYourCompanyPage.verifyCompanyDetailsStatusNotStarted()
-      And("The title 'Enter your contact details' is not a link")
+
       RegisterYourCompanyPage.verifyContactDetailsField()
-      And("The status of the Contact Details must be Cannot start yet")
+
       RegisterYourCompanyPage.verifyContactDetailsStatusCannotStartYet()
-      And("The Submit button does not exist")
+
       RegisterYourCompanyPage.verifySubmitButtonDoestNotExist()
     }
 
-    Scenario(
-      "Can navigate to the Contact Details page after GRS",
-      RegistrationTests,
-      ZapTests
-    ) {
-      Given("An authenticated organisation user successfully navigated to the Register Your Company page")
+    Scenario("Can navigate to the Contact Details page after GRS", RegistrationTests, ZapTests) {
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
 
-      When("They click on 'Enter your company details' link and completed Business matching")
       RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
+
       GrsStubPage.clickStubResponseButton()
 
-      Then("The heading 'Enter your Contact details' must be link")
       RegisterYourCompanyPage.verifyEnterYourContactDetailsLink()
 
-      And("The status of the Contact Details must be Not Started")
       RegisterYourCompanyPage.verifyContactDetailsStatusNotStarted()
     }
   }
