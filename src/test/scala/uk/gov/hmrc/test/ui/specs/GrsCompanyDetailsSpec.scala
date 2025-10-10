@@ -21,7 +21,7 @@ import uk.gov.hmrc.test.ui.specs.tags.{RegistrationTests, ZapTests}
 import uk.gov.hmrc.test.ui.utils.AffinityGroup.Organisation
 
 class GrsCompanyDetailsSpec extends BaseSpec {
-  Scenario("Successfully integration with GRS microservice", RegistrationTests, ZapTests) {
+  Scenario("Company is registered successfully with the Generic Registration Service", RegistrationTests, ZapTests) {
     AuthLoginPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
 
     RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
