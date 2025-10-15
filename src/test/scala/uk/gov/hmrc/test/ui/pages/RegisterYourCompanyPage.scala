@@ -49,7 +49,7 @@ object RegisterYourCompanyPage extends BasePage {
 
   def verifyRegisterYourCompanyPageURL(): Unit = {
     waitFor.until(ExpectedConditions.urlToBe(pageUrl))
-    assert(driver.getCurrentUrl == pageUrl)
+    driver.getCurrentUrl mustBe pageUrl
   }
 
   def verifyRegisterYourCompanyPageTitle(): Unit = {

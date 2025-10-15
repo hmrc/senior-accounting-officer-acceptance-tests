@@ -23,17 +23,22 @@ import uk.gov.hmrc.test.ui.utils.AffinityGroup.Organisation
 class ContactDetailsSpec extends BaseSpec {
 
   Feature("Contact Details page") {
+
+    def authenticateAndCompleteBusinessMatching(): Unit = {
+      Given("An authenticated organisation user successfully navigates to the Register Your Company page")
+      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+
+      And("They click on the 'Enter your contact details' link and complete Business matching")
+      RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
+      GrsStubPage.clickStubResponseButton()
+    }
+
     Scenario(
       "Completion of First Contact Details",
       RegistrationTests,
       ZapTests
     ) {
-      Given("An authenticated organisation user successfully navigated to the Register Your Company page")
-      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
-
-      And("They click on the 'Enter your contact details' link and completed Business matching")
-      RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
-      GrsStubPage.clickStubResponseButton()
+      authenticateAndCompleteBusinessMatching()
 
       When(
         "They click on the 'Enter Contact Details' link on dashboard and click 'Continue' button on the Contact Details information page"
@@ -42,7 +47,7 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.clickContinueButtonElement()
 
       Then("They must see the 'Enter full name' Title")
-      ContactDetailsPage.verifyContactDetailsFieldTitle()
+      ContactDetailsPage.waitForContactDetailsFieldTitleToBeVisible()
 
       When("They Enter the full name details and click on continue button")
       ContactDetailsPage.enterFullName()
@@ -53,7 +58,7 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.clickContinueButtonElement()
 
       Then("They must see the 'Enter email address' Title")
-      ContactDetailsPage.verifyContactDetailsFieldTitle()
+      ContactDetailsPage.waitForContactDetailsFieldTitleToBeVisible()
 
       When("They enter the email address details and click on continue button")
       ContactDetailsPage.enterEmailAddress()
@@ -68,7 +73,7 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.clickContinueButtonElement()
 
       Then("They must see the 'Check Your Answers' Title")
-      ContactDetailsPage.verifyCheckYourAnswersTitle()
+      ContactDetailsPage.waitForCheckYourAnswersTitleToBeVisible()
 
       And("They can verify all the answers for the first contact details")
       ContactDetailsPage.verifyFirstContactDetailsInCheckYourAnswersPage()
@@ -85,12 +90,7 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      Given("An authenticated organisation user successfully navigated to the Register Your Company page")
-      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
-
-      And("They click on the 'Enter your contact details' link and completed Business matching")
-      RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
-      GrsStubPage.clickStubResponseButton()
+      authenticateAndCompleteBusinessMatching()
 
       When(
         "They click on the 'Enter Contact Details' link on Register your company page and click 'Continue' button on the Contact Details information page"
@@ -99,7 +99,7 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.clickContinueButtonElement()
 
       Then("They must see the 'Enter full name' Title")
-      ContactDetailsPage.verifyContactDetailsFieldTitle()
+      ContactDetailsPage.waitForContactDetailsFieldTitleToBeVisible()
 
       When("They Enter the first full name details and click on continue button")
       ContactDetailsPage.enterFullName()
@@ -110,7 +110,7 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.clickContinueButtonElement()
 
       Then("They must see the 'Enter email address' Title")
-      ContactDetailsPage.verifyContactDetailsFieldTitle()
+      ContactDetailsPage.waitForContactDetailsFieldTitleToBeVisible()
 
       When("They enter the first email address details and click on continue button")
       ContactDetailsPage.enterEmailAddress()
@@ -125,7 +125,7 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.clickContinueButtonElement()
 
       Then("They must see the 'Enter full name' Title")
-      ContactDetailsPage.verifyContactDetailsFieldTitle()
+      ContactDetailsPage.waitForContactDetailsFieldTitleToBeVisible()
 
       When("They Enter the Second full name details and click on continue button")
       ContactDetailsPage.enterFullName()
@@ -136,7 +136,7 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.clickContinueButtonElement()
 
       Then("They must see the 'Enter email address' Title")
-      ContactDetailsPage.verifyContactDetailsFieldTitle()
+      ContactDetailsPage.waitForContactDetailsFieldTitleToBeVisible()
 
       When("They enter the Second email address details and click on continue button")
       ContactDetailsPage.enterEmailAddress()
@@ -151,7 +151,7 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.clickContinueButtonElement()
 
       Then("They must see the 'Check Your Answers' Title")
-      ContactDetailsPage.verifyCheckYourAnswersTitle()
+      ContactDetailsPage.waitForCheckYourAnswersTitleToBeVisible()
 
       And("They can verify all the answers for the second contact details")
       ContactDetailsPage.verifySecondContactDetailsInCheckYourAnswersPage()

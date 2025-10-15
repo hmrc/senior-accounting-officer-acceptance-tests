@@ -28,7 +28,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
 
   private val continueButton: By             = By.id("submit")
   private val contactDetailsTextField: By    = By.id("value")
-  private val contactDetailsErrorSummary: By = By.className("a[href='#value']")
+  private val contactDetailsErrorSummary: By = By.cssSelector("a[href='#value']")
   private val yesRadioButton: By             = By.id("value_0")
   private val noRadioButton: By              = By.id("value_1")
 
@@ -67,7 +67,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
     continueButtonElement.click()
   }
 
-  def verifyContactDetailsFieldTitle(): Unit =
+  def waitForContactDetailsFieldTitleToBeVisible(): Unit =
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsPageFieldTitle))
 
   def enterFullName(): Unit = {
@@ -107,7 +107,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
     driver.findElement(noRadioButton).click()
   }
 
-  def verifyCheckYourAnswersTitle(): Unit =
+  def waitForCheckYourAnswersTitleToBeVisible(): Unit =
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(checkYourAnswersTitle))
 
   def verifyContactDetailsFieldValue(elementLocator: By, expectedValue: String): Unit = {
