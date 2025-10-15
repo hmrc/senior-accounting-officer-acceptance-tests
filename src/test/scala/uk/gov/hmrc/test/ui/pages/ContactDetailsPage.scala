@@ -60,6 +60,9 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
   private val errorMessageForEnterRole: String         = "Enter contactRole"
   private val errorMessageForEnterPhoneNumber: String  = "Enter contactPhone"
 
+  def waitForElementToBeVisible(elementLocator: By): Unit =
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator))
+
   def verifyContactDetailsPageURL(): Unit = waitFor.until(ExpectedConditions.urlToBe(enterYourContactDetailsLink))
 
   def clickContinueButtonElement(): Unit = {
@@ -68,7 +71,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
   }
 
   def waitForContactDetailsFieldTitleToBeVisible(): Unit =
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsPageFieldTitle))
+    waitForElementToBeVisible(contactDetailsPageFieldTitle)
 
   def enterFullName(): Unit = {
     val enterFullNameField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
@@ -108,7 +111,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
   }
 
   def waitForCheckYourAnswersTitleToBeVisible(): Unit =
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(checkYourAnswersTitle))
+    waitForElementToBeVisible(checkYourAnswersTitle)
 
   def verifyContactDetailsFieldValue(elementLocator: By, expectedValue: String): Unit = {
     val contactDetailsElementValue =
