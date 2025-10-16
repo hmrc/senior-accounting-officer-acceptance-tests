@@ -58,17 +58,17 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
   private val errorMessageForEnterRole: String         = "Enter contactRole"
   private val errorMessageForEnterPhoneNumber: String  = "Enter contactPhone"
 
-  def verifyContactDetailsPageURL(): Unit = waitFor.until(ExpectedConditions.urlToBe(enterYourContactDetailsLink))
-
   def clickContinueButtonElement(): Unit = {
-    val continueButtonElement = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(continueButton))
-    continueButtonElement.click()
+    fluentWait.until(ExpectedConditions.elementToBeClickable(continueButton))
+    click(continueButton)
   }
 
   def enterFullName(): Unit = {
     val enterFullNameField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
     enterFullNameField.clear()
     enterFullNameField.sendKeys(rndFullName)
+
+    clickContinueButtonElement()
   }
 
   def enterEmailAddress(): Unit = {
@@ -76,30 +76,38 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
       fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
     enterEmailAddressField.clear()
     enterEmailAddressField.sendKeys(rndEmailAddress)
+
+    clickContinueButtonElement()
   }
 
   def enterRole(): Unit = {
     val enterRoleField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
     enterRoleField.clear()
     enterRoleField.sendKeys(rndRole)
+
+    clickContinueButtonElement()
   }
 
   def enterPhoneNumber(): Unit = {
     val enterPhoneNumberField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
     enterPhoneNumberField.clear()
     enterPhoneNumberField.sendKeys(rndPhoneNumber)
+
+    clickContinueButtonElement()
   }
 
   def selectYes(): Unit = {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(addedAllTheContactsYouNeedPageTitle))
 
     driver.findElement(yesRadioButton).click()
+    clickContinueButtonElement()
   }
 
   def selectNo(): Unit = {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(addedAllTheContactsYouNeedPageTitle))
 
     driver.findElement(noRadioButton).click()
+    clickContinueButtonElement()
   }
 
   def verifyContactDetailsFieldValue(elementLocator: By, expectedValue: String): Unit = {
@@ -125,17 +133,25 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
     verifyContactDetailsFieldValue(secondContactDetailsPhoneNumber, rndPhoneNumber)
   }
 
-  def verifyContactDetailsEnterFullNameErrorSummary(): Unit =
+  def verifyFullNameErrorSummaryOnContactDetailsPage(): Unit = {
+    clickContinueButtonElement()
     errorSummary(errorMessageForEnterFullName)
+  }
 
-  def verifyContactDetailsEnterEmailAddressErrorSummary(): Unit =
+  def verifyEmailAddressErrorSummaryOnContactDetailsPage(): Unit = {
+    clickContinueButtonElement()
     errorSummary(errorMessageForEnterEmailAddress)
+  }
 
-  def verifyContactDetailsEnterRoleErrorSummary(): Unit =
+  def verifyRoleErrorSummaryOnContactDetailsPage(): Unit = {
+    clickContinueButtonElement()
     errorSummary(errorMessageForEnterRole)
+  }
 
-  def verifyContactDetailsEnterPhoneNumberErrorSummary(): Unit =
+  def verifyPhoneNumberErrorSummaryOnContactDetailsPage(): Unit = {
+    clickContinueButtonElement()
     errorSummary(errorMessageForEnterPhoneNumber)
+  }
 
   def errorSummary(expectedErrorSummary: String): Unit = {
     val contactDetailsErrorSummaryElement =
