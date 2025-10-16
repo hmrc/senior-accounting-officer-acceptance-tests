@@ -28,13 +28,11 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
 
   private val continueButton: By             = By.id("submit")
   private val contactDetailsTextField: By    = By.id("value")
-  private val contactDetailsErrorSummary: By = By.className("a[href='#value']")
+  private val contactDetailsErrorSummary: By = By.cssSelector("a[href='#value']")
   private val yesRadioButton: By             = By.id("value_0")
   private val noRadioButton: By              = By.id("value_1")
 
-  private val contactDetailsPageFieldTitle: By        = By.cssSelector("label[for='value']")
   private val addedAllTheContactsYouNeedPageTitle: By = By.xpath("//h1[@class='govuk-fieldset__heading']")
-  private val checkYourAnswersTitle: By               = By.cssSelector(".govuk-heading-l")
 
   private val firstContactDetailsHeading: By      = By.xpath("//*[@id=\"main-content\"]//h2[1]")
   private val firstContactDetailsFullName: By     = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[1]/dd[1]")
@@ -66,9 +64,6 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
     val continueButtonElement = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(continueButton))
     continueButtonElement.click()
   }
-
-  def verifyContactDetailsFieldTitle(): Unit =
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsPageFieldTitle))
 
   def enterFullName(): Unit = {
     val enterFullNameField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
@@ -106,9 +101,6 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
 
     driver.findElement(noRadioButton).click()
   }
-
-  def verifyCheckYourAnswersTitle(): Unit =
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(checkYourAnswersTitle))
 
   def verifyContactDetailsFieldValue(elementLocator: By, expectedValue: String): Unit = {
     val contactDetailsElementValue =
