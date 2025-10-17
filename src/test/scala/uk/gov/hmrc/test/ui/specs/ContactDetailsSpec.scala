@@ -147,7 +147,7 @@ class ContactDetailsSpec extends BaseSpec {
     ) {
       authenticateAndCompleteBusinessMatching()
 
-      And("They Edit Name and Email fields for Second contact detail")
+      And("They Edit Name and Email fields for both contact details")
       // Enter First Contact Details
       ContactDetailsPage.enterFullName(firstContactFullName)
       ContactDetailsPage.enterRole()
