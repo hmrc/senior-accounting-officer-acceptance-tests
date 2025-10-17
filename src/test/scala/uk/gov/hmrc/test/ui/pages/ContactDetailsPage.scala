@@ -34,17 +34,13 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
 
   private val addedAllTheContactsYouNeedPageTitle: By = By.xpath("//h1[@class='govuk-fieldset__heading']")
 
-  private val firstContactDetailsHeading: By     = By.xpath("//*[@id=\"main-content\"]//h2[1]")
-  val firstContactDetailsFullName: By            = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[1]/dd[1]")
-  private val firstContactDetailsRole: By        = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[2]/dd[1]")
-  val firstContactDetailsEmailAddress: By        = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[3]/dd[1]")
-  private val firstContactDetailsPhoneNumber: By = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[4]/dd[1]")
+  private val firstContactDetailsHeading: By = By.xpath("//*[@id=\"main-content\"]//h2[1]")
+  val firstContactDetailsFullName: By        = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[1]/dd[1]")
+  val firstContactDetailsEmailAddress: By    = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[2]/dd[1]")
 
-  private val secondContactDetailsHeading: By     = By.xpath("//*[@id=\"main-content\"]//h2[2]")
-  val secondContactDetailsFullName: By            = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[1]/dd[1]")
-  private val secondContactDetailsRole: By        = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[2]/dd[1]")
-  val secondContactDetailsEmailAddress: By        = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[3]/dd[1]")
-  private val secondContactDetailsPhoneNumber: By = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[4]/dd[1]")
+  private val secondContactDetailsHeading: By = By.xpath("//*[@id=\"main-content\"]//h2[2]")
+  val secondContactDetailsFullName: By        = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[1]/dd[1]")
+  val secondContactDetailsEmailAddress: By    = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[2]/dd[1]")
 
   // Random Contact Details
   var firstContactFullName: String        = randomFullName()
@@ -52,22 +48,14 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
   var secondContactFullName: String       = randomFullName()
   var randomSecondContactFullName: String = randomFullName()
 
-  val rndEmailAddress: String = randomEmail()
-
-  val firstContactEmailAddress: String       = randomEmail()
-  val randomFirstContactEmailAddress: String = randomEmail()
-
+  val firstContactEmailAddress: String        = randomEmail()
+  val randomFirstContactEmailAddress: String  = randomEmail()
   val secondContactEmailAddress: String       = randomEmail()
   val randomSecondContactEmailAddress: String = randomEmail()
-
-  val rndRole: String        = randomRole()
-  val rndPhoneNumber: String = randomUkPhoneNumber()
 
   // Error Summary
   private val errorMessageForEnterFullName: String     = "Enter contactName"
   private val errorMessageForEnterEmailAddress: String = "Enter contactEmail"
-  private val errorMessageForEnterRole: String         = "Enter contactRole"
-  private val errorMessageForEnterPhoneNumber: String  = "Enter contactPhone"
 
   // Contact details Change link
   val changeLinkForFirstContactFullName: By     =
@@ -102,22 +90,6 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
     clickContinueButtonElement()
   }
 
-  def enterRole(): Unit = {
-    val enterRoleField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
-    enterRoleField.clear()
-    enterRoleField.sendKeys(rndRole)
-
-    clickContinueButtonElement()
-  }
-
-  def enterPhoneNumber(): Unit = {
-    val enterPhoneNumberField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
-    enterPhoneNumberField.clear()
-    enterPhoneNumberField.sendKeys(rndPhoneNumber)
-
-    clickContinueButtonElement()
-  }
-
   def selectYes(): Unit = {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(addedAllTheContactsYouNeedPageTitle))
 
@@ -142,17 +114,13 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
   def verifyFirstContactDetailsInCheckYourAnswersPage(): Unit = {
     verifyContactDetailsFieldValue(firstContactDetailsHeading, "First contact details")
     verifyContactDetailsFieldValue(firstContactDetailsFullName, firstContactFullName)
-    verifyContactDetailsFieldValue(firstContactDetailsRole, rndRole)
-    verifyContactDetailsFieldValue(firstContactDetailsEmailAddress, rndEmailAddress)
-    verifyContactDetailsFieldValue(firstContactDetailsPhoneNumber, rndPhoneNumber)
+    verifyContactDetailsFieldValue(firstContactDetailsEmailAddress, firstContactEmailAddress)
   }
 
   def verifySecondContactDetailsInCheckYourAnswersPage(): Unit = {
     verifyContactDetailsFieldValue(secondContactDetailsHeading, "Second contact details")
     verifyContactDetailsFieldValue(secondContactDetailsFullName, secondContactFullName)
-    verifyContactDetailsFieldValue(secondContactDetailsRole, rndRole)
-    verifyContactDetailsFieldValue(secondContactDetailsEmailAddress, rndEmailAddress)
-    verifyContactDetailsFieldValue(secondContactDetailsPhoneNumber, rndPhoneNumber)
+    verifyContactDetailsFieldValue(secondContactDetailsEmailAddress, secondContactEmailAddress)
   }
 
   def verifyFullNameErrorSummaryOnContactDetailsPage(): Unit = {
@@ -163,16 +131,6 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
   def verifyEmailAddressErrorSummaryOnContactDetailsPage(): Unit = {
     clickContinueButtonElement()
     errorSummary(errorMessageForEnterEmailAddress)
-  }
-
-  def verifyRoleErrorSummaryOnContactDetailsPage(): Unit = {
-    clickContinueButtonElement()
-    errorSummary(errorMessageForEnterRole)
-  }
-
-  def verifyPhoneNumberErrorSummaryOnContactDetailsPage(): Unit = {
-    clickContinueButtonElement()
-    errorSummary(errorMessageForEnterPhoneNumber)
   }
 
   def errorSummary(expectedErrorSummary: String): Unit = {
