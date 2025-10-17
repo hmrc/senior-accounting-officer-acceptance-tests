@@ -17,6 +17,7 @@
 package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.pages.*
+import uk.gov.hmrc.test.ui.pages.ContactDetailsPage.*
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.utils.AffinityGroup.Organisation
 
@@ -47,13 +48,13 @@ class ContactDetailsSpec extends BaseSpec {
       authenticateAndCompleteBusinessMatching()
 
       And("They Enter the full name details and click on continue button")
-      ContactDetailsPage.enterFullName()
+      ContactDetailsPage.enterFullName(firstContactFullName)
 
       And("They enter the role details and click on continue button")
       ContactDetailsPage.enterRole()
 
       And("They enter the email address details and click on continue button")
-      ContactDetailsPage.enterEmailAddress()
+      ContactDetailsPage.enterEmailAddress(firstContactEmailAddress)
 
       And("They enter the phone number details and click on continue button")
       ContactDetailsPage.enterPhoneNumber()
@@ -79,13 +80,13 @@ class ContactDetailsSpec extends BaseSpec {
       authenticateAndCompleteBusinessMatching()
 
       And("They Enter the first full name details and click on continue button")
-      ContactDetailsPage.enterFullName()
+      ContactDetailsPage.enterFullName(firstContactFullName)
 
       And("They enter the first role details and click on continue button")
       ContactDetailsPage.enterRole()
 
       And("They enter the first email address details and click on continue button")
-      ContactDetailsPage.enterEmailAddress()
+      ContactDetailsPage.enterEmailAddress(firstContactEmailAddress)
 
       And("They enter the first phone number details and click on continue button")
       ContactDetailsPage.enterPhoneNumber()
@@ -94,13 +95,13 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.selectNo()
 
       And("They Enter the Second full name details and click on continue button")
-      ContactDetailsPage.enterFullName()
+      ContactDetailsPage.enterFullName(secondContactFullName)
 
       And("They enter the Second role details and click on continue button")
       ContactDetailsPage.enterRole()
 
       And("They enter the Second email address details and click on continue button")
-      ContactDetailsPage.enterEmailAddress()
+      ContactDetailsPage.enterEmailAddress(secondContactEmailAddress)
 
       And("They enter the Second phone number details and click on continue button")
       ContactDetailsPage.enterPhoneNumber()
@@ -127,16 +128,54 @@ class ContactDetailsSpec extends BaseSpec {
 
       Then("They must see the error message in contact details")
       ContactDetailsPage.verifyFullNameErrorSummaryOnContactDetailsPage()
-      ContactDetailsPage.enterFullName()
+      ContactDetailsPage.enterFullName(firstContactFullName)
 
       ContactDetailsPage.verifyRoleErrorSummaryOnContactDetailsPage()
       ContactDetailsPage.enterRole()
 
       ContactDetailsPage.verifyEmailAddressErrorSummaryOnContactDetailsPage()
-      ContactDetailsPage.enterEmailAddress()
+      ContactDetailsPage.enterEmailAddress(firstContactEmailAddress)
 
       ContactDetailsPage.verifyPhoneNumberErrorSummaryOnContactDetailsPage()
       ContactDetailsPage.enterPhoneNumber()
+    }
+
+    Scenario(
+      "Change second contact details from Check Your Answers page",
+      RegistrationTests,
+      ZapTests
+    ) {
+      authenticateAndCompleteBusinessMatching()
+
+      And("They Edit Name and Email fields for Second contact detail")
+      // Enter First Contact Details
+      ContactDetailsPage.enterFullName(firstContactFullName)
+      ContactDetailsPage.enterRole()
+      ContactDetailsPage.enterEmailAddress(firstContactEmailAddress)
+      ContactDetailsPage.enterPhoneNumber()
+
+      ContactDetailsPage.selectNo()
+
+      // Enter Second Contact Details
+      ContactDetailsPage.enterFullName(secondContactFullName)
+      ContactDetailsPage.enterRole()
+      ContactDetailsPage.enterEmailAddress(secondContactEmailAddress)
+      ContactDetailsPage.enterPhoneNumber()
+
+      // After third contact removed from code, remove this step
+      ContactDetailsPage.selectYes()
+
+      ContactDetailsPage.changeContactFullName(firstContactDetailsFullName, changeLinkForFirstContactFullName)
+      ContactDetailsPage.changeContactEmailAddress(
+        firstContactDetailsEmailAddress,
+        changeLinkForFirstContactEmailAddress
+      )
+
+      ContactDetailsPage.changeContactFullName(secondContactDetailsFullName, changeLinkForSecondContactFullName)
+      ContactDetailsPage.changeContactEmailAddress(
+        secondContactDetailsEmailAddress,
+        changeLinkForSecondContactEmailAddress
+      )
     }
   }
 }

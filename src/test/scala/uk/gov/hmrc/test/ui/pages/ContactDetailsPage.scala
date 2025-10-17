@@ -34,23 +34,34 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
 
   private val addedAllTheContactsYouNeedPageTitle: By = By.xpath("//h1[@class='govuk-fieldset__heading']")
 
-  private val firstContactDetailsHeading: By      = By.xpath("//*[@id=\"main-content\"]//h2[1]")
-  private val firstContactDetailsFullName: By     = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[1]/dd[1]")
-  private val firstContactDetailsRole: By         = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[2]/dd[1]")
-  private val firstContactDetailsEmailAddress: By = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[3]/dd[1]")
-  private val firstContactDetailsPhoneNumber: By  = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[4]/dd[1]")
+  private val firstContactDetailsHeading: By     = By.xpath("//*[@id=\"main-content\"]//h2[1]")
+  val firstContactDetailsFullName: By            = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[1]/dd[1]")
+  private val firstContactDetailsRole: By        = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[2]/dd[1]")
+  val firstContactDetailsEmailAddress: By        = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[3]/dd[1]")
+  private val firstContactDetailsPhoneNumber: By = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[4]/dd[1]")
 
-  private val secondContactDetailsHeading: By      = By.xpath("//*[@id=\"main-content\"]//h2[2]")
-  private val secondContactDetailsFullName: By     = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[1]/dd[1]")
-  private val secondContactDetailsRole: By         = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[2]/dd[1]")
-  private val secondContactDetailsEmailAddress: By = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[3]/dd[1]")
-  private val secondContactDetailsPhoneNumber: By  = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[4]/dd[1]")
+  private val secondContactDetailsHeading: By     = By.xpath("//*[@id=\"main-content\"]//h2[2]")
+  val secondContactDetailsFullName: By            = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[1]/dd[1]")
+  private val secondContactDetailsRole: By        = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[2]/dd[1]")
+  val secondContactDetailsEmailAddress: By        = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[3]/dd[1]")
+  private val secondContactDetailsPhoneNumber: By = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[4]/dd[1]")
 
-  // Random Test Data
-  val rndFullName: String     = randomFullName()
-  val rndRole: String         = randomRole()
+  // Random Contact Details
+  var firstContactFullName: String        = randomFullName()
+  var randomFirstContactFullName: String  = randomFullName()
+  var secondContactFullName: String       = randomFullName()
+  var randomSecondContactFullName: String = randomFullName()
+
   val rndEmailAddress: String = randomEmail()
-  val rndPhoneNumber: String  = randomUkPhoneNumber()
+
+  val firstContactEmailAddress: String       = randomEmail()
+  val randomFirstContactEmailAddress: String = randomEmail()
+
+  val secondContactEmailAddress: String       = randomEmail()
+  val randomSecondContactEmailAddress: String = randomEmail()
+
+  val rndRole: String        = randomRole()
+  val rndPhoneNumber: String = randomUkPhoneNumber()
 
   // Error Summary
   private val errorMessageForEnterFullName: String     = "Enter contactName"
@@ -58,24 +69,35 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
   private val errorMessageForEnterRole: String         = "Enter contactRole"
   private val errorMessageForEnterPhoneNumber: String  = "Enter contactPhone"
 
+  // Contact details Change link
+  val changeLinkForFirstContactFullName: By     =
+    By.cssSelector("a[href='/senior-accounting-officer/registration/contact-details/first/change-name']")
+  val changeLinkForFirstContactEmailAddress: By =
+    By.cssSelector("a[href='/senior-accounting-officer/registration/contact-details/first/change-email']")
+
+  val changeLinkForSecondContactFullName: By     =
+    By.cssSelector("a[href='/senior-accounting-officer/registration/contact-details/second/change-name']")
+  val changeLinkForSecondContactEmailAddress: By =
+    By.cssSelector("a[href='/senior-accounting-officer/registration/contact-details/second/change-email']")
+
   def clickContinueButtonElement(): Unit = {
     fluentWait.until(ExpectedConditions.elementToBeClickable(continueButton))
     click(continueButton)
   }
 
-  def enterFullName(): Unit = {
+  def enterFullName(fullName: String): Unit = {
     val enterFullNameField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
     enterFullNameField.clear()
-    enterFullNameField.sendKeys(rndFullName)
+    enterFullNameField.sendKeys(fullName)
 
     clickContinueButtonElement()
   }
 
-  def enterEmailAddress(): Unit = {
+  def enterEmailAddress(emailAddress: String): Unit = {
     val enterEmailAddressField =
       fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextField))
     enterEmailAddressField.clear()
-    enterEmailAddressField.sendKeys(rndEmailAddress)
+    enterEmailAddressField.sendKeys(emailAddress)
 
     clickContinueButtonElement()
   }
@@ -119,7 +141,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
 
   def verifyFirstContactDetailsInCheckYourAnswersPage(): Unit = {
     verifyContactDetailsFieldValue(firstContactDetailsHeading, "First contact details")
-    verifyContactDetailsFieldValue(firstContactDetailsFullName, rndFullName)
+    verifyContactDetailsFieldValue(firstContactDetailsFullName, firstContactFullName)
     verifyContactDetailsFieldValue(firstContactDetailsRole, rndRole)
     verifyContactDetailsFieldValue(firstContactDetailsEmailAddress, rndEmailAddress)
     verifyContactDetailsFieldValue(firstContactDetailsPhoneNumber, rndPhoneNumber)
@@ -127,7 +149,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
 
   def verifySecondContactDetailsInCheckYourAnswersPage(): Unit = {
     verifyContactDetailsFieldValue(secondContactDetailsHeading, "Second contact details")
-    verifyContactDetailsFieldValue(secondContactDetailsFullName, rndFullName)
+    verifyContactDetailsFieldValue(secondContactDetailsFullName, secondContactFullName)
     verifyContactDetailsFieldValue(secondContactDetailsRole, rndRole)
     verifyContactDetailsFieldValue(secondContactDetailsEmailAddress, rndEmailAddress)
     verifyContactDetailsFieldValue(secondContactDetailsPhoneNumber, rndPhoneNumber)
@@ -160,5 +182,37 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
     val actualTextValue = contactDetailsErrorSummaryElement.getText
 
     actualTextValue.trim mustBe expectedErrorSummary
+  }
+
+  def changeContactFullName(fullNameLocator: By, changeLinkLocator: By): Unit = {
+    val originalFullName =
+      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(fullNameLocator)).getText
+
+    val changeLink =
+      fluentWait.until(ExpectedConditions.elementToBeClickable(changeLinkLocator))
+    changeLink.click()
+
+    enterFullName(randomSecondContactFullName)
+
+    val updatedFullName =
+      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(changeLinkLocator)).getText
+
+    updatedFullName must not be originalFullName
+  }
+
+  def changeContactEmailAddress(emailAddressLocator: By, changeLinkLocator: By): Unit = {
+    val originalFullName =
+      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(emailAddressLocator)).getText
+
+    val changeLink =
+      fluentWait.until(ExpectedConditions.elementToBeClickable(changeLinkLocator))
+    changeLink.click()
+
+    enterFullName(randomSecondContactEmailAddress)
+
+    val updatedFullName =
+      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(changeLinkLocator)).getText
+
+    updatedFullName must not be originalFullName
   }
 }
