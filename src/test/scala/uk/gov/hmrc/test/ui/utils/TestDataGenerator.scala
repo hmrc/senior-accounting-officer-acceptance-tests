@@ -16,21 +16,6 @@
 
 package uk.gov.hmrc.test.ui.utils
 
-import com.github.javafaker.Faker
-
 trait TestDataGenerator {
-
-  private val faker = new Faker(new java.util.Locale("en-GB"))
-
-  def randomFullName(): String = {
-    val firstName = faker.name().firstName().capitalize
-    val lastName  = faker.name().lastName().capitalize
-    s"$firstName $lastName"
-  }
-
-  def randomEmail(): String = {
-    val localPart = randomFullName().toLowerCase.replaceAll(" ", ".")
-    val domain    = faker.internet().domainName()
-    s"$localPart@$domain"
-  }
+  def randomEmail(name: String) = s"${name.toLowerCase.replace(" ", ".")}@example.com"
 }

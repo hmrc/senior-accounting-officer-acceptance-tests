@@ -131,27 +131,40 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.enterFullName(secondContactFullName)
       ContactDetailsPage.enterEmailAddress(secondContactEmailAddress)
 
-      ContactDetailsPage.changeContactFullName(
-        firstContactDetailsFullName,
-        changeLinkForFirstContactFullName,
-        randomFirstContactFullName
-      )
-      ContactDetailsPage.changeContactEmailAddress(
-        firstContactDetailsEmailAddress,
-        changeLinkForFirstContactEmailAddress,
-        randomFirstContactEmailAddress
+      ContactDetailsPage.changeContactDetail(
+        firstContactDetailsFullNameLocator,
+        changeLinkForFirstContactFullNameLocator,
+        randomFirstContactFullName,
+        enterFullName
       )
 
-      ContactDetailsPage.changeContactFullName(
-        secondContactDetailsFullName,
+      ContactDetailsPage.changeContactDetail(
+        firstContactDetailsEmailAddressLocator,
+        changeLinkForFirstContactEmailAddressLocator,
+        randomFirstContactEmailAddress,
+        enterEmailAddress
+      )
+
+      ContactDetailsPage.changeContactDetail(
+        secondContactDetailsFullNameLocator,
         changeLinkForSecondContactFullName,
-        randomSecondContactFullName
+        randomSecondContactFullName,
+        enterFullName
       )
-      ContactDetailsPage.changeContactEmailAddress(
-        secondContactDetailsEmailAddress,
+
+      ContactDetailsPage.changeContactDetail(
+        secondContactDetailsEmailAddressLocator,
         changeLinkForSecondContactEmailAddress,
-        randomSecondContactEmailAddress
+        randomSecondContactEmailAddress,
+        enterEmailAddress
       )
+
+      Then("They must verify all updated contact details")
+      ContactDetailsPage.verifyChangedContactDetails(firstContactDetailsFullNameLocator, firstContactFullName)
+      ContactDetailsPage.verifyChangedContactDetails(firstContactDetailsEmailAddressLocator, firstContactEmailAddress)
+
+      ContactDetailsPage.verifyChangedContactDetails(secondContactDetailsFullNameLocator, secondContactFullName)
+      ContactDetailsPage.verifyChangedContactDetails(secondContactDetailsEmailAddressLocator, secondContactEmailAddress)
     }
   }
 }
