@@ -131,16 +131,26 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.enterFullName(secondContactFullName)
       ContactDetailsPage.enterEmailAddress(secondContactEmailAddress)
 
-      ContactDetailsPage.changeContactFullName(firstContactDetailsFullName, changeLinkForFirstContactFullName)
+      ContactDetailsPage.changeContactFullName(
+        firstContactDetailsFullName,
+        changeLinkForFirstContactFullName,
+        randomFirstContactFullName
+      )
       ContactDetailsPage.changeContactEmailAddress(
         firstContactDetailsEmailAddress,
-        changeLinkForFirstContactEmailAddress
+        changeLinkForFirstContactEmailAddress,
+        randomFirstContactEmailAddress
       )
 
-      ContactDetailsPage.changeContactFullName(secondContactDetailsFullName, changeLinkForSecondContactFullName)
+      ContactDetailsPage.changeContactFullName(
+        secondContactDetailsFullName,
+        changeLinkForSecondContactFullName,
+        randomSecondContactFullName
+      )
       ContactDetailsPage.changeContactEmailAddress(
         secondContactDetailsEmailAddress,
-        changeLinkForSecondContactEmailAddress
+        changeLinkForSecondContactEmailAddress,
+        randomSecondContactEmailAddress
       )
     }
   }

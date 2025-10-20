@@ -16,36 +16,21 @@
 
 package uk.gov.hmrc.test.ui.utils
 
-import scala.util.Random
+import com.github.javafaker.Faker
 
 trait TestDataGenerator {
 
-  private val rand = new Random()
-
-  def randomString(length: Int): String =
-    rand.alphanumeric.filter(_.isLetter).take(length).mkString
+  private val faker = new Faker(new java.util.Locale("en-GB"))
 
   def randomFullName(): String = {
-    val firstName = randomString(6).capitalize
-    val lastName  = randomString(8).capitalize
+    val firstName = faker.name().firstName().capitalize
+    val lastName  = faker.name().lastName().capitalize
     s"$firstName $lastName"
   }
 
   def randomEmail(): String = {
-    val username = randomString(10).toLowerCase
-    val domain   = randomString(5).toLowerCase
-    val tld      = randomString(3).toLowerCase
-    s"$username@$domain.$tld"
-  }
-
-  def randomUkPhoneNumber(): String = {
-    val prefix = "07" + (rand.nextInt(900) + 100)
-    val suffix = f"${rand.nextInt(1000000)}%06d"
-    s"$prefix $suffix"
-  }
-
-  def randomRole(): String = {
-    val titles = Seq("Chief Financial Officer", "Engineer", "Manager", "Analyst", "Designer", "Chief Technical Officer")
-    titles(rand.nextInt(titles.length))
+    val localPart = randomFullName().toLowerCase.replaceAll(" ", ".")
+    val domain    = faker.internet().domainName()
+    s"$localPart@$domain"
   }
 }

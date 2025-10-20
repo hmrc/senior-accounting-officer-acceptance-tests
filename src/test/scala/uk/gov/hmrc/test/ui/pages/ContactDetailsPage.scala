@@ -34,11 +34,11 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
 
   private val addedAllTheContactsYouNeedPageTitle: By = By.xpath("//h1[@class='govuk-fieldset__heading']")
 
-  private val firstContactDetailsHeading: By = By.xpath("//*[@id=\"main-content\"]//h2[1]")
+  private val firstContactDetailsHeading: By = By.cssSelector("#main-content form h2.govuk-heading-s:first-of-type")
   val firstContactDetailsFullName: By        = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[1]/dd[1]")
   val firstContactDetailsEmailAddress: By    = By.xpath("(//dl[@class='govuk-summary-list'])[1]/div[2]/dd[1]")
 
-  private val secondContactDetailsHeading: By = By.xpath("//*[@id=\"main-content\"]//h2[2]")
+  private val secondContactDetailsHeading: By = By.cssSelector("#main-content form h2.govuk-heading-s:nth-of-type(2)")
   val secondContactDetailsFullName: By        = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[1]/dd[1]")
   val secondContactDetailsEmailAddress: By    = By.xpath("(//dl[@class='govuk-summary-list'])[2]/div[2]/dd[1]")
 
@@ -142,7 +142,7 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
     actualTextValue.trim mustBe expectedErrorSummary
   }
 
-  def changeContactFullName(fullNameLocator: By, changeLinkLocator: By): Unit = {
+  def changeContactFullName(fullNameLocator: By, changeLinkLocator: By, changeFullName: String): Unit = {
     val originalFullName =
       fluentWait.until(ExpectedConditions.visibilityOfElementLocated(fullNameLocator)).getText
 
@@ -158,19 +158,19 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
     updatedFullName must not be originalFullName
   }
 
-  def changeContactEmailAddress(emailAddressLocator: By, changeLinkLocator: By): Unit = {
-    val originalFullName =
+  def changeContactEmailAddress(emailAddressLocator: By, changeLinkLocator: By, changeEmailAddress: String): Unit = {
+    val originalEmailAddress =
       fluentWait.until(ExpectedConditions.visibilityOfElementLocated(emailAddressLocator)).getText
 
     val changeLink =
       fluentWait.until(ExpectedConditions.elementToBeClickable(changeLinkLocator))
     changeLink.click()
 
-    enterFullName(randomSecondContactEmailAddress)
+    enterEmailAddress(randomSecondContactEmailAddress)
 
-    val updatedFullName =
+    val updatedEmailAddress =
       fluentWait.until(ExpectedConditions.visibilityOfElementLocated(changeLinkLocator)).getText
 
-    updatedFullName must not be originalFullName
+    updatedEmailAddress must not be originalEmailAddress
   }
 }
