@@ -16,36 +16,6 @@
 
 package uk.gov.hmrc.test.ui.utils
 
-import scala.util.Random
-
 trait TestDataGenerator {
-
-  private val rand = new Random()
-
-  def randomString(length: Int): String =
-    rand.alphanumeric.filter(_.isLetter).take(length).mkString
-
-  def randomFullName(): String = {
-    val firstName = randomString(6).capitalize
-    val lastName  = randomString(8).capitalize
-    s"$firstName $lastName"
-  }
-
-  def randomEmail(): String = {
-    val username = randomString(10).toLowerCase
-    val domain   = randomString(5).toLowerCase
-    val tld      = randomString(3).toLowerCase
-    s"$username@$domain.$tld"
-  }
-
-  def randomUkPhoneNumber(): String = {
-    val prefix = "07" + (rand.nextInt(900) + 100)
-    val suffix = f"${rand.nextInt(1000000)}%06d"
-    s"$prefix $suffix"
-  }
-
-  def randomRole(): String = {
-    val titles = Seq("Chief Financial Officer", "Engineer", "Manager", "Analyst", "Designer", "Chief Technical Officer")
-    titles(rand.nextInt(titles.length))
-  }
+  def randomEmail(name: String) = s"${name.toLowerCase.replace(" ", ".")}@example.com"
 }

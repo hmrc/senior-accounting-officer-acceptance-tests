@@ -17,6 +17,7 @@
 package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.pages.*
+import uk.gov.hmrc.test.ui.pages.ContactDetailsPage.*
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.utils.AffinityGroup.Organisation
 
@@ -28,9 +29,15 @@ class ContactDetailsSpec extends BaseSpec {
       Given("An authenticated organisation user successfully navigates to the Register Your Company page")
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
 
-      And("They click on the 'Enter your contact details' link and complete Business matching")
+      When("They click on the 'Enter your contact details' link and complete Business matching")
       RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
+
+      And(
+        "They click on the 'Enter Contact Details' link on dashboard and click 'Continue' button on the Contact Details information page"
+      )
+      RegisterYourCompanyPage.clickEnterYourContactDetailsLink()
+      ContactDetailsPage.clickContinueButtonElement()
     }
 
     Scenario(
@@ -40,31 +47,14 @@ class ContactDetailsSpec extends BaseSpec {
     ) {
       authenticateAndCompleteBusinessMatching()
 
-      When(
-        "They click on the 'Enter Contact Details' link on dashboard and click 'Continue' button on the Contact Details information page"
-      )
-      RegisterYourCompanyPage.clickEnterYourContactDetailsLink()
-      ContactDetailsPage.clickContinueButtonElement()
-
       And("They Enter the full name details and click on continue button")
-      ContactDetailsPage.enterFullName()
-      ContactDetailsPage.clickContinueButtonElement()
-
-      And("They enter the role details and click on continue button")
-      ContactDetailsPage.enterRole()
-      ContactDetailsPage.clickContinueButtonElement()
+      ContactDetailsPage.enterFullName(firstContactFullName)
 
       And("They enter the email address details and click on continue button")
-      ContactDetailsPage.enterEmailAddress()
-      ContactDetailsPage.clickContinueButtonElement()
-
-      And("They enter the phone number details and click on continue button")
-      ContactDetailsPage.enterPhoneNumber()
-      ContactDetailsPage.clickContinueButtonElement()
+      ContactDetailsPage.enterEmailAddress(firstContactEmailAddress)
 
       And("They select 'Yes' for the question 'Have you added all the contacts you need' and click on continue button")
       ContactDetailsPage.selectYes()
-      ContactDetailsPage.clickContinueButtonElement()
 
       Then("They can verify all the answers for the first contact details")
       ContactDetailsPage.verifyFirstContactDetailsInCheckYourAnswersPage()
@@ -83,51 +73,20 @@ class ContactDetailsSpec extends BaseSpec {
     ) {
       authenticateAndCompleteBusinessMatching()
 
-      When(
-        "They click on the 'Enter Contact Details' link on Register your company page and click 'Continue' button on the Contact Details information page"
-      )
-      RegisterYourCompanyPage.clickEnterYourContactDetailsLink()
-      ContactDetailsPage.clickContinueButtonElement()
-
       And("They Enter the first full name details and click on continue button")
-      ContactDetailsPage.enterFullName()
-      ContactDetailsPage.clickContinueButtonElement()
-
-      And("They enter the first role details and click on continue button")
-      ContactDetailsPage.enterRole()
-      ContactDetailsPage.clickContinueButtonElement()
+      ContactDetailsPage.enterFullName(firstContactFullName)
 
       And("They enter the first email address details and click on continue button")
-      ContactDetailsPage.enterEmailAddress()
-      ContactDetailsPage.clickContinueButtonElement()
-
-      And("They enter the first phone number details and click on continue button")
-      ContactDetailsPage.enterPhoneNumber()
-      ContactDetailsPage.clickContinueButtonElement()
+      ContactDetailsPage.enterEmailAddress(firstContactEmailAddress)
 
       And("They select 'No' for the question 'Have you added all the contacts you need' and click on 'Continue' button")
       ContactDetailsPage.selectNo()
-      ContactDetailsPage.clickContinueButtonElement()
 
       And("They Enter the Second full name details and click on continue button")
-      ContactDetailsPage.enterFullName()
-      ContactDetailsPage.clickContinueButtonElement()
-
-      And("They enter the Second role details and click on continue button")
-      ContactDetailsPage.enterRole()
-      ContactDetailsPage.clickContinueButtonElement()
+      ContactDetailsPage.enterFullName(secondContactFullName)
 
       And("They enter the Second email address details and click on continue button")
-      ContactDetailsPage.enterEmailAddress()
-      ContactDetailsPage.clickContinueButtonElement()
-
-      And("They enter the Second phone number details and click on continue button")
-      ContactDetailsPage.enterPhoneNumber()
-      ContactDetailsPage.clickContinueButtonElement()
-
-      And("They select 'Yes' for the question 'Have you added all the contacts you need' and click on continue button")
-      ContactDetailsPage.selectYes()
-      ContactDetailsPage.clickContinueButtonElement()
+      ContactDetailsPage.enterEmailAddress(secondContactEmailAddress)
 
       Then("They can verify all the answers for the second contact details")
       ContactDetailsPage.verifySecondContactDetailsInCheckYourAnswersPage()
@@ -137,6 +96,75 @@ class ContactDetailsSpec extends BaseSpec {
 
       And("The 'Enter your contact details' status must be marked as 'Completed' in Register your company page")
       RegisterYourCompanyPage.verifyContactDetailsStatusCompleted()
+    }
+
+    Scenario(
+      "Contact Details error message for all fields",
+      RegistrationTests,
+      ZapTests
+    ) {
+      authenticateAndCompleteBusinessMatching()
+
+      Then("They must see the error message in contact details")
+      ContactDetailsPage.verifyFullNameErrorSummaryOnContactDetailsPage()
+      ContactDetailsPage.enterFullName(firstContactFullName)
+
+      ContactDetailsPage.verifyEmailAddressErrorSummaryOnContactDetailsPage()
+      ContactDetailsPage.enterEmailAddress(firstContactEmailAddress)
+    }
+
+    Scenario(
+      "Change contact details from Check Your Answers page",
+      RegistrationTests,
+      ZapTests
+    ) {
+      authenticateAndCompleteBusinessMatching()
+
+      And("They Edit Name and Email fields for both contact details")
+      // Enter First Contact Details
+      ContactDetailsPage.enterFullName(firstContactFullName)
+      ContactDetailsPage.enterEmailAddress(firstContactEmailAddress)
+
+      ContactDetailsPage.selectNo()
+
+      // Enter Second Contact Details
+      ContactDetailsPage.enterFullName(secondContactFullName)
+      ContactDetailsPage.enterEmailAddress(secondContactEmailAddress)
+
+      ContactDetailsPage.changeContactDetail(
+        firstContactDetailsFullNameLocator,
+        changeLinkForFirstContactFullNameLocator,
+        randomFirstContactFullName,
+        enterFullName
+      )
+
+      ContactDetailsPage.changeContactDetail(
+        firstContactDetailsEmailAddressLocator,
+        changeLinkForFirstContactEmailAddressLocator,
+        randomFirstContactEmailAddress,
+        enterEmailAddress
+      )
+
+      ContactDetailsPage.changeContactDetail(
+        secondContactDetailsFullNameLocator,
+        changeLinkForSecondContactFullName,
+        randomSecondContactFullName,
+        enterFullName
+      )
+
+      ContactDetailsPage.changeContactDetail(
+        secondContactDetailsEmailAddressLocator,
+        changeLinkForSecondContactEmailAddress,
+        randomSecondContactEmailAddress,
+        enterEmailAddress
+      )
+
+      Then("They must verify all updated contact details")
+      ContactDetailsPage.verifyChangedContactDetails(firstContactDetailsFullNameLocator, firstContactFullName)
+      ContactDetailsPage.verifyChangedContactDetails(firstContactDetailsEmailAddressLocator, firstContactEmailAddress)
+
+      ContactDetailsPage.verifyChangedContactDetails(secondContactDetailsFullNameLocator, secondContactFullName)
+      ContactDetailsPage.verifyChangedContactDetails(secondContactDetailsEmailAddressLocator, secondContactEmailAddress)
     }
   }
 }
