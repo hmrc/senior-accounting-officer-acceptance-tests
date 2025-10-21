@@ -28,11 +28,11 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
 
   val enterYourContactDetailsLink: String = pageUrl + "/contact-details"
 
-  private val continueButtonLocator: By             = By.id("submit")
-  private val contactDetailsTextFieldLocator: By    = By.id("value")
+  private val continueButtonLocator: By             = By.cssSelector("#submit")
+  private val contactDetailsTextFieldLocator: By    = By.cssSelector("#value")
   private val contactDetailsErrorSummaryLocator: By = By.cssSelector("a[href='#value']")
-  private val yesRadioButtonLocator: By             = By.id("value_0")
-  private val noRadioButtonLocator: By              = By.id("value_1")
+  private val yesRadioButtonLocator: By             = By.cssSelector("#value_0")
+  private val noRadioButtonLocator: By              = By.cssSelector("#value_1")
 
   private val addedAllTheContactsYouNeedPageTitle: By = By.cssSelector(".govuk-fieldset__heading")
 
