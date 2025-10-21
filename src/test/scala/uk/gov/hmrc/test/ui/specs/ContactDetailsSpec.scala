@@ -114,7 +114,7 @@ class ContactDetailsSpec extends BaseSpec {
     }
 
     Scenario(
-      "Change second contact details from Check Your Answers page",
+      "Change contact details from Check Your Answers page",
       RegistrationTests,
       ZapTests
     ) {
