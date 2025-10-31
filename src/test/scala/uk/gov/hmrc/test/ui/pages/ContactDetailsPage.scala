@@ -20,19 +20,24 @@ import com.github.javafaker.Faker
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalactic.Prettifier.default
+import uk.gov.hmrc.test.ui.adt.ContactDetailsPageError
+import uk.gov.hmrc.test.ui.pages.ContactDetailsPage.pageErrors
+import uk.gov.hmrc.test.ui.adt.PageError
 import uk.gov.hmrc.test.ui.support.TestDataGenerator
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
 class ContactDetailsPage extends BasePage with TestDataGenerator {
-  override val pageUrl: String            = baseRegUrl
-  val pageTitle: String                   = ""
-  val enterYourContactDetailsLink: String = pageUrl + "/contact-details"
+  override val pageUrl: String                  = baseRegUrl
+  val pageTitle: String                         = ""
+  val enterFirstContactEmailAddressPage: String = s"${pageUrl.stripSuffix("/")}/contact-details/first/email"
+  val addAnotherContactPage: String             = s"${pageUrl.stripSuffix("/")}/contact-details/first/add-another"
+  val enterYourContactDetailsLink: String       = s"${pageUrl.stripSuffix("/")}/contact-details"
 
-  private val continueButtonLocator: By             = By.cssSelector("#submit")
-  private val contactDetailsTextFieldLocator: By    = By.cssSelector("#value")
-  private val contactDetailsErrorSummaryLocator: By = By.cssSelector("a[href='#value']")
-  private val yesRadioButtonLocator: By             = By.cssSelector("#value_0")
-  private val noRadioButtonLocator: By              = By.cssSelector("#value_1")
+  private val continueButtonLocator: By          = By.cssSelector("button[type='submit']")
+  private val contactDetailsTextFieldLocator: By = By.cssSelector("#value")
+  private val inputEmailAddress                  = By.cssSelector("input[type=email]")
+  private val yesRadioButtonLocator: By          = By.cssSelector("#value_0")
+  private val radioNo: By                        = By.cssSelector("label[for='value_1']")
 
   private val addedAllTheContactsYouNeedPageTitle: By = By.cssSelector(".govuk-fieldset__heading")
 
@@ -67,10 +72,6 @@ class ContactDetailsPage extends BasePage with TestDataGenerator {
   val secondContactEmailAddress: String       = randomEmail(secondContactFullName)
   val randomSecondContactEmailAddress: String = randomEmail(randomSecondContactFullName)
 
-  // Error Summary
-  private val errorMessageForEnterFullName: String     = "Enter contactName"
-  private val errorMessageForEnterEmailAddress: String = "Enter contactEmail"
-
   // Contact details Change link
   val changeLinkForFirstContactFullNameLocator: By     =
     By.cssSelector("a[href='/senior-accounting-officer/registration/contact-details/first/change-name']")
@@ -82,48 +83,41 @@ class ContactDetailsPage extends BasePage with TestDataGenerator {
   val changeLinkForSecondContactEmailAddress: By =
     By.cssSelector("a[href='/senior-accounting-officer/registration/contact-details/second/change-email']")
 
-  def clickContinueButtonElement(): Unit = {
-    fluentWait.until(ExpectedConditions.elementToBeClickable(continueButtonLocator))
-    click(continueButtonLocator)
-  }
+  def clickContinue(): Unit =
+    fluentWait.until(ExpectedConditions.elementToBeClickable(continueButtonLocator)).click()
 
-  def enterFullName(fullName: String): Unit = {
-    val enterFullNameField =
-      fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextFieldLocator))
+  def enterContactNameAndClickContinue(fullName: String): Unit = {
+    val enterFullNameField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextFieldLocator))
     enterFullNameField.clear()
     enterFullNameField.sendKeys(fullName)
-
-    clickContinueButtonElement()
+    clickContinue()
   }
 
-  def enterEmailAddress(emailAddress: String): Unit = {
-    val enterEmailAddressField =
-      fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextFieldLocator))
+  def enterEmailAddressAndClickContinue(emailAddress: String): Unit = {
+    val enterEmailAddressField = fluentWait.until(ExpectedConditions.elementToBeClickable(inputEmailAddress))
     enterEmailAddressField.clear()
     enterEmailAddressField.sendKeys(emailAddress)
-
-    clickContinueButtonElement()
+    clickContinue()
   }
 
   def selectYes(): Unit = {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(addedAllTheContactsYouNeedPageTitle))
 
     driver.findElement(yesRadioButtonLocator).click()
-    clickContinueButtonElement()
+    clickContinue()
   }
 
-  def selectNo(): Unit = {
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(addedAllTheContactsYouNeedPageTitle))
-
-    driver.findElement(noRadioButtonLocator).click()
-    clickContinueButtonElement()
+  def selectNoRadioAndClickContinue(): Unit = {
+    fluentWait.until(ExpectedConditions.elementToBeClickable(radioNo)).click()
+    fluentWait.until(ExpectedConditions.elementSelectionStateToBe(radioNo, true))
+    clickContinue()
   }
 
   def verifyContactDetailsFieldValue(elementLocator: By, expectedValue: String): Unit = {
     val contactDetailsElementValue =
-      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator)).getText
+      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator))
 
-    contactDetailsElementValue.trim mustBe expectedValue
+    contactDetailsElementValue.getText.trim mustBe expectedValue
   }
 
   def verifyFirstContactDetailsInCheckYourAnswersPage(): Unit = {
@@ -138,23 +132,13 @@ class ContactDetailsPage extends BasePage with TestDataGenerator {
     verifyContactDetailsFieldValue(secondContactDetailsEmailAddressLocator, secondContactEmailAddress)
   }
 
-  def verifyFullNameErrorSummaryOnContactDetailsPage(): Unit = {
-    clickContinueButtonElement()
-    errorSummary(errorMessageForEnterFullName)
-  }
+  def assertErrorMessageMatches(error: PageError): Unit = {
+    clickContinue()
+    val (elementWithError: By, expectedErrorMessage: String) = pageErrors(error)
+    val element                                              = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(elementWithError))
 
-  def verifyEmailAddressErrorSummaryOnContactDetailsPage(): Unit = {
-    clickContinueButtonElement()
-    errorSummary(errorMessageForEnterEmailAddress)
-  }
-
-  def errorSummary(expectedErrorSummary: String): Unit = {
-    val contactDetailsErrorSummaryElement =
-      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsErrorSummaryLocator))
-
-    val actualTextValue = contactDetailsErrorSummaryElement.getText
-
-    actualTextValue.trim mustBe expectedErrorSummary
+    element.isDisplayed mustBe true
+    element.getText.trim mustBe expectedErrorMessage
   }
 
   def changeContactDetail(
@@ -177,6 +161,13 @@ class ContactDetailsPage extends BasePage with TestDataGenerator {
     val updatedValue =
       fluentWait.until(ExpectedConditions.visibilityOfElementLocated(valueLocator)).getText
 
-    updatedValue must not be originalValue
+    updatedValue must not be originalValue // it better to validate the new values based on edits
   }
+}
+
+object ContactDetailsPage {
+  private val pageErrors: Map[PageError, (By, String)] = Map(
+    ContactDetailsPageError.MissingContactDetails -> (By.cssSelector("a[href='#value']"), "Enter contactName"),
+    ContactDetailsPageError.MissingEmailAddress   -> (By.cssSelector("a[href='#value']"), "Enter contactEmail")
+  )
 }

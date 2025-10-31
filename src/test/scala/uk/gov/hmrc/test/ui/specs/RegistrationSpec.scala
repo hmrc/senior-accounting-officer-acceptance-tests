@@ -36,25 +36,16 @@ class RegistrationSpec extends BaseSpec {
       val authLoginPage    = new AuthLoginPage
       val registrationPage = new RegistrationPage
 
-      Given("An authenticated user lands on the registration page to register a business")
+      Given("an authenticated user lands on the registration page to register a business")
       authLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
       assertOnPage(registrationPage)
 
-      Then("The page displays with the expected page elements and values required at the start of a new registration")
-      // registrationPage.assertLinkIsVisible(registrationPage.enterYourCompanyDetailsLink)
-      // registrationPage.assertSubmitButtonIsNotVisible()
-//      registrationPage.verifyCompanyDetailsField()
-//      registrationPage.assertEnterYourCompanyDetailsLinkIsVisibleWithText()
+      Then("the page displays with the expected page elements and values required at the start of a new registration")
       registrationPage.assertLinkIsVisibleWithText(EnterYourCompanyDetailsLink)
-//      assertLinkIsVisibleWithText(
-//        registrationPage,
-//        registrationPage.companyDetailsField,
-//        registrationPage.enterYourCompanyDetailsLinkAddress
-//      )
       registrationPage.assertSectionStatus(CompanyDetails, NotStarted)
       registrationPage.assertContactDetailsFieldIsNotALink()
       registrationPage.assertSectionStatus(ContactDetails, CannotStartYet)
-      registrationPage.verifySubmitButtonDoesNotExist()
+      registrationPage.assertSubmitButtonDoesNotExist()
     }
 
     Scenario(
@@ -66,12 +57,12 @@ class RegistrationSpec extends BaseSpec {
       val grsStubPage      = new GrsStubPage
       val registrationPage = new RegistrationPage
 
-      Given("A user successfully adds company details from the registration page")
+      Given("a user successfully adds company details from the registration page")
       authLoginPage.enableGrsStubAndServiceHomePage(Organisation)
       registrationPage.clickEnterYourCompanyDetailsLink()
       grsStubPage.clickStubResponseButton()
 
-      Then("The action states displayed on the registration page are updated correctly")
+      Then("the action states displayed on the registration page are updated correctly")
       registrationPage.verifyEnterYourContactDetailsLink()
       registrationPage.verifyContactDetailsStatusNotStarted()
     }

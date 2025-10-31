@@ -18,15 +18,16 @@ package uk.gov.hmrc.test.ui.support
 
 import org.openqa.selenium.{By, WebDriver}
 import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait, Select, Wait}
-import uk.gov.hmrc.test.ui.pages.{AuthLoginPage, BasePage, ContactDetailsPage, GrsStubPage, RegistrationPage}
-//import uk.gov.hmrc.test.ui.specs.BaseSpec
-import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
+import uk.gov.hmrc.test.ui.pages.BasePage
 
 import java.time.Duration
 
 object PageSupport extends BasePage {
-  def pageUrl: String   = ""
-  def pageTitle: String = ""
+  def pageUrl: String    = ""
+  def pageTitle: String  = ""
+  val backLink: By       = By.cssSelector(".govuk-back-link")
+  val submitButton: By   = By.id("submit")
+  val continueButton: By = By.id("continue")
 
   def fluentWait: Wait[WebDriver] = new FluentWait[WebDriver](driver)
     .withTimeout(Duration.ofSeconds(5))
@@ -53,30 +54,5 @@ object PageSupport extends BasePage {
     fluentWait.until(_ => getCurrentUrl == page.pageUrl && getTitle == page.pageTitle)
     getCurrentUrl mustBe page.pageUrl
     getTitle mustBe page.pageTitle
-
-    println(s"CURRENT URL: $getCurrentUrl \nCURRENT TITLE: $getTitle")
-    println(s"URL: ${page.pageUrl} \nTITLE: ${page.pageTitle}")
-
   }
-
-  def authenticateAndCompleteBusinessMatching(): RegistrationPage = {
-    val authLoginPage      = new AuthLoginPage
-    val grsStubPage        = new GrsStubPage
-    val contactDetailsPage = new ContactDetailsPage
-    val registrationPage   = new RegistrationPage
-
-//    Given("An authenticated organisation user successfully navigates to the registration page")
-    authLoginPage.enableGrsStubAndServiceHomePage(Organisation)
-
-//    When("The 'Enter your company details' link is clicked and business matching is completed")
-    registrationPage.clickEnterYourCompanyDetailsLink()
-    grsStubPage.clickStubResponseButton()
-
-//    And("The 'Enter your contact details' link is clicked followed by clicking 'Continue' on the contact details page")
-    registrationPage.clickEnterYourContactDetailsLink()
-    contactDetailsPage.clickContinueButtonElement()
-
-    registrationPage
-  }
-
 }
