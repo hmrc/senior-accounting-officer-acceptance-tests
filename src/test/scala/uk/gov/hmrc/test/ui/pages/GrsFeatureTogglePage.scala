@@ -18,10 +18,11 @@ package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
+import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
 object GrsFeatureTogglePage extends BasePage {
-  override val pageUrl: String = baseRegUrl
-
+  override val pageUrl: String                = baseRegUrl
+  val pageTitle: String                       = ""
   private val grsFeatureTogglePageUrl: String = s"$pageUrl/test-only/feature-toggle"
 
   private val stubGrsCheckbox: By = By.id("stubGrs")

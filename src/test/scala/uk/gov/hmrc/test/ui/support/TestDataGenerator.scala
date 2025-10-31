@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.utils
+package uk.gov.hmrc.test.ui.support
 
 trait TestDataGenerator {
   def randomEmail(name: String) = s"${name.toLowerCase.replace(" ", ".")}@example.com"

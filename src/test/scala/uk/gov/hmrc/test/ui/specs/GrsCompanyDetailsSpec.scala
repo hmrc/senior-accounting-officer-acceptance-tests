@@ -16,9 +16,11 @@
 
 package uk.gov.hmrc.test.ui.specs
 
+import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.CompanyDetails
+import uk.gov.hmrc.test.ui.adt.RegistrationPageSectionStatus.Completed
 import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.specs.tags.*
-import uk.gov.hmrc.test.ui.utils.AffinityGroup.Organisation
+import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 
 class GrsCompanyDetailsSpec extends BaseSpec {
 
@@ -28,27 +30,30 @@ class GrsCompanyDetailsSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
+      val authLoginPage    = new AuthLoginPage
+      val registrationPage = new RegistrationPage
+
       Given("An authenticated organisation user successfully navigated to the Register Your Company page")
-      AuthLoginPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
+      authLoginPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
       And("They click on 'Enter your company details' heading link")
-      RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
+      registrationPage.clickEnterYourCompanyDetailsLink()
 
       And("On GRS they view the 'Company Details' page")
-      GrsCompanyDetailsPages.verifyGrsCompanyDetailsPageURL()
+      GrsCompanyDetailsPage.verifyGrsCompanyDetailsPageURL()
       And("On GRS they Enter Company registration number")
-      GrsCompanyDetailsPages.enterCompanyRegistrationNumber()
+      GrsCompanyDetailsPage.enterCompanyRegistrationNumber()
       And("On GRS they select 'Is this your business'")
-      GrsCompanyDetailsPages.selectYesForIsThisYourBusiness()
+      GrsCompanyDetailsPage.selectYesForIsThisYourBusiness()
       And("On GRS they enter 'Unique Taxpayer Reference' number")
-      GrsCompanyDetailsPages.enterUTRNumber()
+      GrsCompanyDetailsPage.enterUTRNumber()
       And("On GRS they confirmed their answers on 'Check Your answers' page")
-      GrsCompanyDetailsPages.verifyCheckYourAnswers()
+      GrsCompanyDetailsPage.verifyCheckYourAnswers()
 
       When("They are back to the 'Register Your Company' page")
       Then("The heading 'Enter your company details' is not a link")
-      RegisterYourCompanyPage.verifyEnterYourCompanyDetailsLinkIsEmpty()
+      registrationPage.verifyEnterYourCompanyDetailsLinkIsEmpty()
       And("The status of the Company Details must be Completed")
-      RegisterYourCompanyPage.verifyCompanyDetailsStatusCompleted()
+      registrationPage.assertSectionStatus(CompanyDetails, Completed)
     }
   }
 }

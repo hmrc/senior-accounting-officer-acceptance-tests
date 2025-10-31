@@ -20,12 +20,12 @@ import com.github.javafaker.Faker
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalactic.Prettifier.default
-import uk.gov.hmrc.test.ui.pages.RegisterYourCompanyPage.{baseRegUrl, fluentWait}
-import uk.gov.hmrc.test.ui.utils.TestDataGenerator
+import uk.gov.hmrc.test.ui.support.TestDataGenerator
+import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
-object ContactDetailsPage extends BasePage with TestDataGenerator {
-  override val pageUrl: String = baseRegUrl
-
+class ContactDetailsPage extends BasePage with TestDataGenerator {
+  override val pageUrl: String            = baseRegUrl
+  val pageTitle: String                   = ""
   val enterYourContactDetailsLink: String = pageUrl + "/contact-details"
 
   private val continueButtonLocator: By             = By.cssSelector("#submit")

@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages
+package uk.gov.hmrc.test.ui.adt
 
-import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.ExpectedConditions
-import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
+sealed trait RegistrationPageSectionStatus
 
-class GrsStubPage extends BasePage {
-  override val pageUrl: String       = baseRegUrl
-  val pageTitle: String              = ""
-  private val stubResponseButton: By = By.id("submit")
+object RegistrationPageSectionStatus {
+  case object NotStarted extends RegistrationPageSectionStatus {
+    override def toString = "Not started"
+  }
 
-  def clickStubResponseButton(): Unit = {
-    fluentWait.until(ExpectedConditions.elementToBeClickable(stubResponseButton))
-    click(stubResponseButton)
+  case object CannotStartYet extends RegistrationPageSectionStatus {
+    override def toString = "Cannot start yet"
+  }
+
+  case object Completed extends RegistrationPageSectionStatus {
+    override def toString = "Completed"
   }
 }
