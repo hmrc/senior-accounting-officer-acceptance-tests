@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.utils
+package uk.gov.hmrc.test.ui.adt
 
-enum AffinityGroup {
-  case Organisation, Individual, Agent
+sealed trait PageLink
+
+object RegistrationPageLink extends PageLink {
+  case object EnterYourCompanyDetailsLink extends PageLink
+  case object EnterYourContactDetailsLink extends PageLink
 }

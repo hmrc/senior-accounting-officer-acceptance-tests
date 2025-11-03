@@ -16,101 +16,135 @@
 
 package uk.gov.hmrc.test.ui.specs
 
+import uk.gov.hmrc.test.ui.adt.ContactDetailsPageError.{MissingContactDetails, MissingEmailAddress}
 import uk.gov.hmrc.test.ui.pages.*
-import uk.gov.hmrc.test.ui.pages.ContactDetailsPage.*
 import uk.gov.hmrc.test.ui.specs.tags.*
-import uk.gov.hmrc.test.ui.utils.AffinityGroup.Organisation
+import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
+import uk.gov.hmrc.test.ui.support.PageSupport.assertOnPage
 
 class ContactDetailsSpec extends BaseSpec {
 
-  Feature("Contact Details page") {
+  Feature("Contact Details") {
 
-    def authenticateAndCompleteBusinessMatching(): Unit = {
-      Given("An authenticated organisation user successfully navigates to the Register Your Company page")
-      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+    Scenario("Complete first contact details", RegistrationTests, ZapTests) {
+      val authLoginPage      = new AuthLoginPage
+      val grsStubPage        = new GrsStubPage
+      val contactDetailsPage = new ContactDetailsPage
+      val registrationPage   = new RegistrationPage
 
-      When("They click on the 'Enter your contact details' link and complete Business matching")
-      RegisterYourCompanyPage.clickEnterYourCompanyDetailsLink()
-      GrsStubPage.clickStubResponseButton()
+      Given("a user successfully adds company details from the registration page")
+      authLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+      registrationPage.clickEnterYourCompanyDetailsLink()
+      grsStubPage.clickStubResponseButton()
 
-      And(
-        "They click on the 'Enter Contact Details' link on dashboard and click 'Continue' button on the Contact Details information page"
-      )
-      RegisterYourCompanyPage.clickEnterYourContactDetailsLink()
-      ContactDetailsPage.clickContinueButtonElement()
+      And("the user successfully adds a single contact from the registration page")
+      registrationPage.clickEnterYourContactDetailsLink()
+      contactDetailsPage.clickContinue()
+      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactFullName)
+      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmailAddress)
+      contactDetailsPage.selectYes()
+      contactDetailsPage.verifyFirstContactDetailsInCheckYourAnswersPage()
+
+      When("the user selects to save and continue from the 'Check your answers' page")
+      contactDetailsPage.clickContinue()
+
+      Then("the status on the registration page for the 'Enter your contact details' section is set to 'Completed'")
+      registrationPage.verifyContactDetailsStatusCompleted()
+    }
+
+    Scenario("Complete second contact details", RegistrationTests, ZapTests) {
+      val authLoginPage      = new AuthLoginPage
+      val grsStubPage        = new GrsStubPage
+      val contactDetailsPage = new ContactDetailsPage
+      val registrationPage   = new RegistrationPage
+
+      Given("a user successfully adds company details from the registration page")
+      authLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+      registrationPage.clickEnterYourCompanyDetailsLink()
+      grsStubPage.clickStubResponseButton()
+
+      And("the user successfully adds a single contact from the registration page")
+      registrationPage.clickEnterYourContactDetailsLink()
+      contactDetailsPage.clickContinue()
+      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactFullName)
+      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmailAddress)
+
+      And("the user successfully adds a second contact when prompted if all contacts needed have been added")
+      contactDetailsPage.selectNoRadioAndClickContinue()
+      contactDetailsPage.verifyFirstContactDetailsInCheckYourAnswersPage()
+      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.secondContactFullName)
+      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.secondContactEmailAddress)
+      contactDetailsPage.verifySecondContactDetailsInCheckYourAnswersPage()
+
+      When("the user selects to save and continue from the 'Check your answers' page")
+      contactDetailsPage.clickContinue()
+
+      Then("the status on the registration page for the 'Enter your contact details' section is set to 'Completed'")
+      registrationPage.verifyContactDetailsStatusCompleted()
+    }
+
+    Scenario("Attempting to add a contact with no name produces the expected error", RegistrationTests, ZapTests) {
+      val authLoginPage      = new AuthLoginPage
+      val grsStubPage        = new GrsStubPage
+      val contactDetailsPage = new ContactDetailsPage
+      val registrationPage   = new RegistrationPage
+
+      Given("a user successfully adds company details from the registration page")
+      authLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+      registrationPage.clickEnterYourCompanyDetailsLink()
+      grsStubPage.clickStubResponseButton()
+
+      When("the user selects to add contact details but attempts to continue with no contact name added")
+      registrationPage.clickEnterYourContactDetailsLink()
+      contactDetailsPage.clickContinue()
+
+      Then("an error page is shown noting the contact name is missing")
+      contactDetailsPage.assertErrorMessageMatches(MissingContactDetails)
+
+      And("on the user selecting to again continue without adding a contact name the same error page is shown")
+      contactDetailsPage.clickContinue()
+      contactDetailsPage.assertErrorMessageMatches(MissingContactDetails)
+
+      And("on the user adding a valid contact name and selecting to continue")
+      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactFullName)
+
+      Then("the user progresses to the 'Enter email address' screen successfully")
+      assertOnPage(contactDetailsPage.enterFirstContactEmailAddressPage)
     }
 
     Scenario(
-      "Completion of First Contact Details",
+      "Attempting to add a contact with no email address produces the expected error",
       RegistrationTests,
       ZapTests
     ) {
-      authenticateAndCompleteBusinessMatching()
+      val authLoginPage      = new AuthLoginPage
+      val grsStubPage        = new GrsStubPage
+      val contactDetailsPage = new ContactDetailsPage
+      val registrationPage   = new RegistrationPage
 
-      And("They Enter the full name details and click on continue button")
-      ContactDetailsPage.enterFullName(firstContactFullName)
+      Given("a user successfully adds company details from the registration page")
+      authLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+      registrationPage.clickEnterYourCompanyDetailsLink()
+      grsStubPage.clickStubResponseButton()
 
-      And("They enter the email address details and click on continue button")
-      ContactDetailsPage.enterEmailAddress(firstContactEmailAddress)
+      When("the user selects to add contact details but attempts to continue with no email address added")
+      registrationPage.clickEnterYourContactDetailsLink()
+      contactDetailsPage.clickContinue()
+      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactFullName)
+      contactDetailsPage.clickContinue()
 
-      And("They select 'Yes' for the question 'Have you added all the contacts you need' and click on continue button")
-      ContactDetailsPage.selectYes()
+      Then("an error page is shown noting the contact email is missing")
+      contactDetailsPage.assertErrorMessageMatches(MissingEmailAddress)
 
-      Then("They can verify all the answers for the first contact details")
-      ContactDetailsPage.verifyFirstContactDetailsInCheckYourAnswersPage()
+      And("on the user selecting to again continue without adding a contact email the same error page is shown")
+      contactDetailsPage.clickContinue()
+      contactDetailsPage.assertErrorMessageMatches(MissingEmailAddress)
 
-      When("They click the 'Save and Continue' button")
-      ContactDetailsPage.clickContinueButtonElement()
+      And("on the user adding a valid contact email and selecting to continue")
+      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmailAddress)
 
-      Then("The 'Enter your contact details' status must be marked as 'Completed' in Register your company page")
-      RegisterYourCompanyPage.verifyContactDetailsStatusCompleted()
-    }
-
-    Scenario(
-      "Completion of Second Contact Details",
-      RegistrationTests,
-      ZapTests
-    ) {
-      authenticateAndCompleteBusinessMatching()
-
-      And("They Enter the first full name details and click on continue button")
-      ContactDetailsPage.enterFullName(firstContactFullName)
-
-      And("They enter the first email address details and click on continue button")
-      ContactDetailsPage.enterEmailAddress(firstContactEmailAddress)
-
-      And("They select 'No' for the question 'Have you added all the contacts you need' and click on 'Continue' button")
-      ContactDetailsPage.selectNo()
-
-      And("They Enter the Second full name details and click on continue button")
-      ContactDetailsPage.enterFullName(secondContactFullName)
-
-      And("They enter the Second email address details and click on continue button")
-      ContactDetailsPage.enterEmailAddress(secondContactEmailAddress)
-
-      Then("They can verify all the answers for the second contact details")
-      ContactDetailsPage.verifySecondContactDetailsInCheckYourAnswersPage()
-
-      When("They click the 'Save and Continue' button")
-      ContactDetailsPage.clickContinueButtonElement()
-
-      And("The 'Enter your contact details' status must be marked as 'Completed' in Register your company page")
-      RegisterYourCompanyPage.verifyContactDetailsStatusCompleted()
-    }
-
-    Scenario(
-      "Contact Details error message for all fields",
-      RegistrationTests,
-      ZapTests
-    ) {
-      authenticateAndCompleteBusinessMatching()
-
-      Then("They must see the error message in contact details")
-      ContactDetailsPage.verifyFullNameErrorSummaryOnContactDetailsPage()
-      ContactDetailsPage.enterFullName(firstContactFullName)
-
-      ContactDetailsPage.verifyEmailAddressErrorSummaryOnContactDetailsPage()
-      ContactDetailsPage.enterEmailAddress(firstContactEmailAddress)
+      Then("the user progresses to the 'Add another contact' screen successfully")
+      assertOnPage(contactDetailsPage.addAnotherContactPage)
     }
 
     Scenario(
@@ -118,53 +152,78 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      authenticateAndCompleteBusinessMatching()
+      val authLoginPage      = new AuthLoginPage
+      val grsStubPage        = new GrsStubPage
+      val contactDetailsPage = new ContactDetailsPage
+      val registrationPage   = new RegistrationPage
 
-      And("They Edit Name and Email fields for both contact details")
-      // Enter First Contact Details
-      ContactDetailsPage.enterFullName(firstContactFullName)
-      ContactDetailsPage.enterEmailAddress(firstContactEmailAddress)
+      Given("a user successfully adds company details from the registration page")
+      authLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+      registrationPage.clickEnterYourCompanyDetailsLink()
+      grsStubPage.clickStubResponseButton()
 
-      ContactDetailsPage.selectNo()
+      And("the user successfully adds a single contact from the registration page")
+      registrationPage.clickEnterYourContactDetailsLink()
+      contactDetailsPage.clickContinue()
+      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactFullName)
+      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmailAddress)
 
-      // Enter Second Contact Details
-      ContactDetailsPage.enterFullName(secondContactFullName)
-      ContactDetailsPage.enterEmailAddress(secondContactEmailAddress)
+      And("the user successfully adds a second contact when prompted if all contacts needed have been added")
+      contactDetailsPage.selectNoRadioAndClickContinue()
+      contactDetailsPage.verifyFirstContactDetailsInCheckYourAnswersPage()
+      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.secondContactFullName)
+      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.secondContactEmailAddress)
+      contactDetailsPage.verifySecondContactDetailsInCheckYourAnswersPage()
 
-      ContactDetailsPage.changeContactDetail(
-        firstContactDetailsFullNameLocator,
-        changeLinkForFirstContactFullNameLocator,
-        randomFirstContactFullName,
-        enterFullName
+      And("the user changes all contact details") // fix with ADT
+      contactDetailsPage.changeContactDetail(
+        contactDetailsPage.firstContactDetailsFullNameLocator,
+        contactDetailsPage.changeLinkForFirstContactFullNameLocator,
+        contactDetailsPage.randomFirstContactFullName,
+        contactDetailsPage.enterContactNameAndClickContinue
       )
 
-      ContactDetailsPage.changeContactDetail(
-        firstContactDetailsEmailAddressLocator,
-        changeLinkForFirstContactEmailAddressLocator,
-        randomFirstContactEmailAddress,
-        enterEmailAddress
+      contactDetailsPage.changeContactDetail(
+        contactDetailsPage.firstContactDetailsEmailAddressLocator,
+        contactDetailsPage.changeLinkForFirstContactEmailAddressLocator,
+        contactDetailsPage.randomFirstContactEmailAddress,
+        contactDetailsPage.enterEmailAddressAndClickContinue
       )
 
-      ContactDetailsPage.changeContactDetail(
-        secondContactDetailsFullNameLocator,
-        changeLinkForSecondContactFullName,
-        randomSecondContactFullName,
-        enterFullName
+      contactDetailsPage.changeContactDetail(
+        contactDetailsPage.secondContactDetailsFullNameLocator,
+        contactDetailsPage.changeLinkForSecondContactFullName,
+        contactDetailsPage.randomSecondContactFullName,
+        contactDetailsPage.enterContactNameAndClickContinue
       )
 
-      ContactDetailsPage.changeContactDetail(
-        secondContactDetailsEmailAddressLocator,
-        changeLinkForSecondContactEmailAddress,
-        randomSecondContactEmailAddress,
-        enterEmailAddress
+      contactDetailsPage.changeContactDetail(
+        contactDetailsPage.secondContactDetailsEmailAddressLocator,
+        contactDetailsPage.changeLinkForSecondContactEmailAddress,
+        contactDetailsPage.randomSecondContactEmailAddress,
+        contactDetailsPage.enterEmailAddressAndClickContinue
       )
 
-      Then("They must verify all updated contact details")
-      ContactDetailsPage.verifyChangedContactDetails(firstContactDetailsFullNameLocator, firstContactFullName)
-      ContactDetailsPage.verifyChangedContactDetails(firstContactDetailsEmailAddressLocator, firstContactEmailAddress)
+      Then("the new contact detail amendments are shown on screen correctly")
+      contactDetailsPage.verifyChangedContactDetails(
+        contactDetailsPage.firstContactDetailsFullNameLocator,
+        contactDetailsPage.firstContactFullName
+      )
 
-      ContactDetailsPage.verifyChangedContactDetails(secondContactDetailsFullNameLocator, secondContactFullName)
-      ContactDetailsPage.verifyChangedContactDetails(secondContactDetailsEmailAddressLocator, secondContactEmailAddress)
+      contactDetailsPage.verifyChangedContactDetails(
+        contactDetailsPage.firstContactDetailsEmailAddressLocator,
+        contactDetailsPage.firstContactEmailAddress
+      )
+
+      contactDetailsPage.verifyChangedContactDetails(
+        contactDetailsPage.secondContactDetailsFullNameLocator,
+        contactDetailsPage.secondContactFullName
+      )
+
+      contactDetailsPage.verifyChangedContactDetails(
+        contactDetailsPage.secondContactDetailsEmailAddressLocator,
+        contactDetailsPage.secondContactEmailAddress
+      )
     }
   }
 }

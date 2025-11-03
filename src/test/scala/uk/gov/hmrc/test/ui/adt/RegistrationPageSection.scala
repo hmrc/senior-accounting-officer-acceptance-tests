@@ -14,19 +14,11 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages
+package uk.gov.hmrc.test.ui.adt
 
-import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.ExpectedConditions
-import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
+sealed trait RegistrationPageSection
 
-class GrsStubPage extends BasePage {
-  override val pageUrl: String       = baseRegUrl
-  val pageTitle: String              = ""
-  private val stubResponseButton: By = By.id("submit")
-
-  def clickStubResponseButton(): Unit = {
-    fluentWait.until(ExpectedConditions.elementToBeClickable(stubResponseButton))
-    click(stubResponseButton)
-  }
+object RegistrationPageSection {
+  case object CompanyDetails extends RegistrationPageSection
+  case object ContactDetails extends RegistrationPageSection
 }

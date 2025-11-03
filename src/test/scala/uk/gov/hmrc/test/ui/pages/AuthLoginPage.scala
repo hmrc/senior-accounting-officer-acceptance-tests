@@ -19,10 +19,12 @@ package uk.gov.hmrc.test.ui.pages
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.utils.AffinityGroup
+import uk.gov.hmrc.test.ui.support.AffinityGroup
+import uk.gov.hmrc.test.ui.support.PageSupport.{clickSubmitButton, fluentWait, selectDropdownById}
 
-object AuthLoginPage extends BasePage {
+class AuthLoginPage extends BasePage {
   override val pageUrl: String = TestConfiguration.url("auth-login-stub")
+  val pageTitle: String        = ""
 
   private val redirectionUrlById: By = By.id("redirectionUrl")
   private val affinityGroupById: By  = By.id("affinityGroupSelect")
@@ -79,4 +81,5 @@ object AuthLoginPage extends BasePage {
 
   def selectRedirectedUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit =
     selectValidRedirectUrlAndAffinityGroup(affinityGroup)
+
 }
