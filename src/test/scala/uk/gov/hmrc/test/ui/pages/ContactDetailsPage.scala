@@ -27,109 +27,98 @@ import uk.gov.hmrc.test.ui.support.TestDataGenerator
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
 class ContactDetailsPage extends BasePage with TestDataGenerator {
-  override val pageUrl: String                  = baseRegUrl
-  val pageTitle: String                         = ""
+  override val pageUrl: String   = baseRegUrl
+  override val pageTitle: String = ""
+  private val faker              = new Faker(new java.util.Locale("en-GB"))
+
   val enterFirstContactEmailAddressPage: String = s"${pageUrl.stripSuffix("/")}/contact-details/first/email"
   val addAnotherContactPage: String             = s"${pageUrl.stripSuffix("/")}/contact-details/first/add-another"
-  val enterYourContactDetailsLink: String       = s"${pageUrl.stripSuffix("/")}/contact-details"
+  val enterYourContactDetailsLinkUrl: String    = s"${pageUrl.stripSuffix("/")}/contact-details"
 
-  private val continueButtonLocator: By          = By.cssSelector("button[type='submit']")
-  private val contactDetailsTextFieldLocator: By = By.cssSelector("#value")
-  private val inputEmailAddress                  = By.cssSelector("input[type=email]")
-  private val yesRadioButtonLocator: By          = By.cssSelector("#value_0")
-  private val radioNo: By                        = By.cssSelector("label[for='value_1']")
+  private val continueButton: By               = By.cssSelector("button[type='submit']")
+  private val contactNameInput: By             = By.cssSelector("#value")
+  private val emailAddressInput: By            = By.cssSelector("input[type=email]")
+  private val yesOptionRadioButton: By         = By.cssSelector("#value_0")
+  private val noOptionLabel: By                = By.cssSelector("label[for='value_1']")
+  private val noOptionRadioButton: By          = By.cssSelector("#value_1")
+  private val addAnotherContactPageHeading: By = By.cssSelector(".govuk-fieldset__heading")
 
-  private val addedAllTheContactsYouNeedPageTitle: By = By.cssSelector(".govuk-fieldset__heading")
+  private val firstContactSectionHeader: By = By.cssSelector(".govuk-heading-s")
+  val firstContactNameValue: By             = contactNameValueLocator(1)
+  val firstContactEmailValue: By            = contactEmailValueLocator(1)
+  val secondContactSectionHeader: By        = By.cssSelector(".govuk-heading-s:nth-of-type(2)")
+  val secondContactNameValue: By            = contactNameValueLocator(2)
+  val secondContactEmailValue: By           = contactEmailValueLocator(2)
 
-  private val firstContactDetailsHeadingLocator: By =
-    By.cssSelector("#main-content form h2.govuk-heading-s:first-of-type")
-  val firstContactDetailsFullNameLocator: By        = By.cssSelector(
-    "dl.govuk-summary-list:nth-of-type(1) > .govuk-summary-list__row:nth-of-type(1) > dd.govuk-summary-list__value"
-  )
-  val firstContactDetailsEmailAddressLocator: By    = By.cssSelector(
-    "dl.govuk-summary-list:nth-of-type(1) > .govuk-summary-list__row:nth-of-type(2) > dd.govuk-summary-list__value"
-  )
+  val firstContactName: String     = faker.name().fullName()
+  val newFirstContactName: String  = faker.name().fullName()
+  val secondContactName: String    = faker.name().fullName()
+  val newSecondContactName: String = faker.name().fullName()
 
-  private val secondContactDetailsHeadingLocator: By =
-    By.cssSelector("#main-content form h2.govuk-heading-s:nth-of-type(2)")
-  val secondContactDetailsFullNameLocator: By        = By.cssSelector(
-    "dl.govuk-summary-list:nth-of-type(2) > .govuk-summary-list__row:nth-of-type(1) > dd.govuk-summary-list__value"
-  )
-  val secondContactDetailsEmailAddressLocator: By    = By.cssSelector(
-    "dl.govuk-summary-list:nth-of-type(2) > .govuk-summary-list__row:nth-of-type(2) > dd.govuk-summary-list__value"
-  )
+  val firstContactEmail: String     = randomEmail(firstContactName)
+  val newFirstContactEmail: String  = randomEmail(newFirstContactName)
+  val secondContactEmail: String    = randomEmail(secondContactName)
+  val newSecondContactEmail: String = randomEmail(newSecondContactName)
 
-  // Random Contact Details
-  private val faker = new Faker(new java.util.Locale("en-GB"))
+  val changeFirstContactNameLink: By   = By.cssSelector("a[href*='first/change-name']")
+  val changeFirstContactEmailLink: By  = By.cssSelector("a[href*='first/change-email']")
+  val changeSecondContactNameLink: By  = By.cssSelector("a[href*='second/change-name']")
+  val changeSecondContactEmailLink: By = By.cssSelector("a[href*='second/change-email']")
 
-  var firstContactFullName: String        = faker.name().fullName()
-  var randomFirstContactFullName: String  = faker.name().fullName()
-  var secondContactFullName: String       = faker.name().fullName()
-  var randomSecondContactFullName: String = faker.name().fullName()
+  def contactNameValueLocator(index: Int): By =
+    By.cssSelector(
+      s"dl.govuk-summary-list:nth-of-type($index) > .govuk-summary-list__row:nth-of-type(1) > dd.govuk-summary-list__value"
+    )
 
-  val firstContactEmailAddress: String        = randomEmail(firstContactFullName)
-  val randomFirstContactEmailAddress: String  = randomEmail(randomFirstContactFullName)
-  val secondContactEmailAddress: String       = randomEmail(secondContactFullName)
-  val randomSecondContactEmailAddress: String = randomEmail(randomSecondContactFullName)
-
-  // Contact details Change link
-  val changeLinkForFirstContactFullNameLocator: By     =
-    By.cssSelector("a[href='/senior-accounting-officer/registration/contact-details/first/change-name']")
-  val changeLinkForFirstContactEmailAddressLocator: By =
-    By.cssSelector("a[href='/senior-accounting-officer/registration/contact-details/first/change-email']")
-
-  val changeLinkForSecondContactFullName: By     =
-    By.cssSelector("a[href='/senior-accounting-officer/registration/contact-details/second/change-name']")
-  val changeLinkForSecondContactEmailAddress: By =
-    By.cssSelector("a[href='/senior-accounting-officer/registration/contact-details/second/change-email']")
+  def contactEmailValueLocator(index: Int): By =
+    By.cssSelector(
+      s"dl.govuk-summary-list:nth-of-type($index) > .govuk-summary-list__row:nth-of-type(2) > dd.govuk-summary-list__value"
+    )
 
   def clickContinue(): Unit =
-    fluentWait.until(ExpectedConditions.elementToBeClickable(continueButtonLocator)).click()
+    fluentWait.until(ExpectedConditions.elementToBeClickable(continueButton)).click()
 
   def enterContactNameAndClickContinue(fullName: String): Unit = {
-    val enterFullNameField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactDetailsTextFieldLocator))
+    val enterFullNameField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactNameInput))
     enterFullNameField.clear()
     enterFullNameField.sendKeys(fullName)
     clickContinue()
   }
 
   def enterEmailAddressAndClickContinue(emailAddress: String): Unit = {
-    val enterEmailAddressField = fluentWait.until(ExpectedConditions.elementToBeClickable(inputEmailAddress))
+    val enterEmailAddressField = fluentWait.until(ExpectedConditions.elementToBeClickable(emailAddressInput))
     enterEmailAddressField.clear()
     enterEmailAddressField.sendKeys(emailAddress)
     clickContinue()
   }
 
-  def selectYes(): Unit = {
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(addedAllTheContactsYouNeedPageTitle))
-
-    driver.findElement(yesRadioButtonLocator).click()
+  def selectYesRadioAndClickContinue(): Unit = {
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(addAnotherContactPageHeading))
+    driver.findElement(yesOptionRadioButton).click()
     clickContinue()
   }
 
   def selectNoRadioAndClickContinue(): Unit = {
-    fluentWait.until(ExpectedConditions.elementToBeClickable(radioNo)).click()
-    fluentWait.until(ExpectedConditions.elementSelectionStateToBe(radioNo, true))
+    fluentWait.until(ExpectedConditions.elementToBeClickable(noOptionLabel)).click()
+    fluentWait.until(ExpectedConditions.elementSelectionStateToBe(noOptionRadioButton, true))
     clickContinue()
   }
 
   def verifyContactDetailsFieldValue(elementLocator: By, expectedValue: String): Unit = {
-    val contactDetailsElementValue =
-      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator))
-
+    val contactDetailsElementValue = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator))
     contactDetailsElementValue.getText.trim mustBe expectedValue
   }
 
   def verifyFirstContactDetailsInCheckYourAnswersPage(): Unit = {
-    verifyContactDetailsFieldValue(firstContactDetailsHeadingLocator, "First contact details")
-    verifyContactDetailsFieldValue(firstContactDetailsFullNameLocator, firstContactFullName)
-    verifyContactDetailsFieldValue(firstContactDetailsEmailAddressLocator, firstContactEmailAddress)
+    verifyContactDetailsFieldValue(firstContactSectionHeader, "First contact details")
+    verifyContactDetailsFieldValue(firstContactNameValue, firstContactName)
+    verifyContactDetailsFieldValue(firstContactEmailValue, firstContactEmail)
   }
 
   def verifySecondContactDetailsInCheckYourAnswersPage(): Unit = {
-    verifyContactDetailsFieldValue(secondContactDetailsHeadingLocator, "Second contact details")
-    verifyContactDetailsFieldValue(secondContactDetailsFullNameLocator, secondContactFullName)
-    verifyContactDetailsFieldValue(secondContactDetailsEmailAddressLocator, secondContactEmailAddress)
+    verifyContactDetailsFieldValue(secondContactSectionHeader, "Second contact details")
+    verifyContactDetailsFieldValue(secondContactNameValue, secondContactName)
+    verifyContactDetailsFieldValue(secondContactEmailValue, secondContactEmail)
   }
 
   def assertErrorMessageMatches(error: PageError): Unit = {
@@ -147,10 +136,7 @@ class ContactDetailsPage extends BasePage with TestDataGenerator {
     updatedValue: String,
     inputFunction: String => Unit
   ): Unit = {
-    val changeLink =
-      fluentWait.until(ExpectedConditions.elementToBeClickable(changeLinkLocator))
-    changeLink.click()
-
+    fluentWait.until(ExpectedConditions.elementToBeClickable(changeLinkLocator)).click()
     inputFunction(updatedValue)
   }
 
@@ -158,10 +144,10 @@ class ContactDetailsPage extends BasePage with TestDataGenerator {
     valueLocator: By,
     originalValue: String
   ): Unit = {
-    val updatedValue =
-      fluentWait.until(ExpectedConditions.visibilityOfElementLocated(valueLocator)).getText
+    val updatedValue = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(valueLocator))
 
-    updatedValue must not be originalValue // it better to validate the new values based on edits
+    // TODO: It's better to validate the new values based on edits (i.e. known values)
+    updatedValue.getText must not be originalValue
   }
 }
 

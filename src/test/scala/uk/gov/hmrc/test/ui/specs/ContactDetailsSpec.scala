@@ -17,6 +17,8 @@
 package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.adt.ContactDetailsPageError.{MissingContactDetails, MissingEmailAddress}
+import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.ContactDetails
+import uk.gov.hmrc.test.ui.adt.RegistrationPageSectionStatus.Completed
 import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
@@ -40,16 +42,16 @@ class ContactDetailsSpec extends BaseSpec {
       And("the user successfully adds a single contact from the registration page")
       registrationPage.clickEnterYourContactDetailsLink()
       contactDetailsPage.clickContinue()
-      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactFullName)
-      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmailAddress)
-      contactDetailsPage.selectYes()
+      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactName)
+      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmail)
+      contactDetailsPage.selectYesRadioAndClickContinue()
       contactDetailsPage.verifyFirstContactDetailsInCheckYourAnswersPage()
 
       When("the user selects to save and continue from the 'Check your answers' page")
       contactDetailsPage.clickContinue()
 
       Then("the status on the registration page for the 'Enter your contact details' section is set to 'Completed'")
-      registrationPage.verifyContactDetailsStatusCompleted()
+      registrationPage.assertSectionStatus(ContactDetails, Completed)
     }
 
     Scenario("Complete second contact details", RegistrationTests, ZapTests) {
@@ -66,21 +68,21 @@ class ContactDetailsSpec extends BaseSpec {
       And("the user successfully adds a single contact from the registration page")
       registrationPage.clickEnterYourContactDetailsLink()
       contactDetailsPage.clickContinue()
-      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactFullName)
-      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmailAddress)
+      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactName)
+      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmail)
 
       And("the user successfully adds a second contact when prompted if all contacts needed have been added")
       contactDetailsPage.selectNoRadioAndClickContinue()
+      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.secondContactName)
+      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.secondContactEmail)
       contactDetailsPage.verifyFirstContactDetailsInCheckYourAnswersPage()
-      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.secondContactFullName)
-      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.secondContactEmailAddress)
       contactDetailsPage.verifySecondContactDetailsInCheckYourAnswersPage()
 
       When("the user selects to save and continue from the 'Check your answers' page")
       contactDetailsPage.clickContinue()
 
       Then("the status on the registration page for the 'Enter your contact details' section is set to 'Completed'")
-      registrationPage.verifyContactDetailsStatusCompleted()
+      registrationPage.assertSectionStatus(ContactDetails, Completed)
     }
 
     Scenario("Attempting to add a contact with no name produces the expected error", RegistrationTests, ZapTests) {
@@ -106,7 +108,7 @@ class ContactDetailsSpec extends BaseSpec {
       contactDetailsPage.assertErrorMessageMatches(MissingContactDetails)
 
       And("on the user adding a valid contact name and selecting to continue")
-      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactFullName)
+      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactName)
 
       Then("the user progresses to the 'Enter email address' screen successfully")
       assertOnPage(contactDetailsPage.enterFirstContactEmailAddressPage)
@@ -130,7 +132,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user selects to add contact details but attempts to continue with no email address added")
       registrationPage.clickEnterYourContactDetailsLink()
       contactDetailsPage.clickContinue()
-      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactFullName)
+      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactName)
       contactDetailsPage.clickContinue()
 
       Then("an error page is shown noting the contact email is missing")
@@ -141,7 +143,7 @@ class ContactDetailsSpec extends BaseSpec {
       contactDetailsPage.assertErrorMessageMatches(MissingEmailAddress)
 
       And("on the user adding a valid contact email and selecting to continue")
-      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmailAddress)
+      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmail)
 
       Then("the user progresses to the 'Add another contact' screen successfully")
       assertOnPage(contactDetailsPage.addAnotherContactPage)
@@ -165,64 +167,64 @@ class ContactDetailsSpec extends BaseSpec {
       And("the user successfully adds a single contact from the registration page")
       registrationPage.clickEnterYourContactDetailsLink()
       contactDetailsPage.clickContinue()
-      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactFullName)
-      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmailAddress)
+      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactName)
+      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmail)
 
       And("the user successfully adds a second contact when prompted if all contacts needed have been added")
       contactDetailsPage.selectNoRadioAndClickContinue()
+      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.secondContactName)
+      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.secondContactEmail)
       contactDetailsPage.verifyFirstContactDetailsInCheckYourAnswersPage()
-      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.secondContactFullName)
-      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.secondContactEmailAddress)
       contactDetailsPage.verifySecondContactDetailsInCheckYourAnswersPage()
 
-      And("the user changes all contact details") // fix with ADT
+      And("the user changes all contact details")
       contactDetailsPage.changeContactDetail(
-        contactDetailsPage.firstContactDetailsFullNameLocator,
-        contactDetailsPage.changeLinkForFirstContactFullNameLocator,
-        contactDetailsPage.randomFirstContactFullName,
+        contactDetailsPage.firstContactNameValue,
+        contactDetailsPage.changeFirstContactNameLink,
+        contactDetailsPage.newFirstContactName,
         contactDetailsPage.enterContactNameAndClickContinue
       )
 
       contactDetailsPage.changeContactDetail(
-        contactDetailsPage.firstContactDetailsEmailAddressLocator,
-        contactDetailsPage.changeLinkForFirstContactEmailAddressLocator,
-        contactDetailsPage.randomFirstContactEmailAddress,
+        contactDetailsPage.firstContactEmailValue,
+        contactDetailsPage.changeFirstContactEmailLink,
+        contactDetailsPage.newFirstContactEmail,
         contactDetailsPage.enterEmailAddressAndClickContinue
       )
 
       contactDetailsPage.changeContactDetail(
-        contactDetailsPage.secondContactDetailsFullNameLocator,
-        contactDetailsPage.changeLinkForSecondContactFullName,
-        contactDetailsPage.randomSecondContactFullName,
+        contactDetailsPage.secondContactNameValue,
+        contactDetailsPage.changeSecondContactNameLink,
+        contactDetailsPage.newSecondContactName,
         contactDetailsPage.enterContactNameAndClickContinue
       )
 
       contactDetailsPage.changeContactDetail(
-        contactDetailsPage.secondContactDetailsEmailAddressLocator,
-        contactDetailsPage.changeLinkForSecondContactEmailAddress,
-        contactDetailsPage.randomSecondContactEmailAddress,
+        contactDetailsPage.secondContactEmailValue,
+        contactDetailsPage.changeSecondContactEmailLink,
+        contactDetailsPage.newSecondContactEmail,
         contactDetailsPage.enterEmailAddressAndClickContinue
       )
 
       Then("the new contact detail amendments are shown on screen correctly")
       contactDetailsPage.verifyChangedContactDetails(
-        contactDetailsPage.firstContactDetailsFullNameLocator,
-        contactDetailsPage.firstContactFullName
+        contactDetailsPage.firstContactNameValue,
+        contactDetailsPage.firstContactName
       )
 
       contactDetailsPage.verifyChangedContactDetails(
-        contactDetailsPage.firstContactDetailsEmailAddressLocator,
-        contactDetailsPage.firstContactEmailAddress
+        contactDetailsPage.firstContactEmailValue,
+        contactDetailsPage.firstContactEmail
       )
 
       contactDetailsPage.verifyChangedContactDetails(
-        contactDetailsPage.secondContactDetailsFullNameLocator,
-        contactDetailsPage.secondContactFullName
+        contactDetailsPage.secondContactNameValue,
+        contactDetailsPage.secondContactName
       )
 
       contactDetailsPage.verifyChangedContactDetails(
-        contactDetailsPage.secondContactDetailsEmailAddressLocator,
-        contactDetailsPage.secondContactEmailAddress
+        contactDetailsPage.secondContactEmailValue,
+        contactDetailsPage.secondContactEmail
       )
     }
   }

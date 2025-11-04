@@ -43,7 +43,7 @@ class RegistrationSpec extends BaseSpec {
       Then("the page displays with the expected page elements and values required at the start of a new registration")
       registrationPage.assertLinkIsVisibleWithText(EnterYourCompanyDetailsLink)
       registrationPage.assertSectionStatus(CompanyDetails, NotStarted)
-      registrationPage.assertContactDetailsFieldIsNotALink()
+      registrationPage.assertEnterYourContactDetailsLinkNotFound()
       registrationPage.assertSectionStatus(ContactDetails, CannotStartYet)
       registrationPage.assertSubmitButtonDoesNotExist()
     }
@@ -63,8 +63,8 @@ class RegistrationSpec extends BaseSpec {
       grsStubPage.clickStubResponseButton()
 
       Then("the action states displayed on the registration page are updated correctly")
-      registrationPage.verifyEnterYourContactDetailsLink()
-      registrationPage.verifyContactDetailsStatusNotStarted()
+      registrationPage.assertEnterYourContactDetailsLinkFound()
+      registrationPage.assertSectionStatus(ContactDetails, NotStarted)
     }
   }
 }

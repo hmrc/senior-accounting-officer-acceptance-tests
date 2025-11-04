@@ -17,13 +17,12 @@
 package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait}
-import org.openqa.selenium.{By, WebElement}
+import org.openqa.selenium.By
 import org.scalatest.AppendedClues.convertToClueful
 import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourCompanyDetailsLink
 import uk.gov.hmrc.test.ui.adt.{PageLink, RegistrationPageSection, RegistrationPageSectionStatus}
 import uk.gov.hmrc.test.ui.pages.RegistrationPage.sectionLocators
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
-
 import scala.jdk.CollectionConverters.*
 
 class RegistrationPage extends BasePage {
@@ -31,16 +30,10 @@ class RegistrationPage extends BasePage {
   override val pageTitle: String =
     "Register your company - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val submitButton: By         = By.cssSelector("#submit")
-  val contactDetailsPage       = new ContactDetailsPage
-  val companyDetailsField: By  =
-    By.cssSelector("ul.govuk-task-list > li.govuk-task-list__item--with-link:nth-of-type(1)")
-  val contactDetailsField: By  =
-    By.cssSelector("ul.govuk-task-list > li.govuk-task-list__item--with-link:nth-of-type(2)")
-  val contactDetailsFieldText  = "Enter your contact details"
-  val contactDetailsStatus: By = By.cssSelector("#contacts-details-status")
-  val statusNotStarted         = "Not started"
-  val statusCompleted          = "Completed"
+  private val contactDetailsPage      = new ContactDetailsPage
+  private val submitButton: By        = By.cssSelector("#submit")
+  private val companyDetailsField: By = actionListItem(1)
+  private val contactDetailsField: By = actionListItem(2)
 
   private val pageLinks: Map[PageLink, (By, String)] = Map(
     EnterYourCompanyDetailsLink -> (
@@ -49,24 +42,26 @@ class RegistrationPage extends BasePage {
     )
   )
 
-  def companyDetailsElement: WebElement =
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(companyDetailsField))
+  private def actionListItem(index: Int): By =
+    By.cssSelector(s"ul.govuk-task-list > li.govuk-task-list__item--with-link:nth-of-type($index)")
 
   def assertLinkIsVisibleWithText(link: PageLink): Unit = {
     val (elementWithLink: By, expectedLinkText: String) = pageLinks(link)
-    val element                                         = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(elementWithLink))
-    val linkText                                        = element.findElement(By.tagName("a")).getAttribute("href").trim
+
+    val element  = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(elementWithLink))
+    val linkText = element.findElement(By.tagName("a")).getAttribute("href").trim
     element.isDisplayed mustBe true
     linkText mustBe expectedLinkText
   }
 
-  def verifyEnterYourCompanyDetailsLinkIsEmpty(): Unit = {
-    val enterYourCompanyDetailsLink = companyDetailsElement.findElements(By.tagName("a")).asScala
-    enterYourCompanyDetailsLink mustBe empty
-  }
+  def assertEnterYourCompanyDetailsLinkNotFound(): Unit =
+    fluentWait
+      .until(ExpectedConditions.visibilityOfElementLocated(companyDetailsField))
+      .findElements(By.tagName("a"))
+      .asScala mustBe empty
 
   def clickEnterYourCompanyDetailsLink(): Unit =
-    companyDetailsElement.click()
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(companyDetailsField)).click()
 
   def assertSectionStatus(section: RegistrationPageSection, expectedStatus: RegistrationPageSectionStatus): Unit = {
     val statusElement = new FluentWait(driver)
@@ -75,36 +70,21 @@ class RegistrationPage extends BasePage {
       s"Expected a status of '$expectedStatus' for the '$section' section, but found '${statusElement.getText}'"
   }
 
-  def contactDetailsElement: WebElement =
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsField))
+  def assertEnterYourContactDetailsLinkNotFound(): Unit =
+    fluentWait
+      .until(ExpectedConditions.visibilityOfElementLocated(contactDetailsField))
+      .findElements(By.tagName("a"))
+      .asScala mustBe empty
 
-  def assertContactDetailsFieldIsNotALink(): Unit = {
-    val field = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsField))
-    field.findElements(By.tagName("a")).asScala mustBe empty
-    field.getText.trim must include(contactDetailsFieldText)
-  }
-
-  def verifyEnterYourContactDetailsLink(): Unit =
-    contactDetailsElement
+  def assertEnterYourContactDetailsLinkFound(): Unit =
+    fluentWait
+      .until(ExpectedConditions.visibilityOfElementLocated(contactDetailsField))
       .findElement(By.tagName("a"))
       .getAttribute("href")
-      .trim mustBe contactDetailsPage.enterYourContactDetailsLink
-
-  def verifyContactDetailsStatus(expectedStatus: String): Unit = {
-    val contactDetailsStatusText = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsStatus))
-    contactDetailsStatusText.isDisplayed mustBe true
-    contactDetailsStatusText.isEnabled mustBe true
-    contactDetailsStatusText.getText.trim mustBe expectedStatus
-  }
-
-  def verifyContactDetailsStatusNotStarted(): Unit =
-    verifyContactDetailsStatus(statusNotStarted)
-
-  def verifyContactDetailsStatusCompleted(): Unit =
-    verifyContactDetailsStatus(statusCompleted)
+      .trim mustBe contactDetailsPage.enterYourContactDetailsLinkUrl
 
   def clickEnterYourContactDetailsLink(): Unit =
-    contactDetailsElement.click()
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsField)).click()
 
   def assertSubmitButtonDoesNotExist(): Unit = {
     val submitButtonElements = driver.findElements(submitButton).asScala

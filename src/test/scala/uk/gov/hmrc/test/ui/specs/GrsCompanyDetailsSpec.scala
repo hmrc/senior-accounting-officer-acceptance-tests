@@ -51,7 +51,7 @@ class GrsCompanyDetailsSpec extends BaseSpec {
 
       When("They are back to the 'Register Your Company' page")
       Then("The heading 'Enter your company details' is not a link")
-      registrationPage.verifyEnterYourCompanyDetailsLinkIsEmpty()
+      registrationPage.assertEnterYourCompanyDetailsLinkNotFound()
       And("The status of the Company Details must be Completed")
       registrationPage.assertSectionStatus(CompanyDetails, Completed)
     }
