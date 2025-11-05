@@ -14,8 +14,19 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.support
+package uk.gov.hmrc.test.ui.adt
 
-trait TestDataGenerator {
-  def emailForUser(name: String) = s"${name.toLowerCase.replace(" ", ".")}@example.com"
-}
+import org.openqa.selenium.By
+
+sealed trait Contact
+case object FirstContact extends Contact
+case object SecondContact extends Contact
+
+case class ContactDetails(
+  headingField: By,
+  headingText: String,
+  fullNameField: By,
+  fullName: String,
+  emailField: By,
+  email: String
+)

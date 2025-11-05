@@ -16,10 +16,12 @@
 
 package uk.gov.hmrc.test.ui.specs
 
+import uk.gov.hmrc.test.ui.adt.{FirstContact, SecondContact}
 import uk.gov.hmrc.test.ui.adt.ContactDetailsPageError.{MissingContactDetails, MissingEmailAddress}
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.ContactDetails
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSectionStatus.Completed
 import uk.gov.hmrc.test.ui.pages.*
+import uk.gov.hmrc.test.ui.pages.ContactDetailsPage
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.assertOnPage
@@ -45,7 +47,7 @@ class ContactDetailsSpec extends BaseSpec {
       contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactName)
       contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmail)
       contactDetailsPage.selectYesRadioAndClickContinue()
-      contactDetailsPage.verifyFirstContactDetailsInCheckYourAnswersPage()
+      contactDetailsPage.assertContactDetailsMatch(FirstContact)
 
       When("the user selects to save and continue from the 'Check your answers' page")
       contactDetailsPage.clickContinue()
@@ -75,8 +77,8 @@ class ContactDetailsSpec extends BaseSpec {
       contactDetailsPage.selectNoRadioAndClickContinue()
       contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.secondContactName)
       contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.secondContactEmail)
-      contactDetailsPage.verifyFirstContactDetailsInCheckYourAnswersPage()
-      contactDetailsPage.verifySecondContactDetailsInCheckYourAnswersPage()
+      contactDetailsPage.assertContactDetailsMatch(FirstContact)
+      contactDetailsPage.assertContactDetailsMatch(SecondContact)
 
       When("the user selects to save and continue from the 'Check your answers' page")
       contactDetailsPage.clickContinue()
@@ -98,6 +100,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user selects to add contact details but attempts to continue with no contact name added")
       registrationPage.clickEnterYourContactDetailsLink()
+      contactDetailsPage.clickContinue()
       contactDetailsPage.clickContinue()
 
       Then("an error page is shown noting the contact name is missing")
@@ -174,33 +177,33 @@ class ContactDetailsSpec extends BaseSpec {
       contactDetailsPage.selectNoRadioAndClickContinue()
       contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.secondContactName)
       contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.secondContactEmail)
-      contactDetailsPage.verifyFirstContactDetailsInCheckYourAnswersPage()
-      contactDetailsPage.verifySecondContactDetailsInCheckYourAnswersPage()
+      contactDetailsPage.assertContactDetailsMatch(FirstContact)
+      contactDetailsPage.assertContactDetailsMatch(SecondContact)
 
       And("the user changes all contact details")
       contactDetailsPage.changeContactDetail(
-        contactDetailsPage.firstContactNameValue,
+        contactDetailsPage.firstContactNameField,
         contactDetailsPage.changeFirstContactNameLink,
         contactDetailsPage.newFirstContactName,
         contactDetailsPage.enterContactNameAndClickContinue
       )
 
       contactDetailsPage.changeContactDetail(
-        contactDetailsPage.firstContactEmailValue,
+        contactDetailsPage.firstContactEmailField,
         contactDetailsPage.changeFirstContactEmailLink,
         contactDetailsPage.newFirstContactEmail,
         contactDetailsPage.enterEmailAddressAndClickContinue
       )
 
       contactDetailsPage.changeContactDetail(
-        contactDetailsPage.secondContactNameValue,
+        contactDetailsPage.secondContactNameField,
         contactDetailsPage.changeSecondContactNameLink,
         contactDetailsPage.newSecondContactName,
         contactDetailsPage.enterContactNameAndClickContinue
       )
 
       contactDetailsPage.changeContactDetail(
-        contactDetailsPage.secondContactEmailValue,
+        contactDetailsPage.secondContactEmailField,
         contactDetailsPage.changeSecondContactEmailLink,
         contactDetailsPage.newSecondContactEmail,
         contactDetailsPage.enterEmailAddressAndClickContinue
@@ -208,22 +211,22 @@ class ContactDetailsSpec extends BaseSpec {
 
       Then("the new contact detail amendments are shown on screen correctly")
       contactDetailsPage.verifyChangedContactDetails(
-        contactDetailsPage.firstContactNameValue,
+        contactDetailsPage.firstContactNameField,
         contactDetailsPage.firstContactName
       )
 
       contactDetailsPage.verifyChangedContactDetails(
-        contactDetailsPage.firstContactEmailValue,
+        contactDetailsPage.firstContactEmailField,
         contactDetailsPage.firstContactEmail
       )
 
       contactDetailsPage.verifyChangedContactDetails(
-        contactDetailsPage.secondContactNameValue,
+        contactDetailsPage.secondContactNameField,
         contactDetailsPage.secondContactName
       )
 
       contactDetailsPage.verifyChangedContactDetails(
-        contactDetailsPage.secondContactEmailValue,
+        contactDetailsPage.secondContactEmailField,
         contactDetailsPage.secondContactEmail
       )
     }
