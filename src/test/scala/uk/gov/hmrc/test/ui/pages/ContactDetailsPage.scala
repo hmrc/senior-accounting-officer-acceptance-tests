@@ -20,9 +20,8 @@ import com.github.javafaker.Faker
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalactic.Prettifier.default
-import uk.gov.hmrc.test.ui.adt.ContactDetailsPageError
+import uk.gov.hmrc.test.ui.adt.{Contact, ContactDetails, ContactDetailsPageError, FirstContact, PageError, SecondContact}
 import uk.gov.hmrc.test.ui.pages.ContactDetailsPage.pageErrors
-import uk.gov.hmrc.test.ui.adt.PageError
 import uk.gov.hmrc.test.ui.support.TestDataGenerator
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
@@ -44,26 +43,44 @@ class ContactDetailsPage extends BasePage with TestDataGenerator {
   private val addAnotherContactPageHeading: By = By.cssSelector(".govuk-fieldset__heading")
 
   private val firstContactSectionHeader: By = By.cssSelector(".govuk-heading-s")
-  val firstContactNameValue: By             = contactNameValueLocator(1)
-  val firstContactEmailValue: By            = contactEmailValueLocator(1)
+  val firstContactNameField: By             = contactNameValueLocator(1)
+  val firstContactEmailField: By            = contactEmailValueLocator(1)
   val secondContactSectionHeader: By        = By.cssSelector(".govuk-heading-s:nth-of-type(2)")
-  val secondContactNameValue: By            = contactNameValueLocator(2)
-  val secondContactEmailValue: By           = contactEmailValueLocator(2)
+  val secondContactNameField: By            = contactNameValueLocator(2)
+  val secondContactEmailField: By           = contactEmailValueLocator(2)
+  val changeFirstContactNameLink: By        = By.cssSelector("a[href*='first/change-name']")
+  val changeFirstContactEmailLink: By       = By.cssSelector("a[href*='first/change-email']")
+  val changeSecondContactNameLink: By       = By.cssSelector("a[href*='second/change-name']")
+  val changeSecondContactEmailLink: By      = By.cssSelector("a[href*='second/change-email']")
 
   val firstContactName: String     = faker.name().fullName()
   val newFirstContactName: String  = faker.name().fullName()
   val secondContactName: String    = faker.name().fullName()
   val newSecondContactName: String = faker.name().fullName()
 
-  val firstContactEmail: String     = randomEmail(firstContactName)
-  val newFirstContactEmail: String  = randomEmail(newFirstContactName)
-  val secondContactEmail: String    = randomEmail(secondContactName)
-  val newSecondContactEmail: String = randomEmail(newSecondContactName)
+  val firstContactEmail: String     = emailForUser(firstContactName)
+  val newFirstContactEmail: String  = emailForUser(newFirstContactName)
+  val secondContactEmail: String    = emailForUser(secondContactName)
+  val newSecondContactEmail: String = emailForUser(newSecondContactName)
 
-  val changeFirstContactNameLink: By   = By.cssSelector("a[href*='first/change-name']")
-  val changeFirstContactEmailLink: By  = By.cssSelector("a[href*='first/change-email']")
-  val changeSecondContactNameLink: By  = By.cssSelector("a[href*='second/change-name']")
-  val changeSecondContactEmailLink: By = By.cssSelector("a[href*='second/change-email']")
+  val contactMap: Map[Contact, ContactDetails] = Map(
+    FirstContact  -> ContactDetails(
+      firstContactSectionHeader,
+      "First contact details",
+      firstContactNameField,
+      firstContactName,
+      firstContactEmailField,
+      firstContactEmail
+    ),
+    SecondContact -> ContactDetails(
+      secondContactSectionHeader,
+      "Second contact details",
+      secondContactNameField,
+      secondContactName,
+      secondContactEmailField,
+      secondContactEmail
+    )
+  )
 
   def contactNameValueLocator(index: Int): By =
     By.cssSelector(
@@ -104,28 +121,22 @@ class ContactDetailsPage extends BasePage with TestDataGenerator {
     clickContinue()
   }
 
-  def verifyContactDetailsFieldValue(elementLocator: By, expectedValue: String): Unit = {
-    val contactDetailsElementValue = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(elementLocator))
-    contactDetailsElementValue.getText.trim mustBe expectedValue
+  def assertContactDetailsMatch(contact: Contact): Unit = {
+    val details = contactMap(contact)
+    assertFieldValueMatches(details.headingField, details.headingText)
+    assertFieldValueMatches(details.fullNameField, details.fullName)
+    assertFieldValueMatches(details.emailField, details.email)
   }
 
-  def verifyFirstContactDetailsInCheckYourAnswersPage(): Unit = {
-    verifyContactDetailsFieldValue(firstContactSectionHeader, "First contact details")
-    verifyContactDetailsFieldValue(firstContactNameValue, firstContactName)
-    verifyContactDetailsFieldValue(firstContactEmailValue, firstContactEmail)
-  }
-
-  def verifySecondContactDetailsInCheckYourAnswersPage(): Unit = {
-    verifyContactDetailsFieldValue(secondContactSectionHeader, "Second contact details")
-    verifyContactDetailsFieldValue(secondContactNameValue, secondContactName)
-    verifyContactDetailsFieldValue(secondContactEmailValue, secondContactEmail)
+  def assertFieldValueMatches(field: By, expectedValue: String): Unit = {
+    val fieldValue = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(field))
+    fieldValue.getText.trim mustBe expectedValue
   }
 
   def assertErrorMessageMatches(error: PageError): Unit = {
-    clickContinue()
     val (elementWithError: By, expectedErrorMessage: String) = pageErrors(error)
-    val element                                              = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(elementWithError))
 
+    val element = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(elementWithError))
     element.isDisplayed mustBe true
     element.getText.trim mustBe expectedErrorMessage
   }
