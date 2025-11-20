@@ -47,39 +47,33 @@ class AuthLoginPage extends BasePage {
     FeatureEnablingPage.setCompaniesHouseStubCheckbox(checked = true)
     FeatureEnablingPage.setBusinessVerificationCheckbox(checked = true)
     FeatureEnablingPage.clickSubmitButtonByXpath()
-  }
-
-  private def selectGrsMicroserviceFeatureToggle(): Unit = {
+    
     GrsFeatureTogglePage.loadFeatureTogglePage()
     GrsFeatureTogglePage.setStubGrsCheckboxState(false)
-    clickSubmitButton()
+    // clickSubmitButton()
+
+    // GrsFeatureTogglePage.loadFeatureTogglePage()
+    GrsFeatureTogglePage.setStubGrsCheckboxState(true)
+    GrsFeatureTogglePage.clickSubmitButton()
   }
 
-  private def selectGrsStub(): Unit = {
-    GrsFeatureTogglePage.loadFeatureTogglePage()
-    GrsFeatureTogglePage.setStubGrsCheckboxState(true)
-    clickSubmitButton()
-  }
+  // private def selectGrsMicroserviceFeatureToggle(): Unit = {
+  // }
+
+  // private def selectGrsStub(): Unit = {
+  // }
 
   def enableGrsStubAndServiceHomePage(affinityGroup: AffinityGroup): Unit = {
-    selectGrsStub()
+    // selectGrsStub()
     selectValidRedirectUrlAndAffinityGroup(affinityGroup)
   }
 
   def enableGrsMicroserviceAndServiceHomePage(affinityGroup: AffinityGroup): Unit = {
     selectFeatureEnabling()
-    selectGrsMicroserviceFeatureToggle()
-    selectValidRedirectUrlAndAffinityGroup(affinityGroup)
-  }
-
-  private def selectValidRedirectUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit = {
+    // selectGrsMicroserviceFeatureToggle()
     loadPage()
     sendKeys(redirectionUrlById, redirectUrl)
     selectAffinityGroup(affinityGroup)
     submitAuthPage()
   }
-
-  def selectRedirectedUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit =
-    selectValidRedirectUrlAndAffinityGroup(affinityGroup)
-
 }

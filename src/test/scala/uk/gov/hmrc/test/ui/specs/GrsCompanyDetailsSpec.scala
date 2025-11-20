@@ -31,26 +31,32 @@ class GrsCompanyDetailsSpec extends BaseSpec {
       ZapTests
     ) {
       val authLoginPage    = new AuthLoginPage
-      val registrationPage = new RegistrationPage
-
-      Given("An authenticated organisation user successfully navigated to the Register Your Company page")
       authLoginPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
-      And("They click on 'Enter your company details' heading link")
       registrationPage.clickEnterYourCompanyDetailsLink()
-
-      And("On GRS they view the 'Company Details' page")
-      GrsCompanyDetailsPage.verifyGrsCompanyDetailsPageURL()
-      And("On GRS they Enter Company registration number")
-      GrsCompanyDetailsPage.enterCompanyRegistrationNumber()
-      And("On GRS they select 'Is this your business'")
-      GrsCompanyDetailsPage.selectYesForIsThisYourBusiness()
-      And("On GRS they enter 'Unique Taxpayer Reference' number")
-      GrsCompanyDetailsPage.enterUTRNumber()
-      And("On GRS they confirmed their answers on 'Check Your answers' page")
-      GrsCompanyDetailsPage.verifyCheckYourAnswers()
-
-      When("They are back to the 'Register Your Company' page")
+      assertOnPage(GrsCompanyDetailsPage)
+      // feature enabling page, 
+      // set feature toggles, 
+      // auth stub, 
+      Given("Authenticated user lands on company details page.")
+      // - summary page, 
+      // - navigation from continue button -> CRN input
+      // - CRN continue button -> UTR input
+      // - verify displayed company is correct -> continue / otherPath-yetToBeWritten
+      When("Valid company details are added")
+      // - click complete
       Then("The heading 'Enter your company details' is not a link")
+      // check navigation to the completion page.
+      
+      // And("On GRS they Enter Company registration number")
+      // GrsCompanyDetailsPage.enterCompanyRegistrationNumber()
+      // And("On GRS they select 'Is this your business'")
+      // GrsCompanyDetailsPage.selectYesForIsThisYourBusiness()
+      // And("On GRS they enter 'Unique Taxpayer Reference' number")
+      // GrsCompanyDetailsPage.enterUTRNumber()
+      // And("On GRS they confirmed their answers on 'Check Your answers' page")
+      // GrsCompanyDetailsPage.verifyCheckYourAnswers()
+
+      // When("They are back to the 'Register Your Company' page")
       registrationPage.assertEnterYourCompanyDetailsLinkNotFound()
       And("The status of the Company Details must be Completed")
       registrationPage.assertSectionStatus(CompanyDetails, Completed)

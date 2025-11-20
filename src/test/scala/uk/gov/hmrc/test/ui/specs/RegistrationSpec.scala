@@ -34,7 +34,7 @@ class RegistrationSpec extends BaseSpec {
       ZapTests
     ) {
       val authLoginPage    = new AuthLoginPage
-      val registrationPage = new RegistrationPage
+      val registrationPage = RegistrationPage
 
       Given("an authenticated user lands on the registration page to register a business")
       authLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
