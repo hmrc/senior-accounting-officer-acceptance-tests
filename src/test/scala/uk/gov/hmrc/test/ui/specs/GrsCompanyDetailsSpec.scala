@@ -23,19 +23,17 @@ import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 
 class GrsCompanyDetailsSpec extends BaseSpec {
-
-  Feature("GRS integration") {
+ Feature("Company Details") {
     Scenario(
-      "Successfully integration with GRS microservice",
+      "The company details page displays with the correct page elements and values when setting up company details",
       RegistrationTests,
       ZapTests
     ) {
       val authLoginPage    = new AuthLoginPage
       val registrationPage = new RegistrationPage
 
-      Given("An authenticated organisation user successfully navigated to the Register Your Company page")
+      Given("An authenticated user lands on the 'Company Details' page")
       authLoginPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
-      And("They click on 'Enter your company details' heading link")
       registrationPage.clickEnterYourCompanyDetailsLink()
 
       And("On GRS they view the 'Company Details' page")
@@ -47,6 +45,8 @@ class GrsCompanyDetailsSpec extends BaseSpec {
       And("On GRS they enter 'Unique Taxpayer Reference' number")
       GrsCompanyDetailsPage.enterUTRNumber()
       And("On GRS they confirmed their answers on 'Check Your answers' page")
+
+      WHen
       GrsCompanyDetailsPage.verifyCheckYourAnswers()
 
       When("They are back to the 'Register Your Company' page")
