@@ -26,8 +26,6 @@ import uk.gov.hmrc.test.ui.support.IdGenerators
 import java.time.Duration
 
 trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageObject {
-  case class PageNotFoundException(message: String) extends Exception(message)
-
   def pageUrl: String
   def pageTitle: String
   def baseRegUrl: String = TestConfiguration.url("senior-accounting-officer-registration-frontend")
@@ -35,5 +33,4 @@ trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageOb
   def navigateTo(url: String): Unit = driver.navigate().to(url)
 
   protected def waitFor = new WebDriverWait(driver, Duration.ofSeconds(2))
-
 }
