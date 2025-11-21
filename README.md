@@ -1,5 +1,16 @@
 # Senior Accounting Officer Frontend Journey Tests
 
+>  **Current chrome issue**:
+> [21/11/25] There is a current issue when running tests using later versions of chrome as per https://hmrcdigital.slack.com/archives/C0J8BH46N/p1760607965741119.
+As a workaround we must use version 128. In order to do so we must also add the following properties to the CLI
+>>` -Dbrowser.usePreviousVersion=true `
+>
+>For the foreseeable future (this applies to all subsequent commands associated with chrome)
+e.g. Run the following command to trigger the test via the CLI.
+>>sbt clean -Dbrowser="chrome" -Denvironment="local"  -Dbrowser.usePreviousVersion=true test
+>
+>The scripts are also updated, and once this is fixed we'll need to remove them
+
 ## Services
 
 **Run the following command to start services locally:**

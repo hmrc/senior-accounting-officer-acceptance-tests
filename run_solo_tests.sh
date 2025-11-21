@@ -12,4 +12,4 @@ fi
 # Scalafmt checks have been separated from the test command to avoid OutOfMemoryError in Jenkins
 sbt scalafmtCheckAll scalafmtSbtCheck
 
-sbt clean -Dbrowser="${BROWSER_TYPE:=$DEFAULT_BROWSER}" -Denvironment="${ENV:=local}" -Dbrowser.option.headless=false -Daccessibility.assessment=false -Dsecurity.assessment=false "testOnly uk.gov.hmrc.test.ui.specs.* -- -n SoloTests"
+sbt clean -Dbrowser="${BROWSER_TYPE:=$DEFAULT_BROWSER}" -Denvironment="${ENV:=local}" -Dbrowser.option.headless=false -Daccessibility.assessment=false -Dsecurity.assessment=false -Dbrowser.usePreviousVersion=true "testOnly uk.gov.hmrc.test.ui.specs.* -- -n SoloTests"
