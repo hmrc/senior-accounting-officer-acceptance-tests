@@ -30,27 +30,22 @@ class GrsIntegrationSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      Given("An authenticated organisation user successfully navigated to the Register Your Company page")
+      Given("an authenticated user accesses the Generic Registration Service")
       AuthLoginPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
-      And("They click on 'Enter your company details' heading link")
       RegistrationPage.clickEnterYourCompanyDetailsLink()
 
-      And("On GRS they view the 'Company Details' page")
+      When("the user completes a business match successfully")
       GrsCompanyDetailsPage.verifyGrsCompanyDetailsPageURL()
-      And("On GRS they Enter Company registration number")
       GrsCompanyDetailsPage.enterCompanyRegistrationNumber()
-      And("On GRS they select 'Is this your business'")
       GrsCompanyDetailsPage.selectYesForIsThisYourBusiness()
-      And("On GRS they enter 'Unique Taxpayer Reference' number")
       GrsCompanyDetailsPage.enterUTRNumber()
-      And("On GRS they confirmed their answers on 'Check Your answers' page")
       GrsCompanyDetailsPage.verifyCheckYourAnswers()
 
-      When("They are back to the 'Register Your Company' page")
-      Then("The heading 'Enter your company details' is not a link")
-      RegistrationPage.assertEnterYourCompanyDetailsLinkNotFound()
-      And("The status of the Company Details must be Completed")
+      Then("the company details have a status of 'Completed' on the registration dashboard")
       RegistrationPage.assertSectionStatus(CompanyDetails, Completed)
+      
+      And("the 'Enter your company details' link is disabled")
+      RegistrationPage.assertEnterYourCompanyDetailsLinkNotFound()
     }
   }
 }
