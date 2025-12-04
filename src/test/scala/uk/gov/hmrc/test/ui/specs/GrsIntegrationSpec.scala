@@ -22,11 +22,11 @@ import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 
-class GrsCompanyDetailsSpec extends BaseSpec {
+class GrsIntegrationSpec extends BaseSpec {
 
-  Feature("GRS integration") {
+  Feature("Generic Registration Service (GRS) integration") {
     Scenario(
-      "Successfully integration with GRS microservice",
+      "Integrate successfully with GRS",
       RegistrationTests,
       ZapTests
     ) {
