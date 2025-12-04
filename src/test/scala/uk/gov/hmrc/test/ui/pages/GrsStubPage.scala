@@ -20,7 +20,7 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
-class GrsStubPage extends BasePage {
+object GrsStubPage extends BasePage {
   override val pageUrl: String       = baseRegUrl
   val pageTitle: String              = ""
   private val stubResponseButton: By = By.id("submit")

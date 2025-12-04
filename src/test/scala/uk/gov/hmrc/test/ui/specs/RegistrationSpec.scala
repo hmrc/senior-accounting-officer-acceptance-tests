@@ -52,13 +52,12 @@ class RegistrationSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      val grsStubPage      = new GrsStubPage
       val registrationPage = new RegistrationPage
 
       Given("a user successfully adds company details from the registration page")
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
       registrationPage.clickEnterYourCompanyDetailsLink()
-      grsStubPage.clickStubResponseButton()
+      GrsStubPage.clickStubResponseButton()
 
       Then("the action states displayed on the registration page are updated correctly")
       registrationPage.assertEnterYourContactDetailsLinkFound()
