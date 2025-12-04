@@ -29,8 +29,7 @@ class RegistrationPage extends BasePage {
   override val pageUrl: String   = baseRegUrl
   override val pageTitle: String =
     "Register your company - Senior Accounting Officer notification and certificate - GOV.UK"
-
-  private val contactDetailsPage      = new ContactDetailsPage
+  
   private val submitButton: By        = By.cssSelector("#submit")
   private val companyDetailsField: By = actionListItem(1)
   private val contactDetailsField: By = actionListItem(2)
@@ -81,7 +80,7 @@ class RegistrationPage extends BasePage {
       .until(ExpectedConditions.visibilityOfElementLocated(contactDetailsField))
       .findElement(By.tagName("a"))
       .getAttribute("href")
-      .trim mustBe contactDetailsPage.enterYourContactDetailsLinkUrl
+      .trim mustBe ContactDetailsPage.enterYourContactDetailsLinkUrl
 
   def clickEnterYourContactDetailsLink(): Unit =
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsField)).click()

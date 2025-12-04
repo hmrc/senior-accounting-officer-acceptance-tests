@@ -32,7 +32,6 @@ class ContactDetailsSpec extends BaseSpec {
 
     Scenario("Complete first contact details", RegistrationTests, ZapTests) {
       val grsStubPage        = new GrsStubPage
-      val contactDetailsPage = new ContactDetailsPage
       val registrationPage   = new RegistrationPage
 
       Given("a user successfully adds company details from the registration page")
@@ -42,14 +41,14 @@ class ContactDetailsSpec extends BaseSpec {
 
       And("the user successfully adds a single contact from the registration page")
       registrationPage.clickEnterYourContactDetailsLink()
-      contactDetailsPage.clickContinue()
-      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactName)
-      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmail)
-      contactDetailsPage.selectYesRadioAndClickContinue()
-      contactDetailsPage.assertContactDetailsMatch(FirstContact)
+      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
+      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)
+      ContactDetailsPage.selectYesRadioAndClickContinue()
+      ContactDetailsPage.assertContactDetailsMatch(FirstContact)
 
       When("the user selects to save and continue from the 'Check your answers' page")
-      contactDetailsPage.clickContinue()
+      ContactDetailsPage.clickContinue()
 
       Then("the status on the registration page for the 'Enter your contact details' section is set to 'Completed'")
       registrationPage.assertSectionStatus(ContactDetails, Completed)
@@ -57,7 +56,6 @@ class ContactDetailsSpec extends BaseSpec {
 
     Scenario("Complete second contact details", RegistrationTests, ZapTests) {
       val grsStubPage        = new GrsStubPage
-      val contactDetailsPage = new ContactDetailsPage
       val registrationPage   = new RegistrationPage
 
       Given("a user successfully adds company details from the registration page")
@@ -67,19 +65,19 @@ class ContactDetailsSpec extends BaseSpec {
 
       And("the user successfully adds a single contact from the registration page")
       registrationPage.clickEnterYourContactDetailsLink()
-      contactDetailsPage.clickContinue()
-      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactName)
-      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmail)
+      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
+      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)
 
       And("the user successfully adds a second contact when prompted if all contacts needed have been added")
-      contactDetailsPage.selectNoRadioAndClickContinue()
-      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.secondContactName)
-      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.secondContactEmail)
-      contactDetailsPage.assertContactDetailsMatch(FirstContact)
-      contactDetailsPage.assertContactDetailsMatch(SecondContact)
+      ContactDetailsPage.selectNoRadioAndClickContinue()
+      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.secondContactName)
+      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.secondContactEmail)
+      ContactDetailsPage.assertContactDetailsMatch(FirstContact)
+      ContactDetailsPage.assertContactDetailsMatch(SecondContact)
 
       When("the user selects to save and continue from the 'Check your answers' page")
-      contactDetailsPage.clickContinue()
+      ContactDetailsPage.clickContinue()
 
       Then("the status on the registration page for the 'Enter your contact details' section is set to 'Completed'")
       registrationPage.assertSectionStatus(ContactDetails, Completed)
@@ -87,7 +85,6 @@ class ContactDetailsSpec extends BaseSpec {
 
     Scenario("Attempting to add a contact with no name produces the expected error", RegistrationTests, ZapTests) {
       val grsStubPage        = new GrsStubPage
-      val contactDetailsPage = new ContactDetailsPage
       val registrationPage   = new RegistrationPage
 
       Given("a user successfully adds company details from the registration page")
@@ -97,21 +94,21 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user selects to add contact details but attempts to continue with no contact name added")
       registrationPage.clickEnterYourContactDetailsLink()
-      contactDetailsPage.clickContinue()
-      contactDetailsPage.clickContinue()
+      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.clickContinue()
 
       Then("an error page is shown noting the contact name is missing")
-      contactDetailsPage.assertErrorMessageMatches(MissingContactDetails)
+      ContactDetailsPage.assertErrorMessageMatches(MissingContactDetails)
 
       And("on the user selecting to again continue without adding a contact name the same error page is shown")
-      contactDetailsPage.clickContinue()
-      contactDetailsPage.assertErrorMessageMatches(MissingContactDetails)
+      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.assertErrorMessageMatches(MissingContactDetails)
 
       And("on the user adding a valid contact name and selecting to continue")
-      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactName)
+      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
 
       Then("the user progresses to the 'Enter email address' screen successfully")
-      assertOnPage(contactDetailsPage.enterFirstContactEmailAddressPage)
+      assertOnPage(ContactDetailsPage.enterFirstContactEmailAddressPage)
     }
 
     Scenario(
@@ -120,7 +117,6 @@ class ContactDetailsSpec extends BaseSpec {
       ZapTests
     ) {
       val grsStubPage        = new GrsStubPage
-      val contactDetailsPage = new ContactDetailsPage
       val registrationPage   = new RegistrationPage
 
       Given("a user successfully adds company details from the registration page")
@@ -130,22 +126,22 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user selects to add contact details but attempts to continue with no email address added")
       registrationPage.clickEnterYourContactDetailsLink()
-      contactDetailsPage.clickContinue()
-      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactName)
-      contactDetailsPage.clickContinue()
+      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
+      ContactDetailsPage.clickContinue()
 
       Then("an error page is shown noting the contact email is missing")
-      contactDetailsPage.assertErrorMessageMatches(MissingEmailAddress)
+      ContactDetailsPage.assertErrorMessageMatches(MissingEmailAddress)
 
       And("on the user selecting to again continue without adding a contact email the same error page is shown")
-      contactDetailsPage.clickContinue()
-      contactDetailsPage.assertErrorMessageMatches(MissingEmailAddress)
+      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.assertErrorMessageMatches(MissingEmailAddress)
 
       And("on the user adding a valid contact email and selecting to continue")
-      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmail)
+      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)
 
       Then("the user progresses to the 'Add another contact' screen successfully")
-      assertOnPage(contactDetailsPage.addAnotherContactPage)
+      assertOnPage(ContactDetailsPage.addAnotherContactPage)
     }
 
     Scenario(
@@ -154,7 +150,6 @@ class ContactDetailsSpec extends BaseSpec {
       ZapTests
     ) {
       val grsStubPage        = new GrsStubPage
-      val contactDetailsPage = new ContactDetailsPage
       val registrationPage   = new RegistrationPage
 
       Given("a user successfully adds company details from the registration page")
@@ -164,65 +159,65 @@ class ContactDetailsSpec extends BaseSpec {
 
       And("the user successfully adds a single contact from the registration page")
       registrationPage.clickEnterYourContactDetailsLink()
-      contactDetailsPage.clickContinue()
-      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.firstContactName)
-      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.firstContactEmail)
+      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
+      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)
 
       And("the user successfully adds a second contact when prompted if all contacts needed have been added")
-      contactDetailsPage.selectNoRadioAndClickContinue()
-      contactDetailsPage.enterContactNameAndClickContinue(contactDetailsPage.secondContactName)
-      contactDetailsPage.enterEmailAddressAndClickContinue(contactDetailsPage.secondContactEmail)
-      contactDetailsPage.assertContactDetailsMatch(FirstContact)
-      contactDetailsPage.assertContactDetailsMatch(SecondContact)
+      ContactDetailsPage.selectNoRadioAndClickContinue()
+      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.secondContactName)
+      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.secondContactEmail)
+      ContactDetailsPage.assertContactDetailsMatch(FirstContact)
+      ContactDetailsPage.assertContactDetailsMatch(SecondContact)
 
       And("the user changes all contact details")
-      contactDetailsPage.changeContactDetail(
-        contactDetailsPage.firstContactNameField,
-        contactDetailsPage.changeFirstContactNameLink,
-        contactDetailsPage.newFirstContactName,
-        contactDetailsPage.enterContactNameAndClickContinue
+      ContactDetailsPage.changeContactDetail(
+        ContactDetailsPage.firstContactNameField,
+        ContactDetailsPage.changeFirstContactNameLink,
+        ContactDetailsPage.newFirstContactName,
+        ContactDetailsPage.enterContactNameAndClickContinue
       )
 
-      contactDetailsPage.changeContactDetail(
-        contactDetailsPage.firstContactEmailField,
-        contactDetailsPage.changeFirstContactEmailLink,
-        contactDetailsPage.newFirstContactEmail,
-        contactDetailsPage.enterEmailAddressAndClickContinue
+      ContactDetailsPage.changeContactDetail(
+        ContactDetailsPage.firstContactEmailField,
+        ContactDetailsPage.changeFirstContactEmailLink,
+        ContactDetailsPage.newFirstContactEmail,
+        ContactDetailsPage.enterEmailAddressAndClickContinue
       )
 
-      contactDetailsPage.changeContactDetail(
-        contactDetailsPage.secondContactNameField,
-        contactDetailsPage.changeSecondContactNameLink,
-        contactDetailsPage.newSecondContactName,
-        contactDetailsPage.enterContactNameAndClickContinue
+      ContactDetailsPage.changeContactDetail(
+        ContactDetailsPage.secondContactNameField,
+        ContactDetailsPage.changeSecondContactNameLink,
+        ContactDetailsPage.newSecondContactName,
+        ContactDetailsPage.enterContactNameAndClickContinue
       )
 
-      contactDetailsPage.changeContactDetail(
-        contactDetailsPage.secondContactEmailField,
-        contactDetailsPage.changeSecondContactEmailLink,
-        contactDetailsPage.newSecondContactEmail,
-        contactDetailsPage.enterEmailAddressAndClickContinue
+      ContactDetailsPage.changeContactDetail(
+        ContactDetailsPage.secondContactEmailField,
+        ContactDetailsPage.changeSecondContactEmailLink,
+        ContactDetailsPage.newSecondContactEmail,
+        ContactDetailsPage.enterEmailAddressAndClickContinue
       )
 
       Then("the new contact detail amendments are shown on screen correctly")
-      contactDetailsPage.verifyChangedContactDetails(
-        contactDetailsPage.firstContactNameField,
-        contactDetailsPage.firstContactName
+      ContactDetailsPage.verifyChangedContactDetails(
+        ContactDetailsPage.firstContactNameField,
+        ContactDetailsPage.firstContactName
       )
 
-      contactDetailsPage.verifyChangedContactDetails(
-        contactDetailsPage.firstContactEmailField,
-        contactDetailsPage.firstContactEmail
+      ContactDetailsPage.verifyChangedContactDetails(
+        ContactDetailsPage.firstContactEmailField,
+        ContactDetailsPage.firstContactEmail
       )
 
-      contactDetailsPage.verifyChangedContactDetails(
-        contactDetailsPage.secondContactNameField,
-        contactDetailsPage.secondContactName
+      ContactDetailsPage.verifyChangedContactDetails(
+        ContactDetailsPage.secondContactNameField,
+        ContactDetailsPage.secondContactName
       )
 
-      contactDetailsPage.verifyChangedContactDetails(
-        contactDetailsPage.secondContactEmailField,
-        contactDetailsPage.secondContactEmail
+      ContactDetailsPage.verifyChangedContactDetails(
+        ContactDetailsPage.secondContactEmailField,
+        ContactDetailsPage.secondContactEmail
       )
     }
   }
