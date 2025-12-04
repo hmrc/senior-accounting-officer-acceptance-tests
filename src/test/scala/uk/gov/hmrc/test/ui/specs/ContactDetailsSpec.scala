@@ -16,12 +16,11 @@
 
 package uk.gov.hmrc.test.ui.specs
 
-import uk.gov.hmrc.test.ui.adt.{FirstContact, SecondContact}
 import uk.gov.hmrc.test.ui.adt.ContactDetailsPageError.{MissingContactDetails, MissingEmailAddress}
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.ContactDetails
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSectionStatus.Completed
+import uk.gov.hmrc.test.ui.adt.{FirstContact, SecondContact}
 import uk.gov.hmrc.test.ui.pages.*
-import uk.gov.hmrc.test.ui.pages.ContactDetailsPage
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.assertOnPage
@@ -31,15 +30,13 @@ class ContactDetailsSpec extends BaseSpec {
   Feature("Contact Details") {
 
     Scenario("Complete first contact details", RegistrationTests, ZapTests) {
-      val registrationPage   = new RegistrationPage
-
       Given("a user successfully adds company details from the registration page")
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
-      registrationPage.clickEnterYourCompanyDetailsLink()
+      RegistrationPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
 
       And("the user successfully adds a single contact from the registration page")
-      registrationPage.clickEnterYourContactDetailsLink()
+      RegistrationPage.clickEnterYourContactDetailsLink()
       ContactDetailsPage.clickContinue()
       ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
       ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)
@@ -50,19 +47,17 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.clickContinue()
 
       Then("the status on the registration page for the 'Enter your contact details' section is set to 'Completed'")
-      registrationPage.assertSectionStatus(ContactDetails, Completed)
+      RegistrationPage.assertSectionStatus(ContactDetails, Completed)
     }
 
     Scenario("Complete second contact details", RegistrationTests, ZapTests) {
-      val registrationPage   = new RegistrationPage
-
       Given("a user successfully adds company details from the registration page")
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
-      registrationPage.clickEnterYourCompanyDetailsLink()
+      RegistrationPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
 
       And("the user successfully adds a single contact from the registration page")
-      registrationPage.clickEnterYourContactDetailsLink()
+      RegistrationPage.clickEnterYourContactDetailsLink()
       ContactDetailsPage.clickContinue()
       ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
       ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)
@@ -78,19 +73,17 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.clickContinue()
 
       Then("the status on the registration page for the 'Enter your contact details' section is set to 'Completed'")
-      registrationPage.assertSectionStatus(ContactDetails, Completed)
+      RegistrationPage.assertSectionStatus(ContactDetails, Completed)
     }
 
     Scenario("Attempting to add a contact with no name produces the expected error", RegistrationTests, ZapTests) {
-      val registrationPage   = new RegistrationPage
-
       Given("a user successfully adds company details from the registration page")
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
-      registrationPage.clickEnterYourCompanyDetailsLink()
+      RegistrationPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
 
       When("the user selects to add contact details but attempts to continue with no contact name added")
-      registrationPage.clickEnterYourContactDetailsLink()
+      RegistrationPage.clickEnterYourContactDetailsLink()
       ContactDetailsPage.clickContinue()
       ContactDetailsPage.clickContinue()
 
@@ -113,15 +106,13 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      val registrationPage   = new RegistrationPage
-
       Given("a user successfully adds company details from the registration page")
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
-      registrationPage.clickEnterYourCompanyDetailsLink()
+      RegistrationPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
 
       When("the user selects to add contact details but attempts to continue with no email address added")
-      registrationPage.clickEnterYourContactDetailsLink()
+      RegistrationPage.clickEnterYourContactDetailsLink()
       ContactDetailsPage.clickContinue()
       ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
       ContactDetailsPage.clickContinue()
@@ -145,15 +136,13 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      val registrationPage   = new RegistrationPage
-
       Given("a user successfully adds company details from the registration page")
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
-      registrationPage.clickEnterYourCompanyDetailsLink()
+      RegistrationPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
 
       And("the user successfully adds a single contact from the registration page")
-      registrationPage.clickEnterYourContactDetailsLink()
+      RegistrationPage.clickEnterYourContactDetailsLink()
       ContactDetailsPage.clickContinue()
       ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
       ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)

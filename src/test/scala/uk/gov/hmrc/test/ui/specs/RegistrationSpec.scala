@@ -33,18 +33,16 @@ class RegistrationSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      val registrationPage = new RegistrationPage
-
       Given("an authenticated user lands on the registration page to register a business")
       AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
-      assertOnPage(registrationPage)
+      assertOnPage(RegistrationPage)
 
       Then("the page displays with the expected page elements and values required at the start of a new registration")
-      registrationPage.assertLinkIsVisibleWithText(EnterYourCompanyDetailsLink)
-      registrationPage.assertSectionStatus(CompanyDetails, NotStarted)
-      registrationPage.assertEnterYourContactDetailsLinkNotFound()
-      registrationPage.assertSectionStatus(ContactDetails, CannotStartYet)
-      registrationPage.assertSubmitButtonDoesNotExist()
+      RegistrationPage.assertLinkIsVisibleWithText(EnterYourCompanyDetailsLink)
+      RegistrationPage.assertSectionStatus(CompanyDetails, NotStarted)
+      RegistrationPage.assertEnterYourContactDetailsLinkNotFound()
+      RegistrationPage.assertSectionStatus(ContactDetails, CannotStartYet)
+      RegistrationPage.assertSubmitButtonDoesNotExist()
     }
 
     Scenario(
@@ -52,16 +50,14 @@ class RegistrationSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      val registrationPage = new RegistrationPage
-
       Given("a user successfully adds company details from the registration page")
       AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
-      registrationPage.clickEnterYourCompanyDetailsLink()
+      RegistrationPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
 
       Then("the action states displayed on the registration page are updated correctly")
-      registrationPage.assertEnterYourContactDetailsLinkFound()
-      registrationPage.assertSectionStatus(ContactDetails, NotStarted)
+      RegistrationPage.assertEnterYourContactDetailsLinkFound()
+      RegistrationPage.assertSectionStatus(ContactDetails, NotStarted)
     }
   }
 }

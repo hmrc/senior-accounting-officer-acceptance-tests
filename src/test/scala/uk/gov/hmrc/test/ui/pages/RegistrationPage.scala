@@ -25,7 +25,7 @@ import uk.gov.hmrc.test.ui.pages.RegistrationPage.sectionLocators
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 import scala.jdk.CollectionConverters.*
 
-class RegistrationPage extends BasePage {
+object RegistrationPage extends BasePage {
   override val pageUrl: String   = baseRegUrl
   override val pageTitle: String =
     "Register your company - Senior Accounting Officer notification and certificate - GOV.UK"
@@ -39,6 +39,11 @@ class RegistrationPage extends BasePage {
       By.cssSelector("ul.govuk-task-list > li.govuk-task-list__item--with-link:nth-of-type(1)"),
       s"${pageUrl.stripSuffix("/")}/business-match"
     )
+  )
+
+  private val sectionLocators: Map[RegistrationPageSection, By] = Map(
+    RegistrationPageSection.CompanyDetails -> By.cssSelector("#company-details-status"),
+    RegistrationPageSection.ContactDetails -> By.cssSelector("#contacts-details-status")
   )
 
   private def actionListItem(index: Int): By =
@@ -89,12 +94,4 @@ class RegistrationPage extends BasePage {
     val submitButtonElements = driver.findElements(submitButton).asScala
     submitButtonElements mustBe empty
   }
-}
-
-object RegistrationPage {
-
-  private val sectionLocators: Map[RegistrationPageSection, By] = Map(
-    RegistrationPageSection.CompanyDetails -> By.cssSelector("#company-details-status"),
-    RegistrationPageSection.ContactDetails -> By.cssSelector("#contacts-details-status")
-  )
 }
