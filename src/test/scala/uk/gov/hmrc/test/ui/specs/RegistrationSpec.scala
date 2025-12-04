@@ -34,7 +34,7 @@ class RegistrationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user lands on the registration page to register a business")
-      AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
+      AuthorityWizardPage.selectRedirectedUrlAndAffinityGroup(Organisation)
       assertOnPage(RegistrationPage)
 
       Then("the page displays with the expected page elements and values required at the start of a new registration")
@@ -51,7 +51,7 @@ class RegistrationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("a user successfully adds company details from the registration page")
-      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+      AuthorityWizardPage.enableGrsStubAndServiceHomePage(Organisation)
       RegistrationPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
 

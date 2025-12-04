@@ -31,7 +31,7 @@ class GrsIntegrationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user accesses the Generic Registration Service")
-      AuthLoginPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
+      AuthorityWizardPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
       RegistrationPage.clickEnterYourCompanyDetailsLink()
 
       When("the user completes a business match successfully")
