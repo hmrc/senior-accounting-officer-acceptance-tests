@@ -30,11 +30,10 @@ class GrsCompanyDetailsSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      val authLoginPage    = new AuthLoginPage
       val registrationPage = new RegistrationPage
 
       Given("An authenticated organisation user successfully navigated to the Register Your Company page")
-      authLoginPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
+      AuthLoginPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
       And("They click on 'Enter your company details' heading link")
       registrationPage.clickEnterYourCompanyDetailsLink()
 

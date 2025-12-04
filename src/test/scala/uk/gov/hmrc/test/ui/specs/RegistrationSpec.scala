@@ -33,11 +33,10 @@ class RegistrationSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      val authLoginPage    = new AuthLoginPage
       val registrationPage = new RegistrationPage
 
       Given("an authenticated user lands on the registration page to register a business")
-      authLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
+      AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
       assertOnPage(registrationPage)
 
       Then("the page displays with the expected page elements and values required at the start of a new registration")
@@ -53,12 +52,11 @@ class RegistrationSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      val authLoginPage    = new AuthLoginPage
       val grsStubPage      = new GrsStubPage
       val registrationPage = new RegistrationPage
 
       Given("a user successfully adds company details from the registration page")
-      authLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
       registrationPage.clickEnterYourCompanyDetailsLink()
       grsStubPage.clickStubResponseButton()
 

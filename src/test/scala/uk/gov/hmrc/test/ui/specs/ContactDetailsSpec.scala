@@ -31,13 +31,12 @@ class ContactDetailsSpec extends BaseSpec {
   Feature("Contact Details") {
 
     Scenario("Complete first contact details", RegistrationTests, ZapTests) {
-      val authLoginPage      = new AuthLoginPage
       val grsStubPage        = new GrsStubPage
       val contactDetailsPage = new ContactDetailsPage
       val registrationPage   = new RegistrationPage
 
       Given("a user successfully adds company details from the registration page")
-      authLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
       registrationPage.clickEnterYourCompanyDetailsLink()
       grsStubPage.clickStubResponseButton()
 
@@ -57,13 +56,12 @@ class ContactDetailsSpec extends BaseSpec {
     }
 
     Scenario("Complete second contact details", RegistrationTests, ZapTests) {
-      val authLoginPage      = new AuthLoginPage
       val grsStubPage        = new GrsStubPage
       val contactDetailsPage = new ContactDetailsPage
       val registrationPage   = new RegistrationPage
 
       Given("a user successfully adds company details from the registration page")
-      authLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
       registrationPage.clickEnterYourCompanyDetailsLink()
       grsStubPage.clickStubResponseButton()
 
@@ -88,13 +86,12 @@ class ContactDetailsSpec extends BaseSpec {
     }
 
     Scenario("Attempting to add a contact with no name produces the expected error", RegistrationTests, ZapTests) {
-      val authLoginPage      = new AuthLoginPage
       val grsStubPage        = new GrsStubPage
       val contactDetailsPage = new ContactDetailsPage
       val registrationPage   = new RegistrationPage
 
       Given("a user successfully adds company details from the registration page")
-      authLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
       registrationPage.clickEnterYourCompanyDetailsLink()
       grsStubPage.clickStubResponseButton()
 
@@ -122,13 +119,12 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      val authLoginPage      = new AuthLoginPage
       val grsStubPage        = new GrsStubPage
       val contactDetailsPage = new ContactDetailsPage
       val registrationPage   = new RegistrationPage
 
       Given("a user successfully adds company details from the registration page")
-      authLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
       registrationPage.clickEnterYourCompanyDetailsLink()
       grsStubPage.clickStubResponseButton()
 
@@ -157,13 +153,12 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      val authLoginPage      = new AuthLoginPage
       val grsStubPage        = new GrsStubPage
       val contactDetailsPage = new ContactDetailsPage
       val registrationPage   = new RegistrationPage
 
       Given("a user successfully adds company details from the registration page")
-      authLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
       registrationPage.clickEnterYourCompanyDetailsLink()
       grsStubPage.clickStubResponseButton()
 
