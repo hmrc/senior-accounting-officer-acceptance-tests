@@ -16,20 +16,20 @@
 
 package uk.gov.hmrc.test.ui.pages
 
-import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait}
 import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait}
 import org.scalatest.AppendedClues.convertToClueful
 import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourCompanyDetailsLink
 import uk.gov.hmrc.test.ui.adt.{PageLink, RegistrationPageSection, RegistrationPageSectionStatus}
-import uk.gov.hmrc.test.ui.pages.RegistrationPage.sectionLocators
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
+
 import scala.jdk.CollectionConverters.*
 
 object RegistrationPage extends BasePage {
   override val pageUrl: String   = baseRegUrl
   override val pageTitle: String =
     "Register your company - Senior Accounting Officer notification and certificate - GOV.UK"
-  
+
   private val submitButton: By        = By.cssSelector("#submit")
   private val companyDetailsField: By = actionListItem(1)
   private val contactDetailsField: By = actionListItem(2)

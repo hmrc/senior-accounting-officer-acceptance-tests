@@ -83,9 +83,9 @@ object ContactDetailsPage extends BasePage with TestDataGenerator {
 
   private val pageErrors: Map[PageError, (By, String)] = Map(
     ContactDetailsPageError.MissingContactDetails -> (By.cssSelector("a[href='#value']"), "Enter contactName"),
-    ContactDetailsPageError.MissingEmailAddress -> (By.cssSelector("a[href='#value']"), "Enter contactEmail")
+    ContactDetailsPageError.MissingEmailAddress   -> (By.cssSelector("a[href='#value']"), "Enter contactEmail")
   )
-  
+
   def contactNameValueLocator(index: Int): By =
     By.cssSelector(
       s"dl.govuk-summary-list:nth-of-type($index) > .govuk-summary-list__row:nth-of-type(1) > dd.govuk-summary-list__value"
