@@ -30,13 +30,10 @@ class GrsCompanyDetailsSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      val authLoginPage    = new AuthLoginPage
-      val registrationPage = new RegistrationPage
-
       Given("An authenticated organisation user successfully navigated to the Register Your Company page")
-      authLoginPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
+      AuthLoginPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
       And("They click on 'Enter your company details' heading link")
-      registrationPage.clickEnterYourCompanyDetailsLink()
+      RegistrationPage.clickEnterYourCompanyDetailsLink()
 
       And("On GRS they view the 'Company Details' page")
       GrsCompanyDetailsPage.verifyGrsCompanyDetailsPageURL()
@@ -51,9 +48,9 @@ class GrsCompanyDetailsSpec extends BaseSpec {
 
       When("They are back to the 'Register Your Company' page")
       Then("The heading 'Enter your company details' is not a link")
-      registrationPage.assertEnterYourCompanyDetailsLinkNotFound()
+      RegistrationPage.assertEnterYourCompanyDetailsLinkNotFound()
       And("The status of the Company Details must be Completed")
-      registrationPage.assertSectionStatus(CompanyDetails, Completed)
+      RegistrationPage.assertSectionStatus(CompanyDetails, Completed)
     }
   }
 }

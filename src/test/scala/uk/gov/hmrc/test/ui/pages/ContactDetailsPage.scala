@@ -20,12 +20,11 @@ import com.github.javafaker.Faker
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalactic.Prettifier.default
-import uk.gov.hmrc.test.ui.adt.{Contact, ContactDetails, ContactDetailsPageError, FirstContact, PageError, SecondContact}
-import uk.gov.hmrc.test.ui.pages.ContactDetailsPage.pageErrors
+import uk.gov.hmrc.test.ui.adt.*
 import uk.gov.hmrc.test.ui.support.TestDataGenerator
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
-class ContactDetailsPage extends BasePage with TestDataGenerator {
+object ContactDetailsPage extends BasePage with TestDataGenerator {
   override val pageUrl: String   = baseRegUrl
   override val pageTitle: String = ""
   private val faker              = new Faker(new java.util.Locale("en-GB"))
@@ -80,6 +79,11 @@ class ContactDetailsPage extends BasePage with TestDataGenerator {
       secondContactEmailField,
       secondContactEmail
     )
+  )
+
+  private val pageErrors: Map[PageError, (By, String)] = Map(
+    ContactDetailsPageError.MissingContactDetails -> (By.cssSelector("a[href='#value']"), "Enter contactName"),
+    ContactDetailsPageError.MissingEmailAddress   -> (By.cssSelector("a[href='#value']"), "Enter contactEmail")
   )
 
   def contactNameValueLocator(index: Int): By =
@@ -160,11 +164,4 @@ class ContactDetailsPage extends BasePage with TestDataGenerator {
     // TODO: It's better to validate the new values based on edits (i.e. known values)
     updatedValue.getText must not be originalValue
   }
-}
-
-object ContactDetailsPage {
-  private val pageErrors: Map[PageError, (By, String)] = Map(
-    ContactDetailsPageError.MissingContactDetails -> (By.cssSelector("a[href='#value']"), "Enter contactName"),
-    ContactDetailsPageError.MissingEmailAddress   -> (By.cssSelector("a[href='#value']"), "Enter contactEmail")
-  )
 }

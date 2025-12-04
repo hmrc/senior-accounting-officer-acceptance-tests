@@ -33,19 +33,16 @@ class RegistrationSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      val authLoginPage    = new AuthLoginPage
-      val registrationPage = new RegistrationPage
-
       Given("an authenticated user lands on the registration page to register a business")
-      authLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
-      assertOnPage(registrationPage)
+      AuthLoginPage.selectRedirectedUrlAndAffinityGroup(Organisation)
+      assertOnPage(RegistrationPage)
 
       Then("the page displays with the expected page elements and values required at the start of a new registration")
-      registrationPage.assertLinkIsVisibleWithText(EnterYourCompanyDetailsLink)
-      registrationPage.assertSectionStatus(CompanyDetails, NotStarted)
-      registrationPage.assertEnterYourContactDetailsLinkNotFound()
-      registrationPage.assertSectionStatus(ContactDetails, CannotStartYet)
-      registrationPage.assertSubmitButtonDoesNotExist()
+      RegistrationPage.assertLinkIsVisibleWithText(EnterYourCompanyDetailsLink)
+      RegistrationPage.assertSectionStatus(CompanyDetails, NotStarted)
+      RegistrationPage.assertEnterYourContactDetailsLinkNotFound()
+      RegistrationPage.assertSectionStatus(ContactDetails, CannotStartYet)
+      RegistrationPage.assertSubmitButtonDoesNotExist()
     }
 
     Scenario(
@@ -53,18 +50,14 @@ class RegistrationSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      val authLoginPage    = new AuthLoginPage
-      val grsStubPage      = new GrsStubPage
-      val registrationPage = new RegistrationPage
-
       Given("a user successfully adds company details from the registration page")
-      authLoginPage.enableGrsStubAndServiceHomePage(Organisation)
-      registrationPage.clickEnterYourCompanyDetailsLink()
-      grsStubPage.clickStubResponseButton()
+      AuthLoginPage.enableGrsStubAndServiceHomePage(Organisation)
+      RegistrationPage.clickEnterYourCompanyDetailsLink()
+      GrsStubPage.clickStubResponseButton()
 
       Then("the action states displayed on the registration page are updated correctly")
-      registrationPage.assertEnterYourContactDetailsLinkFound()
-      registrationPage.assertSectionStatus(ContactDetails, NotStarted)
+      RegistrationPage.assertEnterYourContactDetailsLinkFound()
+      RegistrationPage.assertSectionStatus(ContactDetails, NotStarted)
     }
   }
 }
