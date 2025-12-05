@@ -22,17 +22,15 @@ import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.{clickContinueButton, fluentWait}
 
-object CompanyRegistrationNumberPage extends BasePage {
-  override val pageUrl: String             = baseRegUrl
-  val pageTitle: String                    = ""
-  val grsCompanyDetailsPageUrl: String     = TestConfiguration.url("incorporated-entity-identification-frontend")
-  val companyRegistrationNumberTextBox: By = By.id("companyNumber")
+object UniqueTaxpayerReferencePage extends BasePage {
+  override val pageUrl: String         = baseRegUrl
+  val pageTitle: String                = ""
+  val grsCompanyDetailsPageUrl: String = TestConfiguration.url("incorporated-entity-identification-frontend")
+  val companyUtrNumberTextBox: By      = By.id("ctutr")
 
-  def verifyGrsCompanyDetailsPageURL(): Unit = waitFor.until(ExpectedConditions.urlContains(grsCompanyDetailsPageUrl))
-
-  def enterCompanyRegistrationNumber(): Unit = {
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(companyRegistrationNumberTextBox))
-    driver.findElement(companyRegistrationNumberTextBox).sendKeys("AB123456")
+  def enterUTRNumber(): Unit = {
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(companyUtrNumberTextBox))
+    driver.findElement(companyUtrNumberTextBox).sendKeys("1234567890")
     clickContinueButton()
   }
 }

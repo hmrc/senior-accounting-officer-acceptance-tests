@@ -31,6 +31,13 @@ object LimitedCompanyStubConfigurationPage extends BasePage {
   private val businessVerificationCheckbox: By = By.id("feature-switch.business-verification-stub")
   private val submitButtonByXpath: By          = By.xpath("//button[@type='submit']")
 
+  def selectFeatureEnabling(): Unit = {
+    LimitedCompanyStubConfigurationPage.loadFeatureEnablingPage()
+    LimitedCompanyStubConfigurationPage.setCompaniesHouseStubCheckbox(checked = true)
+    LimitedCompanyStubConfigurationPage.setBusinessVerificationCheckbox(checked = true)
+    LimitedCompanyStubConfigurationPage.clickSubmitButtonByXpath()
+  }
+
   def setCompaniesHouseStubCheckbox(checked: Boolean): Unit = {
     val checkbox = driver.findElement(companiesHouseStubCheckbox)
 

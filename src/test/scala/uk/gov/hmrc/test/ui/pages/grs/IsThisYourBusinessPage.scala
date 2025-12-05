@@ -26,56 +26,11 @@ object IsThisYourBusinessPage extends BasePage {
   override val pageUrl: String         = baseRegUrl
   val pageTitle: String                = ""
   val grsCompanyDetailsPageUrl: String = TestConfiguration.url("incorporated-entity-identification-frontend")
-
-  private val companyRegistrationNumberTextBox: By = By.id("companyNumber")
-  private val companyUtrNumberTextBox: By          = By.id("ctutr")
-  private val selectYesRadioButton: By             = By.id("confirmBusinessName")
-
-  private val checkYourAnswersCrnValue: By =
-    By.cssSelector("div.govuk-summary-list__row:nth-child(1) .govuk-summary-list__value")
-
-  private val checkYourAnswersUtrValue: By =
-    By.cssSelector("div.govuk-summary-list__row:nth-child(2) .govuk-summary-list__value")
-
-  def verifyGrsCompanyDetailsPageURL(): Unit = waitFor.until(ExpectedConditions.urlContains(grsCompanyDetailsPageUrl))
-
-  def enterCompanyRegistrationNumber(): Unit = {
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(companyRegistrationNumberTextBox))
-    driver.findElement(companyRegistrationNumberTextBox).sendKeys("AB123456")
-    clickContinueButton()
-  }
+  val selectYesRadioButton: By         = By.id("confirmBusinessName")
 
   def selectYesForIsThisYourBusiness(): Unit = {
     fluentWait.until(ExpectedConditions.presenceOfElementLocated(selectYesRadioButton))
     click(selectYesRadioButton)
     clickContinueButton()
-  }
-
-  def enterUTRNumber(): Unit = {
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(companyUtrNumberTextBox))
-    driver.findElement(companyUtrNumberTextBox).sendKeys("1234567890")
-    clickContinueButton()
-  }
-
-  def verifyCheckYourAnswers(): Unit = {
-    verifyCheckYourAnswersCrnValue()
-    verifyCheckYourAnswersUtrValue()
-    clickContinueButton()
-  }
-
-  def verifyCheckYourAnswersCrnValue(): Unit = {
-    val crnValue = fluentWait
-      .until(ExpectedConditions.visibilityOfElementLocated(checkYourAnswersCrnValue))
-      .getText
-
-    crnValue mustBe "AB123456"
-  }
-
-  def verifyCheckYourAnswersUtrValue(): Unit = {
-    val utrValue = fluentWait
-      .until(ExpectedConditions.visibilityOfElementLocated(checkYourAnswersUtrValue))
-      .getText
-
-    utrValue mustBe "1234567890"
   }
 }
