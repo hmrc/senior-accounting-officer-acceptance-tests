@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages
+package uk.gov.hmrc.test.ui.pages.registration
 
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
+import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
 object GrsStubPage extends BasePage {

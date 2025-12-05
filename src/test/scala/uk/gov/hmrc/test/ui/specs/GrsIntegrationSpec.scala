@@ -19,6 +19,8 @@ package uk.gov.hmrc.test.ui.specs
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.CompanyDetails
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSectionStatus.Completed
 import uk.gov.hmrc.test.ui.pages.*
+import uk.gov.hmrc.test.ui.pages.grs.GrsCompanyDetailsPage
+import uk.gov.hmrc.test.ui.pages.registration.RegistrationPage
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 
