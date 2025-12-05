@@ -33,6 +33,7 @@ class GrsIntegrationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user accesses the Generic Registration Service")
+      LimitedCompanyStubConfigurationPage.setStubbedDependencies()
       AuthorityWizardPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
       RegistrationPage.clickEnterYourCompanyDetailsLink()
 
@@ -51,3 +52,4 @@ class GrsIntegrationSpec extends BaseSpec {
     }
   }
 }
+

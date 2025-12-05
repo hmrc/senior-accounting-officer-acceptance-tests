@@ -20,7 +20,7 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.grs.LimitedCompanyStubConfigurationPage
-import uk.gov.hmrc.test.ui.pages.grs.LimitedCompanyStubConfigurationPage.selectFeatureEnabling
+import uk.gov.hmrc.test.ui.pages.grs.LimitedCompanyStubConfigurationPage.setStubbedDependencies
 import uk.gov.hmrc.test.ui.pages.registration.GrsFeatureTogglePage
 import uk.gov.hmrc.test.ui.support.AffinityGroup
 import uk.gov.hmrc.test.ui.support.PageSupport.{clickSubmitButton, fluentWait, selectDropdownById}
@@ -63,7 +63,6 @@ object AuthorityWizardPage extends BasePage {
   }
 
   def enableGrsMicroserviceAndServiceHomePage(affinityGroup: AffinityGroup): Unit = {
-    selectFeatureEnabling() // GRS microservice - change features in GRS to use stubs
     selectGrsMicroserviceFeatureToggle() // registration frontend - change feature
     selectValidRedirectUrlAndAffinityGroup(affinityGroup) // authority wizard
   }

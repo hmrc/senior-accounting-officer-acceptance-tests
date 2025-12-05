@@ -28,14 +28,12 @@ object LimitedCompanyStubConfigurationPage extends BasePage {
   val pageTitle: String        = ""
 
   private val companiesHouseStubCheckbox: By   = By.id("feature-switch.companies-house-stub")
-  private val businessVerificationCheckbox: By = By.id("feature-switch.business-verification-stub")
-  private val submitButtonByXpath: By          = By.xpath("//button[@type='submit']")
+  private val submitButton: By          = By.xpath("//button[@type='submit']")
 
-  def selectFeatureEnabling(): Unit = {
-    LimitedCompanyStubConfigurationPage.loadFeatureEnablingPage()
-    LimitedCompanyStubConfigurationPage.setCompaniesHouseStubCheckbox(checked = true)
-    LimitedCompanyStubConfigurationPage.setBusinessVerificationCheckbox(checked = true)
-    LimitedCompanyStubConfigurationPage.clickSubmitButtonByXpath()
+  def setStubbedDependencies(): Unit = {
+    loadFeatureEnablingPage()
+    setCompaniesHouseStubCheckbox(checked = true)
+    click(submitButton)
   }
 
   def setCompaniesHouseStubCheckbox(checked: Boolean): Unit = {
@@ -43,15 +41,7 @@ object LimitedCompanyStubConfigurationPage extends BasePage {
 
     if (checkbox.isSelected != checked) checkbox.click()
   }
-
-  def setBusinessVerificationCheckbox(checked: Boolean): Unit = {
-    val checkboxElement = driver.findElement(businessVerificationCheckbox)
-    if (checkboxElement.isSelected != checked) checkboxElement.click()
-  }
-
-  def clickSubmitButtonByXpath(): Unit =
-    click(submitButtonByXpath)
-
+  
   def loadFeatureEnablingPage(): Unit = {
     navigateTo(featureEnableUrl)
     fluentWait.until(ExpectedConditions.urlToBe(featureEnableUrl))
