@@ -19,8 +19,6 @@ package uk.gov.hmrc.test.ui.pages
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.grs.LimitedCompanyStubConfigurationPage
-import uk.gov.hmrc.test.ui.pages.grs.LimitedCompanyStubConfigurationPage.setStubbedDependencies
 import uk.gov.hmrc.test.ui.pages.registration.FeatureTogglePage
 import uk.gov.hmrc.test.ui.support.AffinityGroup
 import uk.gov.hmrc.test.ui.support.PageSupport.{clickSubmitButton, fluentWait, selectDropdownById}
@@ -29,21 +27,21 @@ object AuthorityWizardPage extends BasePage {
   override val pageUrl: String = TestConfiguration.url("auth-login-stub")
   val pageTitle: String        = ""
 
-  private[pages] val redirectionUrlById: By = By.id("redirectionUrl")
-  private[pages] val affinityGroupById: By  = By.id("affinityGroupSelect")
-  private val authSubmitById: By            = By.id("submit-top")
+  private val redirectionUrlById: By = By.id("redirectionUrl")
+  private val affinityGroupById: By  = By.id("affinityGroupSelect")
+  private val authSubmitById: By     = By.id("submit-top")
 
-  private[pages] val redirectUrl: String = baseRegUrl
+  private val redirectUrl: String = baseRegUrl
 
-  private[pages] def loadPage(): Unit = {
+  private def loadPage(): Unit = {
     navigateTo(pageUrl)
     fluentWait.until(ExpectedConditions.urlToBe(pageUrl))
   }
 
-  private[pages] def selectAffinityGroup(affinityGroup: AffinityGroup): Unit =
+  private def selectAffinityGroup(affinityGroup: AffinityGroup): Unit =
     selectDropdownById(affinityGroupById).selectByVisibleText(affinityGroup.toString)
 
-  private[pages] def submitAuthPage(): Unit = click(authSubmitById)
+  private def submitAuthPage(): Unit = click(authSubmitById)
 
   private def selectGrsStub(): Unit = {
     FeatureTogglePage.goToPage()
@@ -68,17 +66,15 @@ object AuthorityWizardPage extends BasePage {
 
   def withAffinityGroup(affinityGroup: AffinityGroup): AuthorityWizardConfig = AuthorityWizardConfig(affinityGroup)
 
-  private[pages] def superSendKeys(locator: By, value: String): Unit =
-    super.sendKeys(locator, value)
-
-}
-
-case class AuthorityWizardConfig(affinityGroup: AffinityGroup) {
-  def redirectToRegistration: Unit = {
-    import AuthorityWizardPage.*
+  def redirectToRegistration(config: AuthorityWizardConfig) = {
     loadPage()
-    superSendKeys(redirectionUrlById, redirectUrl)
-    selectAffinityGroup(affinityGroup)
+    sendKeys(redirectionUrlById, redirectUrl)
+    selectAffinityGroup(config.affinityGroup)
     submitAuthPage()
   }
+}
+
+final case class AuthorityWizardConfig(affinityGroup: AffinityGroup) {
+  def redirectToRegistration: Unit =
+    AuthorityWizardPage.redirectToRegistration(this)
 }
