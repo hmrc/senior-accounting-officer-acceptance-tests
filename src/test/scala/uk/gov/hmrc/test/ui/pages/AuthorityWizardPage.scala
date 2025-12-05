@@ -21,7 +21,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.grs.LimitedCompanyStubConfigurationPage
 import uk.gov.hmrc.test.ui.pages.grs.LimitedCompanyStubConfigurationPage.setStubbedDependencies
-import uk.gov.hmrc.test.ui.pages.registration.GrsFeatureTogglePage
+import uk.gov.hmrc.test.ui.pages.registration.FeatureTogglePage
 import uk.gov.hmrc.test.ui.support.AffinityGroup
 import uk.gov.hmrc.test.ui.support.PageSupport.{clickSubmitButton, fluentWait, selectDropdownById}
 
@@ -45,15 +45,9 @@ object AuthorityWizardPage extends BasePage {
 
   private def submitAuthPage(): Unit = click(authSubmitById)
 
-  private def selectGrsMicroserviceFeatureToggle(): Unit = {
-    GrsFeatureTogglePage.loadFeatureTogglePage()
-    GrsFeatureTogglePage.setStubGrsCheckboxState(false)
-    clickSubmitButton()
-  }
-
   private def selectGrsStub(): Unit = {
-    GrsFeatureTogglePage.loadFeatureTogglePage()
-    GrsFeatureTogglePage.setStubGrsCheckboxState(true)
+    FeatureTogglePage.goToPage()
+    FeatureTogglePage.selectStubGrsCheckbox(true)
     clickSubmitButton()
   }
 
@@ -63,7 +57,7 @@ object AuthorityWizardPage extends BasePage {
   }
 
   def enableGrsMicroserviceAndServiceHomePage(affinityGroup: AffinityGroup): Unit = {
-    selectGrsMicroserviceFeatureToggle() // registration frontend - change feature
+    FeatureTogglePage.useGrs() // registration frontend - change feature
     selectValidRedirectUrlAndAffinityGroup(affinityGroup) // authority wizard
   }
 

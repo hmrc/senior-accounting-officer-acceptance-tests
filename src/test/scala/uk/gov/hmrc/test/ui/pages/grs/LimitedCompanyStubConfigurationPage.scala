@@ -27,11 +27,11 @@ object LimitedCompanyStubConfigurationPage extends BasePage {
   val featureEnableUrl: String = s"$pageUrl/test-only/feature-switches"
   val pageTitle: String        = ""
 
-  private val companiesHouseStubCheckbox: By   = By.id("feature-switch.companies-house-stub")
-  private val submitButton: By          = By.xpath("//button[@type='submit']")
+  private val companiesHouseStubCheckbox: By = By.id("feature-switch.companies-house-stub")
+  private val submitButton: By               = By.xpath("//button[@type='submit']")
 
   def setStubbedDependencies(): Unit = {
-    loadFeatureEnablingPage()
+    goToPage()
     setCompaniesHouseStubCheckbox(checked = true)
     click(submitButton)
   }
@@ -41,8 +41,8 @@ object LimitedCompanyStubConfigurationPage extends BasePage {
 
     if (checkbox.isSelected != checked) checkbox.click()
   }
-  
-  def loadFeatureEnablingPage(): Unit = {
+
+  def goToPage(): Unit = {
     navigateTo(featureEnableUrl)
     fluentWait.until(ExpectedConditions.urlToBe(featureEnableUrl))
   }
