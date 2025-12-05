@@ -29,21 +29,21 @@ object AuthorityWizardPage extends BasePage {
   override val pageUrl: String = TestConfiguration.url("auth-login-stub")
   val pageTitle: String        = ""
 
-  private val redirectionUrlById: By = By.id("redirectionUrl")
-  private val affinityGroupById: By  = By.id("affinityGroupSelect")
-  private val authSubmitById: By     = By.id("submit-top")
+  private[pages] val redirectionUrlById: By = By.id("redirectionUrl")
+  private[pages] val affinityGroupById: By  = By.id("affinityGroupSelect")
+  private val authSubmitById: By            = By.id("submit-top")
 
-  private val redirectUrl: String = baseRegUrl
+  private[pages] val redirectUrl: String = baseRegUrl
 
-  private def loadPage(): Unit = {
+  private[pages] def loadPage(): Unit = {
     navigateTo(pageUrl)
     fluentWait.until(ExpectedConditions.urlToBe(pageUrl))
   }
 
-  private def selectAffinityGroup(affinityGroup: AffinityGroup): Unit =
+  private[pages] def selectAffinityGroup(affinityGroup: AffinityGroup): Unit =
     selectDropdownById(affinityGroupById).selectByVisibleText(affinityGroup.toString)
 
-  private def submitAuthPage(): Unit = click(authSubmitById)
+  private[pages] def submitAuthPage(): Unit = click(authSubmitById)
 
   private def selectGrsStub(): Unit = {
     FeatureTogglePage.goToPage()
@@ -66,4 +66,19 @@ object AuthorityWizardPage extends BasePage {
   def selectRedirectedUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit =
     selectValidRedirectUrlAndAffinityGroup(affinityGroup)
 
+  def withAffinityGroup(affinityGroup: AffinityGroup): AuthorityWizardConfig = AuthorityWizardConfig(affinityGroup)
+
+  private[pages] def superSendKeys(locator: By, value: String): Unit =
+    super.sendKeys(locator, value)
+
+}
+
+case class AuthorityWizardConfig(affinityGroup: AffinityGroup) {
+  def redirectToRegistration: Unit = {
+    import AuthorityWizardPage.*
+    loadPage()
+    superSendKeys(redirectionUrlById, redirectUrl)
+    selectAffinityGroup(affinityGroup)
+    submitAuthPage()
+  }
 }
