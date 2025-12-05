@@ -20,7 +20,7 @@ import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.CompanyDetails
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSectionStatus.Completed
 import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.pages.grs.*
-import uk.gov.hmrc.test.ui.pages.registration.RegistrationPage
+import uk.gov.hmrc.test.ui.pages.registration.{FeatureTogglePage, RegistrationPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 
@@ -34,7 +34,8 @@ class GrsIntegrationSpec extends BaseSpec {
     ) {
       Given("an authenticated user accesses the Generic Registration Service")
       LimitedCompanyStubConfigurationPage.setStubbedDependencies()
-      AuthorityWizardPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
+      FeatureTogglePage.useGrs()
+      AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup(Organisation)
       RegistrationPage.clickEnterYourCompanyDetailsLink()
 
       When("the user completes a business match successfully")
@@ -52,4 +53,3 @@ class GrsIntegrationSpec extends BaseSpec {
     }
   }
 }
-

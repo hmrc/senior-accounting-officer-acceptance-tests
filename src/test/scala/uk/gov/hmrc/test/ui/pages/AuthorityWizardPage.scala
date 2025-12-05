@@ -56,12 +56,7 @@ object AuthorityWizardPage extends BasePage {
     selectValidRedirectUrlAndAffinityGroup(affinityGroup)
   }
 
-  def enableGrsMicroserviceAndServiceHomePage(affinityGroup: AffinityGroup): Unit = {
-    FeatureTogglePage.useGrs() // registration frontend - change feature
-    selectValidRedirectUrlAndAffinityGroup(affinityGroup) // authority wizard
-  }
-
-  private def selectValidRedirectUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit = {
+  def selectValidRedirectUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit = {
     loadPage()
     sendKeys(redirectionUrlById, redirectUrl)
     selectAffinityGroup(affinityGroup)
