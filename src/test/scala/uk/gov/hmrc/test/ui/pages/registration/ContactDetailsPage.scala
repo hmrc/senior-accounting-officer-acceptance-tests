@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages
+package uk.gov.hmrc.test.ui.pages.registration
 
 import com.github.javafaker.Faker
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalactic.Prettifier.default
 import uk.gov.hmrc.test.ui.adt.*
-import uk.gov.hmrc.test.ui.support.TestDataGenerator
+import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
+import uk.gov.hmrc.test.ui.support.TestDataGenerator
 
 object ContactDetailsPage extends BasePage with TestDataGenerator {
   override val pageUrl: String   = baseRegUrl

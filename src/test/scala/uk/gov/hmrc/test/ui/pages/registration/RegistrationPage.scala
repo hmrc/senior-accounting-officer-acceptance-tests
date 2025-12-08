@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages
+package uk.gov.hmrc.test.ui.pages.registration
 
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait}
 import org.scalatest.AppendedClues.convertToClueful
 import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourCompanyDetailsLink
 import uk.gov.hmrc.test.ui.adt.{PageLink, RegistrationPageSection, RegistrationPageSectionStatus}
+import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
 import scala.jdk.CollectionConverters.*

@@ -18,7 +18,9 @@ package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.CompanyDetails
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSectionStatus.Completed
-import uk.gov.hmrc.test.ui.pages.*
+import uk.gov.hmrc.test.ui.pages.AuthorityWizardPage
+import uk.gov.hmrc.test.ui.pages.grs.*
+import uk.gov.hmrc.test.ui.pages.registration.{FeatureTogglePage, RegistrationPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 
@@ -31,15 +33,17 @@ class GrsIntegrationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user accesses the Generic Registration Service")
-      AuthLoginPage.enableGrsMicroserviceAndServiceHomePage(Organisation)
+      LimitedCompanyStubConfigurationPage.setStubbedDependencies()
+      FeatureTogglePage.useGrs()
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
       RegistrationPage.clickEnterYourCompanyDetailsLink()
 
       When("the user completes a business match successfully")
-      GrsCompanyDetailsPage.verifyGrsCompanyDetailsPageURL()
-      GrsCompanyDetailsPage.enterCompanyRegistrationNumber()
-      GrsCompanyDetailsPage.selectYesForIsThisYourBusiness()
-      GrsCompanyDetailsPage.enterUTRNumber()
-      GrsCompanyDetailsPage.verifyCheckYourAnswers()
+      CompanyRegistrationNumberPage.verifyGrsCompanyDetailsPageURL()
+      CompanyRegistrationNumberPage.enterCompanyRegistrationNumber()
+      IsThisYourBusinessPage.selectYesForIsThisYourBusiness()
+      UniqueTaxpayerReferencePage.enterUniqueTaxpayerReference()
+      GrsCheckYourAnswersPage.verifyCheckYourAnswers()
 
       Then("the company details have a status of 'Completed' on the registration dashboard")
       RegistrationPage.assertSectionStatus(CompanyDetails, Completed)

@@ -19,10 +19,11 @@ package uk.gov.hmrc.test.ui.pages
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
+import uk.gov.hmrc.test.ui.pages.registration.FeatureTogglePage
 import uk.gov.hmrc.test.ui.support.AffinityGroup
 import uk.gov.hmrc.test.ui.support.PageSupport.{clickSubmitButton, fluentWait, selectDropdownById}
 
-object AuthLoginPage extends BasePage {
+object AuthorityWizardPage extends BasePage {
   override val pageUrl: String = TestConfiguration.url("auth-login-stub")
   val pageTitle: String        = ""
 
@@ -42,22 +43,9 @@ object AuthLoginPage extends BasePage {
 
   private def submitAuthPage(): Unit = click(authSubmitById)
 
-  private def selectFeatureEnabling(): Unit = {
-    FeatureEnablingPage.loadFeatureEnablingPage()
-    FeatureEnablingPage.setCompaniesHouseStubCheckbox(checked = true)
-    FeatureEnablingPage.setBusinessVerificationCheckbox(checked = true)
-    FeatureEnablingPage.clickSubmitButtonByXpath()
-  }
-
-  private def selectGrsMicroserviceFeatureToggle(): Unit = {
-    GrsFeatureTogglePage.loadFeatureTogglePage()
-    GrsFeatureTogglePage.setStubGrsCheckboxState(false)
-    clickSubmitButton()
-  }
-
   private def selectGrsStub(): Unit = {
-    GrsFeatureTogglePage.loadFeatureTogglePage()
-    GrsFeatureTogglePage.setStubGrsCheckboxState(true)
+    FeatureTogglePage.goToPage()
+    FeatureTogglePage.selectStubGrsCheckbox(true)
     clickSubmitButton()
   }
 
@@ -66,13 +54,7 @@ object AuthLoginPage extends BasePage {
     selectValidRedirectUrlAndAffinityGroup(affinityGroup)
   }
 
-  def enableGrsMicroserviceAndServiceHomePage(affinityGroup: AffinityGroup): Unit = {
-    selectFeatureEnabling()
-    selectGrsMicroserviceFeatureToggle()
-    selectValidRedirectUrlAndAffinityGroup(affinityGroup)
-  }
-
-  private def selectValidRedirectUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit = {
+  def selectValidRedirectUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit = {
     loadPage()
     sendKeys(redirectionUrlById, redirectUrl)
     selectAffinityGroup(affinityGroup)
@@ -82,4 +64,17 @@ object AuthLoginPage extends BasePage {
   def selectRedirectedUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit =
     selectValidRedirectUrlAndAffinityGroup(affinityGroup)
 
+  def withAffinityGroup(affinityGroup: AffinityGroup): AuthorityWizardConfig = AuthorityWizardConfig(affinityGroup)
+
+  def redirectToRegistration(config: AuthorityWizardConfig): Unit = {
+    loadPage()
+    sendKeys(redirectionUrlById, redirectUrl)
+    selectAffinityGroup(config.affinityGroup)
+    submitAuthPage()
+  }
+}
+
+final case class AuthorityWizardConfig private[pages] (affinityGroup: AffinityGroup) {
+  def redirectToRegistration(): Unit =
+    AuthorityWizardPage.redirectToRegistration(this)
 }

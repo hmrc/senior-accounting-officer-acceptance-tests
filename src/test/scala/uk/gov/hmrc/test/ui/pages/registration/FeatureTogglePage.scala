@@ -14,28 +14,36 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages
+package uk.gov.hmrc.test.ui.pages.registration
 
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
+import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
+import uk.gov.hmrc.test.ui.support.PageSupport.clickSubmitButton
 
-object GrsFeatureTogglePage extends BasePage {
+object FeatureTogglePage extends BasePage {
   override val pageUrl: String                = baseRegUrl
   val pageTitle: String                       = ""
   private val grsFeatureTogglePageUrl: String = s"$pageUrl/test-only/feature-toggle"
 
   private val stubGrsCheckbox: By = By.id("stubGrs")
 
-  def setStubGrsCheckboxState(shouldBeChecked: Boolean): Unit = {
+  def useGrs(): Unit = {
+    goToPage()
+    selectStubGrsCheckbox(false)
+    clickSubmitButton()
+  }
+
+  def goToPage(): Unit = {
+    driver.navigate().to(grsFeatureTogglePageUrl)
+    fluentWait.until(ExpectedConditions.urlToBe(grsFeatureTogglePageUrl))
+  }
+
+  def selectStubGrsCheckbox(shouldBeChecked: Boolean): Unit = {
     val checkboxElement = driver.findElement(stubGrsCheckbox)
     if (checkboxElement.isSelected != shouldBeChecked) {
       checkboxElement.click()
     }
-  }
-
-  def loadFeatureTogglePage(): Unit = {
-    driver.navigate().to(grsFeatureTogglePageUrl)
-    fluentWait.until(ExpectedConditions.urlToBe(grsFeatureTogglePageUrl))
   }
 }

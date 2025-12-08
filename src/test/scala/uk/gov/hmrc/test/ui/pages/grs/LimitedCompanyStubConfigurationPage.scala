@@ -14,21 +14,27 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages
+package uk.gov.hmrc.test.ui.pages.grs
 
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
+import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
-object FeatureEnablingPage extends BasePage {
+object LimitedCompanyStubConfigurationPage extends BasePage {
   override val pageUrl: String = TestConfiguration.url("incorporated-entity-identification-frontend")
   val featureEnableUrl: String = s"$pageUrl/test-only/feature-switches"
   val pageTitle: String        = ""
 
-  private val companiesHouseStubCheckbox: By   = By.id("feature-switch.companies-house-stub")
-  private val businessVerificationCheckbox: By = By.id("feature-switch.business-verification-stub")
-  private val submitButtonByXpath: By          = By.xpath("//button[@type='submit']")
+  private val companiesHouseStubCheckbox: By = By.id("feature-switch.companies-house-stub")
+  private val submitButton: By               = By.xpath("//button[@type='submit']")
+
+  def setStubbedDependencies(): Unit = {
+    goToPage()
+    setCompaniesHouseStubCheckbox(checked = true)
+    click(submitButton)
+  }
 
   def setCompaniesHouseStubCheckbox(checked: Boolean): Unit = {
     val checkbox = driver.findElement(companiesHouseStubCheckbox)
@@ -36,15 +42,7 @@ object FeatureEnablingPage extends BasePage {
     if (checkbox.isSelected != checked) checkbox.click()
   }
 
-  def setBusinessVerificationCheckbox(checked: Boolean): Unit = {
-    val checkboxElement = driver.findElement(businessVerificationCheckbox)
-    if (checkboxElement.isSelected != checked) checkboxElement.click()
-  }
-
-  def clickSubmitButtonByXpath(): Unit =
-    click(submitButtonByXpath)
-
-  def loadFeatureEnablingPage(): Unit = {
+  def goToPage(): Unit = {
     navigateTo(featureEnableUrl)
     fluentWait.until(ExpectedConditions.urlToBe(featureEnableUrl))
   }
