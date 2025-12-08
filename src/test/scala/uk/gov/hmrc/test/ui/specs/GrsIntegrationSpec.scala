@@ -18,7 +18,7 @@ package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.CompanyDetails
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSectionStatus.Completed
-import uk.gov.hmrc.test.ui.pages.*
+import uk.gov.hmrc.test.ui.pages.AuthorityWizardPage
 import uk.gov.hmrc.test.ui.pages.grs.*
 import uk.gov.hmrc.test.ui.pages.registration.{FeatureTogglePage, RegistrationPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
@@ -42,7 +42,7 @@ class GrsIntegrationSpec extends BaseSpec {
       CompanyRegistrationNumberPage.verifyGrsCompanyDetailsPageURL()
       CompanyRegistrationNumberPage.enterCompanyRegistrationNumber()
       IsThisYourBusinessPage.selectYesForIsThisYourBusiness()
-      UniqueTaxpayerReferencePage.enterUTRNumber()
+      UniqueTaxpayerReferencePage.enterUniqueTaxpayerReference()
       GrsCheckYourAnswersPage.verifyCheckYourAnswers()
 
       Then("the company details have a status of 'Completed' on the registration dashboard")

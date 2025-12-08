@@ -23,14 +23,16 @@ import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.{clickContinueButton, fluentWait}
 
 object UniqueTaxpayerReferencePage extends BasePage {
-  override val pageUrl: String         = baseRegUrl
-  val pageTitle: String                = ""
-  val grsCompanyDetailsPageUrl: String = TestConfiguration.url("incorporated-entity-identification-frontend")
-  val companyUtrNumberTextBox: By      = By.id("ctutr")
+  override val pageUrl: String                    = baseRegUrl
+  val pageTitle: String                           = ""
+  val grsCompanyDetailsPageUrl: String            = TestConfiguration.url("incorporated-entity-identification-frontend")
+  val validGrsStubUniqueTaxpayerReference: String = "1234567890"
 
-  def enterUTRNumber(): Unit = {
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(companyUtrNumberTextBox))
-    driver.findElement(companyUtrNumberTextBox).sendKeys("1234567890")
+  val corporationTaxUniqueTaxpayerReferenceTextBox: By = By.id("ctutr")
+
+  def enterUniqueTaxpayerReference(): Unit = {
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(corporationTaxUniqueTaxpayerReferenceTextBox))
+    driver.findElement(corporationTaxUniqueTaxpayerReferenceTextBox).sendKeys(validGrsStubUniqueTaxpayerReference)
     clickContinueButton()
   }
 }
