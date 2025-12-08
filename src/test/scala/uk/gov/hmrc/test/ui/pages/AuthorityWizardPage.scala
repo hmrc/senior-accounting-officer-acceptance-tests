@@ -43,14 +43,8 @@ object AuthorityWizardPage extends BasePage {
 
   private def submitAuthPage(): Unit = click(authSubmitById)
 
-  private def selectGrsStub(): Unit = {
-    FeatureTogglePage.goToPage()
-    FeatureTogglePage.selectStubGrsCheckbox(true)
-    clickSubmitButton()
-  }
-
   def enableGrsStubAndServiceHomePage(affinityGroup: AffinityGroup): Unit = {
-    selectGrsStub()
+    FeatureTogglePage.selectGrsStub()
     selectValidRedirectUrlAndAffinityGroup(affinityGroup)
   }
 

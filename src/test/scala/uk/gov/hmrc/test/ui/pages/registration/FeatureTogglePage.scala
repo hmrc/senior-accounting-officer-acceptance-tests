@@ -29,6 +29,12 @@ object FeatureTogglePage extends BasePage {
 
   private val stubGrsCheckbox: By = By.id("stubGrs")
 
+  def selectGrsStub(): Unit = {
+    FeatureTogglePage.goToPage()
+    FeatureTogglePage.selectStubGrsCheckbox(true)
+    clickSubmitButton()
+  }
+  
   def useGrs(): Unit = {
     goToPage()
     selectStubGrsCheckbox(false)
