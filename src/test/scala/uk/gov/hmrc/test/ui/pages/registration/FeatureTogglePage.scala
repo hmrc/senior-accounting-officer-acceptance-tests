@@ -34,7 +34,7 @@ object FeatureTogglePage extends BasePage {
     FeatureTogglePage.selectStubGrsCheckbox(true)
     clickSubmitButton()
   }
-  
+
   def useGrs(): Unit = {
     goToPage()
     selectStubGrsCheckbox(false)

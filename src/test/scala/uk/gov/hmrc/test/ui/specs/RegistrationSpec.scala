@@ -20,7 +20,7 @@ import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourCompanyDetailsLink
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.{CompanyDetails, ContactDetails}
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSectionStatus.{CannotStartYet, NotStarted}
 import uk.gov.hmrc.test.ui.pages.AuthorityWizardPage
-import uk.gov.hmrc.test.ui.pages.registration.{GrsStubPage, RegistrationPage}
+import uk.gov.hmrc.test.ui.pages.registration.{FeatureTogglePage, GrsStubPage, RegistrationPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.assertOnPage
@@ -52,7 +52,8 @@ class RegistrationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("a user successfully adds company details from the registration page")
-      AuthorityWizardPage.enableGrsStubAndServiceHomePage(Organisation)
+      FeatureTogglePage.selectGrsStub()
+      AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup(Organisation)
       RegistrationPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
 
