@@ -21,6 +21,7 @@ import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.ContactDetails
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSectionStatus.Completed
 import uk.gov.hmrc.test.ui.adt.{FirstContact, SecondContact}
 import uk.gov.hmrc.test.ui.pages.*
+import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
 import uk.gov.hmrc.test.ui.pages.registration.{ContactDetailsPage, FeatureTogglePage, GrsStubPage, RegistrationPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
@@ -32,7 +33,7 @@ class ContactDetailsSpec extends BaseSpec {
 
     Scenario("Complete first contact details", RegistrationTests, ZapTests) {
       Given("a user successfully adds company details from the registration page")
-      FeatureTogglePage.useGrsStub()
+      FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
       AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup(Organisation)
       RegistrationPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
@@ -54,7 +55,7 @@ class ContactDetailsSpec extends BaseSpec {
 
     Scenario("Complete second contact details", RegistrationTests, ZapTests) {
       Given("a user successfully adds company details from the registration page")
-      FeatureTogglePage.useGrsStub()
+      FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
       AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup(Organisation)
       RegistrationPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
@@ -81,7 +82,7 @@ class ContactDetailsSpec extends BaseSpec {
 
     Scenario("Attempting to add a contact with no name produces the expected error", RegistrationTests, ZapTests) {
       Given("a user successfully adds company details from the registration page")
-      FeatureTogglePage.useGrsStub()
+      FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
       AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup(Organisation)
       RegistrationPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
@@ -111,7 +112,7 @@ class ContactDetailsSpec extends BaseSpec {
       ZapTests
     ) {
       Given("a user successfully adds company details from the registration page")
-      FeatureTogglePage.useGrsStub()
+      FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
       AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup(Organisation)
       RegistrationPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
@@ -142,7 +143,7 @@ class ContactDetailsSpec extends BaseSpec {
       ZapTests
     ) {
       Given("a user successfully adds company details from the registration page")
-      FeatureTogglePage.useGrsStub()
+      FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
       AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup(Organisation)
       RegistrationPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
