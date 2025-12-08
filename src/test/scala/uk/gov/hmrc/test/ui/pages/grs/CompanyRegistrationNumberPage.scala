@@ -31,7 +31,8 @@ object CompanyRegistrationNumberPage extends BasePage {
   val companyRegistrationNumberTextBox: By = By.id("companyNumber")
 
   def verifyGrsCompanyDetailsPageURL(): Unit = waitFor.until(ExpectedConditions.urlContains(grsCompanyDetailsPageUrl))
-  def enterCompanyRegistrationNumber(): Unit = {
+
+  def enterCrnAndSubmit(): Unit = {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(companyRegistrationNumberTextBox))
     driver.findElement(companyRegistrationNumberTextBox).sendKeys(validGrsStubCompanyRegistrationNumber)
     clickContinueButton()

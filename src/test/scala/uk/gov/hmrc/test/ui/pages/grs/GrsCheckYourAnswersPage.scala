@@ -27,29 +27,26 @@ object GrsCheckYourAnswersPage extends BasePage {
   val pageTitle: String                = ""
   val grsCompanyDetailsPageUrl: String = TestConfiguration.url("incorporated-entity-identification-frontend")
 
-  private val checkYourAnswersCrnValue: By =
+  private val companyReferenceNumber: By  =
     By.cssSelector("div.govuk-summary-list__row:nth-child(1) .govuk-summary-list__value")
-
-  private val checkYourAnswersUtrValue: By =
+  private val uniqueTaxpayerReference: By =
     By.cssSelector("div.govuk-summary-list__row:nth-child(2) .govuk-summary-list__value")
 
-  def verifyCheckYourAnswers(): Unit = {
-    verifyCheckYourAnswersCrnValue()
-    verifyCheckYourAnswersUtrValue()
+  def assertAnswersAndSubmit(): Unit = {
+    assertCrnValue()
+    assertUtrValue()
     clickContinueButton()
   }
 
-  def verifyCheckYourAnswersCrnValue(): Unit = {
+  def assertCrnValue(): Unit = {
     val crnValue = fluentWait
-      .until(ExpectedConditions.visibilityOfElementLocated(checkYourAnswersCrnValue))
-
+      .until(ExpectedConditions.visibilityOfElementLocated(companyReferenceNumber))
     crnValue.getText mustBe "AB123456"
   }
 
-  def verifyCheckYourAnswersUtrValue(): Unit = {
+  def assertUtrValue(): Unit = {
     val utrValue = fluentWait
-      .until(ExpectedConditions.visibilityOfElementLocated(checkYourAnswersUtrValue))
-
+      .until(ExpectedConditions.visibilityOfElementLocated(uniqueTaxpayerReference))
     utrValue.getText mustBe "1234567890"
   }
 }
