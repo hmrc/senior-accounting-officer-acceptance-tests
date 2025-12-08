@@ -35,7 +35,7 @@ class GrsIntegrationSpec extends BaseSpec {
       Given("an authenticated user accesses the Generic Registration Service")
       LimitedCompanyStubConfigurationPage.setStubbedDependencies()
       FeatureTogglePage.useGrs()
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
       RegistrationPage.clickEnterYourCompanyDetailsLink()
 
       When("the user completes a business match successfully")

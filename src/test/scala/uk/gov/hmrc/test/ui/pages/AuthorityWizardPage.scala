@@ -66,7 +66,7 @@ object AuthorityWizardPage extends BasePage {
 
   def withAffinityGroup(affinityGroup: AffinityGroup): AuthorityWizardConfig = AuthorityWizardConfig(affinityGroup)
 
-  def redirectToRegistration(config: AuthorityWizardConfig) = {
+  def redirectToRegistration(config: AuthorityWizardConfig): Unit = {
     loadPage()
     sendKeys(redirectionUrlById, redirectUrl)
     selectAffinityGroup(config.affinityGroup)
@@ -74,7 +74,7 @@ object AuthorityWizardPage extends BasePage {
   }
 }
 
-final case class AuthorityWizardConfig(affinityGroup: AffinityGroup) {
-  def redirectToRegistration: Unit =
+final case class AuthorityWizardConfig private[pages] (affinityGroup: AffinityGroup) {
+  def redirectToRegistration(): Unit =
     AuthorityWizardPage.redirectToRegistration(this)
 }
