@@ -19,9 +19,8 @@ package uk.gov.hmrc.test.ui.pages
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.registration.FeatureTogglePage
 import uk.gov.hmrc.test.ui.support.AffinityGroup
-import uk.gov.hmrc.test.ui.support.PageSupport.{clickSubmitButton, fluentWait, selectDropdownById}
+import uk.gov.hmrc.test.ui.support.PageSupport.{fluentWait, selectDropdownById}
 
 object AuthorityWizardPage extends BasePage {
   override val pageUrl: String = TestConfiguration.url("auth-login-stub")
@@ -42,17 +41,6 @@ object AuthorityWizardPage extends BasePage {
     selectDropdownById(affinityGroupById).selectByVisibleText(affinityGroup.toString)
 
   private def submitAuthPage(): Unit = click(authSubmitById)
-
-  private def selectGrsStub(): Unit = {
-    FeatureTogglePage.goToPage()
-    FeatureTogglePage.selectStubGrsCheckbox(true)
-    clickSubmitButton()
-  }
-
-  def enableGrsStubAndServiceHomePage(affinityGroup: AffinityGroup): Unit = {
-    selectGrsStub()
-    selectValidRedirectUrlAndAffinityGroup(affinityGroup)
-  }
 
   def selectValidRedirectUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit = {
     loadPage()
