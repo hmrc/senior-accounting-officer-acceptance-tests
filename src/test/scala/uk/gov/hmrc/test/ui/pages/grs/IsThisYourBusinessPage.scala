@@ -28,9 +28,8 @@ object IsThisYourBusinessPage extends BasePage {
   val grsCompanyDetailsPageUrl: String = TestConfiguration.url("incorporated-entity-identification-frontend")
   val selectYesRadioButton: By         = By.id("confirmBusinessName")
 
-  def selectYesForIsThisYourBusiness(): Unit = {
-    fluentWait.until(ExpectedConditions.presenceOfElementLocated(selectYesRadioButton))
-    click(selectYesRadioButton)
+  def selectYesRadioAndSubmit(): Unit = {
+    fluentWait.until(ExpectedConditions.presenceOfElementLocated(selectYesRadioButton)).click()
     clickContinueButton()
   }
 }

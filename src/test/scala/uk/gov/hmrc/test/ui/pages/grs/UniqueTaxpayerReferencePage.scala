@@ -30,9 +30,10 @@ object UniqueTaxpayerReferencePage extends BasePage {
 
   val corporationTaxUniqueTaxpayerReferenceTextBox: By = By.id("ctutr")
 
-  def enterUniqueTaxpayerReference(): Unit = {
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(corporationTaxUniqueTaxpayerReferenceTextBox))
-    driver.findElement(corporationTaxUniqueTaxpayerReferenceTextBox).sendKeys(validGrsStubUniqueTaxpayerReference)
+  def enterUtrAndSubmit(): Unit = {
+    fluentWait
+      .until(ExpectedConditions.visibilityOfElementLocated(corporationTaxUniqueTaxpayerReferenceTextBox))
+      .sendKeys(validGrsStubUniqueTaxpayerReference)
     clickContinueButton()
   }
 }

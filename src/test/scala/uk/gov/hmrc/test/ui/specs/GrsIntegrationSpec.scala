@@ -41,15 +41,15 @@ class GrsIntegrationSpec extends BaseSpec {
 
       When("the user completes a business match successfully")
       CompanyRegistrationNumberPage.verifyGrsCompanyDetailsPageURL()
-      CompanyRegistrationNumberPage.enterCompanyRegistrationNumber()
-      IsThisYourBusinessPage.selectYesForIsThisYourBusiness()
-      UniqueTaxpayerReferencePage.enterUniqueTaxpayerReference()
-      GrsCheckYourAnswersPage.verifyCheckYourAnswers()
+      CompanyRegistrationNumberPage.enterCrnAndSubmit()
+      IsThisYourBusinessPage.selectYesRadioAndSubmit()
+      UniqueTaxpayerReferencePage.enterUtrAndSubmit()
+      GrsCheckYourAnswersPage.assertAnswersAndSubmit()
 
       Then("the company details have a status of 'Completed' on the registration dashboard")
       RegistrationPage.assertSectionStatus(CompanyDetails, Completed)
 
-      And("the 'Enter your company details' link is disabled")
+      And("the 'Enter your company details' link is not present")
       RegistrationPage.assertEnterYourCompanyDetailsLinkNotFound()
     }
   }
