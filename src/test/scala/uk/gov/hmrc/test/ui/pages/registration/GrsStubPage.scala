@@ -26,8 +26,6 @@ object GrsStubPage extends BasePage {
   val pageTitle: String              = ""
   private val stubResponseButton: By = By.id("submit")
 
-  def clickStubResponseButton(): Unit = {
-    fluentWait.until(ExpectedConditions.elementToBeClickable(stubResponseButton))
-    click(stubResponseButton)
-  }
+  def clickStubResponseButton(): Unit =
+    fluentWait.until(ExpectedConditions.elementToBeClickable(stubResponseButton)).click()
 }

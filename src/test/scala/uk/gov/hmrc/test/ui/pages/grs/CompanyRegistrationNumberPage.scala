@@ -33,8 +33,9 @@ object CompanyRegistrationNumberPage extends BasePage {
   def verifyGrsCompanyDetailsPageURL(): Unit = waitFor.until(ExpectedConditions.urlContains(grsCompanyDetailsPageUrl))
 
   def enterCrnAndSubmit(): Unit = {
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(companyRegistrationNumberTextBox))
-    driver.findElement(companyRegistrationNumberTextBox).sendKeys(validGrsStubCompanyRegistrationNumber)
+    fluentWait
+      .until(ExpectedConditions.visibilityOfElementLocated(companyRegistrationNumberTextBox))
+      .sendKeys(validGrsStubCompanyRegistrationNumber)
     clickContinueButton()
   }
 }
