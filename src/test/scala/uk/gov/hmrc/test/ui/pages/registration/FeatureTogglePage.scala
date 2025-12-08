@@ -29,15 +29,15 @@ object FeatureTogglePage extends BasePage {
 
   private val stubGrsCheckbox: By = By.id("stubGrs")
 
-  def selectGrsStub(): Unit = {
-    FeatureTogglePage.goToPage()
-    FeatureTogglePage.selectStubGrsCheckbox(true)
+  def useGrsStub(): Unit = {
+    goToPage()
+    setStubGrsCheckbox(true)
     clickSubmitButton()
   }
-
+  
   def useGrs(): Unit = {
     goToPage()
-    selectStubGrsCheckbox(false)
+    setStubGrsCheckbox(false)
     clickSubmitButton()
   }
 
@@ -46,7 +46,7 @@ object FeatureTogglePage extends BasePage {
     fluentWait.until(ExpectedConditions.urlToBe(grsFeatureTogglePageUrl))
   }
 
-  def selectStubGrsCheckbox(shouldBeChecked: Boolean): Unit = {
+  def setStubGrsCheckbox(shouldBeChecked: Boolean): Unit = {
     val checkboxElement = driver.findElement(stubGrsCheckbox)
     if (checkboxElement.isSelected != shouldBeChecked) {
       checkboxElement.click()

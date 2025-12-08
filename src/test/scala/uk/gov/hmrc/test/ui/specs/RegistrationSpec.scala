@@ -52,7 +52,7 @@ class RegistrationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("a user successfully adds company details from the registration page")
-      FeatureTogglePage.selectGrsStub()
+      FeatureTogglePage.useGrsStub()
       AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup(Organisation)
       RegistrationPage.clickEnterYourCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
