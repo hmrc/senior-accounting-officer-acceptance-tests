@@ -21,6 +21,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.support.AffinityGroup
 import uk.gov.hmrc.test.ui.support.PageSupport.{fluentWait, selectDropdownById}
+import uk.gov.hmrc.test.ui.pages.submission.notification.SubmitNotificationStartPage
 
 object AuthorityWizardPage extends BasePage {
   override val pageUrl: String = TestConfiguration.url("auth-login-stub")
@@ -45,6 +46,14 @@ object AuthorityWizardPage extends BasePage {
   def selectValidRedirectUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit = {
     loadPage()
     sendKeys(redirectionUrlById, redirectUrl)
+    selectAffinityGroup(affinityGroup)
+    submitAuthPage()
+  }
+
+  // TODO: this method is a temporary bodge, DO NOT MERGE
+  def selectValidRedirectUrlAndAffinityGroup2(affinityGroup: AffinityGroup): Unit = {
+    loadPage()
+    sendKeys(redirectionUrlById, SubmitNotificationStartPage.pageUrl)
     selectAffinityGroup(affinityGroup)
     submitAuthPage()
   }

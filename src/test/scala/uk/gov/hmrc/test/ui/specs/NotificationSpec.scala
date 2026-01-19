@@ -27,6 +27,8 @@ import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.specs.tags.{RegistrationTests, SoloTests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, pageUrl}
+import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
+import org.openqa.selenium.support.ui.ExpectedConditions
 
 class NotificationSpec extends BaseSpec {
 
@@ -41,8 +43,11 @@ class NotificationSpec extends BaseSpec {
       Given("an authenticated user lands on the registration page to register a business")
       LimitedCompanyStubConfigurationPage.setStubbedDependencies()
       FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
-      
-      SubmitNotificationStartPage.navigateTo(pageUrl)
+
+      AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup2(Organisation)
+
+      SubmitNotificationStartPage.navigateTo(SubmitNotificationStartPage.pageUrl)
+      fluentWait.until(ExpectedConditions.urlToBe(SubmitNotificationStartPage.pageUrl))
       assertOnPage(SubmitNotificationStartPage)
 
 //      Then("the page displays with the expected page elements and values required at the start of a new registration")
