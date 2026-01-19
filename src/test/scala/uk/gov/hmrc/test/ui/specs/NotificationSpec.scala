@@ -20,8 +20,11 @@ import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, NotStarted}
 import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourCompanyDetailsLink
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.{CompanyDetails, ContactDetails}
 import uk.gov.hmrc.test.ui.pages.AuthorityWizardPage
+import uk.gov.hmrc.test.ui.pages.grs.LimitedCompanyStubConfigurationPage
+import uk.gov.hmrc.test.ui.pages.registration.FeatureTogglePage
+import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
-import uk.gov.hmrc.test.ui.specs.tags.{RegistrationTests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{RegistrationTests, SoloTests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, pageUrl}
 
@@ -32,9 +35,13 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "The submit notification start page displays with the correct page elements and values when starting a new submission",
       RegistrationTests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user lands on the registration page to register a business")
+      LimitedCompanyStubConfigurationPage.setStubbedDependencies()
+      FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
+      
       SubmitNotificationStartPage.navigateTo(pageUrl)
       assertOnPage(SubmitNotificationStartPage)
 
