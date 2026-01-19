@@ -16,18 +16,14 @@
 
 package uk.gov.hmrc.test.ui.adt
 
-sealed trait RegistrationPageSectionStatus
+sealed trait PageSection
 
-object RegistrationPageSectionStatus {
-  case object NotStarted extends RegistrationPageSectionStatus {
-    override def toString = "Not started"
-  }
+object RegistrationPageSection {
+  case object CompanyDetails extends PageSection
+  case object ContactDetails extends PageSection
+}
 
-  case object CannotStartYet extends RegistrationPageSectionStatus {
-    override def toString = "Cannot start yet"
-  }
-
-  case object Completed extends RegistrationPageSectionStatus {
-    override def toString = "Completed"
-  }
+object NotificationPageSection {
+  case object UploadTemplate extends PageSection
+  case object SubmitNotification extends PageSection
 }
