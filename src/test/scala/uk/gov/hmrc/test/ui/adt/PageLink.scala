@@ -22,3 +22,9 @@ object RegistrationPageLink extends PageLink {
   case object EnterYourCompanyDetailsLink extends PageLink
   case object EnterYourContactDetailsLink extends PageLink
 }
+
+object NotificationPageLink extends PageLink {
+  case object TemplateGuidanceLink extends PageLink
+  case object UploadTemplateLink extends PageLink
+  case object SubmitNotificationLink extends PageLink
+}
