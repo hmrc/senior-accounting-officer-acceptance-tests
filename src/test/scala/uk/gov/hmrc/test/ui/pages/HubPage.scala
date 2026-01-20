@@ -16,10 +16,12 @@
 
 package uk.gov.hmrc.test.ui.pages
 
+import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 
 object HubPage extends BasePage {
   override val pageUrl: String   = TestConfiguration.url("senior-accounting-officer-hub-frontend")
   override val pageTitle: String =
     "Senior Accounting Officer notification and certificate - Senior Accounting Officer notification and certificate - site.govuk"
+  val submitNotificationLink: By = By.cssSelector("#section-submit-notification-link a")
 }

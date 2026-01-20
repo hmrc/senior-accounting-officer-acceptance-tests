@@ -16,10 +16,11 @@
 
 package uk.gov.hmrc.test.ui.specs
 
+import uk.gov.hmrc.test.ui.pages.submission.notification.{GuidancePage, SubmitNotificationStartPage}
 import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
 import uk.gov.hmrc.test.ui.specs.tags.{RegistrationTests, SoloTests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
-import uk.gov.hmrc.test.ui.support.PageSupport.assertOnPage
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, clickElement}
 
 class NotificationSpec extends BaseSpec {
 
@@ -36,8 +37,12 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(HubPage)
 
       // click submit a notification link on hub page
+      clickElement(HubPage.submitNotificationLink)
       // assert on page
+      assertOnPage(SubmitNotificationStartPage)
       // click submit a notification link on start page
+      clickElement(SubmitNotificationStartPage.submitNotificationLink)
+      assertOnPage(GuidancePage)
       // click continue on guidance page
       When("additional information is added")
       // type stuff
@@ -45,7 +50,7 @@ class NotificationSpec extends BaseSpec {
       And("the user confirms their answers by clicking continue")
       // click continue on check your answers page
       And("submits the notification")
-      // click confirm and submit on submit notificiation page
+      // click confirm and submit on submit notification page
       Then("a notification reference number is successfully returned")
       // assert reference number on page
     }

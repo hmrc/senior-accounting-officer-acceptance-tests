@@ -14,6 +14,14 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages.submission.notification;
+package uk.gov.hmrc.test.ui.pages.submission.notification
 
-class GuidancePage {}
+import uk.gov.hmrc.test.ui.conf.TestConfiguration
+import uk.gov.hmrc.test.ui.pages.BasePage
+
+object GuidancePage extends BasePage {
+  override val pageUrl: String   =
+    TestConfiguration.url("senior-accounting-officer-submission-frontend") + "/notification/guidance"
+  override val pageTitle: String =
+    "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
+}

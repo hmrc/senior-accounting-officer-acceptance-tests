@@ -48,6 +48,9 @@ object PageSupport extends BasePage {
     click(continueButton)
   }
 
+  def clickElement(locator: By): Unit =
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(locator)).click()
+
   def assertOnPage(url: String = this.pageUrl): Unit = fluentWait.until(ExpectedConditions.urlToBe(url))
 
   def assertOnPage(page: BasePage): Unit = {
