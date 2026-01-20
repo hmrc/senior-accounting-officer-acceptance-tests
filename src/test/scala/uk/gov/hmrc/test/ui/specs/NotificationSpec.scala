@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.test.ui.specs
 
-import uk.gov.hmrc.test.ui.pages.submission.notification.{AdditionalInformationPage, CheckYourAnswersPage, GuidancePage, SubmitNotificationStartPage}
+import uk.gov.hmrc.test.ui.pages.submission.notification.{AdditionalInformationPage, CheckYourAnswersPage, ConfirmationPage, GuidancePage, SubmitNotificationStartPage, SubmitPage}
 import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
 import uk.gov.hmrc.test.ui.specs.tags.{RegistrationTests, SoloTests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
@@ -35,37 +35,28 @@ class NotificationSpec extends BaseSpec {
       Given("an authenticated user initiates adding a notification from the hub page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
       assertOnPage(HubPage)
-
-      // click submit a notification link on hub page
       clickElement(HubPage.submitNotificationLink)
-      // assert on page
       assertOnPage(SubmitNotificationStartPage)
-
-      // click submit a notification link on start page
       clickElement(SubmitNotificationStartPage.submitNotificationLink)
       assertOnPage(GuidancePage)
-
-      // click continue on guidance page
       clickElement(submitButton)
       assertOnPage(AdditionalInformationPage)
 
       When("additional information is added")
-      // type stuff
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
-
-      // click continue on additional information page
       clickElement(submitButton)
-
-      // assert on page
       assertOnPage(CheckYourAnswersPage)
 
       And("the user confirms their answers by clicking continue")
-      // click continue on check your answers page
+      clickElement(submitButton)
+      assertOnPage(SubmitPage)
 
       And("submits the notification")
-      // click confirm and submit on submit notification page
-      Then("a notification reference number is successfully returned")
-      // assert reference number on page
+      clickElement(SubmitPage.confirmAndSubmitButton)
+      assertOnPage(ConfirmationPage)
+
+      Then("the given notification reference number is successfully returned")
+      ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
     }
 
     // basic scenarios:

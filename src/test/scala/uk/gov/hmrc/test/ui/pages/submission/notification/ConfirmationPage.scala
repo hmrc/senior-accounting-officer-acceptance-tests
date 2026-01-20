@@ -16,4 +16,21 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
-object ConfirmationPage {}
+import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.ExpectedConditions
+import uk.gov.hmrc.test.ui.conf.TestConfiguration
+import uk.gov.hmrc.test.ui.pages.BasePage
+import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
+
+object ConfirmationPage extends BasePage {
+  override val pageUrl: String   =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/confirmation"
+  override val pageTitle: String =
+    "Confirmation page - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  def assertReferenceNumberEquals(number: String): Unit = {
+    val referenceNumberElement: By = By.cssSelector("""[data-test-id="notification-reference-number"]""")
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(referenceNumberElement))
+    driver.findElement(referenceNumberElement).getText mustBe number
+  }
+}

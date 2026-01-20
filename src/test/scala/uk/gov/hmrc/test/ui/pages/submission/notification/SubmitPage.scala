@@ -16,4 +16,15 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
-object SubmitPage {}
+import org.openqa.selenium.By
+import uk.gov.hmrc.test.ui.conf.TestConfiguration
+import uk.gov.hmrc.test.ui.pages.BasePage
+
+object SubmitPage extends BasePage {
+  override val pageUrl: String   =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/submit"
+  override val pageTitle: String =
+    "Confirm notification and submit - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  val confirmAndSubmitButton: By = By.cssSelector("""button[type="submit"]""")
+}

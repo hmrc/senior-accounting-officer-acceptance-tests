@@ -21,7 +21,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.support.AffinityGroup
 import uk.gov.hmrc.test.ui.support.PageSupport.{fluentWait, selectDropdownById}
-import uk.gov.hmrc.test.ui.pages.submission.notification.SubmitNotificationStartPage
 
 object AuthorityWizardPage extends BasePage {
   override val pageUrl: String = TestConfiguration.url("auth-login-stub")
