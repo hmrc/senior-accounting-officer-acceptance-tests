@@ -16,8 +16,8 @@
 
 package uk.gov.hmrc.test.ui.support
 
-import org.openqa.selenium.{By, WebDriver}
 import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait, Select, Wait}
+import org.openqa.selenium.{By, WebDriver}
 import uk.gov.hmrc.test.ui.pages.BasePage
 
 import java.time.Duration
@@ -57,5 +57,10 @@ object PageSupport extends BasePage {
     fluentWait.until(_ => getCurrentUrl == page.pageUrl && getTitle == page.pageTitle)
     getCurrentUrl mustBe page.pageUrl
     getTitle mustBe page.pageTitle
+  }
+
+  override def sendKeys(locator: By, value: String): Unit = {
+    driver.findElement(locator).clear()
+    driver.findElement(locator).sendKeys(value)
   }
 }

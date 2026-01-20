@@ -16,4 +16,13 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
-class CheckYourAnswersPage {}
+import uk.gov.hmrc.test.ui.conf.TestConfiguration
+import uk.gov.hmrc.test.ui.pages.BasePage
+
+object CheckYourAnswersPage extends BasePage {
+  override val pageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/check-your-answers"
+
+  override val pageTitle: String =
+    "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
+}

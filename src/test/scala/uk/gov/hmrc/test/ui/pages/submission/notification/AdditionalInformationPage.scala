@@ -14,6 +14,18 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages.submission.notification;
+package uk.gov.hmrc.test.ui.pages.submission.notification
 
-class AdditionalInformationPage {}
+import org.openqa.selenium.By
+import uk.gov.hmrc.test.ui.conf.TestConfiguration
+import uk.gov.hmrc.test.ui.pages.BasePage;
+
+object AdditionalInformationPage extends BasePage {
+  override val pageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/additional-information"
+
+  override val pageTitle: String =
+    "Notification details - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  val additionalInformationTextBox: By = By.cssSelector(".govuk-textarea")
+}

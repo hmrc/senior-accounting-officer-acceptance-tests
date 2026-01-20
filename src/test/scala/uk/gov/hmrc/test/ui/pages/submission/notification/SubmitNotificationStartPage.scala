@@ -17,23 +17,22 @@
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
 import org.openqa.selenium.By
-import uk.gov.hmrc.test.ui.adt.{NotificationPageSection, PageSection}
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
 
 object SubmitNotificationStartPage extends BasePage {
   override val pageUrl: String   =
-    TestConfiguration.url("senior-accounting-officer-submission-frontend") + "/notification/start"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/start"
   override val pageTitle: String =
     "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val uploadTemplateLink: By     = actionListItem(1)
   val submitNotificationLink: By = actionListItem(2)
 
-  private val sectionLocators: Map[PageSection, By] = Map(
-    NotificationPageSection.UploadTemplate     -> By.cssSelector("#upload-template-details-status"),
-    NotificationPageSection.SubmitNotification -> By.cssSelector("#submit-notification-details-status")
-  )
+//  private val sectionLocators: Map[PageSection, By] = Map(
+//    NotificationPageSection.UploadTemplate     -> By.cssSelector("#upload-template-details-status"),
+//    NotificationPageSection.SubmitNotification -> By.cssSelector("#submit-notification-details-status")
+//  )
 
   def actionListItem(index: Int): By =
     By.cssSelector(s".govuk-task-list li:nth-child($index) a")
