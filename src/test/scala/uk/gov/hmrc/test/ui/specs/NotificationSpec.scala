@@ -59,10 +59,22 @@ class NotificationSpec extends BaseSpec {
       ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
     }
 
+    // CHAT TO ANIELLO ABOUT JOURNEY
     // basic scenarios:
 
     // skip additional information flow
+    // Additional information screen > do not add text > Continue > error > Add text > Continue > Text in CYA
+    // Additional information screen > do not add text > Continue > error > SKIP > no text in CYA
+    // Additional information screen > do not add text > Skip > no text in CYA
+    // Additional information screen > add text > Skip > no text in CYA
+
     // change answer flow
+    // CYA > Change > lands on '/change-additional-information' > make a change > Continue > change appears in CYA
+
+    // Decide later
+    // CYA > Change > make a change > SKIP > no text in CYA
+    // CYA > Change > remove text > Continue > error
+
   }
 
 }
