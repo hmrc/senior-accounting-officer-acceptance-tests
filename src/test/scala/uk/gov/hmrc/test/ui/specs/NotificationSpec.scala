@@ -16,19 +16,11 @@
 
 package uk.gov.hmrc.test.ui.specs
 
-import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, NotStarted}
-import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourCompanyDetailsLink
-import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.{CompanyDetails, ContactDetails}
 import uk.gov.hmrc.test.ui.pages.AuthorityWizardPage
-import uk.gov.hmrc.test.ui.pages.grs.LimitedCompanyStubConfigurationPage
-import uk.gov.hmrc.test.ui.pages.registration.FeatureTogglePage
-import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.specs.tags.{RegistrationTests, SoloTests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
-import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, pageUrl}
-import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
-import org.openqa.selenium.support.ui.ExpectedConditions
+import uk.gov.hmrc.test.ui.support.PageSupport.assertOnPage
 
 class NotificationSpec extends BaseSpec {
 
@@ -40,14 +32,8 @@ class NotificationSpec extends BaseSpec {
       ZapTests,
       SoloTests
     ) {
-      Given("an authenticated user lands on the registration page to register a business")
-      LimitedCompanyStubConfigurationPage.setStubbedDependencies()
-      FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
-
+      Given("an authenticated user lands on the submit a notification page")
       AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup2(Organisation)
-
-      SubmitNotificationStartPage.navigateTo(SubmitNotificationStartPage.pageUrl)
-      fluentWait.until(ExpectedConditions.urlToBe(SubmitNotificationStartPage.pageUrl))
       assertOnPage(SubmitNotificationStartPage)
 
 //      Then("the page displays with the expected page elements and values required at the start of a new registration")
