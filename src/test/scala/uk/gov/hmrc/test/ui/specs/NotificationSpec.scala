@@ -26,23 +26,34 @@ class NotificationSpec extends BaseSpec {
   Feature("Submit Notification") {
 
     Scenario(
-      "The submit notification start page displays with the correct page elements and values when starting a new submission",
+      "A user can submit a notification successfully when additional information is added and not changed",
       RegistrationTests,
       ZapTests,
-      SoloTests // DO NOT MERGE
+      SoloTests // TODO: remove SoloTests from the Scenario before merging
     ) {
-      Given("an authenticated user lands on the submit a notification page")
-//      AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup2(Organisation)
+      Given("an authenticated user initiates adding a notification from the hub page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
       assertOnPage(HubPage)
 
-//      Then("the page displays with the expected page elements and values required at the start of a new registration")
-//      RegistrationPage.assertLinkIsVisibleWithText(EnterYourCompanyDetailsLink)
-//      RegistrationPage.assertSectionStatus(CompanyDetails, NotStarted)
-//      RegistrationPage.assertEnterYourContactDetailsLinkNotFound()
-//      RegistrationPage.assertSectionStatus(ContactDetails, CannotStartYet)
-//      RegistrationPage.assertSubmitButtonDoesNotExist()
+      // click submit a notification link on hub page
+      // assert on page
+      // click submit a notification link on start page
+      // click continue on guidance page
+      When("additional information is added")
+      // type stuff
+      // click continue on additional information page
+      And("the user confirms their answers by clicking continue")
+      // click continue on check your answers page
+      And("submits the notification")
+      // click confirm and submit on submit notificiation page
+      Then("a notification reference number is successfully returned")
+      // assert reference number on page
     }
+
+    // basic scenarios:
+
+    // skip additional information flow
+    // change answer flow
   }
 
 }

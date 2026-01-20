@@ -51,14 +51,6 @@ object AuthorityWizardPage extends BasePage {
     submitAuthPage()
   }
 
-  // TODO: this method is a temporary bodge, DO NOT MERGE
-  def selectValidRedirectUrlAndAffinityGroup2(affinityGroup: AffinityGroup): Unit = {
-    loadPage()
-    sendKeys(redirectionUrlById, SubmitNotificationStartPage.pageUrl)
-    selectAffinityGroup(affinityGroup)
-    submitAuthPage()
-  }
-
   def selectRedirectedUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit =
     selectValidRedirectUrlAndAffinityGroup(affinityGroup)
 
