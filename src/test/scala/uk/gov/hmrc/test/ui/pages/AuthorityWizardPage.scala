@@ -31,7 +31,8 @@ object AuthorityWizardPage extends BasePage {
   private val affinityGroupById: By  = By.id("affinityGroupSelect")
   private val authSubmitById: By     = By.id("submit-top")
 
-  private val redirectUrl: String = baseRegUrl
+  private val redirectUrl: String    = baseRegUrl
+  private val redirectHubUrl: String = TestConfiguration.url("senior-accounting-officer-hub-frontend")
 
   private def loadPage(): Unit = {
     navigateTo(pageUrl)
@@ -69,9 +70,16 @@ object AuthorityWizardPage extends BasePage {
     selectAffinityGroup(config.affinityGroup)
     submitAuthPage()
   }
+
+  def redirectToHub(config: AuthorityWizardConfig): Unit = {
+    loadPage()
+    sendKeys(redirectionUrlById, redirectHubUrl)
+    selectAffinityGroup(config.affinityGroup)
+    submitAuthPage()
+  }
 }
 
 final case class AuthorityWizardConfig private[pages] (affinityGroup: AffinityGroup) {
-  def redirectToRegistration(): Unit =
-    AuthorityWizardPage.redirectToRegistration(this)
+  def redirectToRegistration(): Unit = AuthorityWizardPage.redirectToRegistration(this)
+  def redirectToHub(): Unit          = AuthorityWizardPage.redirectToHub(this)
 }

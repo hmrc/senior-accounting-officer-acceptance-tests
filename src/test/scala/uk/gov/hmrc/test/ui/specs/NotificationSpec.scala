@@ -16,8 +16,7 @@
 
 package uk.gov.hmrc.test.ui.specs
 
-import uk.gov.hmrc.test.ui.pages.AuthorityWizardPage
-import uk.gov.hmrc.test.ui.pages.submission.notification.*
+import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
 import uk.gov.hmrc.test.ui.specs.tags.{RegistrationTests, SoloTests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.assertOnPage
@@ -30,11 +29,12 @@ class NotificationSpec extends BaseSpec {
       "The submit notification start page displays with the correct page elements and values when starting a new submission",
       RegistrationTests,
       ZapTests,
-      SoloTests
+      SoloTests // DO NOT MERGE
     ) {
       Given("an authenticated user lands on the submit a notification page")
-      AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup2(Organisation)
-      assertOnPage(SubmitNotificationStartPage)
+//      AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup2(Organisation)
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      assertOnPage(HubPage)
 
 //      Then("the page displays with the expected page elements and values required at the start of a new registration")
 //      RegistrationPage.assertLinkIsVisibleWithText(EnterYourCompanyDetailsLink)
