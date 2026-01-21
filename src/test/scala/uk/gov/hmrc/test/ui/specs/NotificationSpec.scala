@@ -45,6 +45,7 @@ class NotificationSpec extends BaseSpec {
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
       clickElement(submitButton)
       assertOnPage(CheckYourAnswersPage)
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
       And("the user confirms their answers by clicking continue")
       clickElement(submitButton)
@@ -87,7 +88,10 @@ class NotificationSpec extends BaseSpec {
       And(
         "on continuing after adding additional information the text added is displayed on the 'Check Your Answers' page"
       )
-
+      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
+      clickElement(submitButton)
+      assertOnPage(CheckYourAnswersPage)
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
     }
 
     // CHAT TO ANIELLO ABOUT JOURNEY
