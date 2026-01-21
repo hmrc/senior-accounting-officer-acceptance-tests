@@ -29,4 +29,5 @@ object AdditionalInformationPage extends BasePage {
 
   val additionalInformationTextBox: By = By.cssSelector(".govuk-textarea")
   val errorTitle: By                   = By.cssSelector(".govuk-error-summary__title")
+  val skipButton: By                   = By.id("skip")
 }

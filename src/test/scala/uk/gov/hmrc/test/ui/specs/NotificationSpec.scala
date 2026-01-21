@@ -59,12 +59,10 @@ class NotificationSpec extends BaseSpec {
       ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
     }
 
-    // Additional information screen > do not add text > Continue > error > Add text > Continue > Text in CYA
     Scenario(
       "When continuing with no additional information an error presents and is cleared on populating additional information and pressing continue",
-      RegistrationTests, // TODO: should this be notification tests?
-      ZapTests,
-      SoloTests // TODO: remove SoloTests from the Scenario before merging
+      RegistrationTests,
+      ZapTests
     ) {
       Given(
         "an authenticated user arrives on the additional information page during a notification submission"
@@ -94,12 +92,42 @@ class NotificationSpec extends BaseSpec {
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
     }
 
-    // CHAT TO ANIELLO ABOUT JOURNEY
-    // basic scenarios:
-
-    // skip additional information flow
-    // Additional information screen > do not add text > Continue > error > Add text > Continue > Text in CYA
     // Additional information screen > do not add text > Continue > error > SKIP > no text in CYA
+    Scenario(
+      "When continuing with no additional information an error presents and is cleared on pressing skip",
+      RegistrationTests,
+      ZapTests,
+      SoloTests // TODO: remove SoloTests from the Scenario before merging
+    ) {
+      Given(
+        "an authenticated user arrives on the additional information page during a notification submission"
+      )
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      assertOnPage(HubPage)
+      clickElement(HubPage.submitNotificationLink)
+      assertOnPage(SubmitNotificationStartPage)
+      clickElement(SubmitNotificationStartPage.submitNotificationLink)
+      assertOnPage(GuidancePage)
+      clickElement(submitButton)
+      assertOnPage(AdditionalInformationPage)
+
+      When("pressing continue without providing additional information")
+      clickElement(submitButton)
+      assertPageWithError(AdditionalInformationPage)
+
+      Then("an error appears on screen")
+      assertTextOnPage(AdditionalInformationPage.errorTitle, "There is a problem")
+
+      And(
+        "on pressing skip, no text is displayed on the 'Check Your Answers' page"
+      )
+      clickElement(AdditionalInformationPage.skipButton)
+      assertOnPage(CheckYourAnswersPage)
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
+    }
+
+    // basic scenarios:
+    // skip additional information flow
     // Additional information screen > do not add text > Skip > no text in CYA
     // Additional information screen > add text > Skip > no text in CYA
 
