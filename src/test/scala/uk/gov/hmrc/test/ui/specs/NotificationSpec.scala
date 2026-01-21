@@ -28,7 +28,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "A user can submit a notification successfully when additional information is added and not changed",
-      RegistrationTests,
+      RegistrationTests, // TODO: should this be notification tests?
       ZapTests,
       SoloTests // TODO: remove SoloTests from the Scenario before merging
     ) {
@@ -57,6 +57,34 @@ class NotificationSpec extends BaseSpec {
 
       Then("the given notification reference number is successfully returned")
       ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
+    }
+
+    // Additional information screen > do not add text > Continue > error > Add text > Continue > Text in CYA
+    Scenario(
+      "When continuing with no additional information an error presents and is cleared on populating additional information and pressing continue",
+      RegistrationTests, // TODO: should this be notification tests?
+      ZapTests,
+      SoloTests // TODO: remove SoloTests from the Scenario before merging
+    ) {
+      Given(
+        "an authenticated user arrives on the additional information page during a notification submission"
+      )
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      assertOnPage(HubPage)
+      clickElement(HubPage.submitNotificationLink)
+      assertOnPage(SubmitNotificationStartPage)
+      clickElement(SubmitNotificationStartPage.submitNotificationLink)
+      assertOnPage(GuidancePage)
+      clickElement(submitButton)
+      assertOnPage(AdditionalInformationPage)
+
+      When("pressing continue without providing additional information")
+      clickElement(submitButton)
+      assertOnPage(AdditionalInformationPage)
+      // check error
+
+      Then("the error appears")
+
     }
 
     // CHAT TO ANIELLO ABOUT JOURNEY
