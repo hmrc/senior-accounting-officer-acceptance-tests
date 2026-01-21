@@ -18,7 +18,7 @@ package uk.gov.hmrc.test.ui.pages.submission.notification
 
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.BasePage;
+import uk.gov.hmrc.test.ui.pages.BasePage
 
 object AdditionalInformationPage extends BasePage {
   override val pageUrl: String =
@@ -28,4 +28,5 @@ object AdditionalInformationPage extends BasePage {
     "Notification details - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val additionalInformationTextBox: By = By.cssSelector(".govuk-textarea")
+  val errorTitle: By                   = By.cssSelector(".govuk-error-summary__title")
 }

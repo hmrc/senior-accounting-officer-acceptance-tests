@@ -16,11 +16,11 @@
 
 package uk.gov.hmrc.test.ui.specs
 
-import uk.gov.hmrc.test.ui.pages.submission.notification.{AdditionalInformationPage, CheckYourAnswersPage, ConfirmationPage, GuidancePage, SubmitNotificationStartPage, SubmitPage}
+import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
 import uk.gov.hmrc.test.ui.specs.tags.{RegistrationTests, SoloTests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
-import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, clickElement, sendKeys, submitButton}
+import uk.gov.hmrc.test.ui.support.PageSupport.*
 
 class NotificationSpec extends BaseSpec {
 
@@ -29,8 +29,7 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "A user can submit a notification successfully when additional information is added and not changed",
       RegistrationTests, // TODO: should this be notification tests?
-      ZapTests,
-      SoloTests // TODO: remove SoloTests from the Scenario before merging
+      ZapTests
     ) {
       Given("an authenticated user initiates adding a notification from the hub page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
@@ -80,10 +79,14 @@ class NotificationSpec extends BaseSpec {
 
       When("pressing continue without providing additional information")
       clickElement(submitButton)
-      assertOnPage(AdditionalInformationPage)
-      // check error
+      assertPageWithError(AdditionalInformationPage)
 
-      Then("the error appears")
+      Then("an error appears on screen")
+      assertTextOnPage(AdditionalInformationPage.errorTitle, "There is a problem")
+
+      And(
+        "on continuing after adding additional information the text added is displayed on the 'Check Your Answers' page"
+      )
 
     }
 
