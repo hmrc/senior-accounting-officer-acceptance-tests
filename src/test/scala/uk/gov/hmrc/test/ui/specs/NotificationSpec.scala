@@ -124,12 +124,10 @@ class NotificationSpec extends BaseSpec {
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
     }
 
-    // Additional information screen > do not add text > Skip > no text in CYA
     Scenario(
       "When pressing skip with no additional information, no text is displayed on the 'Check Your Answers' page",
       RegistrationTests,
-      ZapTests,
-      SoloTests // TODO: remove SoloTests from the Scenario before merging
+      ZapTests
     ) {
       Given(
         "an authenticated user arrives on the additional information page during a notification submission"
@@ -151,10 +149,33 @@ class NotificationSpec extends BaseSpec {
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
     }
 
-    // basic scenarios:
-    // skip additional information flow
-
     // Additional information screen > add text > Skip > no text in CYA
+    Scenario(
+      "When pressing skip with additional information added, no text is displayed on the 'Check Your Answers' page",
+      RegistrationTests,
+      ZapTests,
+      SoloTests // TODO: remove SoloTests from the Scenario before merging
+    ) {
+      Given(
+        "an authenticated user arrives on the additional information page during a notification submission"
+      )
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      assertOnPage(HubPage)
+      clickElement(HubPage.submitNotificationLink)
+      assertOnPage(SubmitNotificationStartPage)
+      clickElement(SubmitNotificationStartPage.submitNotificationLink)
+      assertOnPage(GuidancePage)
+      clickElement(submitButton)
+      assertOnPage(AdditionalInformationPage)
+
+      When("pressing skip with additional information provided")
+      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
+      clickElement(AdditionalInformationPage.skipButton)
+
+      Then("no text is displayed on the 'Check Your Answers' page")
+      assertOnPage(CheckYourAnswersPage)
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
+    }
 
     // change answer flow
     // CYA > Change > lands on '/change-additional-information' > make a change > Continue > change appears in CYA
