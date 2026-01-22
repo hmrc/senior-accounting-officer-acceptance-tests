@@ -175,16 +175,14 @@ class NotificationSpec extends BaseSpec {
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
     }
 
-    // change answer flow
-    // CYA > Change > lands on '/change-additional-information' > make a change > Continue > change appears in CYA
     Scenario(
-      "When selecting to change additional information from the 'Check Your Answers' page, the changes are persisted",
+      "When selecting to change additional information from the 'Check Your Answers' page the changes are persisted",
       RegistrationTests,
       ZapTests,
       SoloTests // TODO: remove SoloTests from the Scenario before merging
     ) {
       Given(
-        "an authenticated user provides additional information page and arrives on the 'Check Your Answers' page during a notification submission"
+        "an authenticated user provides additional information and arrives on the 'Check Your Answers' page during a notification submission"
       )
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
       assertOnPage(HubPage)
@@ -200,14 +198,18 @@ class NotificationSpec extends BaseSpec {
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
       When("pressing the change link and updating the provided additional information")
-      // clickElement(change link)
+      clickElement(CheckYourAnswersPage.additionalInformationChangeLink)
+      assertOnPage(AdditionalInformationPage.changePageUrl)
+      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "New Test For Changed Text")
 
       Then("on pressing continue the updated text is displayed on the 'Check Your Answers' page")
-      // assert updated text CYA
-
-      // Decide later
-      // CYA > Change > make a change > SKIP > no text in CYA
-      // CYA > Change > remove text > Continue > error
+      clickElement(submitButton)
+      assertOnPage(CheckYourAnswersPage)
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "New Test For Changed Text")
     }
+
+    // Decide later
+    // CYA > Change > make a change > SKIP > no text in CYA
+    // CYA > Change > remove text > Continue > error
   }
 }

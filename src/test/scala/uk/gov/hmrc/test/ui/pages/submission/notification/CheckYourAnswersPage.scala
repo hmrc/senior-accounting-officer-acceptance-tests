@@ -28,4 +28,5 @@ object CheckYourAnswersPage extends BasePage {
     "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val additionalInformationValueElement: By = By.cssSelector(".govuk-summary-list__value")
+  val additionalInformationChangeLink: By   = By.cssSelector("""[data-test-id="change-additional-information-link"]""")
 }
