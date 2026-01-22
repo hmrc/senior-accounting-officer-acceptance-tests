@@ -22,8 +22,3 @@ object RegistrationPageSection {
   case object CompanyDetails extends PageSection
   case object ContactDetails extends PageSection
 }
-
-object NotificationPageSection {
-  case object UploadTemplate extends PageSection
-  case object SubmitNotification extends PageSection
-}
