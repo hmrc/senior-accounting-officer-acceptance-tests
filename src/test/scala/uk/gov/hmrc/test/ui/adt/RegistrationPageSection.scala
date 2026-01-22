@@ -16,9 +16,9 @@
 
 package uk.gov.hmrc.test.ui.adt
 
-sealed trait PageSection
+sealed trait RegistrationPageSection
 
 object RegistrationPageSection {
-  case object CompanyDetails extends PageSection
-  case object ContactDetails extends PageSection
+  case object CompanyDetails extends RegistrationPageSection
+  case object ContactDetails extends RegistrationPageSection
 }

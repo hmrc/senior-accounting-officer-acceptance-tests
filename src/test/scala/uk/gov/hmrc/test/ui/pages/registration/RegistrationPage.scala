@@ -42,7 +42,7 @@ object RegistrationPage extends BasePage {
     )
   )
 
-  private val sectionLocators: Map[PageSection, By] = Map(
+  private val sectionLocators: Map[RegistrationPageSection, By] = Map(
     RegistrationPageSection.CompanyDetails -> By.cssSelector("#company-details-status"),
     RegistrationPageSection.ContactDetails -> By.cssSelector("#contacts-details-status")
   )
@@ -68,7 +68,7 @@ object RegistrationPage extends BasePage {
   def clickEnterYourCompanyDetailsLink(): Unit =
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(companyDetailsField)).click()
 
-  def assertSectionStatus(section: PageSection, expectedStatus: PageSectionStatus): Unit = {
+  def assertSectionStatus(section: RegistrationPageSection, expectedStatus: PageSectionStatus): Unit = {
     val statusElement = new FluentWait(driver)
       .until(ExpectedConditions.visibilityOfElementLocated(sectionLocators(section)))
     statusElement.getText.trim mustBe expectedStatus.toString withClue
