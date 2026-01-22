@@ -32,7 +32,7 @@ class RegistrationSpec extends BaseSpec {
 
     Scenario(
       "The registration page displays with the correct page elements and values when starting a new registration",
-      RegistrationTests,
+      RegistrationUITests,
       ZapTests
     ) {
       Given("an authenticated user lands on the registration page to register a business")
@@ -49,7 +49,7 @@ class RegistrationSpec extends BaseSpec {
 
     Scenario(
       "After adding company details successfully the action states update correctly on the registration page",
-      RegistrationTests,
+      RegistrationUITests,
       ZapTests
     ) {
       Given("a user successfully adds company details from the registration page")

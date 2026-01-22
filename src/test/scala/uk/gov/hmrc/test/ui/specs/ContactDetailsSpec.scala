@@ -31,7 +31,7 @@ class ContactDetailsSpec extends BaseSpec {
 
   Feature("Contact Details") {
 
-    Scenario("Complete first contact details", RegistrationTests, ZapTests) {
+    Scenario("Complete first contact details", RegistrationUITests, ZapTests) {
       Given("a user successfully adds company details from the registration page")
       FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
       AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup(Organisation)
@@ -53,7 +53,7 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationPage.assertSectionStatus(ContactDetails, Completed)
     }
 
-    Scenario("Complete second contact details", RegistrationTests, ZapTests) {
+    Scenario("Complete second contact details", RegistrationUITests, ZapTests) {
       Given("a user successfully adds company details from the registration page")
       FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
       AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup(Organisation)
@@ -80,7 +80,7 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationPage.assertSectionStatus(ContactDetails, Completed)
     }
 
-    Scenario("Attempting to add a contact with no name produces the expected error", RegistrationTests, ZapTests) {
+    Scenario("Attempting to add a contact with no name produces the expected error", RegistrationUITests, ZapTests) {
       Given("a user successfully adds company details from the registration page")
       FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
       AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup(Organisation)
@@ -108,7 +108,7 @@ class ContactDetailsSpec extends BaseSpec {
 
     Scenario(
       "Attempting to add a contact with no email address produces the expected error",
-      RegistrationTests,
+      RegistrationUITests,
       ZapTests
     ) {
       Given("a user successfully adds company details from the registration page")
@@ -139,7 +139,7 @@ class ContactDetailsSpec extends BaseSpec {
 
     Scenario(
       "Change contact details from Check Your Answers page",
-      RegistrationTests,
+      RegistrationUITests,
       ZapTests
     ) {
       Given("a user successfully adds company details from the registration page")

@@ -29,11 +29,6 @@ object SubmitNotificationStartPage extends BasePage {
   val uploadTemplateLink: By     = actionListItem(1)
   val submitNotificationLink: By = actionListItem(2)
 
-//  private val sectionLocators: Map[PageSection, By] = Map(
-//    NotificationPageSection.UploadTemplate     -> By.cssSelector("#upload-template-details-status"),
-//    NotificationPageSection.SubmitNotification -> By.cssSelector("#submit-notification-details-status")
-//  )
-
   def actionListItem(index: Int): By =
     By.cssSelector(s".govuk-task-list li:nth-child($index) a")
 }

@@ -18,4 +18,4 @@ package uk.gov.hmrc.test.ui.specs.tags
 
 import org.scalatest.Tag
 
-object RegistrationTests extends Tag("RegistrationTests")
+object RegistrationUITests extends Tag("RegistrationUITests")

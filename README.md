@@ -32,16 +32,27 @@ sbt clean -Dbrowser="chrome" -Denvironment="local" test
 
 **Run all tests:**
 
-The `run_tests.sh` script defaults to using `chrome` in the `local` environment.
+The `run_all_tests.sh` script defaults to using `chrome` in the `local` environment.
 
 ```bash
- ./run_tests.sh
+ ./run_all_tests.sh
 ```
 
-**To run any test individually, add "@solo" tag to the respective file and use:**
+**To run any test individually, add "SoloTests" tag to the respective scenario and use:**
 
 ```bash
  ./run_solo_tests.sh
+```
+**To run only the submission tests, ensure "SubmissionUITests" tag is added to the respective scenario(s) and use:**
+
+```bash
+ ./run_submission_ui_tests.sh
+```
+
+**To run only the registration tests, ensure "RegistrationUITests" tag is added to the respective scenario(s) and use:**
+
+```bash
+ ./run_registration_ui_tests.sh
 ```
 
 **Executing a local ZAP test:**

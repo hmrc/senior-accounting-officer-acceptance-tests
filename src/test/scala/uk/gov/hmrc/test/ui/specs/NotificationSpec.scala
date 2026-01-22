@@ -18,7 +18,7 @@ package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
-import uk.gov.hmrc.test.ui.specs.tags.{RegistrationTests, SoloTests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
@@ -28,12 +28,12 @@ class NotificationSpec extends BaseSpec {
     super.beforeEach()
     AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
   }
-
+  
   Feature("Submit Notification") {
-
+    
     Scenario(
       "A user can submit a notification successfully when additional information is added and not changed",
-      RegistrationTests, // TODO: should this be notification tests?
+      SubmissionUITests,
       ZapTests
     ) {
       Given("an authenticated user initiates adding a notification from the hub page")
@@ -59,7 +59,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "When continuing with no additional information an error presents and is cleared on populating additional information and pressing continue",
-      RegistrationTests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given("an authenticated user arrives on the additional information page during a notification submission")
@@ -83,7 +83,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "When continuing with no additional information an error presents and is cleared on pressing skip",
-      RegistrationTests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given("an authenticated user arrives on the additional information page during a notification submission")
@@ -106,7 +106,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "When pressing skip with no additional information, no text is displayed on the 'Check Your Answers' page",
-      RegistrationTests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given("an authenticated user arrives on the additional information page during a notification submission")
@@ -122,7 +122,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "When pressing skip with additional information added, no text is displayed on the 'Check Your Answers' page",
-      RegistrationTests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given("an authenticated user arrives on the additional information page during a notification submission")
@@ -139,7 +139,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "When selecting to change additional information from the 'Check Your Answers' page the changes are persisted",
-      RegistrationTests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given(
@@ -164,7 +164,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "When selecting to change additional information from the 'Check Your Answers' page and when skip is pressed then the changes are not persisted",
-      RegistrationTests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given(
@@ -189,7 +189,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "When selecting to change additional information from the 'Check Your Answers' page, if text is removed and continue is pressed an error is shown",
-      RegistrationTests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given(
