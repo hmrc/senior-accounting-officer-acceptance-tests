@@ -24,6 +24,11 @@ import uk.gov.hmrc.test.ui.support.PageSupport.*
 
 class NotificationSpec extends BaseSpec {
 
+  override def beforeEach(): Unit = {
+    super.beforeEach()
+    AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+  }
+
   Feature("Submit Notification") {
 
     Scenario(
@@ -32,14 +37,7 @@ class NotificationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user initiates adding a notification from the hub page")
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
-      assertOnPage(HubPage)
-      clickElement(HubPage.submitNotificationLink)
-      assertOnPage(SubmitNotificationStartPage)
-      clickElement(SubmitNotificationStartPage.submitNotificationLink)
-      assertOnPage(GuidancePage)
-      clickElement(submitButton)
-      assertOnPage(AdditionalInformationPage)
+      goToAdditionalInformationPageFromHub()
 
       When("additional information is added")
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
@@ -64,17 +62,8 @@ class NotificationSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      Given(
-        "an authenticated user arrives on the additional information page during a notification submission"
-      )
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
-      assertOnPage(HubPage)
-      clickElement(HubPage.submitNotificationLink)
-      assertOnPage(SubmitNotificationStartPage)
-      clickElement(SubmitNotificationStartPage.submitNotificationLink)
-      assertOnPage(GuidancePage)
-      clickElement(submitButton)
-      assertOnPage(AdditionalInformationPage)
+      Given("an authenticated user arrives on the additional information page during a notification submission")
+      goToAdditionalInformationPageFromHub()
 
       When("pressing continue without providing additional information")
       clickElement(submitButton)
@@ -97,17 +86,8 @@ class NotificationSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      Given(
-        "an authenticated user arrives on the additional information page during a notification submission"
-      )
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
-      assertOnPage(HubPage)
-      clickElement(HubPage.submitNotificationLink)
-      assertOnPage(SubmitNotificationStartPage)
-      clickElement(SubmitNotificationStartPage.submitNotificationLink)
-      assertOnPage(GuidancePage)
-      clickElement(submitButton)
-      assertOnPage(AdditionalInformationPage)
+      Given("an authenticated user arrives on the additional information page during a notification submission")
+      goToAdditionalInformationPageFromHub()
 
       When("pressing continue without providing additional information")
       clickElement(submitButton)
@@ -129,17 +109,8 @@ class NotificationSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      Given(
-        "an authenticated user arrives on the additional information page during a notification submission"
-      )
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
-      assertOnPage(HubPage)
-      clickElement(HubPage.submitNotificationLink)
-      assertOnPage(SubmitNotificationStartPage)
-      clickElement(SubmitNotificationStartPage.submitNotificationLink)
-      assertOnPage(GuidancePage)
-      clickElement(submitButton)
-      assertOnPage(AdditionalInformationPage)
+      Given("an authenticated user arrives on the additional information page during a notification submission")
+      goToAdditionalInformationPageFromHub()
 
       When("pressing skip without providing additional information")
       clickElement(AdditionalInformationPage.skipButton)
@@ -154,17 +125,8 @@ class NotificationSpec extends BaseSpec {
       RegistrationTests,
       ZapTests
     ) {
-      Given(
-        "an authenticated user arrives on the additional information page during a notification submission"
-      )
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
-      assertOnPage(HubPage)
-      clickElement(HubPage.submitNotificationLink)
-      assertOnPage(SubmitNotificationStartPage)
-      clickElement(SubmitNotificationStartPage.submitNotificationLink)
-      assertOnPage(GuidancePage)
-      clickElement(submitButton)
-      assertOnPage(AdditionalInformationPage)
+      Given("an authenticated user arrives on the additional information page during a notification submission")
+      goToAdditionalInformationPageFromHub()
 
       When("pressing skip with additional information provided")
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
@@ -184,14 +146,7 @@ class NotificationSpec extends BaseSpec {
       Given(
         "an authenticated user provides additional information and arrives on the 'Check Your Answers' page during a notification submission"
       )
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
-      assertOnPage(HubPage)
-      clickElement(HubPage.submitNotificationLink)
-      assertOnPage(SubmitNotificationStartPage)
-      clickElement(SubmitNotificationStartPage.submitNotificationLink)
-      assertOnPage(GuidancePage)
-      clickElement(submitButton)
-      assertOnPage(AdditionalInformationPage)
+      goToAdditionalInformationPageFromHub()
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
       clickElement(submitButton)
       assertOnPage(CheckYourAnswersPage)
@@ -211,5 +166,15 @@ class NotificationSpec extends BaseSpec {
     // Decide later
     // CYA > Change > make a change > SKIP > no text in CYA
     // CYA > Change > remove text > Continue > error
+  }
+
+  private def goToAdditionalInformationPageFromHub(): Unit = {
+    assertOnPage(HubPage)
+    clickElement(HubPage.submitNotificationLink)
+    assertOnPage(SubmitNotificationStartPage)
+    clickElement(SubmitNotificationStartPage.submitNotificationLink)
+    assertOnPage(GuidancePage)
+    clickElement(submitButton)
+    assertOnPage(AdditionalInformationPage)
   }
 }
