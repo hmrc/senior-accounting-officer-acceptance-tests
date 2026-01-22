@@ -149,12 +149,10 @@ class NotificationSpec extends BaseSpec {
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
     }
 
-    // Additional information screen > add text > Skip > no text in CYA
     Scenario(
       "When pressing skip with additional information added, no text is displayed on the 'Check Your Answers' page",
       RegistrationTests,
-      ZapTests,
-      SoloTests // TODO: remove SoloTests from the Scenario before merging
+      ZapTests
     ) {
       Given(
         "an authenticated user arrives on the additional information page during a notification submission"
@@ -179,11 +177,37 @@ class NotificationSpec extends BaseSpec {
 
     // change answer flow
     // CYA > Change > lands on '/change-additional-information' > make a change > Continue > change appears in CYA
+    Scenario(
+      "When selecting to change additional information from the 'Check Your Answers' page, the changes are persisted",
+      RegistrationTests,
+      ZapTests,
+      SoloTests // TODO: remove SoloTests from the Scenario before merging
+    ) {
+      Given(
+        "an authenticated user provides additional information page and arrives on the 'Check Your Answers' page during a notification submission"
+      )
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      assertOnPage(HubPage)
+      clickElement(HubPage.submitNotificationLink)
+      assertOnPage(SubmitNotificationStartPage)
+      clickElement(SubmitNotificationStartPage.submitNotificationLink)
+      assertOnPage(GuidancePage)
+      clickElement(submitButton)
+      assertOnPage(AdditionalInformationPage)
+      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
+      clickElement(submitButton)
+      assertOnPage(CheckYourAnswersPage)
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
-    // Decide later
-    // CYA > Change > make a change > SKIP > no text in CYA
-    // CYA > Change > remove text > Continue > error
+      When("pressing the change link and updating the provided additional information")
+      // clickElement(change link)
 
+      Then("on pressing continue the updated text is displayed on the 'Check Your Answers' page")
+      // assert updated text CYA
+
+      // Decide later
+      // CYA > Change > make a change > SKIP > no text in CYA
+      // CYA > Change > remove text > Continue > error
+    }
   }
-
 }
