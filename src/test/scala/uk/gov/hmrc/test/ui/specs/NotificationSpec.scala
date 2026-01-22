@@ -28,9 +28,9 @@ class NotificationSpec extends BaseSpec {
     super.beforeEach()
     AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
   }
-  
+
   Feature("Submit Notification") {
-    
+
     Scenario(
       "A user can submit a notification successfully when additional information is added and not changed",
       SubmissionUITests,
