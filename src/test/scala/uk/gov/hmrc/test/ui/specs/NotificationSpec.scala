@@ -140,8 +140,7 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "When selecting to change additional information from the 'Check Your Answers' page the changes are persisted",
       RegistrationTests,
-      ZapTests,
-      SoloTests // TODO: remove SoloTests from the Scenario before merging
+      ZapTests
     ) {
       Given(
         "an authenticated user provides additional information and arrives on the 'Check Your Answers' page during a notification submission"
@@ -163,9 +162,54 @@ class NotificationSpec extends BaseSpec {
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "New Test For Changed Text")
     }
 
-    // Decide later
-    // CYA > Change > make a change > SKIP > no text in CYA
-    // CYA > Change > remove text > Continue > error
+    Scenario(
+      "When selecting to change additional information from the 'Check Your Answers' page and when skip is pressed then the changes are not persisted",
+      RegistrationTests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user provides additional information and arrives on the 'Check Your Answers' page during a notification submission"
+      )
+      goToAdditionalInformationPageFromHub()
+      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
+      clickElement(submitButton)
+      assertOnPage(CheckYourAnswersPage)
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
+
+      When("pressing the change link and updating the provided additional information")
+      clickElement(CheckYourAnswersPage.additionalInformationChangeLink)
+      assertOnPage(AdditionalInformationPage.changePageUrl)
+      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "New Test For Changed Text")
+
+      Then("on pressing skip the updated text is not displayed on the 'Check Your Answers' page")
+      clickElement(AdditionalInformationPage.skipButton)
+      assertOnPage(CheckYourAnswersPage)
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
+    }
+
+    Scenario(
+      "When selecting to change additional information from the 'Check Your Answers' page, if text is removed and continue is pressed an error is shown",
+      RegistrationTests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user provides additional information and arrives on the 'Check Your Answers' page during a notification submission"
+      )
+      goToAdditionalInformationPageFromHub()
+      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
+      clickElement(submitButton)
+      assertOnPage(CheckYourAnswersPage)
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
+
+      When("pressing the change link and clearing the existing additional information")
+      clickElement(CheckYourAnswersPage.additionalInformationChangeLink)
+      assertOnPage(AdditionalInformationPage.changePageUrl)
+      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "")
+
+      Then("on pressing continue an error appears on screen")
+      clickElement(submitButton)
+      assertTextOnPage(AdditionalInformationPage.errorTitle, "There is a problem")
+    }
   }
 
   private def goToAdditionalInformationPageFromHub(): Unit = {
