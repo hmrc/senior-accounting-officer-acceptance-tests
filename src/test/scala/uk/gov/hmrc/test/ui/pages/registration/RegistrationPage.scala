@@ -20,7 +20,7 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait}
 import org.scalatest.AppendedClues.convertToClueful
 import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourCompanyDetailsLink
-import uk.gov.hmrc.test.ui.adt.{PageLink, PageSection, PageSectionStatus, RegistrationPageSection}
+import uk.gov.hmrc.test.ui.adt.{PageLink, PageSectionStatus, RegistrationPageSection}
 import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
