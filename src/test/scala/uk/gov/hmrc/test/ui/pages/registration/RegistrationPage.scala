@@ -20,7 +20,7 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait}
 import org.scalatest.AppendedClues.convertToClueful
 import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourCompanyDetailsLink
-import uk.gov.hmrc.test.ui.adt.{PageLink, RegistrationPageSection, RegistrationPageSectionStatus}
+import uk.gov.hmrc.test.ui.adt.{PageLink, PageSection, PageSectionStatus, RegistrationPageSection}
 import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
@@ -68,7 +68,7 @@ object RegistrationPage extends BasePage {
   def clickEnterYourCompanyDetailsLink(): Unit =
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(companyDetailsField)).click()
 
-  def assertSectionStatus(section: RegistrationPageSection, expectedStatus: RegistrationPageSectionStatus): Unit = {
+  def assertSectionStatus(section: RegistrationPageSection, expectedStatus: PageSectionStatus): Unit = {
     val statusElement = new FluentWait(driver)
       .until(ExpectedConditions.visibilityOfElementLocated(sectionLocators(section)))
     statusElement.getText.trim mustBe expectedStatus.toString withClue

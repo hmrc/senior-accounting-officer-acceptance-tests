@@ -16,8 +16,8 @@
 
 package uk.gov.hmrc.test.ui.support
 
-import org.openqa.selenium.{By, WebDriver}
 import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait, Select, Wait}
+import org.openqa.selenium.{By, WebDriver}
 import uk.gov.hmrc.test.ui.pages.BasePage
 
 import java.time.Duration
@@ -48,11 +48,34 @@ object PageSupport extends BasePage {
     click(continueButton)
   }
 
+  def clickElement(locator: By): Unit =
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(locator)).click()
+
+  def assertTextOnPage(locator: By, text: String): Unit = {
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(locator))
+    text mustBe driver.findElement(locator).getText
+  }
+
   def assertOnPage(url: String = this.pageUrl): Unit = fluentWait.until(ExpectedConditions.urlToBe(url))
 
-  def assertOnPage(page: BasePage): Unit = {
-    fluentWait.until(_ => getCurrentUrl == page.pageUrl && getTitle == page.pageTitle)
+  def assertPageWithError(page: BasePage): Unit =
+    assertOnPage(page, Some(page.pageErrorTitle))
+
+  def assertOnPage(page: BasePage, expectedTitle: String): Unit =
+    assertOnPage(page, Some(expectedTitle))
+
+  def assertOnPage(page: BasePage): Unit =
+    assertOnPage(page, None)
+
+  private def assertOnPage(page: BasePage, titleOverride: Option[String]): Unit = {
+    val expectedTitle = titleOverride.getOrElse(page.pageTitle)
+    fluentWait.until(_ => getCurrentUrl == page.pageUrl && getTitle == expectedTitle)
     getCurrentUrl mustBe page.pageUrl
-    getTitle mustBe page.pageTitle
+    getTitle mustBe expectedTitle
+  }
+
+  override def sendKeys(locator: By, value: String): Unit = {
+    driver.findElement(locator).clear()
+    driver.findElement(locator).sendKeys(value)
   }
 }

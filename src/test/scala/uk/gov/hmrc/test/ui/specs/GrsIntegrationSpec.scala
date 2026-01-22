@@ -17,7 +17,7 @@
 package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.CompanyDetails
-import uk.gov.hmrc.test.ui.adt.RegistrationPageSectionStatus.Completed
+import uk.gov.hmrc.test.ui.adt.PageSectionStatus.Completed
 import uk.gov.hmrc.test.ui.pages.AuthorityWizardPage
 import uk.gov.hmrc.test.ui.pages.grs.*
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsMicroservice
@@ -30,7 +30,7 @@ class GrsIntegrationSpec extends BaseSpec {
   Feature("Generic Registration Service (GRS) integration") {
     Scenario(
       "Integrate successfully with GRS",
-      RegistrationTests,
+      RegistrationUITests,
       ZapTests
     ) {
       Given("an authenticated user accesses the Generic Registration Service")

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.specs.tags
+package uk.gov.hmrc.test.ui.pages
 
-import org.scalatest.Tag
+import org.openqa.selenium.By
+import uk.gov.hmrc.test.ui.conf.TestConfiguration
 
-object RegistrationTests extends Tag("RegistrationTests")
+object HubPage extends BasePage {
+  override val pageUrl: String   = TestConfiguration.url("senior-accounting-officer-hub-frontend")
+  override val pageTitle: String =
+    "Senior Accounting Officer notification and certificate - Senior Accounting Officer notification and certificate - site.govuk"
+  val submitNotificationLink: By = By.cssSelector("#section-submit-notification-link a")
+}

@@ -28,7 +28,8 @@ import java.time.Duration
 trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageObject {
   def pageUrl: String
   def pageTitle: String
-  def baseRegUrl: String = TestConfiguration.url("senior-accounting-officer-registration-frontend")
+  def pageErrorTitle: String = s"Error: $pageTitle"
+  def baseRegUrl: String     = TestConfiguration.url("senior-accounting-officer-registration-frontend")
 
   def navigateTo(url: String): Unit = driver.navigate().to(url)
 

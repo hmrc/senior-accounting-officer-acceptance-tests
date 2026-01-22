@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,13 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.specs.tags
+package uk.gov.hmrc.test.ui.specs
 
 import org.scalatest.Tag
 
-object SoloTests extends Tag("SoloTests")
+package object tags {
+  object ZapTests extends Tag("ZapTests")
+  object SubmissionUITests extends Tag("SubmissionUITests")
+  object SoloTests extends Tag("SoloTests")
+  object RegistrationUITests extends Tag("RegistrationUITests")
+}
