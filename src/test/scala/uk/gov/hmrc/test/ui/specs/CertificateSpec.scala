@@ -46,8 +46,7 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "After a notification submission a user starts a certificate submission and can continue to the 'Is this your SAO' page",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user completes the submit notification journey")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
