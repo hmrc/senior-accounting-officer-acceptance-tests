@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.test.ui.specs
 
-import uk.gov.hmrc.test.ui.pages.submission.certificate.SubmitCertificateStartPage
+import uk.gov.hmrc.test.ui.pages.submission.certificate.*
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
 import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
@@ -43,29 +43,25 @@ class CertificateSpec extends BaseSpec {
       assertElementIsClickable(SubmitCertificateStartPage.uploadSubmissionTemplateLink)
     }
 
-    //    Given a user submits a notification successfully,
-    //    And clicks continue on the 'Notification Confirmation 'page,
-    //    And lands on the 'Submit Certificate Guidance 'page,
-    //    When the user clicks 'Continue',
-    //    Then they land on the 'Is this the SAO' page.
     Scenario(
       "After a notification submission a user starts a certificate submission and can continue to the 'Is this your SAO' page",
       SubmissionUITests,
       ZapTests,
       SoloTests
     ) {
-      Given("an authenticated user adds a notification from the 'Hub' page")
+      Given("an authenticated user completes the submit notification journey")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
       addNotificationFromHub()
 
-      And("continues to start a certificate submission") // ?
-      // click continue from 'Confirmation' Page
-      // assertOnPage(certStartPage)
+      And("continues to start a certificate submission")
+      clickElement(submitButton)
+      assertOnPage(SubmitCertificateStartPage)
 
-      When("the user clicks 'Continue' from the 'Submit Certificate Guidance' page") // ?
+      When("the user clicks 'Continue' from the 'Submit Certificate Guidance' page")
+      clickElement(submitButton)
 
       Then("the user lands on the 'Is this your SAO' page")
-
+      assertOnPage(IsThisTheSaoPage)
     }
   }
 
