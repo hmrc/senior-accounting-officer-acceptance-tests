@@ -17,7 +17,6 @@
 package uk.gov.hmrc.test.ui.pages.submission.certificate
 
 import org.openqa.selenium.By
-import org.scalactic.Prettifier.default
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
 

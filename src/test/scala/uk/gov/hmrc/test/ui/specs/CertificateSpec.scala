@@ -28,7 +28,7 @@ class CertificateSpec extends BaseSpec {
   Feature("Submit Certificate") {
 
     Scenario(
-      "On initiating a certificate submission from the hub page, when landing on the 'Submit Certificate Guidance' page then the 'upload another submission template' link is displayed",
+      "The 'upload another submission template' link is displayed on the 'Submit Certificate Guidance' page when initiating a certificate submission from the 'Hub' page",
       SubmissionUITests,
       ZapTests,
       SoloTests
@@ -36,23 +36,19 @@ class CertificateSpec extends BaseSpec {
       Given("an authenticated user initiates submitting a certificate from the hub page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
       assertOnPage(HubPage)
+      startCertificateJourney()
       clickElement(HubPage.submitCertificateLink)
-
       assertOnPage(SubmitCertificateStartPage)
 
       Then("the 'upload another submission template' link is displayed on the 'Submit Certificate Guidance' page")
       assertElementIsClickable(SubmitCertificateStartPage.uploadSubmissionTemplateLink)
-
-      //    Given a user navigates from the 'Hub 'page to the 'Submit Certificate Guidance 'page,
-      //    Then the 'upload another submission template 'link is displayed.
-
-      //    Given a user submits a notification successfully,
-      //    And clicks continue on the 'Notification Confirmation 'page,
-      //    And lands on the 'Submit Certificate Guidance 'page,
-      //    When the user clicks 'Continue',
-      //    Then they land on the 'Is this the SAO' page.
     }
 
+    //    Given a user submits a notification successfully,
+    //    And clicks continue on the 'Notification Confirmation 'page,
+    //    And lands on the 'Submit Certificate Guidance 'page,
+    //    When the user clicks 'Continue',
+    //    Then they land on the 'Is this the SAO' page.
     Scenario(
       "A user can submit a certificate successfully when additional information is added and not changed",
       SubmissionUITests,
@@ -79,6 +75,14 @@ class CertificateSpec extends BaseSpec {
 //      Then("the given notification reference number is successfully returned")
 //      ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
     }
+  }
+
+  private def startCertificateJourney(): Unit = {
+    // TODO: (MA - 26/01) Temporary workaround until data is available at this point in the journey.
+    clickElement(HubPage.submitNotificationLink)
+    assertOnPage(SubmitNotificationStartPage)
+    driver.navigate().back()
+    assertOnPage(HubPage)
   }
 
   private def goToAdditionalInformationPageFromHub(): Unit = {
