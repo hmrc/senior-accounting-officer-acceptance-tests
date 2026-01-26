@@ -24,4 +24,5 @@ object HubPage extends BasePage {
   override val pageTitle: String =
     "Senior Accounting Officer notification and certificate - Senior Accounting Officer notification and certificate - site.govuk"
   val submitNotificationLink: By = By.cssSelector("#section-submit-notification-link a")
+  val submitCertificateLink: By  = By.cssSelector("#section-submit-certificate-link a")
 }

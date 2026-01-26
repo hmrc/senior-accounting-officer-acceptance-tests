@@ -16,10 +16,16 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.certificate
 
+import org.openqa.selenium.By
+import org.scalactic.Prettifier.default
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
 
 object SubmitCertificateStartPage extends BasePage {
-  override val pageUrl: String   = s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/start"
-  override val pageTitle: String = "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
+  override val pageUrl: String   =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/start"
+  override val pageTitle: String =
+    "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  val uploadSubmissionTemplateLink: By = By.cssSelector("""[href="#"]""")
 }
