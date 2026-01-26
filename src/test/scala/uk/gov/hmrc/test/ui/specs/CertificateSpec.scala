@@ -30,8 +30,7 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "The 'upload another submission template' link is displayed on the 'Submit Certificate Guidance' page when initiating a certificate submission from the 'Hub' page",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user initiates submitting a certificate from the hub page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
@@ -50,30 +49,23 @@ class CertificateSpec extends BaseSpec {
     //    When the user clicks 'Continue',
     //    Then they land on the 'Is this the SAO' page.
     Scenario(
-      "A user can submit a certificate successfully when additional information is added and not changed",
+      "After a notification submission a user starts a certificate submission and can continue to the 'Is this your SAO' page",
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
-//      Given("an authenticated user initiates adding a notification from the hub page")
-//      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
-//      goToAdditionalInformationPageFromHub()
-//
-//      When("additional information is added")
-//      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
-//      clickElement(submitButton)
-//      assertOnPage(CheckYourAnswersPage)
-//      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
-//
-//      And("the user confirms their answers by clicking continue")
-//      clickElement(submitButton)
-//      assertOnPage(SubmitPage)
-//
-//      And("submits the notification")
-//      clickElement(SubmitPage.confirmAndSubmitButton)
-//      assertOnPage(ConfirmationPage)
-//
-//      Then("the given notification reference number is successfully returned")
-//      ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
+      Given("an authenticated user adds a notification from the 'Hub' page")
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      addNotificationFromHub()
+
+      And("continues to start a certificate submission") // ?
+      // click continue from 'Confirmation' Page
+      // assertOnPage(certStartPage)
+
+      When("the user clicks 'Continue' from the 'Submit Certificate Guidance' page") // ?
+
+      Then("the user lands on the 'Is this your SAO' page")
+
     }
   }
 
@@ -85,7 +77,7 @@ class CertificateSpec extends BaseSpec {
     assertOnPage(HubPage)
   }
 
-  private def goToAdditionalInformationPageFromHub(): Unit = {
+  private def addNotificationFromHub(): Unit = {
     assertOnPage(HubPage)
     clickElement(HubPage.submitNotificationLink)
     assertOnPage(SubmitNotificationStartPage)
@@ -93,5 +85,12 @@ class CertificateSpec extends BaseSpec {
     assertOnPage(GuidancePage)
     clickElement(submitButton)
     assertOnPage(AdditionalInformationPage)
+    clickElement(AdditionalInformationPage.skipButton)
+    assertOnPage(CheckYourAnswersPage)
+    clickElement(submitButton)
+    assertOnPage(SubmitPage)
+    clickElement(SubmitPage.confirmAndSubmitButton)
+    assertOnPage(ConfirmationPage)
+    ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
   }
 }

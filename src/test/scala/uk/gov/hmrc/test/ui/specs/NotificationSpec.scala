@@ -36,7 +36,7 @@ class NotificationSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given("an authenticated user initiates adding a notification from the hub page")
+      Given("an authenticated user initiates adding a notification from the 'Hub' page")
       goToAdditionalInformationPageFromHub()
 
       When("additional information is added")
@@ -109,7 +109,7 @@ class NotificationSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given("an authenticated user arrives on the additional information page during a notification submission")
+      Given("an authenticated user arrives on the 'Additional Information' page during a notification submission")
       goToAdditionalInformationPageFromHub()
 
       When("pressing skip without providing additional information")
@@ -125,7 +125,7 @@ class NotificationSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given("an authenticated user arrives on the additional information page during a notification submission")
+      Given("an authenticated user arrives on the 'Additional Information' page during a notification submission")
       goToAdditionalInformationPageFromHub()
 
       When("pressing skip with additional information provided")
