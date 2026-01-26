@@ -48,6 +48,9 @@ object PageSupport extends BasePage {
     click(continueButton)
   }
 
+  def assertElementIsClickable(locator: By): Unit =
+    fluentWait.until(ExpectedConditions.elementToBeClickable(locator))
+
   def clickElement(locator: By): Unit =
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(locator)).click()
 
