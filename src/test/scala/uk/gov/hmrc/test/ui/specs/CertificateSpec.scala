@@ -66,10 +66,9 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "After a user has continued from the 'Submit Certificate Guidance' page, they can successfully navigate to the 'SAO Email' page when selecting the 'Yes' radio button",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
-      Given("an authenticated user lands on the 'Is This the SAO' page")
+      Given("an authenticated user lands on the 'Is This The SAO' page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
       addNotificationFromHub()
       clickElement(submitButton)
@@ -89,6 +88,27 @@ class CertificateSpec extends BaseSpec {
     // Given the user lands on the 'Is This the SAO' page
     // When they select 'No' and 'Continue'
     // Then they will be directed to the 'SAO Name' page
+    Scenario(
+      "After a user has continued from the 'Submit Certificate Guidance' page, they can successfully navigate to the 'SAO Name' page when selecting the 'No' radio button",
+      SubmissionUITests,
+      ZapTests,
+      SoloTests
+    ) {
+      Given("an authenticated user lands on the 'Is This The SAO' page")
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      addNotificationFromHub()
+      clickElement(submitButton)
+      assertOnPage(SubmitCertificateStartPage)
+      clickElement(submitButton)
+      assertOnPage(IsThisTheSaoPage)
+
+      When("the user selects the 'No' radio button and clicks 'Continue'")
+      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      clickElement(submitButton)
+
+      Then("the user lands on the 'SAO Name' page")
+      assertOnPage(SaoNamePage)
+    }
 
     // Scenario 3 - The user is shown an error message when attempting to continue without selecting either radio button
     // Given the user lands on the 'Is This the SAO' page
