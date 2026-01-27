@@ -85,7 +85,7 @@ class CertificateSpec extends BaseSpec {
     }
 
     Scenario(
-      "After a user has continued from the 'Submit Certificate Guidance' page, they can successfully navigate to the 'SAO Name' page when selecting the 'No' radio button",
+      "During a certificate submission, after submitting a valid SAO name the user lands on the 'SAO Email' page",
       SubmissionUITests,
       ZapTests
     ) {
@@ -97,13 +97,20 @@ class CertificateSpec extends BaseSpec {
       clickElement(submitButton)
       assertOnPage(IsThisTheSaoPage)
 
-      When("the user selects the 'No' radio button and clicks 'Continue'")
+      And("the user continues with 'No' selected")
       clickRadioElement(IsThisTheSaoPage.noRadioButton)
       clickElement(submitButton)
 
-      Then("the user lands on the 'SAO Name' page")
+      When("a name is added on the 'SAO Name' page")
       assertOnPage(SaoNamePage)
+      sendKeys(SaoNamePage.saoNameInput, "John Wick")
+      clickElement(submitButton)
+
+      Then("the user lands on the 'SAO Email' page")
+      assertOnPage(SaoEmailPage)
     }
+
+    // name page - no name submitted - error
 
     Scenario(
       "After a user has continued from the 'Submit Certificate Guidance' page, when selecting neither radio button they see an error message",
