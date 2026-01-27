@@ -19,7 +19,7 @@ package uk.gov.hmrc.test.ui.specs
 import uk.gov.hmrc.test.ui.pages.submission.certificate.*
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
@@ -105,15 +105,10 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(SaoNamePage)
     }
 
-    // Scenario 3 - The user is shown an error message when attempting to continue without selecting either radio button
-    // Given the user lands on the 'Is This the SAO' page
-    // When they select neither radio button and 'Continue'
-    // Then they will be shown an error message and remain on the 'Is This the SAO' page
     Scenario(
       "After a user has continued from the 'Submit Certificate Guidance' page, when selecting neither radio button they see an error message",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user lands on the 'Is This The SAO' page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
@@ -123,10 +118,11 @@ class CertificateSpec extends BaseSpec {
       clickElement(submitButton)
       assertOnPage(IsThisTheSaoPage)
 
-      When("the user selects the neither radio button and clicks 'Continue'")
+      When("the user selects neither radio button and clicks 'Continue'")
       clickElement(submitButton)
 
       Then("the user can see an error message")
+      assertTextOnPage(IsThisTheSaoPage.errorTitle, "There is a problem")
     }
   }
 

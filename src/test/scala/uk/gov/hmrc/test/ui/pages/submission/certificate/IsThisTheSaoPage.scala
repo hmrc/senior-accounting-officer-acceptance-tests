@@ -27,4 +27,5 @@ object IsThisTheSaoPage extends BasePage {
     "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
   val yesRadioButton: By         = By.cssSelector("#value")
   val noRadioButton: By          = By.cssSelector("#value-no")
+  val errorTitle: By             = By.cssSelector(".govuk-error-summary__title")
 }
