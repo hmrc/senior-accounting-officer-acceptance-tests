@@ -62,6 +62,39 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Is this your SAO' page")
       assertOnPage(IsThisTheSaoPage)
     }
+
+    Scenario(
+      "After a user has continued from the 'Submit Certificate Guidance' page, they can successfully navigate to the 'SAO Email' page when selecting the 'Yes' radio button",
+      SubmissionUITests,
+      ZapTests,
+      SoloTests
+    ) {
+      Given("an authenticated user lands on the 'Is This the SAO' page")
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      addNotificationFromHub()
+      clickElement(submitButton)
+      assertOnPage(SubmitCertificateStartPage)
+      clickElement(submitButton)
+      assertOnPage(IsThisTheSaoPage)
+
+      When("the user selects the 'Yes' radio button and clicks 'Continue'")
+      clickRadioElement(IsThisTheSaoPage.yesRadioButton)
+      clickElement(submitButton)
+
+      Then("the user lands on the 'SAO Email' page")
+      assertOnPage(SaoEmailPage)
+    }
+
+    // Scenario 2 - The user can successfully navigate to the 'SAO Name' page when selecting the 'No' radio button
+    // Given the user lands on the 'Is This the SAO' page
+    // When they select 'No' and 'Continue'
+    // Then they will be directed to the 'SAO Name' page
+
+    // Scenario 3 - The user is shown an error message when attempting to continue without selecting either radio button
+    // Given the user lands on the 'Is This the SAO' page
+    // When they select neither radio button and 'Continue'
+    // Then they will be shown an error message and remain on the 'Is This the SAO' page
+
   }
 
   private def startCertificateJourney(): Unit = {
@@ -88,24 +121,4 @@ class CertificateSpec extends BaseSpec {
     assertOnPage(ConfirmationPage)
     ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
   }
-
-  //Is This The SAO Page
-
-  //Scenario 1 - The user can successfully navigate to the 'SAO Email' page when selecting the 'Yes' radio button
-  // Given the user lands on the 'Is This the SAO' page
-  // When they select 'Yes' and 'Continue'
-  // Then they will be directed to the 'SAO Email' page
-
-  //Scenario 2 - The user can successfully navigate to the 'SAO Name' page when selecting the 'No' radio button
-  // Given the user lands on the 'Is This the SAO' page
-  // When they select 'No' and 'Continue'
-  // Then they will be directed to the 'SAO Name' page
-
-  //Scenario 3 - The user is shown an error message when attempting to continue without selecting either radio button
-  // Given the user lands on the 'Is This the SAO' page
-  // When they select neither radio button and 'Continue'
-  // Then they will be shown an error message and remain on the 'Is This the SAO' page
-
-
-
 }
