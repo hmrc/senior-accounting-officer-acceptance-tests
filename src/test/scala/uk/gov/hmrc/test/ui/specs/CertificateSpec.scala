@@ -19,7 +19,7 @@ package uk.gov.hmrc.test.ui.specs
 import uk.gov.hmrc.test.ui.pages.submission.certificate.*
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
@@ -61,6 +61,68 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user lands on the 'Is this your SAO' page")
       assertOnPage(IsThisTheSaoPage)
+    }
+
+    Scenario(
+      "After a user has continued from the 'Submit Certificate Guidance' page, they can successfully navigate to the 'SAO Email' page when selecting the 'Yes' radio button",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'Is This The SAO' page")
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      addNotificationFromHub()
+      clickElement(submitButton)
+      assertOnPage(SubmitCertificateStartPage)
+      clickElement(submitButton)
+      assertOnPage(IsThisTheSaoPage)
+
+      When("the user selects the 'Yes' radio button and clicks 'Continue'")
+      clickRadioElement(IsThisTheSaoPage.yesRadioButton)
+      clickElement(submitButton)
+
+      Then("the user lands on the 'SAO Email' page")
+      assertOnPage(SaoEmailPage)
+    }
+
+    Scenario(
+      "After a user has continued from the 'Submit Certificate Guidance' page, they can successfully navigate to the 'SAO Name' page when selecting the 'No' radio button",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'Is This The SAO' page")
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      addNotificationFromHub()
+      clickElement(submitButton)
+      assertOnPage(SubmitCertificateStartPage)
+      clickElement(submitButton)
+      assertOnPage(IsThisTheSaoPage)
+
+      When("the user selects the 'No' radio button and clicks 'Continue'")
+      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      clickElement(submitButton)
+
+      Then("the user lands on the 'SAO Name' page")
+      assertOnPage(SaoNamePage)
+    }
+
+    Scenario(
+      "After a user has continued from the 'Submit Certificate Guidance' page, when selecting neither radio button they see an error message",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'Is This The SAO' page")
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      addNotificationFromHub()
+      clickElement(submitButton)
+      assertOnPage(SubmitCertificateStartPage)
+      clickElement(submitButton)
+      assertOnPage(IsThisTheSaoPage)
+
+      When("the user selects neither radio button and clicks 'Continue'")
+      clickElement(submitButton)
+
+      Then("the user can see an error message")
+      assertTextOnPage(IsThisTheSaoPage.errorTitle, "There is a problem")
     }
   }
 
