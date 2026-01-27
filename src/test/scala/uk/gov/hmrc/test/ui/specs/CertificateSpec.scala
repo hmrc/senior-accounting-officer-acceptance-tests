@@ -110,7 +110,30 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(SaoEmailPage)
     }
 
-    // name page - no name submitted - error
+    Scenario(
+      "During a certificate submission, when attempting to submit no SAO name on the 'SAO Name' page an error is shown",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'Is This The SAO' page")
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      addNotificationFromHub()
+      clickElement(submitButton)
+      assertOnPage(SubmitCertificateStartPage)
+      clickElement(submitButton)
+      assertOnPage(IsThisTheSaoPage)
+
+      And("the user continues with 'No' selected")
+      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      clickElement(submitButton)
+
+      When("attempting to submit no SAO name on the 'SAO Name' page")
+      assertOnPage(SaoNamePage)
+      clickElement(submitButton)
+
+      Then("an error is shown")
+      assertTextOnPage(SaoNamePage.errorTitle, "There is a problem")
+    }
 
     Scenario(
       "After a user has continued from the 'Submit Certificate Guidance' page, when selecting neither radio button they see an error message",

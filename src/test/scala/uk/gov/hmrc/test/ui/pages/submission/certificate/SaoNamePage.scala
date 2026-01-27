@@ -24,7 +24,8 @@ object SaoNamePage extends BasePage {
   override val pageUrl: String   =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/sao-name"
   override val pageTitle: String =
-    "saoName - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Senior Accounting Officer contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val saoNameInput = By.cssSelector("#value")
+  val saoNameInput: By = By.cssSelector("#value")
+  val errorTitle: By   = By.cssSelector(".govuk-error-summary__title")
 }
