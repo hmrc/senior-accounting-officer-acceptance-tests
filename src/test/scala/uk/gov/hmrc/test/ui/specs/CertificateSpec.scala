@@ -111,32 +111,7 @@ class CertificateSpec extends BaseSpec {
     }
 
     Scenario(
-      "During a certificate submission, when attempting to submit no SAO name on the 'SAO Name' page an error is shown",
-      SubmissionUITests,
-      ZapTests
-    ) {
-      Given("an authenticated user lands on the 'Is This The SAO' page")
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
-      addNotificationFromHub()
-      clickElement(submitButton)
-      assertOnPage(SubmitCertificateStartPage)
-      clickElement(submitButton)
-      assertOnPage(IsThisTheSaoPage)
-
-      And("the user continues with 'No' selected")
-      clickRadioElement(IsThisTheSaoPage.noRadioButton)
-      clickElement(submitButton)
-
-      When("attempting to submit no SAO name on the 'SAO Name' page")
-      assertOnPage(SaoNamePage)
-      clickElement(submitButton)
-
-      Then("an error is shown")
-      assertTextOnPage(SaoNamePage.errorTitle, "There is a problem")
-    }
-
-    Scenario(
-      "After a user has continued from the 'Submit Certificate Guidance' page, when selecting neither radio button they see an error message",
+      "During a certificate submission, errors are displayed when the user provides invalid input",
       SubmissionUITests,
       ZapTests
     ) {
@@ -151,8 +126,30 @@ class CertificateSpec extends BaseSpec {
       When("the user selects neither radio button and clicks 'Continue'")
       clickElement(submitButton)
 
-      Then("the user can see an error message")
+      Then("an error is shown")
       assertTextOnPage(IsThisTheSaoPage.errorTitle, "There is a problem")
+
+      And("the user continues with 'No' selected, landing on the 'SAO Name' page")
+      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      clickElement(submitButton)
+      assertOnPage(SaoNamePage)
+
+      When("attempting to submit no SAO name on the 'SAO Name' page")
+      clickElement(submitButton)
+
+      Then("an error is shown")
+      assertTextOnPage(SaoNamePage.errorTitle, "There is a problem")
+
+      And("the user continues with text added, landing on the 'SAO Email' page")
+      sendKeys(SaoNamePage.saoNameInput, "John Wick")
+      clickElement(submitButton)
+      assertOnPage(SaoEmailPage)
+
+      When("attempting to submit no SAO email on the 'SAO Email' page")
+      clickElement(submitButton)
+
+      // Then("an error is shown")
+      // assertTextOnPage(SaoEmailPage.errorTitle, "There is a problem")
     }
   }
 
