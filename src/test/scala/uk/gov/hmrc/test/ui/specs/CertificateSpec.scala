@@ -85,7 +85,7 @@ class CertificateSpec extends BaseSpec {
     }
 
     Scenario(
-      "After a user has continued from the 'Submit Certificate Guidance' page, they can successfully navigate to the 'SAO Name' page when selecting the 'No' radio button",
+      "During a certificate submission, after submitting a valid SAO name the user lands on the 'SAO Email' page",
       SubmissionUITests,
       ZapTests
     ) {
@@ -97,12 +97,42 @@ class CertificateSpec extends BaseSpec {
       clickElement(submitButton)
       assertOnPage(IsThisTheSaoPage)
 
-      When("the user selects the 'No' radio button and clicks 'Continue'")
+      And("the user continues with 'No' selected")
       clickRadioElement(IsThisTheSaoPage.noRadioButton)
       clickElement(submitButton)
 
-      Then("the user lands on the 'SAO Name' page")
+      When("a name is added on the 'SAO Name' page")
       assertOnPage(SaoNamePage)
+      sendKeys(SaoNamePage.saoNameInput, "John Wick")
+      clickElement(submitButton)
+
+      Then("the user lands on the 'SAO Email' page")
+      assertOnPage(SaoEmailPage)
+    }
+
+    Scenario(
+      "During a certificate submission, when attempting to submit no SAO name on the 'SAO Name' page an error is shown",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'Is This The SAO' page")
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      addNotificationFromHub()
+      clickElement(submitButton)
+      assertOnPage(SubmitCertificateStartPage)
+      clickElement(submitButton)
+      assertOnPage(IsThisTheSaoPage)
+
+      And("the user continues with 'No' selected")
+      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      clickElement(submitButton)
+
+      When("attempting to submit no SAO name on the 'SAO Name' page")
+      assertOnPage(SaoNamePage)
+      clickElement(submitButton)
+
+      Then("an error is shown")
+      assertTextOnPage(SaoNamePage.errorTitle, "There is a problem")
     }
 
     Scenario(
