@@ -26,5 +26,6 @@ object SaoEmailPage extends BasePage {
   override val pageTitle: String =
     "saoEmail - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val errorTitle: By = By.cssSelector(".govuk-error-summary__title")
+  val submitButton: By = By.cssSelector("""[type="submit"]""")
+  val errorTitle: By   = By.cssSelector(".govuk-error-summary__title")
 }

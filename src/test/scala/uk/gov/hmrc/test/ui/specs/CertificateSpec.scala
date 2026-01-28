@@ -28,7 +28,43 @@ class CertificateSpec extends BaseSpec {
   Feature("Submit Certificate") {
 
     Scenario(
-      "The 'upload another submission template' link is displayed on the 'Submit Certificate Guidance' page when initiating a certificate submission from the 'Hub' page",
+      "A user can submit a certificate successfully from the 'Hub' page",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user initiates a certificate submission from the 'Hub' page")
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      assertOnPage(HubPage)
+      startCertificateJourney()
+      clickElement(HubPage.submitCertificateLink)
+      assertOnPage(SubmitCertificateStartPage)
+
+      When("the user clicks 'Continue' on the 'Submit Certificate Guidance' page")
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'Is the given person the named SAO on the Certificate' question page")
+      assertOnPage(IsThisTheSaoPage)
+
+      When("the user selects the 'No' radio option and clicks 'Continue'")
+      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'SAO Name' page")
+      assertOnPage(SaoNamePage)
+
+      When("the user enters a valid SAO name and clicks 'Continue'")
+      sendKeys(SaoNamePage.saoNameInput, "John Wick")
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'SAO Email' page")
+      assertOnPage(SaoEmailPage)
+
+      // Then("the given certificate reference number is successfully returned")
+    }
+
+    // TODO: (MA - 28/01) Update test to click the 'upload another submission template' link when it's provided
+    Scenario(
+      "The 'upload another submission template' link is displayed on the 'Submit Certificate Guidance' page",
       SubmissionUITests,
       ZapTests
     ) {
@@ -43,28 +79,9 @@ class CertificateSpec extends BaseSpec {
       assertElementIsClickable(SubmitCertificateStartPage.uploadSubmissionTemplateLink)
     }
 
+    // TODO: (MA - 28/01) This scenario will be absorbed into the notification and certificate happy path e-2-e journey
     Scenario(
-      "After a notification submission a user starts a certificate submission and can continue to the 'Is this your SAO' page",
-      SubmissionUITests,
-      ZapTests
-    ) {
-      Given("an authenticated user completes the submit notification journey")
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
-      addNotificationFromHub()
-
-      And("continues to start a certificate submission")
-      clickElement(submitButton)
-      assertOnPage(SubmitCertificateStartPage)
-
-      When("the user clicks 'Continue' from the 'Submit Certificate Guidance' page")
-      clickElement(submitButton)
-
-      Then("the user lands on the 'Is this your SAO' page")
-      assertOnPage(IsThisTheSaoPage)
-    }
-
-    Scenario(
-      "After a user has continued from the 'Submit Certificate Guidance' page, they can successfully navigate to the 'SAO Email' page when selecting the 'Yes' radio button",
+      "On selecting 'Yes' when asked whether the given SAO is the correct SAO, the user is taken directly to the 'SAO Email' page",
       SubmissionUITests,
       ZapTests
     ) {
@@ -85,11 +102,11 @@ class CertificateSpec extends BaseSpec {
     }
 
     Scenario(
-      "During a certificate submission, after submitting a valid SAO name the user lands on the 'SAO Email' page",
+      "During a certificate submission errors are displayed when the user attempts to progress with invalid input",
       SubmissionUITests,
       ZapTests
     ) {
-      Given("an authenticated user lands on the 'Is This The SAO' page")
+      Given("an authenticated user lands on the 'Is the given person the named SAO on the Certificate' question page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
       addNotificationFromHub()
       clickElement(submitButton)
@@ -97,58 +114,36 @@ class CertificateSpec extends BaseSpec {
       clickElement(submitButton)
       assertOnPage(IsThisTheSaoPage)
 
-      And("the user continues with 'No' selected")
-      clickRadioElement(IsThisTheSaoPage.noRadioButton)
-      clickElement(submitButton)
-
-      When("a name is added on the 'SAO Name' page")
-      assertOnPage(SaoNamePage)
-      sendKeys(SaoNamePage.saoNameInput, "John Wick")
-      clickElement(submitButton)
-
-      Then("the user lands on the 'SAO Email' page")
-      assertOnPage(SaoEmailPage)
-    }
-
-    Scenario(
-      "During a certificate submission, errors are displayed when the user provides invalid input",
-      SubmissionUITests,
-      ZapTests
-    ) {
-      Given("an authenticated user lands on the 'Is This The SAO' page")
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
-      addNotificationFromHub()
-      clickElement(submitButton)
-      assertOnPage(SubmitCertificateStartPage)
-      clickElement(submitButton)
-      assertOnPage(IsThisTheSaoPage)
-
-      When("the user selects neither radio button and clicks 'Continue'")
+      When("the user clicks 'Continue' without selecting a radio option")
       clickElement(submitButton)
 
       Then("an error is shown")
       assertTextOnPage(IsThisTheSaoPage.errorTitle, "There is a problem")
 
-      And("the user continues with 'No' selected, landing on the 'SAO Name' page")
+      When("the user selects the 'No' radio option and clicks 'Continue'")
       clickRadioElement(IsThisTheSaoPage.noRadioButton)
       clickElement(submitButton)
+
+      Then("the user is taken to the 'SAO Name' page")
       assertOnPage(SaoNamePage)
 
-      When("attempting to submit no SAO name on the 'SAO Name' page")
+      When("the user clicks 'Continue' without entering an SAO name")
       clickElement(submitButton)
 
       Then("an error is shown")
       assertTextOnPage(SaoNamePage.errorTitle, "There is a problem")
 
-      And("the user continues with text added, landing on the 'SAO Email' page")
+      When("the user enters a valid name and clicks 'Continue'")
       sendKeys(SaoNamePage.saoNameInput, "John Wick")
       clickElement(submitButton)
+
+      Then("the user is taken to the 'SAO Email' page")
       assertOnPage(SaoEmailPage)
 
-      When("attempting to submit no SAO email on the 'SAO Email' page")
-      clickElement(submitButton)
+      When("the user clicks 'Continue' without entering an SAO email")
+      clickElement(SaoEmailPage.submitButton)
 
-      // Then("an error is shown")
+      Then("an error is shown")
       // assertTextOnPage(SaoEmailPage.errorTitle, "There is a problem")
     }
   }
