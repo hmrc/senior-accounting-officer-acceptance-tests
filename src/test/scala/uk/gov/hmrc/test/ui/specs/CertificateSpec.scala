@@ -17,9 +17,11 @@
 package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.pages.submission.certificate.*
+import uk.gov.hmrc.test.ui.pages.submission.certificate.CheckYourAnswersPage as CertificateCheckYourAnswersPage
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
+import uk.gov.hmrc.test.ui.pages.submission.notification.CheckYourAnswersPage as NotificationCheckYourAnswersPage
 import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
@@ -30,7 +32,8 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "A user can submit a certificate successfully from the 'Hub' page",
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user initiates a certificate submission from the 'Hub' page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
@@ -65,6 +68,13 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user is taken to the 'SAO Email Communication Choice' page")
       assertOnPage(SaoEmailCommunicationChoicePage)
+
+      When("the user selects the 'No' radio option and clicks 'Continue'")
+      clickRadioElement(SaoEmailCommunicationChoicePage.noRadioButton)
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'Check Your Answers' page")
+      assertOnPage(CertificateCheckYourAnswersPage)
 
       // Then("the given certificate reference number is successfully returned")
     }
@@ -179,7 +189,7 @@ class CertificateSpec extends BaseSpec {
     clickElement(submitButton)
     assertOnPage(AdditionalInformationPage)
     clickElement(AdditionalInformationPage.skipButton)
-    assertOnPage(CheckYourAnswersPage)
+    assertOnPage(NotificationCheckYourAnswersPage)
     clickElement(submitButton)
     assertOnPage(SubmitPage)
     clickElement(SubmitPage.confirmAndSubmitButton)
