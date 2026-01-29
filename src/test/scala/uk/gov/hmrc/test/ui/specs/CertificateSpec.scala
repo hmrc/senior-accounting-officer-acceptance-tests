@@ -59,6 +59,13 @@ class CertificateSpec extends BaseSpec {
       Then("the user is taken to the 'SAO Email' page")
       assertOnPage(SaoEmailPage)
 
+      When("the user enters a valid email and clicks 'Continue'")
+      sendKeys(SaoEmailPage.saoEmailInput, "JohnWick@test.com")
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'SAO Email Communication Choice' page")
+      assertOnPage(SaoEmailCommunicationChoicePage)
+
       // Then("the given certificate reference number is successfully returned")
     }
 
@@ -141,10 +148,17 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(SaoEmailPage)
 
       When("the user clicks 'Continue' without entering an SAO email")
-      clickElement(SaoEmailPage.submitButton)
+      clickElement(submitButton)
 
       Then("an error is shown")
-      // assertTextOnPage(SaoEmailPage.errorTitle, "There is a problem")
+      assertTextOnPage(SaoEmailPage.errorTitle, "There is a problem")
+
+      When("the user enters a valid email and clicks 'Continue'")
+      sendKeys(SaoEmailPage.saoEmailInput, "JohnWick@test.com")
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'SAO Email Communication Choice' page")
+      assertOnPage(SaoEmailCommunicationChoicePage)
     }
   }
 
