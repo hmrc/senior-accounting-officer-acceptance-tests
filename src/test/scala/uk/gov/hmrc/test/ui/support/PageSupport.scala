@@ -57,9 +57,6 @@ object PageSupport extends BasePage {
   def clickRadioElement(locator: By): Unit =
     fluentWait.until(ExpectedConditions.presenceOfElementLocated(locator)).click()
 
-  def clearField(locator: By): Unit =
-    fluentWait.until(ExpectedConditions.elementToBeClickable(locator)).clear()
-
   def assertTextOnPage(locator: By, text: String): Unit = {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(locator))
     text mustBe driver.findElement(locator).getText
