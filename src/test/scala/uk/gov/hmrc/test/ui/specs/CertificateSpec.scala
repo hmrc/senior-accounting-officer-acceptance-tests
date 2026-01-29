@@ -19,7 +19,7 @@ package uk.gov.hmrc.test.ui.specs
 import uk.gov.hmrc.test.ui.pages.submission.certificate.*
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
@@ -30,7 +30,8 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "A user can submit a certificate successfully from the 'Hub' page",
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user initiates a certificate submission from the 'Hub' page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
@@ -58,6 +59,13 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user is taken to the 'SAO Email' page")
       assertOnPage(SaoEmailPage)
+
+      When("the user enters a valid email and clicks 'Continue'")
+      sendKeys(SaoEmailPage.saoEmailInput, "JohnWick@test.com")
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'SAO Email Communication Choice' page")
+      assertOnPage(SaoEmailCommunicationChoicePage)
 
       // Then("the given certificate reference number is successfully returned")
     }
@@ -141,10 +149,17 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(SaoEmailPage)
 
       When("the user clicks 'Continue' without entering an SAO email")
-      clickElement(SaoEmailPage.submitButton)
+      clickElement(submitButton)
 
       Then("an error is shown")
-      // assertTextOnPage(SaoEmailPage.errorTitle, "There is a problem")
+      assertTextOnPage(SaoEmailPage.errorTitle, "There is a problem")
+
+      When("the user enters a valid email and clicks 'Continue'")
+      sendKeys(SaoEmailPage.saoEmailInput, "JohnWick@test.com")
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'SAO Email Communication Choice' page")
+      assertOnPage(SaoEmailCommunicationChoicePage)
     }
   }
 

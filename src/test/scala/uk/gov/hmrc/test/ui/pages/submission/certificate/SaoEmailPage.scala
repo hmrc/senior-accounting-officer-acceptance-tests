@@ -24,8 +24,8 @@ object SaoEmailPage extends BasePage {
   override val pageUrl: String   =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/sao-email"
   override val pageTitle: String =
-    "saoEmail - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Senior Accounting Officer contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val submitButton: By = By.cssSelector("""[type="submit"]""")
-  val errorTitle: By   = By.cssSelector(".govuk-error-summary__title")
+  val errorTitle: By    = By.cssSelector(".govuk-error-summary__title")
+  val saoEmailInput: By = By.cssSelector("#value")
 }
