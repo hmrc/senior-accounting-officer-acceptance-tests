@@ -30,8 +30,7 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "A user can submit a certificate successfully from the 'Hub' page",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user initiates a certificate submission from the 'Hub' page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
