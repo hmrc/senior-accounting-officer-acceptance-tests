@@ -28,4 +28,6 @@ object SaoEmailCommunicationChoicePage extends BasePage {
 
   val yesRadioButton: By = By.cssSelector("#value")
   val noRadioButton: By  = By.cssSelector("#value-no")
+
+  val errorTitle: By = By.cssSelector(".govuk-error-summary__title")
 }

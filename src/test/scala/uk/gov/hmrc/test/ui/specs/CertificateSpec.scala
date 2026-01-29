@@ -21,7 +21,7 @@ import uk.gov.hmrc.test.ui.pages.submission.certificate.CheckYourAnswersPage as 
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.submission.notification.CheckYourAnswersPage as NotificationCheckYourAnswersPage
 import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
@@ -29,11 +29,11 @@ class CertificateSpec extends BaseSpec {
 
   Feature("Submit Certificate") {
 
+    // this scenario to be used as part of the notification + certificate e2e journey; change no radio button to yes
     Scenario(
       "A user can submit a certificate successfully from the 'Hub' page",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user initiates a certificate submission from the 'Hub' page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
@@ -169,6 +169,19 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user is taken to the 'SAO Email Communication Choice' page")
       assertOnPage(SaoEmailCommunicationChoicePage)
+
+      When("the user clicks 'Continue' without selecting a radio option")
+      clickElement(submitButton)
+
+      Then("an error is shown")
+      assertTextOnPage(SaoEmailCommunicationChoicePage.errorTitle, "There is a problem")
+
+      When("the user selects the 'No' radio option and clicks 'Continue'")
+      clickRadioElement(SaoEmailCommunicationChoicePage.noRadioButton)
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'Check Your Answers' page")
+      assertOnPage(CertificateCheckYourAnswersPage)
     }
   }
 
