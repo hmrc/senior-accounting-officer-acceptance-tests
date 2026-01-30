@@ -17,7 +17,9 @@
 package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.pages.submission.certificate.*
+import uk.gov.hmrc.test.ui.pages.submission.certificate.CheckYourAnswersPage as CertificateCheckYourAnswersPage
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
+import uk.gov.hmrc.test.ui.pages.submission.notification.CheckYourAnswersPage as NotificationCheckYourAnswersPage
 import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
 import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
@@ -27,6 +29,7 @@ class CertificateSpec extends BaseSpec {
 
   Feature("Submit Certificate") {
 
+    // this scenario to be used as part of the notification + certificate e2e journey; change no radio button to yes
     Scenario(
       "A user can submit a certificate successfully from the 'Hub' page",
       SubmissionUITests,
@@ -65,6 +68,13 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user is taken to the 'SAO Email Communication Choice' page")
       assertOnPage(SaoEmailCommunicationChoicePage)
+
+      When("the user selects the 'No' radio option and clicks 'Continue'")
+      clickRadioElement(SaoEmailCommunicationChoicePage.noRadioButton)
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'Check Your Answers' page")
+      assertOnPage(CertificateCheckYourAnswersPage)
 
       // Then("the given certificate reference number is successfully returned")
     }
@@ -159,6 +169,19 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user is taken to the 'SAO Email Communication Choice' page")
       assertOnPage(SaoEmailCommunicationChoicePage)
+
+      When("the user clicks 'Continue' without selecting a radio option")
+      clickElement(submitButton)
+
+      Then("an error is shown")
+      assertTextOnPage(SaoEmailCommunicationChoicePage.errorTitle, "There is a problem")
+
+      When("the user selects the 'No' radio option and clicks 'Continue'")
+      clickRadioElement(SaoEmailCommunicationChoicePage.noRadioButton)
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'Check Your Answers' page")
+      assertOnPage(CertificateCheckYourAnswersPage)
     }
   }
 
@@ -179,7 +202,7 @@ class CertificateSpec extends BaseSpec {
     clickElement(submitButton)
     assertOnPage(AdditionalInformationPage)
     clickElement(AdditionalInformationPage.skipButton)
-    assertOnPage(CheckYourAnswersPage)
+    assertOnPage(NotificationCheckYourAnswersPage)
     clickElement(submitButton)
     assertOnPage(SubmitPage)
     clickElement(SubmitPage.confirmAndSubmitButton)
