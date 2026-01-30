@@ -19,9 +19,9 @@ package uk.gov.hmrc.test.ui.pages.submission.certificate
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
 
-object CheckYourAnswersPage extends BasePage {
+object SubmitCertificateSubmitterPage extends BasePage {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/check-your-answers"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/submit-certificate-submitter"
 
   override val pageTitle: String =
     "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
