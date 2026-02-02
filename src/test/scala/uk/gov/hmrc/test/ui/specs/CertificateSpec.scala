@@ -21,7 +21,7 @@ import uk.gov.hmrc.test.ui.pages.submission.certificate.CheckYourAnswersPage as 
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.submission.notification.CheckYourAnswersPage as NotificationCheckYourAnswersPage
 import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
@@ -33,7 +33,8 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "A user can submit a certificate successfully from the 'Hub' page",
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user initiates a certificate submission from the 'Hub' page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
@@ -74,7 +75,22 @@ class CertificateSpec extends BaseSpec {
       clickElement(submitButton)
 
       Then("the user is taken to the 'Check Your Answers' page")
-      assertOnPage(CertificateCheckYourAnswersPage)
+      assertOnPage(CertificateCheckYourAnswersPage) // Page title needs to be updated as part of SAOD-561
+
+      When("clicks 'Continue'")
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'SAO Email Communication Choice' page")
+      assertOnPage(SubmitCertificateSubmitterPage)
+
+      When(
+        "the user selects the 'I am authorised to submit the certificate on behalf of the Senior Accounting Officer' radio option and clicks 'Continue'"
+      )
+      clickRadioElement(SubmitCertificateSubmitterPage.saoProxySubmitterRadio)
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'Companies with a qualified certificate' page")
+      assertOnPage(QualifiedCompaniesPage)
 
       // Then("the given certificate reference number is successfully returned")
     }
