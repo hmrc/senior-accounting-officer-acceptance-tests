@@ -29,4 +29,5 @@ object SubmitCertificateSubmitterPage extends BasePage {
 
   val saoSubmitterRadio: By      = By.cssSelector("#value_0")
   val saoProxySubmitterRadio: By = By.cssSelector("#value_1")
+  val errorTitle: By             = By.cssSelector(".govuk-error-summary__title")
 }

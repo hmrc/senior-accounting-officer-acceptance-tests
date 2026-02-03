@@ -35,24 +35,16 @@ object PageSupport extends BasePage {
 
   def selectDropdownById(id: By): Select = new Select(driver.findElement(id: By))
 
-  def clickOnBackLink(): Unit =
-    click(backLink)
+  def clickOnBackLink(): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(backLink)).click()
 
-  def clickSubmitButton(): Unit = {
-    fluentWait.until(ExpectedConditions.elementToBeClickable(submitButton))
-    click(submitButton)
-  }
+  def clickSubmitButton(): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(submitButton)).click()
 
-  def clickContinueButton(): Unit = {
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(continueButton))
-    click(continueButton)
-  }
+  def clickContinueButton(): Unit =
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(continueButton)).click()
 
-  def assertElementIsClickable(locator: By): Unit =
-    fluentWait.until(ExpectedConditions.elementToBeClickable(locator))
+  def assertElementIsClickable(locator: By): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(locator))
 
-  def clickElement(locator: By): Unit =
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(locator)).click()
+  def clickElement(locator: By): Unit = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(locator)).click()
 
   def clickRadioElement(locator: By): Unit =
     fluentWait.until(ExpectedConditions.presenceOfElementLocated(locator)).click()
@@ -64,14 +56,11 @@ object PageSupport extends BasePage {
 
   def assertOnPage(url: String = this.pageUrl): Unit = fluentWait.until(ExpectedConditions.urlToBe(url))
 
-  def assertPageWithError(page: BasePage): Unit =
-    assertOnPage(page, Some(page.pageErrorTitle))
+  def assertPageWithError(page: BasePage): Unit = assertOnPage(page, Some(page.pageErrorTitle))
 
-  def assertOnPage(page: BasePage, expectedTitle: String): Unit =
-    assertOnPage(page, Some(expectedTitle))
+  def assertOnPage(page: BasePage, expectedTitle: String): Unit = assertOnPage(page, Some(expectedTitle))
 
-  def assertOnPage(page: BasePage): Unit =
-    assertOnPage(page, None)
+  def assertOnPage(page: BasePage): Unit = assertOnPage(page, None)
 
   private def assertOnPage(page: BasePage, titleOverride: Option[String]): Unit = {
     val expectedTitle = titleOverride.getOrElse(page.pageTitle)
@@ -81,7 +70,7 @@ object PageSupport extends BasePage {
   }
 
   override def sendKeys(locator: By, value: String): Unit = {
-    driver.findElement(locator).clear()
+    fluentWait.until(ExpectedConditions.elementToBeClickable(locator)).clear()
     driver.findElement(locator).sendKeys(value)
   }
 }
