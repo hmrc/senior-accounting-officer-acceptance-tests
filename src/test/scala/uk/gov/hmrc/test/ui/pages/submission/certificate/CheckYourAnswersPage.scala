@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.certificate
 
+import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
 
@@ -25,4 +26,10 @@ object CheckYourAnswersPage extends BasePage {
 
   override val pageTitle: String =
     "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  val isThisTheSaoChangeLink: By             = By.cssSelector("""[data-test-id="change-IsThisTheSAO-link"]""")
+  val fullNameChangeLink: By                 = By.cssSelector("""[data-test-id="change-FullName-link"]""")
+  val emailAddressChangeLink: By             = By.cssSelector("""[data-test-id="change-EmailAddress-link"]""")
+  val emailCommunicationChoiceChangeLink: By =
+    By.cssSelector("""[data-test-id="change-EmailCommunicationChoice-link"]""")
 }

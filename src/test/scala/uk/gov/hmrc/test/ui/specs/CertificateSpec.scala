@@ -16,12 +16,10 @@
 
 package uk.gov.hmrc.test.ui.specs
 
-import uk.gov.hmrc.test.ui.pages.submission.certificate.*
-import uk.gov.hmrc.test.ui.pages.submission.certificate.CheckYourAnswersPage as CertificateCheckYourAnswersPage
-import uk.gov.hmrc.test.ui.pages.submission.notification.*
-import uk.gov.hmrc.test.ui.pages.submission.notification.CheckYourAnswersPage as NotificationCheckYourAnswersPage
+import uk.gov.hmrc.test.ui.pages.submission.certificate.{CheckYourAnswersPage as CertificateCheckYourAnswersPage, *}
+import uk.gov.hmrc.test.ui.pages.submission.notification.{CheckYourAnswersPage as NotificationCheckYourAnswersPage, *}
 import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
@@ -75,8 +73,6 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user is taken to the 'Check Your Answers' page")
       assertOnPage(CertificateCheckYourAnswersPage)
-
-      // Then("the given certificate reference number is successfully returned")
     }
 
     // TODO: (MA - 28/01) Update test to click the 'upload another submission template' link when it's provided
@@ -94,6 +90,60 @@ class CertificateSpec extends BaseSpec {
 
       Then("the 'upload another submission template' link is displayed on the 'Submit Certificate Guidance' page")
       assertElementIsClickable(SubmitCertificateStartPage.uploadSubmissionTemplateLink)
+    }
+
+    Scenario(
+      "The user changes the answers when on the 'Check Your Answers' page",
+      SubmissionUITests,
+      ZapTests,
+      SoloTests
+    ) {
+      Given("an authenticated user lands on the 'Check Your Answers' page and has entered 'SAO Name'")
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      assertOnPage(HubPage)
+      startCertificateJourney()
+      clickElement(HubPage.submitCertificateLink)
+      clickElement(submitButton)
+      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      clickElement(submitButton)
+      sendKeys(SaoNamePage.saoNameInput, "John Wick")
+      clickElement(submitButton)
+      sendKeys(SaoEmailPage.saoEmailInput, "JohnWick@test.com")
+      clickElement(submitButton)
+      clickRadioElement(SaoEmailCommunicationChoicePage.noRadioButton)
+      clickElement(submitButton)
+      assertOnPage(CertificateCheckYourAnswersPage)
+
+      When("The user click change on the 'Full Name' row and are redirected to 'change SAO Name' page")
+      clickElement(CertificateCheckYourAnswersPage.fullNameChangeLink)
+      assertOnPage(SaoNamePage.changePageUrl)
+
+      Then("The user enters a different name and can continue to 'Check Yours Answers' page")
+      sendKeys(SaoNamePage.saoNameInput, "Test Name")
+      clickElement(submitButton)
+      assertOnPage(CertificateCheckYourAnswersPage)
+
+      When("The user click change on the 'Is This The SAO' row and are redirected to 'change Is This The SAO' page")
+      clickElement(CertificateCheckYourAnswersPage.isThisTheSaoChangeLink)
+      assertOnPage(IsThisTheSaoPage.changePageUrl)
+
+      Then(
+        "The user select 'Yes' radio button and can continue to 'Check Yours Answers' page where the Full Name row is not displayed"
+      )
+      clickRadioElement(IsThisTheSaoPage.yesRadioButton)
+      clickElement(submitButton)
+      assertOnPage(CertificateCheckYourAnswersPage)
+      assertAbsenceOfElement(CertificateCheckYourAnswersPage.fullNameChangeLink) mustBe true
+
+      // check we can change the Email Address value
+
+      // check we can change the Email Communications value
+
+      // press continue we are on submitter page
+      Then("the user is taken to the 'submitter' page")
+      // assertOnPage(CertificateSubmitterPage)
+
+      // Then("the given certificate reference number is successfully returned")
     }
 
     // TODO: (MA - 28/01) This scenario will be absorbed into the notification and certificate happy path e-2-e journey
