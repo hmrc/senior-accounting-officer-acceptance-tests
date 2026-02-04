@@ -74,7 +74,22 @@ class CertificateSpec extends BaseSpec {
       clickElement(submitButton)
 
       Then("the user is taken to the 'Check Your Answers' page")
-      assertOnPage(CertificateCheckYourAnswersPage)
+      assertOnPage(CertificateCheckYourAnswersPage) // Page title needs to be updated as part of SAOD-561
+
+      When("the user clicks 'Continue'")
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'Who is submitting the certificate' question page")
+      assertOnPage(SubmitCertificateSubmitterPage)
+
+      When("the user selects 'I am authorised to submit the certificate on behalf of the Senior Accounting Officer'")
+      clickRadioElement(SubmitCertificateSubmitterPage.saoProxySubmitterRadio)
+
+      And("clicks 'Continue'")
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'Companies with a qualified certificate' page")
+      assertOnPage(QualifiedCompaniesPage)
 
       // Then("the given certificate reference number is successfully returned")
     }
@@ -181,7 +196,28 @@ class CertificateSpec extends BaseSpec {
       clickElement(submitButton)
 
       Then("the user is taken to the 'Check Your Answers' page")
-      assertOnPage(CertificateCheckYourAnswersPage)
+      assertOnPage(CertificateCheckYourAnswersPage) // Page title needs to be updated as part of SAOD-561
+
+      When("the user clicks 'Continue'")
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'Who is submitting the certificate' question page")
+      assertOnPage(SubmitCertificateSubmitterPage)
+
+      When("the user clicks 'Continue' without selecting a radio option")
+      clickElement(submitButton)
+
+      Then("an error is shown")
+      assertTextOnPage(SubmitCertificateSubmitterPage.errorTitle, "There is a problem")
+
+      When("the user selects 'I am authorised to submit the certificate on behalf of the Senior Accounting Officer'")
+      clickRadioElement(SubmitCertificateSubmitterPage.saoProxySubmitterRadio)
+
+      And("clicks 'Continue'")
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'Companies with a qualified certificate' page")
+      assertOnPage(QualifiedCompaniesPage)
     }
   }
 
