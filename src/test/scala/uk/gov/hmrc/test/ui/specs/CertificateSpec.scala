@@ -73,6 +73,23 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user is taken to the 'Check Your Answers' page")
       assertOnPage(CertificateCheckYourAnswersPage)
+
+      When("the user clicks 'Continue'")
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'Who is submitting the certificate' question page")
+      assertOnPage(SubmitCertificateSubmitterPage)
+
+      When("the user selects 'I am authorised to submit the certificate on behalf of the Senior Accounting Officer'")
+      clickRadioElement(SubmitCertificateSubmitterPage.saoProxySubmitterRadio)
+
+      And("clicks 'Continue'")
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'Companies with a qualified certificate' page")
+      assertOnPage(QualifiedCompaniesPage)
+
+      // Then("the given certificate reference number is successfully returned")
     }
 
     // TODO: (MA - 28/01) Update test to click the 'upload another submission template' link when it's provided
@@ -248,6 +265,27 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user is taken to the 'Check Your Answers' page")
       assertOnPage(CertificateCheckYourAnswersPage)
+
+      When("the user clicks 'Continue'")
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'Who is submitting the certificate' question page")
+      assertOnPage(SubmitCertificateSubmitterPage)
+
+      When("the user clicks 'Continue' without selecting a radio option")
+      clickElement(submitButton)
+
+      Then("an error is shown")
+      assertTextOnPage(SubmitCertificateSubmitterPage.errorTitle, "There is a problem")
+
+      When("the user selects 'I am authorised to submit the certificate on behalf of the Senior Accounting Officer'")
+      clickRadioElement(SubmitCertificateSubmitterPage.saoProxySubmitterRadio)
+
+      And("clicks 'Continue'")
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'Companies with a qualified certificate' page")
+      assertOnPage(QualifiedCompaniesPage)
     }
   }
 

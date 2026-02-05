@@ -16,18 +16,13 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.certificate
 
-import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
 
-object SubmitCertificateSubmitterPage extends BasePage {
+object QualifiedCompaniesPage extends BasePage {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/submit-certificate-submitter"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/qualified-companies"
 
   override val pageTitle: String =
-    "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
-
-  val saoSubmitterRadio: By      = By.cssSelector("#value_0")
-  val saoProxySubmitterRadio: By = By.cssSelector("#value_1")
-  val errorTitle: By             = By.cssSelector(".govuk-error-summary__title")
+    "qualifiedCompanies - Senior Accounting Officer notification and certificate - GOV.UK"
 }
