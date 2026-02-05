@@ -133,11 +133,27 @@ class CertificateSpec extends BaseSpec {
       clickRadioElement(IsThisTheSaoPage.yesRadioButton)
       clickElement(submitButton)
       assertOnPage(CertificateCheckYourAnswersPage)
-      assertAbsenceOfElement(CertificateCheckYourAnswersPage.fullNameChangeLink) mustBe true
+      assertElementNotVisible(CertificateCheckYourAnswersPage.fullNameChangeLink)
 
-      // check we can change the Email Address value
+      When("The user click change on the 'Email Address' row and are redirected to 'change Email Address' page")
+      clickElement(CertificateCheckYourAnswersPage.emailAddressChangeLink)
+      assertOnPage(SaoEmailPage.changePageUrl)
 
-      // check we can change the Email Communications value
+      Then("The user enters a different email address and can continue to 'Check Yours Answers' page")
+      sendKeys(SaoNamePage.saoNameInput, "TestName@test.com")
+      clickElement(submitButton)
+      assertOnPage(CertificateCheckYourAnswersPage)
+
+      When(
+        "The user click change on the 'Sao Email Communication Choice' row and are redirected to 'change Sao Email Communication Choice' page"
+      )
+      clickElement(CertificateCheckYourAnswersPage.emailCommunicationChoiceChangeLink)
+      assertOnPage(SaoEmailCommunicationChoicePage.changePageUrl)
+
+      Then("The user select 'Yes' radio button and can continue to 'Check Yours Answers' page")
+      clickRadioElement(SaoEmailCommunicationChoicePage.yesRadioButton)
+      clickElement(submitButton)
+      assertOnPage(CertificateCheckYourAnswersPage)
 
       // press continue we are on submitter page
       Then("the user is taken to the 'submitter' page")
