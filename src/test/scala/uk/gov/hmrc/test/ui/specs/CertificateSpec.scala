@@ -34,13 +34,9 @@ class CertificateSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user initiates a certificate submission from the 'Hub' page")
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
-      assertOnPage(HubPage)
-      startCertificateJourney()
-      clickElement(HubPage.submitCertificateLink)
-      assertOnPage(SubmitCertificateStartPage)
+      navigateToCertificateStartPage()
 
-      When("the user clicks 'Continue' on the 'Submit Certificate Guidance' page")
+      When("the user clicks 'Continue' on the 'Submit Certificate' start page")
       clickElement(submitButton)
 
       Then("the user is taken to the 'Is the given person the named SAO on the Certificate' question page")
@@ -99,34 +95,69 @@ class CertificateSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user initiates submitting a certificate from the hub page")
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
-      assertOnPage(HubPage)
-      startCertificateJourney()
-      clickElement(HubPage.submitCertificateLink)
-      assertOnPage(SubmitCertificateStartPage)
+      navigateToCertificateStartPage()
 
-      Then("the 'upload another submission template' link is displayed on the 'Submit Certificate Guidance' page")
+      Then("the 'upload another submission template' link is displayed on the 'Submit Certificate' start page")
       assertElementIsClickable(SubmitCertificateStartPage.uploadSubmissionTemplateLink)
     }
 
+    // Test A: Arrive on CYA with no Full name row > Change to 'No' > add name > CYA row present
     Scenario(
-      "The user changes the answers when on the 'Check Your Answers' page",
+      "Selecting the provided SAO as the submitter hides the 'Full name' row on the 'Check Your Answers' page, and changing this selection via the 'Change' link causes the row to appear",
       SubmissionUITests,
       ZapTests,
       SoloTests
     ) {
-      Given("an authenticated user lands on the 'Check Your Answers' page and has entered 'SAO Name'")
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
-      assertOnPage(HubPage)
-      startCertificateJourney()
-      clickElement(HubPage.submitCertificateLink)
+      Given("a user has chosen 'Yes' to select the provided SAO as the named person on the certificate")
+      navigateToCertificateStartPage()
       clickElement(submitButton)
+      assertOnPage(IsThisTheSaoPage)
       clickRadioElement(IsThisTheSaoPage.noRadioButton)
       clickElement(submitButton)
+      assertOnPage(SaoNamePage)
       sendKeys(SaoNamePage.saoNameInput, "John Wick")
       clickElement(submitButton)
+      assertOnPage(SaoEmailPage)
       sendKeys(SaoEmailPage.saoEmailInput, "JohnWick@test.com")
       clickElement(submitButton)
+      assertOnPage(SaoEmailCommunicationChoicePage)
+      clickRadioElement(SaoEmailCommunicationChoicePage.noRadioButton)
+      clickElement(submitButton)
+      assertOnPage(CertificateCheckYourAnswersPage)
+
+      And("the 'Full name' row is not shown on the 'Check Your Answers' page")
+      assertTextOnPage(CertificateCheckYourAnswersPage.fullNameKey, "Full name")
+
+      // TODO: (MA - 06/02/2026) Still to complete
+
+      When("the user clicks the 'Change' link on the 'Is given person the named SAO on the certificate' row")
+      And("a new name is provided after changing the radio option to 'No'")
+      Then("the 'Check Your Answers' page is displayed with the 'Full name' row displayed with the newly added name")
+    }
+
+    // Test B: Arrive on CYA with Full name row > Change to 'yes' > CYA row not present
+    // Test C: Arrive on CYA > Change email > CYA - update successful
+    // Test D: Arrive on CYA without Full name row > click 'Change' > Make no change > CYA - no change made > repeat for all rows
+    // Test E: Arrive on CYA > click 'Change' > remove email and continue throws error --> Add to error flow
+
+    Scenario(
+      "The user changes the answers when on the 'Check Your Answers' page",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'Check Your Answers' page and has entered 'SAO Name'")
+      navigateToCertificateStartPage()
+      clickElement(submitButton)
+      assertOnPage(IsThisTheSaoPage)
+      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      clickElement(submitButton)
+      assertOnPage(SaoNamePage)
+      sendKeys(SaoNamePage.saoNameInput, "John Wick")
+      clickElement(submitButton)
+      assertOnPage(SaoEmailPage)
+      sendKeys(SaoEmailPage.saoEmailInput, "JohnWick@test.com")
+      clickElement(submitButton)
+      assertOnPage(SaoEmailCommunicationChoicePage)
       clickRadioElement(SaoEmailCommunicationChoicePage.noRadioButton)
       clickElement(submitButton)
       assertOnPage(CertificateCheckYourAnswersPage)
@@ -289,12 +320,18 @@ class CertificateSpec extends BaseSpec {
     }
   }
 
-  private def startCertificateJourney(): Unit = {
+  private def navigateToCertificateStartPage(): Unit = {
+    AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+    assertOnPage(HubPage)
+
     // TODO: (MA - 26/01) Temporary workaround until data is available at this point in the journey.
     clickElement(HubPage.submitNotificationLink)
     assertOnPage(SubmitNotificationStartPage)
     driver.navigate().back()
     assertOnPage(HubPage)
+
+    clickElement(HubPage.submitCertificateLink)
+    assertOnPage(SubmitCertificateStartPage)
   }
 
   private def addNotificationFromHub(): Unit = {

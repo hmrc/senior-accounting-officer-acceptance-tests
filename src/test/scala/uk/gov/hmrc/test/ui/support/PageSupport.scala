@@ -59,14 +59,14 @@ object PageSupport extends BasePage {
 
   def assertPageWithError(page: BasePage): Unit = assertOnPage(page, Some(page.pageErrorTitle))
 
-  def assertOnPage(page: BasePage, expectedTitle: String): Unit = assertOnPage(page, Some(expectedTitle))
-
-  def assertOnPage(page: BasePage): Unit = assertOnPage(page, None)
-
   def assertElementNotVisible(locator: By): Unit = {
     val elementNotVisible = fluentWait.until(ExpectedConditions.invisibilityOfElementLocated(locator))
     elementNotVisible mustBe true
   }
+
+  def assertOnPage(page: BasePage, expectedTitle: String): Unit = assertOnPage(page, Some(expectedTitle))
+
+  def assertOnPage(page: BasePage): Unit = assertOnPage(page, None)
 
   private def assertOnPage(page: BasePage, titleOverride: Option[String]): Unit = {
     val expectedTitle = titleOverride.getOrElse(page.pageTitle)
