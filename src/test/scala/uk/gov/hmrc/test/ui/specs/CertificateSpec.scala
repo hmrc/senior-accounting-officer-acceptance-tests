@@ -112,11 +112,11 @@ class CertificateSpec extends BaseSpec {
       navigateToCertificateStartPage()
       clickElement(submitButton)
       assertOnPage(IsThisTheSaoPage)
-      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      clickRadioElement(IsThisTheSaoPage.yesRadioButton)
       clickElement(submitButton)
-      assertOnPage(SaoNamePage)
-      sendKeys(SaoNamePage.saoNameInput, "John Wick")
-      clickElement(submitButton)
+//      assertOnPage(SaoNamePage)
+//      sendKeys(SaoNamePage.saoNameInput, "John Wick")
+//      clickElement(submitButton)
       assertOnPage(SaoEmailPage)
       sendKeys(SaoEmailPage.saoEmailInput, "JohnWick@test.com")
       clickElement(submitButton)
@@ -126,7 +126,8 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateCheckYourAnswersPage)
 
       And("the 'Full name' row is not shown on the 'Check Your Answers' page")
-      assertTextOnPage(CertificateCheckYourAnswersPage.fullNameKey, "Full name")
+      assertElementNotVisible(CertificateCheckYourAnswersPage.fullNameKey)
+//      assertTextOnPage(CertificateCheckYourAnswersPage.fullNameKey, "Full name") // Checks for presence of row
 
       // TODO: (MA - 06/02/2026) Still to complete
 
