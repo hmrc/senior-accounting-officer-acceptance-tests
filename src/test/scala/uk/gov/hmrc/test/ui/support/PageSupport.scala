@@ -20,6 +20,7 @@ import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait, Select, W
 import org.openqa.selenium.{By, WebDriver}
 import uk.gov.hmrc.test.ui.pages.BasePage
 
+import java.lang
 import java.time.Duration
 
 object PageSupport extends BasePage {
@@ -57,6 +58,11 @@ object PageSupport extends BasePage {
   def assertOnPage(url: String = this.pageUrl): Unit = fluentWait.until(ExpectedConditions.urlToBe(url))
 
   def assertPageWithError(page: BasePage): Unit = assertOnPage(page, Some(page.pageErrorTitle))
+
+  def assertElementNotVisible(locator: By): Unit = {
+    val elementNotVisible = fluentWait.until(ExpectedConditions.invisibilityOfElementLocated(locator))
+    elementNotVisible mustBe true
+  }
 
   def assertOnPage(page: BasePage, expectedTitle: String): Unit = assertOnPage(page, Some(expectedTitle))
 

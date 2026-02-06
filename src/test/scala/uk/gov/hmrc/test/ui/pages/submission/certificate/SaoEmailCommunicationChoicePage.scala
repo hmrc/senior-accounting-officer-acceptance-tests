@@ -26,6 +26,9 @@ object SaoEmailCommunicationChoicePage extends BasePage {
   override val pageTitle: String =
     "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
+  val changePageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/change-sao-email-communication-choice"
+
   val yesRadioButton: By = By.cssSelector("#value")
   val noRadioButton: By  = By.cssSelector("#value-no")
 
