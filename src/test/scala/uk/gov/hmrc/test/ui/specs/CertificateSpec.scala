@@ -211,9 +211,8 @@ class CertificateSpec extends BaseSpec {
       assertTextOnPage(CertificateCheckYourAnswersPage.emailAddressValue, "John@test.com")
     }
 
-    // Test D: Arrive on CYA without Full name row > click 'Change' > Make no change > CYA - no change made > repeat for all rows
     Scenario(
-      "When a user selects any 'change' link and does not commit changes the resultant values on the 'Check Your Answers' page remain unchanged",
+      "When a user selects any 'Change' link and does not commit changes the resultant values on the 'Check Your Answers' page remain unchanged",
       SubmissionUITests,
       ZapTests,
       SoloTests
@@ -238,13 +237,24 @@ class CertificateSpec extends BaseSpec {
       clickElement(CertificateCheckYourAnswersPage.isThisTheSaoChangeLink)
       assertOnPage(IsThisTheSaoPage)
 
-      And("the user makes no changes")
-      sendKeys(SaoEmailPage.saoEmailInput, "Richer@test.com")
+      And("the user makes no changes and clicks 'Continue'")
       clickElement(submitButton)
 
-      Then("the 'Check Your Answers' page is displayed with the new email address")
+      When("the user lands on the 'sao name' page, makes no changes and clicks 'Continue'")
+      assertOnPage(SaoNamePage.changePageUrl)
+      clickElement(submitButton)
+
+      Then(
+        "the 'Check Your Answers' page is displayed with the value in the 'Is given person the named SAO on the certificate' row unchanged"
+      )
       assertOnPage(CertificateCheckYourAnswersPage)
-      assertTextOnPage(CertificateCheckYourAnswersPage.emailAddressValue, "John@test.com")
+      assertTextOnPage(CertificateCheckYourAnswersPage.isThisTheSaoValue, "No")
+
+      // TODO continue from full name row by duplicating 236 onwards
+
+//      Then("the 'Check Your Answers' page is displayed with the email address unchanged")
+//      assertOnPage(CertificateCheckYourAnswersPage)
+//      assertTextOnPage(CertificateCheckYourAnswersPage.emailAddressValue, "Richer@test.com")
     }
 
     // Test E: Arrive on CYA > click 'Change' > remove email and continue throws error --> Add to error flow
