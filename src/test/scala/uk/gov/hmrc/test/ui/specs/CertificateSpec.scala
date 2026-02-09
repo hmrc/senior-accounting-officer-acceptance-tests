@@ -102,12 +102,10 @@ class CertificateSpec extends BaseSpec {
       assertElementIsClickable(SubmitCertificateStartPage.uploadSubmissionTemplateLink)
     }
 
-    // Test A: Arrive on CYA with no Full name row > Change to 'No' > add name > CYA row present
     Scenario(
       "Selecting the provided SAO as the submitter hides the 'Full name' row on the 'Check Your Answers' page, and changing this selection via the 'Change' link causes the row to appear",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("a user has chosen 'Yes' to select the provided SAO as the named person on the certificate")
       navigateToCertificateStartPage()
@@ -115,9 +113,6 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(IsThisTheSaoPage)
       clickRadioElement(IsThisTheSaoPage.yesRadioButton)
       clickElement(submitButton)
-//      assertOnPage(SaoNamePage)
-//      sendKeys(SaoNamePage.saoNameInput, "John Wick")
-//      clickElement(submitButton)
       assertOnPage(SaoEmailPage)
       sendKeys(SaoEmailPage.saoEmailInput, "JohnWick@test.com")
       clickElement(submitButton)
@@ -128,7 +123,6 @@ class CertificateSpec extends BaseSpec {
 
       And("the 'Full name' row is not shown on the 'Check Your Answers' page")
       assertElementNotVisible(CertificateCheckYourAnswersPage.fullNameKey)
-//      assertTextOnPage(CertificateCheckYourAnswersPage.fullNameKey, "Full name") // Checks for presence of row
 
       When("the user clicks the 'Change' link on the 'Is given person the named SAO on the certificate' row")
       clickElement(CertificateCheckYourAnswersPage.isThisTheSaoChangeLink)
@@ -144,10 +138,48 @@ class CertificateSpec extends BaseSpec {
       Then("the 'Check Your Answers' page is displayed with the 'Full name' row displayed with the newly added name")
       assertOnPage(CertificateCheckYourAnswersPage)
       assertTextOnPage(CertificateCheckYourAnswersPage.fullNameKey, "Full name")
-      // add assert on value
+      assertTextOnPage(CertificateCheckYourAnswersPage.fullNameValue, "Bobby Brown")
     }
 
-    // Test B: Arrive on CYA with Full name row > Change to 'yes' > CYA row not present
+    Scenario(
+      "Selecting a new SAO name as the submitter reveals the 'Full name' row on the 'Check Your Answers' page, and changing this selection via the 'Change' link causes the row to be removed",
+      SubmissionUITests,
+      ZapTests,
+      SoloTests
+    ) {
+      Given("a user has chosen 'No' and selects a new SAO as the named person on the certificate")
+      navigateToCertificateStartPage()
+      clickElement(submitButton)
+      assertOnPage(IsThisTheSaoPage)
+      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      clickElement(submitButton)
+      assertOnPage(SaoNamePage)
+      sendKeys(SaoNamePage.saoNameInput, "Richer")
+      clickElement(submitButton)
+      assertOnPage(SaoEmailPage)
+      sendKeys(SaoEmailPage.saoEmailInput, "Richer@test.com")
+      clickElement(submitButton)
+      assertOnPage(SaoEmailCommunicationChoicePage)
+      clickRadioElement(SaoEmailCommunicationChoicePage.noRadioButton)
+      clickElement(submitButton)
+      assertOnPage(CertificateCheckYourAnswersPage)
+
+      And("the 'Full name' row is shown on the 'Check Your Answers' page")
+      assertTextOnPage(CertificateCheckYourAnswersPage.fullNameKey, "Full name")
+
+      When("the user clicks the 'Change' link on the 'Is given person the named SAO on the certificate' row")
+      clickElement(CertificateCheckYourAnswersPage.isThisTheSaoChangeLink)
+      assertOnPage(IsThisTheSaoPage.changePageUrl)
+
+      And("changes the radio option to 'Yes'")
+      clickRadioElement(IsThisTheSaoPage.yesRadioButton)
+      clickElement(submitButton)
+
+      Then("the 'Check Your Answers' page is displayed with the 'Full name' row removed")
+      assertOnPage(CertificateCheckYourAnswersPage)
+      assertElementNotVisible(CertificateCheckYourAnswersPage.fullNameKey)
+    }
+
     // Test C: Arrive on CYA > Change email > CYA - update successful
     // Test D: Arrive on CYA without Full name row > click 'Change' > Make no change > CYA - no change made > repeat for all rows
     // Test E: Arrive on CYA > click 'Change' > remove email and continue throws error --> Add to error flow
