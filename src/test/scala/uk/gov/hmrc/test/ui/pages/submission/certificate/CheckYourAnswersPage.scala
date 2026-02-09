@@ -30,6 +30,7 @@ object CheckYourAnswersPage extends BasePage {
   val isThisTheSaoChangeLink: By             = By.cssSelector("""[data-test-id="change-is-this-the-sao-link"]""")
   val fullNameChangeLink: By                 = By.cssSelector("""[data-test-id="change-full-name-link"]""")
   val fullNameKey: By                        = By.cssSelector("""[data-test-id="full-name-key"]""")
+  val fullNameValue: By                      = By.cssSelector("")
   val emailAddressChangeLink: By             = By.cssSelector("""[data-test-id="change-email-address-link"]""")
   val emailCommunicationChoiceChangeLink: By =
     By.cssSelector("""[data-test-id="change-email-communication-choice-link"]""")

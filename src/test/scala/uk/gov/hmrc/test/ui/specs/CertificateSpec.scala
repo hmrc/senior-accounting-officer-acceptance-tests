@@ -21,6 +21,7 @@ import uk.gov.hmrc.test.ui.pages.submission.notification.{CheckYourAnswersPage a
 import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
 import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
+import uk.gov.hmrc.test.ui.support.PageSupport
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
 class CertificateSpec extends BaseSpec {
@@ -129,11 +130,21 @@ class CertificateSpec extends BaseSpec {
       assertElementNotVisible(CertificateCheckYourAnswersPage.fullNameKey)
 //      assertTextOnPage(CertificateCheckYourAnswersPage.fullNameKey, "Full name") // Checks for presence of row
 
-      // TODO: (MA - 06/02/2026) Still to complete
-
       When("the user clicks the 'Change' link on the 'Is given person the named SAO on the certificate' row")
+      clickElement(CertificateCheckYourAnswersPage.isThisTheSaoChangeLink)
+      assertOnPage(IsThisTheSaoPage.changePageUrl)
+
       And("a new name is provided after changing the radio option to 'No'")
+      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      clickElement(submitButton)
+      assertOnPage(SaoNamePage.changePageUrl)
+      sendKeys(SaoNamePage.saoNameInput, "Bobby Brown")
+      clickElement(submitButton)
+
       Then("the 'Check Your Answers' page is displayed with the 'Full name' row displayed with the newly added name")
+      assertOnPage(CertificateCheckYourAnswersPage)
+      assertTextOnPage(CertificateCheckYourAnswersPage.fullNameKey, "Full name")
+      // add assert on value
     }
 
     // Test B: Arrive on CYA with Full name row > Change to 'yes' > CYA row not present
