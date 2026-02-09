@@ -32,6 +32,8 @@ object CheckYourAnswersPage extends BasePage {
   val fullNameKey: By                        = By.cssSelector("""[data-test-id="full-name-key"]""")
   val fullNameValue: By                      = By.cssSelector("""[data-test-id="full-name-value"]""")
   val emailAddressChangeLink: By             = By.cssSelector("""[data-test-id="email-address-change-link"]""")
+  val emailAddressValue: By                  = By.cssSelector("""[data-test-id="email-address-value"]""")
+  val emailAddressKey: By                    = By.cssSelector("""[data-test-id="email-address-key"]""")
   val emailCommunicationChoiceChangeLink: By =
     By.cssSelector("""[data-test-id="email-communication-change-link"]""")
 }

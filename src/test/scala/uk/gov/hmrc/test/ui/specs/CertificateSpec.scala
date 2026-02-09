@@ -144,8 +144,7 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "Selecting a new SAO name as the submitter reveals the 'Full name' row on the 'Check Your Answers' page, and changing this selection via the 'Change' link causes the row to be removed",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("a user has chosen 'No' and selects a new SAO as the named person on the certificate")
       navigateToCertificateStartPage()
@@ -180,8 +179,74 @@ class CertificateSpec extends BaseSpec {
       assertElementNotVisible(CertificateCheckYourAnswersPage.fullNameKey)
     }
 
-    // Test C: Arrive on CYA > Change email > CYA - update successful
+    Scenario(
+      "Selecting the 'Change' link to update an Email Address is successful",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("a user has landed on the 'Check your answers' page")
+      navigateToCertificateStartPage()
+      clickElement(submitButton)
+      assertOnPage(IsThisTheSaoPage)
+      clickRadioElement(IsThisTheSaoPage.yesRadioButton)
+      clickElement(submitButton)
+      assertOnPage(SaoEmailPage)
+      sendKeys(SaoEmailPage.saoEmailInput, "Richer@test.com")
+      clickElement(submitButton)
+      assertOnPage(SaoEmailCommunicationChoicePage)
+      clickRadioElement(SaoEmailCommunicationChoicePage.yesRadioButton)
+      clickElement(submitButton)
+      assertOnPage(CertificateCheckYourAnswersPage)
+
+      When("the user clicks the 'Change' link on the 'Email address' row")
+      clickElement(CertificateCheckYourAnswersPage.emailAddressChangeLink)
+      assertOnPage(SaoEmailPage.changePageUrl)
+
+      And("changes the email address to another valid value")
+      sendKeys(SaoEmailPage.saoEmailInput, "John@test.com")
+      clickElement(submitButton)
+
+      Then("the 'Check Your Answers' page is displayed with the new email address")
+      assertOnPage(CertificateCheckYourAnswersPage)
+      assertTextOnPage(CertificateCheckYourAnswersPage.emailAddressValue, "John@test.com")
+    }
+
     // Test D: Arrive on CYA without Full name row > click 'Change' > Make no change > CYA - no change made > repeat for all rows
+    Scenario(
+      "When a user selects any 'change' link and does not commit changes the resultant values on the 'Check Your Answers' page remain unchanged",
+      SubmissionUITests,
+      ZapTests,
+      SoloTests
+    ) {
+      Given("a user has landed on the 'Check your answers' page")
+      navigateToCertificateStartPage()
+      clickElement(submitButton)
+      assertOnPage(IsThisTheSaoPage)
+      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      clickElement(submitButton)
+      assertOnPage(SaoNamePage)
+      sendKeys(SaoNamePage.saoNameInput, "Richer")
+      assertOnPage(SaoEmailPage)
+      sendKeys(SaoEmailPage.saoEmailInput, "Richer@test.com")
+      clickElement(submitButton)
+      assertOnPage(SaoEmailCommunicationChoicePage)
+      clickRadioElement(SaoEmailCommunicationChoicePage.yesRadioButton)
+      clickElement(submitButton)
+      assertOnPage(CertificateCheckYourAnswersPage)
+
+      When("the user clicks the 'Change' link on the 'Is given person the named SAO on the certificate' row")
+      clickElement(CertificateCheckYourAnswersPage.isThisTheSaoChangeLink)
+      assertOnPage(IsThisTheSaoPage)
+
+      And("the user makes no changes")
+      sendKeys(SaoEmailPage.saoEmailInput, "Richer@test.com")
+      clickElement(submitButton)
+
+      Then("the 'Check Your Answers' page is displayed with the new email address")
+      assertOnPage(CertificateCheckYourAnswersPage)
+      assertTextOnPage(CertificateCheckYourAnswersPage.emailAddressValue, "John@test.com")
+    }
+
     // Test E: Arrive on CYA > click 'Change' > remove email and continue throws error --> Add to error flow
 
     Scenario(
