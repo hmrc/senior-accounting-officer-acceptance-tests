@@ -27,11 +27,11 @@ object CheckYourAnswersPage extends BasePage {
   override val pageTitle: String =
     "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val isThisTheSaoChangeLink: By             = By.cssSelector("""[data-test-id="change-is-this-the-sao-link"]""")
-  val fullNameChangeLink: By                 = By.cssSelector("""[data-test-id="change-full-name-link"]""")
+  val isThisTheSaoChangeLink: By             = By.cssSelector("""[data-test-id="is-this-the-sao-change-link"]""")
+  val fullNameChangeLink: By                 = By.cssSelector("""[data-test-id="full-name-change-link"]""")
   val fullNameKey: By                        = By.cssSelector("""[data-test-id="full-name-key"]""")
-  val fullNameValue: By                      = By.cssSelector("")
-  val emailAddressChangeLink: By             = By.cssSelector("""[data-test-id="change-email-address-link"]""")
+  val fullNameValue: By                      = By.cssSelector("""[data-test-id="full-name-value"]""")
+  val emailAddressChangeLink: By             = By.cssSelector("""[data-test-id="email-address-change-link"]""")
   val emailCommunicationChoiceChangeLink: By =
-    By.cssSelector("""[data-test-id="change-email-communication-choice-link"]""")
+    By.cssSelector("""[data-test-id="email-communication-change-link"]""")
 }
