@@ -214,8 +214,7 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "When a user selects any 'Change' link and does not commit changes the resultant values on the 'Check Your Answers' page remain unchanged",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("a user has landed on the 'Check your answers' page")
       navigateToCertificateStartPage()
@@ -290,8 +289,6 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateCheckYourAnswersPage)
       assertTextOnPage(CertificateCheckYourAnswersPage.emailCommunicationChoiceValue, "Yes")
     }
-
-    // Test E: Arrive on CYA > click 'Change' > remove email and continue throws error --> Add to error flow
 
     Scenario(
       "The user changes the answers when on the 'Check Your Answers' page",
@@ -388,7 +385,8 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "During a certificate submission errors are displayed when the user attempts to progress with invalid input",
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user lands on the 'Is the given person the named SAO on the Certificate' question page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
@@ -450,6 +448,17 @@ class CertificateSpec extends BaseSpec {
       Then("the user is taken to the 'Check Your Answers' page")
       assertOnPage(CertificateCheckYourAnswersPage)
 
+      When("the user clicks the 'Change' link on the 'Email address' row")
+      clickElement(CertificateCheckYourAnswersPage.emailAddressChangeLink)
+      assertOnPage(SaoEmailPage.changePageUrl)
+
+      Then("the user removes the existing email and clicks continue, an error is shown")
+      sendKeys(SaoEmailPage.saoEmailInput, "")
+      clickElement(submitButton)
+      assertTextOnPage(SaoEmailPage.errorTitle, "There is a problem")
+
+      //TODO start from here
+      
       When("the user clicks 'Continue'")
       clickElement(submitButton)
 
