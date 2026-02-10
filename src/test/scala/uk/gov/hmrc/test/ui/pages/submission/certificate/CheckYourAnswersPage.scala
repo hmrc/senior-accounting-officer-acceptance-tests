@@ -36,6 +36,7 @@ object CheckYourAnswersPage extends BasePage {
   val emailAddressChangeLink: By             = By.cssSelector("""[data-test-id="email-address-change-link"]""")
   val emailAddressValue: By                  = By.cssSelector("""[data-test-id="email-address-value"]""")
   val emailAddressKey: By                    = By.cssSelector("""[data-test-id="email-address-key"]""")
-  val emailCommunicationChoiceChangeLink: By =
-    By.cssSelector("""[data-test-id="email-communication-change-link"]""")
+  val emailCommunicationChoiceKey: By        = By.cssSelector("""[data-test-id="email-communication-key"]""")
+  val emailCommunicationChoiceValue: By      = By.cssSelector("""[data-test-id="email-communication-value"]""")
+  val emailCommunicationChoiceChangeLink: By = By.cssSelector("""[data-test-id="email-communication-change-link"]""")
 }

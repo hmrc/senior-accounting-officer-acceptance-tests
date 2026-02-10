@@ -225,6 +225,7 @@ class CertificateSpec extends BaseSpec {
       clickElement(submitButton)
       assertOnPage(SaoNamePage)
       sendKeys(SaoNamePage.saoNameInput, "Richer")
+      clickElement(submitButton)
       assertOnPage(SaoEmailPage)
       sendKeys(SaoEmailPage.saoEmailInput, "Richer@test.com")
       clickElement(submitButton)
@@ -235,7 +236,7 @@ class CertificateSpec extends BaseSpec {
 
       When("the user clicks the 'Change' link on the 'Is given person the named SAO on the certificate' row")
       clickElement(CertificateCheckYourAnswersPage.isThisTheSaoChangeLink)
-      assertOnPage(IsThisTheSaoPage)
+      assertOnPage(IsThisTheSaoPage.changePageUrl)
 
       And("the user makes no changes and clicks 'Continue'")
       clickElement(submitButton)
@@ -250,11 +251,44 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateCheckYourAnswersPage)
       assertTextOnPage(CertificateCheckYourAnswersPage.isThisTheSaoValue, "No")
 
-      // TODO continue from full name row by duplicating 236 onwards
+      When("the user clicks the 'Change' link on the 'Full name' row")
+      clickElement(CertificateCheckYourAnswersPage.fullNameChangeLink)
+      assertOnPage(SaoNamePage.changePageUrl)
 
-//      Then("the 'Check Your Answers' page is displayed with the email address unchanged")
-//      assertOnPage(CertificateCheckYourAnswersPage)
-//      assertTextOnPage(CertificateCheckYourAnswersPage.emailAddressValue, "Richer@test.com")
+      And("the user makes no changes and clicks 'Continue'")
+      clickElement(submitButton)
+
+      Then(
+        "the 'Check Your Answers' page is displayed with the value in the 'Full name' row unchanged"
+      )
+      assertOnPage(CertificateCheckYourAnswersPage)
+      assertTextOnPage(CertificateCheckYourAnswersPage.fullNameValue, "Richer")
+
+      When("the user clicks the 'Change' link on the 'Email address' row")
+      clickElement(CertificateCheckYourAnswersPage.emailAddressChangeLink)
+      assertOnPage(SaoEmailPage.changePageUrl)
+
+      And("the user makes no changes and clicks 'Continue'")
+      clickElement(submitButton)
+
+      Then(
+        "the 'Check Your Answers' page is displayed with the value in the 'Email address' row unchanged"
+      )
+      assertOnPage(CertificateCheckYourAnswersPage)
+      assertTextOnPage(CertificateCheckYourAnswersPage.emailAddressValue, "Richer@test.com")
+
+      When("the user clicks the 'Change' link on the 'Email communications' row")
+      clickElement(CertificateCheckYourAnswersPage.emailCommunicationChoiceChangeLink)
+      assertOnPage(SaoEmailCommunicationChoicePage.changePageUrl)
+
+      And("the user makes no changes and clicks 'Continue'")
+      clickElement(submitButton)
+
+      Then(
+        "the 'Check Your Answers' page is displayed with the value in the 'Email communications' row unchanged"
+      )
+      assertOnPage(CertificateCheckYourAnswersPage)
+      assertTextOnPage(CertificateCheckYourAnswersPage.emailCommunicationChoiceValue, "Yes")
     }
 
     // Test E: Arrive on CYA > click 'Change' > remove email and continue throws error --> Add to error flow
