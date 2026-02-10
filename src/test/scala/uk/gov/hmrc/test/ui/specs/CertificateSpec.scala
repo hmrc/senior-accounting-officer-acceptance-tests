@@ -19,7 +19,7 @@ package uk.gov.hmrc.test.ui.specs
 import uk.gov.hmrc.test.ui.pages.submission.certificate.{CheckYourAnswersPage as CertificateCheckYourAnswersPage, *}
 import uk.gov.hmrc.test.ui.pages.submission.notification.{CheckYourAnswersPage as NotificationCheckYourAnswersPage, *}
 import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport
 import uk.gov.hmrc.test.ui.support.PageSupport.*
@@ -352,11 +352,12 @@ class CertificateSpec extends BaseSpec {
       clickRadioElement(SaoEmailCommunicationChoicePage.yesRadioButton)
       clickElement(submitButton)
       assertOnPage(CertificateCheckYourAnswersPage)
+      clickElement(submitButton)
 
-      // press continue we are on submitter page
       Then("the user is taken to the 'submitter' page")
-      // assertOnPage(CertificateSubmitterPage)
+      assertOnPage(SubmitCertificateSubmitterPage)
 
+      // TODO: Continue after further dev is complete
       // Then("the given certificate reference number is successfully returned")
     }
 
@@ -385,8 +386,7 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "During a certificate submission errors are displayed when the user attempts to progress with invalid input",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user lands on the 'Is the given person the named SAO on the Certificate' question page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
@@ -457,8 +457,13 @@ class CertificateSpec extends BaseSpec {
       clickElement(submitButton)
       assertTextOnPage(SaoEmailPage.errorTitle, "There is a problem")
 
-      //TODO start from here
-      
+      When("the user enters a valid email and clicks 'Continue'")
+      sendKeys(SaoEmailPage.saoEmailInput, "Phil@test.com")
+      clickElement(submitButton)
+
+      Then("the user is taken to the 'Check Your Answers' page")
+      assertOnPage(CertificateCheckYourAnswersPage)
+
       When("the user clicks 'Continue'")
       clickElement(submitButton)
 
