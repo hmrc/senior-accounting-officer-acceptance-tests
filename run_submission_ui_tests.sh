@@ -9,7 +9,10 @@ if [ -z "$BROWSER_TYPE" ]; then
     echo ""
 fi
 
-# Scalafmt checks have been separated from the test command to avoid OutOfMemoryError in Jenkins
-# sbt scalafmtCheckAll scalafmtSbtCheck
+if [ "$NO_LINT" != "true" ];
+then
+  echo "Linting"
+  sbt scalafmtAll
+fi
 
 sbt clean -Dbrowser="${BROWSER_TYPE:=$DEFAULT_BROWSER}" -Denvironment="${ENV:=local}" "testOnly uk.gov.hmrc.test.ui.specs.* -- -n SubmissionUITests"  -Dbrowser.usePreviousVersion=true testReport
