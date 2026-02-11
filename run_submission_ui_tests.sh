@@ -4,13 +4,14 @@ DEFAULT_BROWSER=chrome
 BROWSER_TYPE=$1
 ENV=$2
 
-if [ -z "$BROWSER_TYPE" ]; then
+if [ -z "${BROWSER_TYPE}" ]; then
     echo "BROWSER_TYPE value not set, defaulting to $DEFAULT_BROWSER..."
     echo ""
 fi
 
-if [ "$NO_LINT" != "true" ];
-then
+if [ "${NO_LINT}" = "true" ]; then
+  echo "Skipping lint"
+else
   echo "Linting"
   sbt scalafmtAll
 fi
