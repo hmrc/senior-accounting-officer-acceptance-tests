@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.certificate
 
+import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
 
@@ -24,5 +25,18 @@ object CheckYourAnswersPage extends BasePage {
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/check-your-answers"
 
   override val pageTitle: String =
-    "certificateCheckYourAnswers - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  val isThisTheSaoKey: By                    = By.cssSelector("""[data-test-id="is-this-the-sao-key"]""")
+  val isThisTheSaoValue: By                  = By.cssSelector("""[data-test-id="is-this-the-sao-value"]""")
+  val isThisTheSaoChangeLink: By             = By.cssSelector("""[data-test-id="is-this-the-sao-change-link"]""")
+  val fullNameChangeLink: By                 = By.cssSelector("""[data-test-id="full-name-change-link"]""")
+  val fullNameKey: By                        = By.cssSelector("""[data-test-id="full-name-key"]""")
+  val fullNameValue: By                      = By.cssSelector("""[data-test-id="full-name-value"]""")
+  val emailAddressChangeLink: By             = By.cssSelector("""[data-test-id="email-address-change-link"]""")
+  val emailAddressValue: By                  = By.cssSelector("""[data-test-id="email-address-value"]""")
+  val emailAddressKey: By                    = By.cssSelector("""[data-test-id="email-address-key"]""")
+  val emailCommunicationChoiceKey: By        = By.cssSelector("""[data-test-id="email-communication-key"]""")
+  val emailCommunicationChoiceValue: By      = By.cssSelector("""[data-test-id="email-communication-value"]""")
+  val emailCommunicationChoiceChangeLink: By = By.cssSelector("""[data-test-id="email-communication-change-link"]""")
 }
