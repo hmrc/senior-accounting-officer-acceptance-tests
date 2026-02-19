@@ -21,7 +21,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
-trait SubmitButton {
+trait SubmitButtonSupport {
 
   this: BasePage =>
   def submitButton: By = By.id("submit")
