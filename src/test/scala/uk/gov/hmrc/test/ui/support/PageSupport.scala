@@ -38,8 +38,6 @@ object PageSupport extends BasePage {
 
   def clickOnBackLink(): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(backLink)).click()
 
-  def clickSubmitButton(): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(submitButton)).click()
-
   def clickContinueButton(): Unit =
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(continueButton)).click()
 

@@ -218,7 +218,7 @@ class NotificationSpec extends BaseSpec {
     assertOnPage(SubmitNotificationStartPage)
     clickElement(SubmitNotificationStartPage.submitNotificationLink)
     assertOnPage(GuidancePage)
-    clickElement(submitButton)
+    GuidancePage.clickSubmitButton()
     assertOnPage(AdditionalInformationPage)
   }
 }
