@@ -52,7 +52,7 @@ class CertificateSpec extends BaseSpec {
 
       When("the user enters a valid SAO name and clicks 'Continue'")
       sendKeys(SaoNamePage.saoNameInput, "John Wick")
-      clickElement(submitButton)
+      SaoNamePage.clickSubmitButton()
 
       Then("the user is taken to the 'SAO Email' page")
       assertOnPage(SaoEmailPage)
@@ -133,7 +133,7 @@ class CertificateSpec extends BaseSpec {
       IsThisTheSaoPage.clickSubmitButton()
       assertOnPage(SaoNamePage.changePageUrl)
       sendKeys(SaoNamePage.saoNameInput, "Bobby Brown")
-      clickElement(submitButton)
+      SaoNamePage.clickSubmitButton()
 
       Then("the 'Check Your Answers' page is displayed with the 'Full name' row displayed with the newly added name")
       assertOnPage(CertificateCheckYourAnswersPage)
@@ -154,7 +154,7 @@ class CertificateSpec extends BaseSpec {
       IsThisTheSaoPage.clickSubmitButton()
       assertOnPage(SaoNamePage)
       sendKeys(SaoNamePage.saoNameInput, "Richer")
-      clickElement(submitButton)
+      SaoNamePage.clickSubmitButton()
       assertOnPage(SaoEmailPage)
       sendKeys(SaoEmailPage.saoEmailInput, "Richer@test.com")
       clickElement(submitButton)
@@ -224,7 +224,7 @@ class CertificateSpec extends BaseSpec {
       IsThisTheSaoPage.clickSubmitButton()
       assertOnPage(SaoNamePage)
       sendKeys(SaoNamePage.saoNameInput, "Richer")
-      clickElement(submitButton)
+      SaoNamePage.clickSubmitButton()
       assertOnPage(SaoEmailPage)
       sendKeys(SaoEmailPage.saoEmailInput, "Richer@test.com")
       clickElement(submitButton)
@@ -242,7 +242,7 @@ class CertificateSpec extends BaseSpec {
 
       When("the user lands on the 'sao name' page, makes no changes and clicks 'Continue'")
       assertOnPage(SaoNamePage.changePageUrl)
-      clickElement(submitButton)
+      SaoNamePage.clickSubmitButton()
 
       Then(
         "the 'Check Your Answers' page is displayed with the value in the 'Is given person the named SAO on the certificate' row unchanged"
@@ -255,7 +255,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(SaoNamePage.changePageUrl)
 
       And("the user makes no changes and clicks 'Continue'")
-      clickElement(submitButton)
+      SaoNamePage.clickSubmitButton()
 
       Then(
         "the 'Check Your Answers' page is displayed with the value in the 'Full name' row unchanged"
@@ -339,14 +339,14 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(SaoNamePage)
 
       When("the user clicks 'Continue' without entering an SAO name")
-      clickElement(submitButton)
+      SaoNamePage.clickSubmitButton()
 
       Then("an error is shown")
       assertTextOnPage(SaoNamePage.errorTitle, "There is a problem")
 
       When("the user enters a valid name and clicks 'Continue'")
       sendKeys(SaoNamePage.saoNameInput, "John Wick")
-      clickElement(submitButton)
+      SaoNamePage.clickSubmitButton()
 
       Then("the user is taken to the 'SAO Email' page")
       assertOnPage(SaoEmailPage)
