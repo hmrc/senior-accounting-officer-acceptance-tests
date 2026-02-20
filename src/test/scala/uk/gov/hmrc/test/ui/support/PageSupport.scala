@@ -44,7 +44,7 @@ object PageSupport extends BasePage {
 
   def clickElement(locator: By): Unit = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(locator)).click()
 
-  def clickRadioElement(locator: By): Unit =
+  def clickRadioButton(locator: By): Unit =
     fluentWait.until(ExpectedConditions.presenceOfElementLocated(locator)).click()
 
   def assertTextOnPage(locator: By, text: String): Unit = {

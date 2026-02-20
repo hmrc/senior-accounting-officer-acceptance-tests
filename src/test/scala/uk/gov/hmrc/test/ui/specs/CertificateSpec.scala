@@ -43,8 +43,8 @@ class CertificateSpec extends BaseSpec {
       Then("the user is taken to the 'Is the given person the named SAO on the Certificate' question page")
       assertOnPage(IsThisTheSaoPage)
 
-      When("the user selects the 'No' radio option and clicks 'Continue'")
-      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      When("the user selects the 'No' radio button and clicks 'Continue'")
+      IsThisTheSaoPage.clickNoRadioButton()
       IsThisTheSaoPage.clickSubmitButton()
 
       Then("the user is taken to the 'SAO Name' page")
@@ -64,8 +64,8 @@ class CertificateSpec extends BaseSpec {
       Then("the user is taken to the 'SAO Email Communication Choice' page")
       assertOnPage(SaoEmailCommunicationChoicePage)
 
-      When("the user selects the 'No' radio option and clicks 'Continue'")
-      clickRadioElement(SaoEmailCommunicationChoicePage.noRadioButton)
+      When("the user selects the 'No' radio button and clicks 'Continue'")
+      SaoEmailCommunicationChoicePage.clickNoRadioButton()
       SaoEmailCommunicationChoicePage.clickSubmitButton()
 
       Then("the user is taken to the 'Check Your Answers' page")
@@ -78,7 +78,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(SubmitCertificateSubmitterPage)
 
       When("the user selects 'I am authorised to submit the certificate on behalf of the Senior Accounting Officer'")
-      clickRadioElement(SubmitCertificateSubmitterPage.saoProxySubmitterRadio)
+      clickRadioButton(SubmitCertificateSubmitterPage.saoProxySubmitterRadio)
 
       And("clicks 'Continue'")
       SubmitCertificateSubmitterPage.clickSubmitButton()
@@ -111,13 +111,13 @@ class CertificateSpec extends BaseSpec {
       navigateToCertificateStartPage()
       SubmitCertificateStartPage.clickSubmitButton()
       assertOnPage(IsThisTheSaoPage)
-      clickRadioElement(IsThisTheSaoPage.yesRadioButton)
+      IsThisTheSaoPage.clickYesRadioButton()
       IsThisTheSaoPage.clickSubmitButton()
       assertOnPage(SaoEmailPage)
       sendKeys(SaoEmailPage.saoEmailInput, "JohnWick@test.com")
       SaoEmailPage.clickSubmitButton()
       assertOnPage(SaoEmailCommunicationChoicePage)
-      clickRadioElement(SaoEmailCommunicationChoicePage.noRadioButton)
+      SaoEmailCommunicationChoicePage.clickNoRadioButton()
       SaoEmailCommunicationChoicePage.clickSubmitButton()
       assertOnPage(CertificateCheckYourAnswersPage)
 
@@ -129,7 +129,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(IsThisTheSaoPage.changePageUrl)
 
       And("a new name is provided after changing the radio option to 'No'")
-      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      IsThisTheSaoPage.clickNoRadioButton()
       IsThisTheSaoPage.clickSubmitButton()
       assertOnPage(SaoNamePage.changePageUrl)
       sendKeys(SaoNamePage.saoNameInput, "Bobby Brown")
@@ -150,7 +150,7 @@ class CertificateSpec extends BaseSpec {
       navigateToCertificateStartPage()
       SubmitCertificateStartPage.clickSubmitButton()
       assertOnPage(IsThisTheSaoPage)
-      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      IsThisTheSaoPage.clickNoRadioButton()
       IsThisTheSaoPage.clickSubmitButton()
       assertOnPage(SaoNamePage)
       sendKeys(SaoNamePage.saoNameInput, "Richer")
@@ -159,7 +159,7 @@ class CertificateSpec extends BaseSpec {
       sendKeys(SaoEmailPage.saoEmailInput, "Richer@test.com")
       SaoEmailPage.clickSubmitButton()
       assertOnPage(SaoEmailCommunicationChoicePage)
-      clickRadioElement(SaoEmailCommunicationChoicePage.noRadioButton)
+      SaoEmailCommunicationChoicePage.clickNoRadioButton()
       SaoEmailCommunicationChoicePage.clickSubmitButton()
       assertOnPage(CertificateCheckYourAnswersPage)
 
@@ -170,8 +170,8 @@ class CertificateSpec extends BaseSpec {
       CertificateCheckYourAnswersPage.clickIsThisTheSaoChangeLink()
       assertOnPage(IsThisTheSaoPage.changePageUrl)
 
-      And("changes the radio option to 'Yes'")
-      clickRadioElement(IsThisTheSaoPage.yesRadioButton)
+      And("changes the radio button to 'Yes'")
+      IsThisTheSaoPage.clickYesRadioButton()
       IsThisTheSaoPage.clickSubmitButton()
 
       Then("the 'Check Your Answers' page is displayed with the 'Full name' row removed")
@@ -188,13 +188,13 @@ class CertificateSpec extends BaseSpec {
       navigateToCertificateStartPage()
       SubmitCertificateStartPage.clickSubmitButton()
       assertOnPage(IsThisTheSaoPage)
-      clickRadioElement(IsThisTheSaoPage.yesRadioButton)
+      IsThisTheSaoPage.clickYesRadioButton()
       IsThisTheSaoPage.clickSubmitButton()
       assertOnPage(SaoEmailPage)
       sendKeys(SaoEmailPage.saoEmailInput, "Richer@test.com")
       SaoEmailPage.clickSubmitButton()
       assertOnPage(SaoEmailCommunicationChoicePage)
-      clickRadioElement(SaoEmailCommunicationChoicePage.yesRadioButton)
+      SaoEmailCommunicationChoicePage.clickYesRadioButton()
       SaoEmailCommunicationChoicePage.clickSubmitButton()
       assertOnPage(CertificateCheckYourAnswersPage)
 
@@ -220,7 +220,7 @@ class CertificateSpec extends BaseSpec {
       navigateToCertificateStartPage()
       SubmitCertificateStartPage.clickSubmitButton()
       assertOnPage(IsThisTheSaoPage)
-      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      IsThisTheSaoPage.clickNoRadioButton()
       IsThisTheSaoPage.clickSubmitButton()
       assertOnPage(SaoNamePage)
       sendKeys(SaoNamePage.saoNameInput, "Richer")
@@ -229,7 +229,7 @@ class CertificateSpec extends BaseSpec {
       sendKeys(SaoEmailPage.saoEmailInput, "Richer@test.com")
       SaoEmailPage.clickSubmitButton()
       assertOnPage(SaoEmailCommunicationChoicePage)
-      clickRadioElement(SaoEmailCommunicationChoicePage.yesRadioButton)
+      SaoEmailCommunicationChoicePage.clickYesRadioButton()
       SaoEmailCommunicationChoicePage.clickSubmitButton()
       assertOnPage(CertificateCheckYourAnswersPage)
 
@@ -304,7 +304,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(IsThisTheSaoPage)
 
       When("the user selects the 'Yes' radio button and clicks 'Continue'")
-      clickRadioElement(IsThisTheSaoPage.yesRadioButton)
+      IsThisTheSaoPage.clickYesRadioButton()
       IsThisTheSaoPage.clickSubmitButton()
 
       Then("the user lands on the 'SAO Email' page")
@@ -329,8 +329,8 @@ class CertificateSpec extends BaseSpec {
       Then("an error is shown")
       assertTextOnPage(IsThisTheSaoPage.errorTitle, "There is a problem")
 
-      When("the user selects the 'No' radio option and clicks 'Continue'")
-      clickRadioElement(IsThisTheSaoPage.noRadioButton)
+      When("the user selects the 'No' radio button and clicks 'Continue'")
+      IsThisTheSaoPage.clickNoRadioButton()
       IsThisTheSaoPage.clickSubmitButton()
 
       Then("the user is taken to the 'SAO Name' page")
@@ -368,8 +368,8 @@ class CertificateSpec extends BaseSpec {
       Then("an error is shown")
       assertTextOnPage(SaoEmailCommunicationChoicePage.errorTitle, "There is a problem")
 
-      When("the user selects the 'No' radio option and clicks 'Continue'")
-      clickRadioElement(SaoEmailCommunicationChoicePage.noRadioButton)
+      When("the user selects the 'No' radio button and clicks 'Continue'")
+      SaoEmailCommunicationChoicePage.clickNoRadioButton()
       SaoEmailCommunicationChoicePage.clickSubmitButton()
 
       Then("the user is taken to the 'Check Your Answers' page")
@@ -404,7 +404,7 @@ class CertificateSpec extends BaseSpec {
       assertTextOnPage(SubmitCertificateSubmitterPage.errorTitle, "There is a problem")
 
       When("the user selects 'I am authorised to submit the certificate on behalf of the Senior Accounting Officer'")
-      clickRadioElement(SubmitCertificateSubmitterPage.saoProxySubmitterRadio)
+      clickRadioButton(SubmitCertificateSubmitterPage.saoProxySubmitterRadio)
 
       And("clicks 'Continue'")
       SubmitCertificateSubmitterPage.clickSubmitButton()
