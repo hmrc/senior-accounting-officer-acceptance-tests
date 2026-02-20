@@ -38,7 +38,7 @@ class CertificateSpec extends BaseSpec {
       navigateToCertificateStartPage()
 
       When("the user clicks 'Continue' on the 'Submit Certificate' start page")
-      clickElement(submitButton)
+      SubmitCertificateStartPage.clickSubmitButton()
 
       Then("the user is taken to the 'Is the given person the named SAO on the Certificate' question page")
       assertOnPage(IsThisTheSaoPage)
@@ -109,7 +109,7 @@ class CertificateSpec extends BaseSpec {
     ) {
       Given("a user has chosen 'Yes' to select the provided SAO as the named person on the certificate")
       navigateToCertificateStartPage()
-      clickElement(submitButton)
+      SubmitCertificateStartPage.clickSubmitButton()
       assertOnPage(IsThisTheSaoPage)
       clickRadioElement(IsThisTheSaoPage.yesRadioButton)
       IsThisTheSaoPage.clickSubmitButton()
@@ -148,7 +148,7 @@ class CertificateSpec extends BaseSpec {
     ) {
       Given("a user has chosen 'No' and selects a new SAO as the named person on the certificate")
       navigateToCertificateStartPage()
-      clickElement(submitButton)
+      SubmitCertificateStartPage.clickSubmitButton()
       assertOnPage(IsThisTheSaoPage)
       clickRadioElement(IsThisTheSaoPage.noRadioButton)
       IsThisTheSaoPage.clickSubmitButton()
@@ -186,7 +186,7 @@ class CertificateSpec extends BaseSpec {
     ) {
       Given("a user has landed on the 'Check your answers' page")
       navigateToCertificateStartPage()
-      clickElement(submitButton)
+      SubmitCertificateStartPage.clickSubmitButton()
       assertOnPage(IsThisTheSaoPage)
       clickRadioElement(IsThisTheSaoPage.yesRadioButton)
       IsThisTheSaoPage.clickSubmitButton()
@@ -218,7 +218,7 @@ class CertificateSpec extends BaseSpec {
     ) {
       Given("a user has landed on the 'Check your answers' page")
       navigateToCertificateStartPage()
-      clickElement(submitButton)
+      SubmitCertificateStartPage.clickSubmitButton()
       assertOnPage(IsThisTheSaoPage)
       clickRadioElement(IsThisTheSaoPage.noRadioButton)
       IsThisTheSaoPage.clickSubmitButton()
@@ -299,7 +299,6 @@ class CertificateSpec extends BaseSpec {
       Given("an authenticated user lands on the 'Is This The SAO' page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
       addNotificationFromHub()
-      clickElement(submitButton)
       assertOnPage(SubmitCertificateStartPage)
       SubmitCertificateStartPage.clickSubmitButton()
       assertOnPage(IsThisTheSaoPage)
@@ -320,7 +319,6 @@ class CertificateSpec extends BaseSpec {
       Given("an authenticated user lands on the 'Is the given person the named SAO on the Certificate' question page")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
       addNotificationFromHub()
-      clickElement(submitButton)
       assertOnPage(SubmitCertificateStartPage)
       SubmitCertificateStartPage.clickSubmitButton()
       assertOnPage(IsThisTheSaoPage)
@@ -445,5 +443,6 @@ class CertificateSpec extends BaseSpec {
     clickElement(SubmitPage.confirmAndSubmitButton)
     assertOnPage(ConfirmationPage)
     ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
+    ConfirmationPage.clickSubmitButton()
   }
 }
