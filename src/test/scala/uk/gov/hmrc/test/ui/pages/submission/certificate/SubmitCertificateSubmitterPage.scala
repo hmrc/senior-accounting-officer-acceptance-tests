@@ -20,6 +20,7 @@ import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.ButtonSupport
+import uk.gov.hmrc.test.ui.support.PageSupport.clickRadioButton
 
 object SubmitCertificateSubmitterPage extends BasePage with ButtonSupport {
   override val pageUrl: String =
@@ -31,4 +32,7 @@ object SubmitCertificateSubmitterPage extends BasePage with ButtonSupport {
   val saoSubmitterRadio: By      = By.cssSelector("#value_0")
   val saoProxySubmitterRadio: By = By.cssSelector("#value_1")
   val errorTitle: By             = By.cssSelector(".govuk-error-summary__title")
+
+  def clickSaoSubmitterRadioButton      = clickRadioButton(saoSubmitterRadio)
+  def clickSaoProxySubmitterRadioButton = clickRadioButton(saoProxySubmitterRadio)
 }
