@@ -19,6 +19,7 @@ package uk.gov.hmrc.test.ui.pages.submission.notification
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
+import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 
 object SubmitNotificationStartPage extends BasePage {
   override val pageUrl: String   =
@@ -31,4 +32,6 @@ object SubmitNotificationStartPage extends BasePage {
 
   def actionListItem(index: Int): By =
     By.cssSelector(s".govuk-task-list li:nth-child($index) a")
+
+  def clickSubmitNotificationLink(): Unit = clickElement(submitNotificationLink)
 }

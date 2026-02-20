@@ -20,6 +20,7 @@ import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.ButtonSupport
+import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 
 object CheckYourAnswersPage extends BasePage with ButtonSupport {
   override val pageUrl: String =
@@ -40,4 +41,9 @@ object CheckYourAnswersPage extends BasePage with ButtonSupport {
   val emailCommunicationChoiceKey: By        = By.cssSelector("""[data-test-id="email-communication-key"]""")
   val emailCommunicationChoiceValue: By      = By.cssSelector("""[data-test-id="email-communication-value"]""")
   val emailCommunicationChoiceChangeLink: By = By.cssSelector("""[data-test-id="email-communication-change-link"]""")
+
+  def clickIsThisTheSaoChangeLink(): Unit             = clickElement(isThisTheSaoChangeLink)
+  def clickFullNameChangeLink(): Unit                 = clickElement(fullNameChangeLink)
+  def clickEmailAddressChangeLink(): Unit             = clickElement(emailAddressChangeLink)
+  def clickEmailCommunicationChoiceChangeLink(): Unit = clickElement(emailCommunicationChoiceChangeLink)
 }

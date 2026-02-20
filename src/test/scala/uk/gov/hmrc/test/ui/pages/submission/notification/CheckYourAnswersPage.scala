@@ -17,11 +17,10 @@
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
 import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.ButtonSupport
-import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
+import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 
 object CheckYourAnswersPage extends BasePage with ButtonSupport {
   override val pageUrl: String =
@@ -33,6 +32,5 @@ object CheckYourAnswersPage extends BasePage with ButtonSupport {
   val additionalInformationValueElement: By = By.cssSelector(".govuk-summary-list__value")
   val additionalInformationChangeLink: By   = By.cssSelector("""[data-test-id="change-additional-information-link"]""")
 
-  def clickAdditionalInformationChangeLink(): Unit =
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(additionalInformationChangeLink)).click()
+  def clickAdditionalInformationChangeLink(): Unit = clickElement(additionalInformationChangeLink)
 }

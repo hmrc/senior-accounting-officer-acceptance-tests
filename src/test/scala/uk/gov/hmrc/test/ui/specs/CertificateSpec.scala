@@ -125,7 +125,7 @@ class CertificateSpec extends BaseSpec {
       assertElementNotVisible(CertificateCheckYourAnswersPage.fullNameKey)
 
       When("the user clicks the 'Change' link on the 'Is given person the named SAO on the certificate' row")
-      clickElement(CertificateCheckYourAnswersPage.isThisTheSaoChangeLink)
+      CertificateCheckYourAnswersPage.clickIsThisTheSaoChangeLink()
       assertOnPage(IsThisTheSaoPage.changePageUrl)
 
       And("a new name is provided after changing the radio option to 'No'")
@@ -167,7 +167,7 @@ class CertificateSpec extends BaseSpec {
       assertTextOnPage(CertificateCheckYourAnswersPage.fullNameKey, "Full name")
 
       When("the user clicks the 'Change' link on the 'Is given person the named SAO on the certificate' row")
-      clickElement(CertificateCheckYourAnswersPage.isThisTheSaoChangeLink)
+      CertificateCheckYourAnswersPage.clickIsThisTheSaoChangeLink()
       assertOnPage(IsThisTheSaoPage.changePageUrl)
 
       And("changes the radio option to 'Yes'")
@@ -199,7 +199,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateCheckYourAnswersPage)
 
       When("the user clicks the 'Change' link on the 'Email address' row")
-      clickElement(CertificateCheckYourAnswersPage.emailAddressChangeLink)
+      CertificateCheckYourAnswersPage.clickEmailAddressChangeLink()
       assertOnPage(SaoEmailPage.changePageUrl)
 
       And("changes the email address to another valid value")
@@ -234,7 +234,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateCheckYourAnswersPage)
 
       When("the user clicks the 'Change' link on the 'Is given person the named SAO on the certificate' row")
-      clickElement(CertificateCheckYourAnswersPage.isThisTheSaoChangeLink)
+      CertificateCheckYourAnswersPage.clickIsThisTheSaoChangeLink()
       assertOnPage(IsThisTheSaoPage.changePageUrl)
 
       And("the user makes no changes and clicks 'Continue'")
@@ -251,7 +251,7 @@ class CertificateSpec extends BaseSpec {
       assertTextOnPage(CertificateCheckYourAnswersPage.isThisTheSaoValue, "No")
 
       When("the user clicks the 'Change' link on the 'Full name' row")
-      clickElement(CertificateCheckYourAnswersPage.fullNameChangeLink)
+      CertificateCheckYourAnswersPage.clickFullNameChangeLink()
       assertOnPage(SaoNamePage.changePageUrl)
 
       And("the user makes no changes and clicks 'Continue'")
@@ -264,7 +264,7 @@ class CertificateSpec extends BaseSpec {
       assertTextOnPage(CertificateCheckYourAnswersPage.fullNameValue, "Richer")
 
       When("the user clicks the 'Change' link on the 'Email address' row")
-      clickElement(CertificateCheckYourAnswersPage.emailAddressChangeLink)
+      CertificateCheckYourAnswersPage.clickEmailAddressChangeLink()
       assertOnPage(SaoEmailPage.changePageUrl)
 
       And("the user makes no changes and clicks 'Continue'")
@@ -277,7 +277,7 @@ class CertificateSpec extends BaseSpec {
       assertTextOnPage(CertificateCheckYourAnswersPage.emailAddressValue, "Richer@test.com")
 
       When("the user clicks the 'Change' link on the 'Email communications' row")
-      clickElement(CertificateCheckYourAnswersPage.emailCommunicationChoiceChangeLink)
+      CertificateCheckYourAnswersPage.clickEmailCommunicationChoiceChangeLink()
       assertOnPage(SaoEmailCommunicationChoicePage.changePageUrl)
 
       And("the user makes no changes and clicks 'Continue'")
@@ -376,7 +376,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateCheckYourAnswersPage)
 
       When("the user clicks the 'Change' link on the 'Email address' row")
-      clickElement(CertificateCheckYourAnswersPage.emailAddressChangeLink)
+      CertificateCheckYourAnswersPage.clickEmailAddressChangeLink()
       assertOnPage(SaoEmailPage.changePageUrl)
 
       Then("the user removes the existing email and clicks continue, an error is shown")
@@ -419,20 +419,20 @@ class CertificateSpec extends BaseSpec {
     assertOnPage(HubPage)
 
     // TODO: (MA - 26/01) Temporary workaround until data is available at this point in the journey.
-    clickElement(HubPage.submitNotificationLink)
+    HubPage.clickSubmitNotificationLink()
     assertOnPage(SubmitNotificationStartPage)
     driver.navigate().back()
     assertOnPage(HubPage)
 
-    clickElement(HubPage.submitCertificateLink)
+    HubPage.clickSubmitCertificateLink()
     assertOnPage(SubmitCertificateStartPage)
   }
 
   private def addNotificationFromHub(): Unit = {
     assertOnPage(HubPage)
-    clickElement(HubPage.submitNotificationLink)
+    HubPage.clickSubmitNotificationLink()
     assertOnPage(SubmitNotificationStartPage)
-    clickElement(SubmitNotificationStartPage.submitNotificationLink)
+    SubmitNotificationStartPage.clickSubmitNotificationLink()
     assertOnPage(GuidancePage)
     GuidancePage.clickSubmitButton()
     assertOnPage(AdditionalInformationPage)

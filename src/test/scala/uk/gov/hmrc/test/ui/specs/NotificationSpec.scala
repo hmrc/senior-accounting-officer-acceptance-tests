@@ -214,9 +214,9 @@ class NotificationSpec extends BaseSpec {
 
   private def goToAdditionalInformationPageFromHub(): Unit = {
     assertOnPage(HubPage)
-    clickElement(HubPage.submitNotificationLink)
+    HubPage.clickSubmitNotificationLink()
     assertOnPage(SubmitNotificationStartPage)
-    clickElement(SubmitNotificationStartPage.submitNotificationLink)
+    SubmitNotificationStartPage.clickSubmitNotificationLink()
     assertOnPage(GuidancePage)
     GuidancePage.clickSubmitButton()
     assertOnPage(AdditionalInformationPage)
