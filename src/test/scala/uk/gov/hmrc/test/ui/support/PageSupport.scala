@@ -27,7 +27,6 @@ object PageSupport extends BasePage {
   def pageUrl: String    = ""
   def pageTitle: String  = ""
   val backLink: By       = By.cssSelector(".govuk-back-link")
-  val submitButton: By   = By.id("submit")
   val continueButton: By = By.id("continue")
 
   def fluentWait: Wait[WebDriver] = new FluentWait[WebDriver](driver)

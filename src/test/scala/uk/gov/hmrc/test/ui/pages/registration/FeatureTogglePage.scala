@@ -20,14 +20,14 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
-import uk.gov.hmrc.test.ui.support.SubmitButtonSupport
+import uk.gov.hmrc.test.ui.support.ButtonSupport
 
 enum GrsHost(val isStubGrsChecked: Boolean) {
   case GrsStubOnRegistrationFrontEnd extends GrsHost(isStubGrsChecked = true)
   case GrsMicroservice extends GrsHost(isStubGrsChecked = false)
 }
 
-object FeatureTogglePage extends BasePage with SubmitButtonSupport {
+object FeatureTogglePage extends BasePage with ButtonSupport {
   override val pageUrl: String                = baseRegUrl
   val pageTitle: String                       = ""
   private val grsFeatureTogglePageUrl: String = s"$pageUrl/test-only/feature-toggle"

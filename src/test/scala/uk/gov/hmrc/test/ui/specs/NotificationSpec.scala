@@ -41,16 +41,16 @@ class NotificationSpec extends BaseSpec {
 
       When("additional information is added")
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
-      clickElement(submitButton)
+      AdditionalInformationPage.clickSubmitButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
-      And("the user confirms their answers by clicking continue")
-      clickElement(submitButton)
+      And("the user confirms their answers by clicking 'Continue'")
+      CheckYourAnswersPage.clickSubmitButton()
       assertOnPage(SubmitPage)
 
       And("submits the notification")
-      clickElement(SubmitPage.confirmAndSubmitButton)
+      SubmitPage.clickSubmitButton()
       assertOnPage(ConfirmationPage)
 
       Then("the given notification reference number is successfully returned")
@@ -66,7 +66,7 @@ class NotificationSpec extends BaseSpec {
       goToAdditionalInformationPageFromHub()
 
       When("pressing continue without providing additional information")
-      clickElement(submitButton)
+      AdditionalInformationPage.clickSubmitButton()
       assertPageWithError(AdditionalInformationPage)
 
       Then("an error appears on screen")
@@ -76,44 +76,44 @@ class NotificationSpec extends BaseSpec {
         "on continuing after adding additional information the text added is displayed on the 'Check Your Answers' page"
       )
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
-      clickElement(submitButton)
+      AdditionalInformationPage.clickSubmitButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
     }
 
     Scenario(
-      "When continuing with no additional information an error presents and is cleared on pressing skip",
+      "When continuing with no additional information an error presents and is cleared on pressing 'Skip'",
       SubmissionUITests,
       ZapTests
     ) {
       Given("an authenticated user arrives on the additional information page during a notification submission")
       goToAdditionalInformationPageFromHub()
 
-      When("pressing continue without providing additional information")
-      clickElement(submitButton)
+      When("pressing 'Continue' without providing additional information")
+      AdditionalInformationPage.clickSubmitButton()
       assertPageWithError(AdditionalInformationPage)
 
       Then("an error appears on screen")
       assertTextOnPage(AdditionalInformationPage.errorTitle, "There is a problem")
 
       And(
-        "on pressing skip, no text is displayed on the 'Check Your Answers' page"
+        "on pressing 'Skip', no text is displayed on the 'Check Your Answers' page"
       )
-      clickElement(AdditionalInformationPage.skipButton)
+      AdditionalInformationPage.clickSkipButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
     }
 
     Scenario(
-      "When pressing skip with no additional information, no text is displayed on the 'Check Your Answers' page",
+      "When pressing 'Skip' with no additional information, no text is displayed on the 'Check Your Answers' page",
       SubmissionUITests,
       ZapTests
     ) {
       Given("an authenticated user arrives on the 'Additional Information' page during a notification submission")
       goToAdditionalInformationPageFromHub()
 
-      When("pressing skip without providing additional information")
-      clickElement(AdditionalInformationPage.skipButton)
+      When("pressing 'Skip' without providing additional information")
+      AdditionalInformationPage.clickSkipButton()
 
       Then("no text is displayed on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
@@ -121,7 +121,7 @@ class NotificationSpec extends BaseSpec {
     }
 
     Scenario(
-      "When pressing skip with additional information added, no text is displayed on the 'Check Your Answers' page",
+      "When pressing 'Skip' with additional information added, no text is displayed on the 'Check Your Answers' page",
       SubmissionUITests,
       ZapTests
     ) {
@@ -130,7 +130,7 @@ class NotificationSpec extends BaseSpec {
 
       When("pressing skip with additional information provided")
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
-      clickElement(AdditionalInformationPage.skipButton)
+      AdditionalInformationPage.clickSkipButton()
 
       Then("no text is displayed on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
@@ -147,7 +147,7 @@ class NotificationSpec extends BaseSpec {
       )
       goToAdditionalInformationPageFromHub()
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
-      clickElement(submitButton)
+      AdditionalInformationPage.clickSubmitButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
@@ -156,14 +156,14 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(AdditionalInformationPage.changePageUrl)
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "New Test For Changed Text")
 
-      Then("on pressing continue the updated text is displayed on the 'Check Your Answers' page")
-      clickElement(submitButton)
+      Then("on pressing 'Continue' the updated text is displayed on the 'Check Your Answers' page")
+      AdditionalInformationPage.clickSubmitButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "New Test For Changed Text")
     }
 
     Scenario(
-      "When selecting to change additional information from the 'Check Your Answers' page and when skip is pressed then the changes are not persisted",
+      "When selecting to change additional information from the 'Check Your Answers' page and when 'Skip' is pressed then the changes are not persisted",
       SubmissionUITests,
       ZapTests
     ) {
@@ -172,7 +172,7 @@ class NotificationSpec extends BaseSpec {
       )
       goToAdditionalInformationPageFromHub()
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
-      clickElement(submitButton)
+      AdditionalInformationPage.clickSubmitButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
@@ -181,8 +181,8 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(AdditionalInformationPage.changePageUrl)
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "New Test For Changed Text")
 
-      Then("on pressing skip the updated text is not displayed on the 'Check Your Answers' page")
-      clickElement(AdditionalInformationPage.skipButton)
+      Then("on pressing 'Skip' the updated text is not displayed on the 'Check Your Answers' page")
+      AdditionalInformationPage.clickSkipButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
     }
@@ -197,7 +197,7 @@ class NotificationSpec extends BaseSpec {
       )
       goToAdditionalInformationPageFromHub()
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
-      clickElement(submitButton)
+      AdditionalInformationPage.clickSubmitButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
@@ -206,8 +206,8 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(AdditionalInformationPage.changePageUrl)
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "")
 
-      Then("on pressing continue an error appears on screen")
-      clickElement(submitButton)
+      Then("on pressing 'Continue' an error appears on screen")
+      AdditionalInformationPage.clickSubmitButton()
       assertTextOnPage(AdditionalInformationPage.errorTitle, "There is a problem")
     }
   }

@@ -31,7 +31,12 @@ class ContactDetailsSpec extends BaseSpec {
 
   Feature("Contact Details") {
 
-    Scenario("Complete first contact details", RegistrationUITests, ZapTests) {
+    Scenario(
+      "Complete first contact details",
+      RegistrationUITests,
+      ZapTests,
+      SoloTests
+    ) {
       Given("a user successfully adds company details from the registration page")
       FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
       AuthorityWizardPage.selectValidRedirectUrlAndAffinityGroup(Organisation)

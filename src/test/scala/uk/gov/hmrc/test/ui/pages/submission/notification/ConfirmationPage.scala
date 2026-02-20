@@ -21,9 +21,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
-import uk.gov.hmrc.test.ui.support.SubmitButtonSupport
+import uk.gov.hmrc.test.ui.support.ButtonSupport
 
-object ConfirmationPage extends BasePage with SubmitButtonSupport{
+object ConfirmationPage extends BasePage with ButtonSupport {
   override val pageUrl: String   =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/confirmation"
   override val pageTitle: String =

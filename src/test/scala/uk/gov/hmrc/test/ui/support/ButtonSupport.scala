@@ -21,10 +21,13 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
-trait SubmitButtonSupport {
+trait ButtonSupport {
 
   this: BasePage =>
   def submitButton: By = By.id("submit")
+  def skipButton: By   = By.id("skip")
 
   def clickSubmitButton(): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(submitButton)).click()
+
+  def clickSkipButton(): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(skipButton)).click()
 }
