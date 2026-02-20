@@ -22,7 +22,7 @@ import uk.gov.hmrc.test.ui.adt.PageSectionStatus.Completed
 import uk.gov.hmrc.test.ui.adt.{FirstContact, SecondContact}
 import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
-import uk.gov.hmrc.test.ui.pages.registration.{ContactDetailsPage, FeatureTogglePage, GrsStubPage, RegistrationPage}
+import uk.gov.hmrc.test.ui.pages.registration.*
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.assertOnPage
@@ -34,8 +34,7 @@ class ContactDetailsSpec extends BaseSpec {
     Scenario(
       "Complete first contact details",
       RegistrationUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("a user successfully adds company details from the registration page")
       FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)

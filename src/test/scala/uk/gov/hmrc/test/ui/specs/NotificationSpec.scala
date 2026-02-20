@@ -152,7 +152,7 @@ class NotificationSpec extends BaseSpec {
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
       When("pressing the change link and updating the provided additional information")
-      clickElement(CheckYourAnswersPage.additionalInformationChangeLink)
+      CheckYourAnswersPage.clickAdditionalInformationChangeLink()
       assertOnPage(AdditionalInformationPage.changePageUrl)
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "New Test For Changed Text")
 
@@ -177,7 +177,7 @@ class NotificationSpec extends BaseSpec {
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
       When("pressing the change link and updating the provided additional information")
-      clickElement(CheckYourAnswersPage.additionalInformationChangeLink)
+      CheckYourAnswersPage.clickAdditionalInformationChangeLink()
       assertOnPage(AdditionalInformationPage.changePageUrl)
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "New Test For Changed Text")
 
@@ -202,7 +202,7 @@ class NotificationSpec extends BaseSpec {
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
       When("pressing the change link and clearing the existing additional information")
-      clickElement(CheckYourAnswersPage.additionalInformationChangeLink)
+      CheckYourAnswersPage.clickAdditionalInformationChangeLink()
       assertOnPage(AdditionalInformationPage.changePageUrl)
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "")
 
