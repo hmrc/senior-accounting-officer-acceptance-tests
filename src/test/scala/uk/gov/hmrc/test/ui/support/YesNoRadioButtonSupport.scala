@@ -20,7 +20,7 @@ import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.clickRadioButton
 
-trait RadioButtonSupport {
+trait YesNoRadioButtonSupport {
 
   this: BasePage =>
   def yesRadioButton: By = By.cssSelector("#value")
