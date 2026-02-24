@@ -41,16 +41,16 @@ class NotificationSpec extends BaseSpec {
 
       When("additional information is added")
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
-      AdditionalInformationPage.clickSubmitButton()
+      AdditionalInformationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
       And("the user confirms their answers by clicking 'Continue'")
-      CheckYourAnswersPage.clickSubmitButton()
+      CheckYourAnswersPage.clickSubmissionButton()
       assertOnPage(SubmitPage)
 
       And("submits the notification")
-      SubmitPage.clickSubmitButton()
+      SubmitPage.clickSubmissionButton()
       assertOnPage(ConfirmationPage)
 
       Then("the given notification reference number is successfully returned")
@@ -66,7 +66,7 @@ class NotificationSpec extends BaseSpec {
       goToAdditionalInformationPageFromHub()
 
       When("pressing continue without providing additional information")
-      AdditionalInformationPage.clickSubmitButton()
+      AdditionalInformationPage.clickSubmissionButton()
       assertPageWithError(AdditionalInformationPage)
 
       Then("an error appears on screen")
@@ -76,7 +76,7 @@ class NotificationSpec extends BaseSpec {
         "on continuing after adding additional information the text added is displayed on the 'Check Your Answers' page"
       )
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
-      AdditionalInformationPage.clickSubmitButton()
+      AdditionalInformationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
     }
@@ -90,7 +90,7 @@ class NotificationSpec extends BaseSpec {
       goToAdditionalInformationPageFromHub()
 
       When("pressing 'Continue' without providing additional information")
-      AdditionalInformationPage.clickSubmitButton()
+      AdditionalInformationPage.clickSubmissionButton()
       assertPageWithError(AdditionalInformationPage)
 
       Then("an error appears on screen")
@@ -147,7 +147,7 @@ class NotificationSpec extends BaseSpec {
       )
       goToAdditionalInformationPageFromHub()
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
-      AdditionalInformationPage.clickSubmitButton()
+      AdditionalInformationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
@@ -157,7 +157,7 @@ class NotificationSpec extends BaseSpec {
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "New Test For Changed Text")
 
       Then("on pressing 'Continue' the updated text is displayed on the 'Check Your Answers' page")
-      AdditionalInformationPage.clickSubmitButton()
+      AdditionalInformationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "New Test For Changed Text")
     }
@@ -172,7 +172,7 @@ class NotificationSpec extends BaseSpec {
       )
       goToAdditionalInformationPageFromHub()
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
-      AdditionalInformationPage.clickSubmitButton()
+      AdditionalInformationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
@@ -197,7 +197,7 @@ class NotificationSpec extends BaseSpec {
       )
       goToAdditionalInformationPageFromHub()
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
-      AdditionalInformationPage.clickSubmitButton()
+      AdditionalInformationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
@@ -207,7 +207,7 @@ class NotificationSpec extends BaseSpec {
       sendKeys(AdditionalInformationPage.additionalInformationTextBox, "")
 
       Then("on pressing 'Continue' an error appears on screen")
-      AdditionalInformationPage.clickSubmitButton()
+      AdditionalInformationPage.clickSubmissionButton()
       assertTextOnPage(AdditionalInformationPage.errorTitle, "There is a problem")
     }
   }
@@ -218,7 +218,7 @@ class NotificationSpec extends BaseSpec {
     assertOnPage(SubmitNotificationStartPage)
     SubmitNotificationStartPage.clickSubmitNotificationLink()
     assertOnPage(GuidancePage)
-    GuidancePage.clickSubmitButton()
+    GuidancePage.clickSubmissionButton()
     assertOnPage(AdditionalInformationPage)
   }
 }

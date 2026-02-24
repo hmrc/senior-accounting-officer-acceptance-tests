@@ -19,9 +19,9 @@ package uk.gov.hmrc.test.ui.pages.submission.certificate
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.support.{ButtonSupport, RadioButtonSupport}
+import uk.gov.hmrc.test.ui.support.{SubmissionButtonSupport, RadioButtonSupport}
 
-object IsThisTheSaoPage extends BasePage with ButtonSupport with RadioButtonSupport {
+object IsThisTheSaoPage extends BasePage with SubmissionButtonSupport with RadioButtonSupport {
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/is-this-the-sao"
 

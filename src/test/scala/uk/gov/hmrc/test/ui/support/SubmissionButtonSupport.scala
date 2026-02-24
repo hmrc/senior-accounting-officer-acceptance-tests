@@ -17,17 +17,13 @@
 package uk.gov.hmrc.test.ui.support
 
 import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
+import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 
-trait ButtonSupport {
+trait SubmissionButtonSupport {
 
   this: BasePage =>
-  def submitButton: By = By.id("submit")
-  def skipButton: By   = By.id("skip")
+  protected def submissionButtonLocator: By = By.id("submit")
 
-  def clickSubmitButton(): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(submitButton)).click()
-
-  def clickSkipButton(): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(skipButton)).click()
+  def clickSubmissionButton(): Unit = clickElement(submissionButtonLocator)
 }

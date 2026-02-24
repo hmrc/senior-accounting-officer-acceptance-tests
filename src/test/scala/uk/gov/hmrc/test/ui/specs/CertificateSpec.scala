@@ -38,41 +38,41 @@ class CertificateSpec extends BaseSpec {
       navigateToCertificateStartPage()
 
       When("the user clicks 'Continue' on the 'Submit Certificate' start page")
-      SubmitCertificateStartPage.clickSubmitButton()
+      SubmitCertificateStartPage.clickSubmissionButton()
 
       Then("the user is taken to the 'Is the given person the named SAO on the Certificate' question page")
       assertOnPage(IsThisTheSaoPage)
 
       When("the user selects the 'No' radio button and clicks 'Continue'")
       IsThisTheSaoPage.clickNoRadioButton()
-      IsThisTheSaoPage.clickSubmitButton()
+      IsThisTheSaoPage.clickSubmissionButton()
 
       Then("the user is taken to the 'SAO Name' page")
       assertOnPage(SaoNamePage)
 
       When("the user enters a valid SAO name and clicks 'Continue'")
       sendKeys(SaoNamePage.saoNameInput, "John Wick")
-      SaoNamePage.clickSubmitButton()
+      SaoNamePage.clickSubmissionButton()
 
       Then("the user is taken to the 'SAO Email' page")
       assertOnPage(SaoEmailPage)
 
       When("the user enters a valid email and clicks 'Continue'")
       sendKeys(SaoEmailPage.saoEmailInput, "JohnWick@test.com")
-      SaoEmailPage.clickSubmitButton()
+      SaoEmailPage.clickSubmissionButton()
 
       Then("the user is taken to the 'SAO Email Communication Choice' page")
       assertOnPage(SaoEmailCommunicationChoicePage)
 
       When("the user selects the 'No' radio button and clicks 'Continue'")
       SaoEmailCommunicationChoicePage.clickNoRadioButton()
-      SaoEmailCommunicationChoicePage.clickSubmitButton()
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
 
       Then("the user is taken to the 'Check Your Answers' page")
       assertOnPage(CertificateCheckYourAnswersPage)
 
       When("the user clicks 'Continue'")
-      CertificateCheckYourAnswersPage.clickSubmitButton()
+      CertificateCheckYourAnswersPage.clickSubmissionButton()
 
       Then("the user is taken to the 'Who is submitting the certificate' question page")
       assertOnPage(SubmitCertificateSubmitterPage)
@@ -81,7 +81,7 @@ class CertificateSpec extends BaseSpec {
       SubmitCertificateSubmitterPage.clickSaoProxySubmitterRadioButton
 
       And("clicks 'Continue'")
-      SubmitCertificateSubmitterPage.clickSubmitButton()
+      SubmitCertificateSubmitterPage.clickSubmissionButton()
 
       Then("the user is taken to the 'Companies with a qualified certificate' page")
       assertOnPage(QualifiedCompaniesPage)
@@ -109,16 +109,16 @@ class CertificateSpec extends BaseSpec {
     ) {
       Given("a user has chosen 'Yes' to select the provided SAO as the named person on the certificate")
       navigateToCertificateStartPage()
-      SubmitCertificateStartPage.clickSubmitButton()
+      SubmitCertificateStartPage.clickSubmissionButton()
       assertOnPage(IsThisTheSaoPage)
       IsThisTheSaoPage.clickYesRadioButton()
-      IsThisTheSaoPage.clickSubmitButton()
+      IsThisTheSaoPage.clickSubmissionButton()
       assertOnPage(SaoEmailPage)
       sendKeys(SaoEmailPage.saoEmailInput, "JohnWick@test.com")
-      SaoEmailPage.clickSubmitButton()
+      SaoEmailPage.clickSubmissionButton()
       assertOnPage(SaoEmailCommunicationChoicePage)
       SaoEmailCommunicationChoicePage.clickNoRadioButton()
-      SaoEmailCommunicationChoicePage.clickSubmitButton()
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
       assertOnPage(CertificateCheckYourAnswersPage)
 
       And("the 'Full name' row is not shown on the 'Check Your Answers' page")
@@ -130,10 +130,10 @@ class CertificateSpec extends BaseSpec {
 
       And("a new name is provided after changing the radio option to 'No'")
       IsThisTheSaoPage.clickNoRadioButton()
-      IsThisTheSaoPage.clickSubmitButton()
+      IsThisTheSaoPage.clickSubmissionButton()
       assertOnPage(SaoNamePage.changePageUrl)
       sendKeys(SaoNamePage.saoNameInput, "Bobby Brown")
-      SaoNamePage.clickSubmitButton()
+      SaoNamePage.clickSubmissionButton()
 
       Then("the 'Check Your Answers' page is displayed with the 'Full name' row displayed with the newly added name")
       assertOnPage(CertificateCheckYourAnswersPage)
@@ -148,19 +148,19 @@ class CertificateSpec extends BaseSpec {
     ) {
       Given("a user has chosen 'No' and selects a new SAO as the named person on the certificate")
       navigateToCertificateStartPage()
-      SubmitCertificateStartPage.clickSubmitButton()
+      SubmitCertificateStartPage.clickSubmissionButton()
       assertOnPage(IsThisTheSaoPage)
       IsThisTheSaoPage.clickNoRadioButton()
-      IsThisTheSaoPage.clickSubmitButton()
+      IsThisTheSaoPage.clickSubmissionButton()
       assertOnPage(SaoNamePage)
       sendKeys(SaoNamePage.saoNameInput, "Richer")
-      SaoNamePage.clickSubmitButton()
+      SaoNamePage.clickSubmissionButton()
       assertOnPage(SaoEmailPage)
       sendKeys(SaoEmailPage.saoEmailInput, "Richer@test.com")
-      SaoEmailPage.clickSubmitButton()
+      SaoEmailPage.clickSubmissionButton()
       assertOnPage(SaoEmailCommunicationChoicePage)
       SaoEmailCommunicationChoicePage.clickNoRadioButton()
-      SaoEmailCommunicationChoicePage.clickSubmitButton()
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
       assertOnPage(CertificateCheckYourAnswersPage)
 
       And("the 'Full name' row is shown on the 'Check Your Answers' page")
@@ -172,7 +172,7 @@ class CertificateSpec extends BaseSpec {
 
       And("changes the radio button to 'Yes'")
       IsThisTheSaoPage.clickYesRadioButton()
-      IsThisTheSaoPage.clickSubmitButton()
+      IsThisTheSaoPage.clickSubmissionButton()
 
       Then("the 'Check Your Answers' page is displayed with the 'Full name' row removed")
       assertOnPage(CertificateCheckYourAnswersPage)
@@ -186,16 +186,16 @@ class CertificateSpec extends BaseSpec {
     ) {
       Given("a user has landed on the 'Check your answers' page")
       navigateToCertificateStartPage()
-      SubmitCertificateStartPage.clickSubmitButton()
+      SubmitCertificateStartPage.clickSubmissionButton()
       assertOnPage(IsThisTheSaoPage)
       IsThisTheSaoPage.clickYesRadioButton()
-      IsThisTheSaoPage.clickSubmitButton()
+      IsThisTheSaoPage.clickSubmissionButton()
       assertOnPage(SaoEmailPage)
       sendKeys(SaoEmailPage.saoEmailInput, "Richer@test.com")
-      SaoEmailPage.clickSubmitButton()
+      SaoEmailPage.clickSubmissionButton()
       assertOnPage(SaoEmailCommunicationChoicePage)
       SaoEmailCommunicationChoicePage.clickYesRadioButton()
-      SaoEmailCommunicationChoicePage.clickSubmitButton()
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
       assertOnPage(CertificateCheckYourAnswersPage)
 
       When("the user clicks the 'Change' link on the 'Email address' row")
@@ -204,7 +204,7 @@ class CertificateSpec extends BaseSpec {
 
       And("changes the email address to another valid value")
       sendKeys(SaoEmailPage.saoEmailInput, "John@test.com")
-      SaoEmailPage.clickSubmitButton()
+      SaoEmailPage.clickSubmissionButton()
 
       Then("the 'Check Your Answers' page is displayed with the new email address")
       assertOnPage(CertificateCheckYourAnswersPage)
@@ -218,19 +218,19 @@ class CertificateSpec extends BaseSpec {
     ) {
       Given("a user has landed on the 'Check your answers' page")
       navigateToCertificateStartPage()
-      SubmitCertificateStartPage.clickSubmitButton()
+      SubmitCertificateStartPage.clickSubmissionButton()
       assertOnPage(IsThisTheSaoPage)
       IsThisTheSaoPage.clickNoRadioButton()
-      IsThisTheSaoPage.clickSubmitButton()
+      IsThisTheSaoPage.clickSubmissionButton()
       assertOnPage(SaoNamePage)
       sendKeys(SaoNamePage.saoNameInput, "Richer")
-      SaoNamePage.clickSubmitButton()
+      SaoNamePage.clickSubmissionButton()
       assertOnPage(SaoEmailPage)
       sendKeys(SaoEmailPage.saoEmailInput, "Richer@test.com")
-      SaoEmailPage.clickSubmitButton()
+      SaoEmailPage.clickSubmissionButton()
       assertOnPage(SaoEmailCommunicationChoicePage)
       SaoEmailCommunicationChoicePage.clickYesRadioButton()
-      SaoEmailCommunicationChoicePage.clickSubmitButton()
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
       assertOnPage(CertificateCheckYourAnswersPage)
 
       When("the user clicks the 'Change' link on the 'Is given person the named SAO on the certificate' row")
@@ -238,11 +238,11 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(IsThisTheSaoPage.changePageUrl)
 
       And("the user makes no changes and clicks 'Continue'")
-      IsThisTheSaoPage.clickSubmitButton()
+      IsThisTheSaoPage.clickSubmissionButton()
 
       When("the user lands on the 'sao name' page, makes no changes and clicks 'Continue'")
       assertOnPage(SaoNamePage.changePageUrl)
-      SaoNamePage.clickSubmitButton()
+      SaoNamePage.clickSubmissionButton()
 
       Then(
         "the 'Check Your Answers' page is displayed with the value in the 'Is given person the named SAO on the certificate' row unchanged"
@@ -255,7 +255,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(SaoNamePage.changePageUrl)
 
       And("the user makes no changes and clicks 'Continue'")
-      SaoNamePage.clickSubmitButton()
+      SaoNamePage.clickSubmissionButton()
 
       Then(
         "the 'Check Your Answers' page is displayed with the value in the 'Full name' row unchanged"
@@ -268,7 +268,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(SaoEmailPage.changePageUrl)
 
       And("the user makes no changes and clicks 'Continue'")
-      SaoEmailPage.clickSubmitButton()
+      SaoEmailPage.clickSubmissionButton()
 
       Then(
         "the 'Check Your Answers' page is displayed with the value in the 'Email address' row unchanged"
@@ -281,7 +281,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(SaoEmailCommunicationChoicePage.changePageUrl)
 
       And("the user makes no changes and clicks 'Continue'")
-      SaoEmailCommunicationChoicePage.clickSubmitButton()
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
 
       Then(
         "the 'Check Your Answers' page is displayed with the value in the 'Email communications' row unchanged"
@@ -300,12 +300,12 @@ class CertificateSpec extends BaseSpec {
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
       addNotificationFromHub()
       assertOnPage(SubmitCertificateStartPage)
-      SubmitCertificateStartPage.clickSubmitButton()
+      SubmitCertificateStartPage.clickSubmissionButton()
       assertOnPage(IsThisTheSaoPage)
 
       When("the user selects the 'Yes' radio button and clicks 'Continue'")
       IsThisTheSaoPage.clickYesRadioButton()
-      IsThisTheSaoPage.clickSubmitButton()
+      IsThisTheSaoPage.clickSubmissionButton()
 
       Then("the user lands on the 'SAO Email' page")
       assertOnPage(SaoEmailPage)
@@ -320,57 +320,57 @@ class CertificateSpec extends BaseSpec {
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
       addNotificationFromHub()
       assertOnPage(SubmitCertificateStartPage)
-      SubmitCertificateStartPage.clickSubmitButton()
+      SubmitCertificateStartPage.clickSubmissionButton()
       assertOnPage(IsThisTheSaoPage)
 
       When("the user clicks 'Continue' without selecting a radio option")
-      IsThisTheSaoPage.clickSubmitButton()
+      IsThisTheSaoPage.clickSubmissionButton()
 
       Then("an error is shown")
       assertTextOnPage(IsThisTheSaoPage.errorTitle, "There is a problem")
 
       When("the user selects the 'No' radio button and clicks 'Continue'")
       IsThisTheSaoPage.clickNoRadioButton()
-      IsThisTheSaoPage.clickSubmitButton()
+      IsThisTheSaoPage.clickSubmissionButton()
 
       Then("the user is taken to the 'SAO Name' page")
       assertOnPage(SaoNamePage)
 
       When("the user clicks 'Continue' without entering an SAO name")
-      SaoNamePage.clickSubmitButton()
+      SaoNamePage.clickSubmissionButton()
 
       Then("an error is shown")
       assertTextOnPage(SaoNamePage.errorTitle, "There is a problem")
 
       When("the user enters a valid name and clicks 'Continue'")
       sendKeys(SaoNamePage.saoNameInput, "John Wick")
-      SaoNamePage.clickSubmitButton()
+      SaoNamePage.clickSubmissionButton()
 
       Then("the user is taken to the 'SAO Email' page")
       assertOnPage(SaoEmailPage)
 
       When("the user clicks 'Continue' without entering an SAO email")
-      SaoEmailPage.clickSubmitButton()
+      SaoEmailPage.clickSubmissionButton()
 
       Then("an error is shown")
       assertTextOnPage(SaoEmailPage.errorTitle, "There is a problem")
 
       When("the user enters a valid email and clicks 'Continue'")
       sendKeys(SaoEmailPage.saoEmailInput, "JohnWick@test.com")
-      SaoEmailPage.clickSubmitButton()
+      SaoEmailPage.clickSubmissionButton()
 
       Then("the user is taken to the 'SAO Email Communication Choice' page")
       assertOnPage(SaoEmailCommunicationChoicePage)
 
       When("the user clicks 'Continue' without selecting a radio option")
-      SaoEmailCommunicationChoicePage.clickSubmitButton()
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
 
       Then("an error is shown")
       assertTextOnPage(SaoEmailCommunicationChoicePage.errorTitle, "There is a problem")
 
       When("the user selects the 'No' radio button and clicks 'Continue'")
       SaoEmailCommunicationChoicePage.clickNoRadioButton()
-      SaoEmailCommunicationChoicePage.clickSubmitButton()
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
 
       Then("the user is taken to the 'Check Your Answers' page")
       assertOnPage(CertificateCheckYourAnswersPage)
@@ -381,24 +381,24 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user removes the existing email and clicks continue, an error is shown")
       sendKeys(SaoEmailPage.saoEmailInput, "")
-      SaoEmailPage.clickSubmitButton()
+      SaoEmailPage.clickSubmissionButton()
       assertTextOnPage(SaoEmailPage.errorTitle, "There is a problem")
 
       When("the user enters a valid email and clicks 'Continue'")
       sendKeys(SaoEmailPage.saoEmailInput, "Phil@test.com")
-      SaoEmailPage.clickSubmitButton()
+      SaoEmailPage.clickSubmissionButton()
 
       Then("the user is taken to the 'Check Your Answers' page")
       assertOnPage(CertificateCheckYourAnswersPage)
 
       When("the user clicks 'Continue'")
-      CertificateCheckYourAnswersPage.clickSubmitButton()
+      CertificateCheckYourAnswersPage.clickSubmissionButton()
 
       Then("the user is taken to the 'Who is submitting the certificate' question page")
       assertOnPage(SubmitCertificateSubmitterPage)
 
       When("the user clicks 'Continue' without selecting a radio option")
-      SubmitCertificateSubmitterPage.clickSubmitButton()
+      SubmitCertificateSubmitterPage.clickSubmissionButton()
 
       Then("an error is shown")
       assertTextOnPage(SubmitCertificateSubmitterPage.errorTitle, "There is a problem")
@@ -407,7 +407,7 @@ class CertificateSpec extends BaseSpec {
       SubmitCertificateSubmitterPage.clickSaoProxySubmitterRadioButton
 
       And("clicks 'Continue'")
-      SubmitCertificateSubmitterPage.clickSubmitButton()
+      SubmitCertificateSubmitterPage.clickSubmissionButton()
 
       Then("the user is taken to the 'Companies with a qualified certificate' page")
       assertOnPage(QualifiedCompaniesPage)
@@ -434,15 +434,15 @@ class CertificateSpec extends BaseSpec {
     assertOnPage(SubmitNotificationStartPage)
     SubmitNotificationStartPage.clickSubmitNotificationLink()
     assertOnPage(GuidancePage)
-    GuidancePage.clickSubmitButton()
+    GuidancePage.clickSubmissionButton()
     assertOnPage(AdditionalInformationPage)
     AdditionalInformationPage.clickSkipButton()
     assertOnPage(NotificationCheckYourAnswersPage)
-    NotificationCheckYourAnswersPage.clickSubmitButton()
+    NotificationCheckYourAnswersPage.clickSubmissionButton()
     assertOnPage(SubmitPage)
-    SubmitPage.clickSubmitButton()
+    SubmitPage.clickSubmissionButton()
     assertOnPage(ConfirmationPage)
     ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
-    ConfirmationPage.clickSubmitButton()
+    ConfirmationPage.clickSubmissionButton()
   }
 }
