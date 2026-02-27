@@ -17,10 +17,9 @@
 package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.support.AffinityGroup
-import uk.gov.hmrc.test.ui.support.PageSupport.{fluentWait, selectDropdownById}
+import uk.gov.hmrc.test.ui.support.PageSupport.selectDropdownById
 
 object AuthorityWizardPage extends BasePage {
   override val pageUrl: String = TestConfiguration.url("auth-login-stub")
@@ -32,11 +31,6 @@ object AuthorityWizardPage extends BasePage {
 
   private val redirectUrl: String    = baseRegUrl
   private val redirectHubUrl: String = TestConfiguration.url("senior-accounting-officer-hub-frontend")
-
-  private def loadPage(): Unit = {
-    navigateTo(pageUrl)
-    fluentWait.until(ExpectedConditions.urlToBe(pageUrl))
-  }
 
   private def selectAffinityGroup(affinityGroup: AffinityGroup): Unit =
     selectDropdownById(affinityGroupById).selectByVisibleText(affinityGroup.toString)

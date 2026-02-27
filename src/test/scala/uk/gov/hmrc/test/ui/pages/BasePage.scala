@@ -24,6 +24,7 @@ import uk.gov.hmrc.test.ui.driver.BrowserDriver
 import uk.gov.hmrc.test.ui.support.IdGenerators
 
 import java.time.Duration
+import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
 trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageObject {
   def pageUrl: String
@@ -32,6 +33,11 @@ trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageOb
   def baseRegUrl: String     = TestConfiguration.url("senior-accounting-officer-registration-frontend")
 
   def navigateTo(url: String): Unit = driver.navigate().to(url)
+
+  def loadPage(): Unit = {
+    navigateTo(pageUrl)
+    fluentWait.until(ExpectedConditions.urlToBe(pageUrl))
+  }
 
   protected def waitFor = new WebDriverWait(driver, Duration.ofSeconds(2))
 }
