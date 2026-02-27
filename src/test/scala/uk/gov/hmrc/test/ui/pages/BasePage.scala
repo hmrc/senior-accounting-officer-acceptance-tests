@@ -32,11 +32,9 @@ trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageOb
   def pageErrorTitle: String = s"Error: $pageTitle"
   def baseRegUrl: String     = TestConfiguration.url("senior-accounting-officer-registration-frontend")
 
-  def navigateTo(url: String): Unit = driver.navigate().to(url)
-
-  def loadPage(): Unit = {
-    navigateTo(pageUrl)
-    fluentWait.until(ExpectedConditions.urlToBe(pageUrl))
+  def loadPage(url: String = pageUrl): Unit = {
+    driver.navigate().to(url)
+    fluentWait.until(ExpectedConditions.urlToBe(url))
   }
 
   protected def waitFor = new WebDriverWait(driver, Duration.ofSeconds(2))

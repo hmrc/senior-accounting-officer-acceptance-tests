@@ -17,10 +17,8 @@
 package uk.gov.hmrc.test.ui.pages.grs
 
 import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
 object LimitedCompanyStubConfigurationPage extends BasePage {
   override val pageUrl: String = TestConfiguration.url("incorporated-entity-identification-frontend")
@@ -31,7 +29,7 @@ object LimitedCompanyStubConfigurationPage extends BasePage {
   private val submitButton: By               = By.xpath("//button[@type='submit']")
 
   def setStubbedDependencies(): Unit = {
-    goToPage()
+    loadPage(featureEnableUrl)
     setCompaniesHouseStubCheckbox(checked = true)
     click(submitButton)
   }
@@ -42,8 +40,4 @@ object LimitedCompanyStubConfigurationPage extends BasePage {
     if (checkbox.isSelected != checked) checkbox.click()
   }
 
-  def goToPage(): Unit = {
-    navigateTo(featureEnableUrl)
-    fluentWait.until(ExpectedConditions.urlToBe(featureEnableUrl))
-  }
 }
