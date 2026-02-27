@@ -24,8 +24,8 @@ import java.lang
 import java.time.Duration
 
 object PageSupport extends BasePage {
-  override val pageUrl: String   = ???
-  override val pageTitle: String = ???
+  override val pageUrl: String   = ""
+  override val pageTitle: String = ""
 
   val backLink: By       = By.cssSelector(".govuk-back-link")
   val continueButton: By = By.id("continue")
