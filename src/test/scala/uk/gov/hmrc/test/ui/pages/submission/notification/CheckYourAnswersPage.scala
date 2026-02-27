@@ -19,8 +19,10 @@ package uk.gov.hmrc.test.ui.pages.submission.notification
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
+import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
+import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 
-object CheckYourAnswersPage extends BasePage {
+object CheckYourAnswersPage extends BasePage with SubmissionButtonSupport {
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/check-your-answers"
 
@@ -29,4 +31,6 @@ object CheckYourAnswersPage extends BasePage {
 
   val additionalInformationValueElement: By = By.cssSelector(".govuk-summary-list__value")
   val additionalInformationChangeLink: By   = By.cssSelector("""[data-test-id="change-additional-information-link"]""")
+
+  def clickAdditionalInformationChangeLink(): Unit = clickElement(additionalInformationChangeLink)
 }

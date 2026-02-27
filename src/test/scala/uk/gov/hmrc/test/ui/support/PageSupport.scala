@@ -27,7 +27,6 @@ object PageSupport extends BasePage {
   def pageUrl: String    = ""
   def pageTitle: String  = ""
   val backLink: By       = By.cssSelector(".govuk-back-link")
-  val submitButton: By   = By.id("submit")
   val continueButton: By = By.id("continue")
 
   def fluentWait: Wait[WebDriver] = new FluentWait[WebDriver](driver)
@@ -38,8 +37,6 @@ object PageSupport extends BasePage {
 
   def clickOnBackLink(): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(backLink)).click()
 
-  def clickSubmitButton(): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(submitButton)).click()
-
   def clickContinueButton(): Unit =
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(continueButton)).click()
 
@@ -47,7 +44,7 @@ object PageSupport extends BasePage {
 
   def clickElement(locator: By): Unit = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(locator)).click()
 
-  def clickRadioElement(locator: By): Unit =
+  def clickRadioButton(locator: By): Unit =
     fluentWait.until(ExpectedConditions.presenceOfElementLocated(locator)).click()
 
   def assertTextOnPage(locator: By, text: String): Unit = {

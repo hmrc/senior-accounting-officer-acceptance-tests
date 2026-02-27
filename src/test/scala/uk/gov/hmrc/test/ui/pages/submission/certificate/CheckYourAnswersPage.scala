@@ -19,8 +19,10 @@ package uk.gov.hmrc.test.ui.pages.submission.certificate
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
+import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
+import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 
-object CheckYourAnswersPage extends BasePage {
+object CheckYourAnswersPage extends BasePage with SubmissionButtonSupport {
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/check-your-answers"
 
@@ -39,4 +41,9 @@ object CheckYourAnswersPage extends BasePage {
   val emailCommunicationChoiceKey: By        = By.cssSelector("""[data-test-id="email-communication-key"]""")
   val emailCommunicationChoiceValue: By      = By.cssSelector("""[data-test-id="email-communication-value"]""")
   val emailCommunicationChoiceChangeLink: By = By.cssSelector("""[data-test-id="email-communication-change-link"]""")
+
+  def clickIsThisTheSaoChangeLink(): Unit             = clickElement(isThisTheSaoChangeLink)
+  def clickFullNameChangeLink(): Unit                 = clickElement(fullNameChangeLink)
+  def clickEmailAddressChangeLink(): Unit             = clickElement(emailAddressChangeLink)
+  def clickEmailCommunicationChoiceChangeLink(): Unit = clickElement(emailCommunicationChoiceChangeLink)
 }

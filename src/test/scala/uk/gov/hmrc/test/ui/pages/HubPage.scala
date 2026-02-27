@@ -18,6 +18,7 @@ package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
+import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 
 object HubPage extends BasePage {
   override val pageUrl: String   = TestConfiguration.url("senior-accounting-officer-hub-frontend")
@@ -25,4 +26,7 @@ object HubPage extends BasePage {
     "Senior Accounting Officer notification and certificate - Senior Accounting Officer notification and certificate - site.govuk"
   val submitNotificationLink: By = By.cssSelector("#section-submit-notification-link a")
   val submitCertificateLink: By  = By.cssSelector("#section-submit-certificate-link a")
+
+  def clickSubmitNotificationLink(): Unit = clickElement(submitNotificationLink)
+  def clickSubmitCertificateLink(): Unit  = clickElement(submitCertificateLink)
 }

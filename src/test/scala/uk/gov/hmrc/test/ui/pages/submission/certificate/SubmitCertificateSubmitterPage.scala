@@ -19,8 +19,10 @@ package uk.gov.hmrc.test.ui.pages.submission.certificate
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
+import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
+import uk.gov.hmrc.test.ui.support.PageSupport.clickRadioButton
 
-object SubmitCertificateSubmitterPage extends BasePage {
+object SubmitCertificateSubmitterPage extends BasePage with SubmissionButtonSupport {
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/submit-certificate-submitter"
 
@@ -30,4 +32,7 @@ object SubmitCertificateSubmitterPage extends BasePage {
   val saoSubmitterRadio: By      = By.cssSelector("#value_0")
   val saoProxySubmitterRadio: By = By.cssSelector("#value_1")
   val errorTitle: By             = By.cssSelector(".govuk-error-summary__title")
+
+  def clickSaoSubmitterRadioButton      = clickRadioButton(saoSubmitterRadio)
+  def clickSaoProxySubmitterRadioButton = clickRadioButton(saoProxySubmitterRadio)
 }

@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages.submission.notification
+package uk.gov.hmrc.test.ui.support
 
-import uk.gov.hmrc.test.ui.conf.TestConfiguration
+import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
+import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 
-object GuidancePage extends BasePage with SubmissionButtonSupport {
-  override val pageUrl: String   =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/guidance"
-  override val pageTitle: String =
-    "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
+trait SubmissionButtonSupport {
+
+  this: BasePage =>
+  protected def submissionButtonLocator: By = By.id("submit")
+
+  def clickSubmissionButton(): Unit = clickElement(submissionButtonLocator)
 }
