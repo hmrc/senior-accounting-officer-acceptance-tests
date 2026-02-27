@@ -26,8 +26,8 @@ enum GrsHost(val isStubGrsChecked: Boolean) {
 }
 
 object FeatureTogglePage extends BasePage with SubmissionButtonSupport {
-  val pageTitle: String        = ""
-  override val pageUrl: String = s"$baseRegUrl/test-only/feature-toggle"
+  override val pageUrl: String   = s"${RegistrationPage.pageUrl}/test-only/feature-toggle"
+  override val pageTitle: String = ""
 
   private val stubGrsCheckbox: By = By.id("stubGrs")
 

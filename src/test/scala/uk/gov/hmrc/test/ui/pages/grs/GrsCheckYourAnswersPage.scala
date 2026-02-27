@@ -23,8 +23,9 @@ import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.{clickContinueButton, fluentWait}
 
 object GrsCheckYourAnswersPage extends BasePage {
-  override val pageUrl: String         = baseRegUrl
-  val pageTitle: String                = ""
+  override val pageUrl: String   = ""
+  override val pageTitle: String = ""
+
   val grsCompanyDetailsPageUrl: String = TestConfiguration.url("incorporated-entity-identification-frontend")
 
   private val companyReferenceNumber: By  =

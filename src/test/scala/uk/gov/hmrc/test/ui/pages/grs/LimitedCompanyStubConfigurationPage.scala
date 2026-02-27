@@ -21,10 +21,10 @@ import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
 
 object LimitedCompanyStubConfigurationPage extends BasePage {
-  override val pageUrl: String = TestConfiguration.url("incorporated-entity-identification-frontend")
-  val featureEnableUrl: String = s"$pageUrl/test-only/feature-switches"
-  val pageTitle: String        = ""
+  override val pageUrl: String   = TestConfiguration.url("incorporated-entity-identification-frontend")
+  override val pageTitle: String = ""
 
+  val featureEnableUrl: String               = s"$pageUrl/test-only/feature-switches"
   private val companiesHouseStubCheckbox: By = By.id("feature-switch.companies-house-stub")
   private val submitButton: By               = By.xpath("//button[@type='submit']")
 

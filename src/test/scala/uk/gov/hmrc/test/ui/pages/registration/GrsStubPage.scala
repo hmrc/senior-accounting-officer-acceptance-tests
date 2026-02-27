@@ -22,8 +22,9 @@ import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
 object GrsStubPage extends BasePage {
-  override val pageUrl: String       = baseRegUrl
-  val pageTitle: String              = ""
+  override val pageUrl: String   = ""
+  override val pageTitle: String = ""
+
   private val stubResponseButton: By = By.id("submit")
 
   def clickStubResponseButton(): Unit =

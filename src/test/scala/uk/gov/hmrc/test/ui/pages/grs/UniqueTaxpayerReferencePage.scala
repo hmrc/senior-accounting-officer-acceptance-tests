@@ -23,8 +23,9 @@ import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.{clickContinueButton, fluentWait}
 
 object UniqueTaxpayerReferencePage extends BasePage {
-  override val pageUrl: String                    = baseRegUrl
-  val pageTitle: String                           = ""
+  override val pageUrl: String   = ""
+  override val pageTitle: String = ""
+
   val grsCompanyDetailsPageUrl: String            = TestConfiguration.url("incorporated-entity-identification-frontend")
   val validGrsStubUniqueTaxpayerReference: String = "1234567890"
 

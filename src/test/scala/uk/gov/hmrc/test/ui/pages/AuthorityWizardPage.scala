@@ -18,30 +18,28 @@ package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.support.AffinityGroup
-import uk.gov.hmrc.test.ui.support.PageSupport.selectDropdownById
+import uk.gov.hmrc.test.ui.pages.registration.RegistrationPage
+import uk.gov.hmrc.test.ui.support.{AffinityGroup, SubmissionButtonSupport}
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, selectDropdownById}
 
-object AuthorityWizardPage extends BasePage {
-  override val pageUrl: String = TestConfiguration.url("auth-login-stub")
-  val pageTitle: String        = ""
+object AuthorityWizardPage extends BasePage with SubmissionButtonSupport {
+  override val pageUrl: String   = TestConfiguration.url("auth-login-stub")
+  override val pageTitle: String = ""
 
-  private val redirectionUrlById: By = By.id("redirectionUrl")
-  private val affinityGroupById: By  = By.id("affinityGroupSelect")
-  private val authSubmitById: By     = By.id("submit-top")
+  private val redirectionUrlById: By       = By.id("redirectionUrl")
+  private val affinityGroupById: By        = By.id("affinityGroupSelect")
+  override def submissionButtonLocator: By = By.id("submit-top")
 
-  private val redirectUrl: String    = baseRegUrl
   private val redirectHubUrl: String = TestConfiguration.url("senior-accounting-officer-hub-frontend")
 
   private def selectAffinityGroup(affinityGroup: AffinityGroup): Unit =
     selectDropdownById(affinityGroupById).selectByVisibleText(affinityGroup.toString)
 
-  private def submitAuthPage(): Unit = click(authSubmitById)
-
   def selectValidRedirectUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit = {
     loadPage()
-    sendKeys(redirectionUrlById, redirectUrl)
+    sendKeys(redirectionUrlById, RegistrationPage.pageUrl)
     selectAffinityGroup(affinityGroup)
-    submitAuthPage()
+    clickSubmissionButton()
   }
 
   def selectRedirectedUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit =
@@ -51,16 +49,18 @@ object AuthorityWizardPage extends BasePage {
 
   def redirectToRegistration(config: AuthorityWizardConfig): Unit = {
     loadPage()
-    sendKeys(redirectionUrlById, redirectUrl)
+    sendKeys(redirectionUrlById, RegistrationPage.pageUrl)
     selectAffinityGroup(config.affinityGroup)
-    submitAuthPage()
+    clickSubmissionButton()
+    assertOnPage(RegistrationPage.pageUrl)
   }
 
   def redirectToHub(config: AuthorityWizardConfig): Unit = {
     loadPage()
     sendKeys(redirectionUrlById, redirectHubUrl)
     selectAffinityGroup(config.affinityGroup)
-    submitAuthPage()
+    clickSubmissionButton()
+    assertOnPage(redirectHubUrl)
   }
 }
 

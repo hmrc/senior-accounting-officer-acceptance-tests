@@ -26,13 +26,12 @@ import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 import uk.gov.hmrc.test.ui.support.TestDataGenerator
 
 object ContactDetailsPage extends BasePage with TestDataGenerator {
-  override val pageUrl: String   = baseRegUrl
+  override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details"
   override val pageTitle: String = ""
-  private val faker              = new Faker(new java.util.Locale("en-GB"))
 
-  val enterFirstContactEmailAddressPage: String = s"${pageUrl.stripSuffix("/")}/contact-details/first/email"
-  val addAnotherContactPage: String             = s"${pageUrl.stripSuffix("/")}/contact-details/first/add-another"
-  val enterYourContactDetailsLinkUrl: String    = s"${pageUrl.stripSuffix("/")}/contact-details"
+  private val faker                             = new Faker(new java.util.Locale("en-GB"))
+  val enterFirstContactEmailAddressPage: String = s"$pageUrl/first/email"
+  val addAnotherContactPage: String             = s"$pageUrl/first/add-another"
 
   private val continueButton: By               = By.cssSelector("button[type='submit']")
   private val contactNameInput: By             = By.cssSelector("#value")

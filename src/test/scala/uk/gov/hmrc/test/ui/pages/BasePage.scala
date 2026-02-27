@@ -30,7 +30,6 @@ trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageOb
   def pageUrl: String
   def pageTitle: String
   def pageErrorTitle: String = s"Error: $pageTitle"
-  def baseRegUrl: String     = TestConfiguration.url("senior-accounting-officer-registration-frontend")
 
   def loadPage(url: String = pageUrl): Unit = {
     driver.navigate().to(url)
