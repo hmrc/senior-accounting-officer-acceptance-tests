@@ -22,7 +22,7 @@ import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object SaoNamePage extends CommonPage with SubmissionButtonSupport {
-  override val pageUrl: String   =
+  override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/sao-name"
   override val pageTitle: String =
     "Senior Accounting Officer contact details - Senior Accounting Officer notification and certificate - GOV.UK"

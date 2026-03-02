@@ -29,7 +29,7 @@ object AdditionalInformationPage extends CommonPage with SubmissionButtonSupport
   override val pageTitle: String =
     "Notification details - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val changePageUrl: String            =
+  val changePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/change-additional-information"
   val additionalInformationTextBox: By = By.cssSelector(".govuk-textarea")
   val errorTitle: By                   = By.cssSelector(".govuk-error-summary__title")

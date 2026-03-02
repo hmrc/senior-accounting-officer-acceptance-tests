@@ -20,5 +20,5 @@ sealed trait PageError
 
 object ContactDetailsPageError extends PageError {
   case object MissingContactDetails extends PageError
-  case object MissingEmailAddress extends PageError
+  case object MissingEmailAddress   extends PageError
 }

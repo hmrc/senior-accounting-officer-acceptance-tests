@@ -22,7 +22,7 @@ import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 enum GrsHost(val isStubGrsChecked: Boolean) {
   case GrsStubOnRegistrationFrontEnd extends GrsHost(isStubGrsChecked = true)
-  case GrsMicroservice extends GrsHost(isStubGrsChecked = false)
+  case GrsMicroservice               extends GrsHost(isStubGrsChecked = false)
 }
 
 object FeatureTogglePage extends CommonPage with SubmissionButtonSupport {
@@ -39,7 +39,7 @@ object FeatureTogglePage extends CommonPage with SubmissionButtonSupport {
 
   def setStubGrs(isChecked: Boolean): Unit = {
     val checkboxElement = driver.findElement(stubGrsCheckbox)
-    if (checkboxElement.isSelected != isChecked) {
+    if checkboxElement.isSelected != isChecked then {
       checkboxElement.click()
     }
   }

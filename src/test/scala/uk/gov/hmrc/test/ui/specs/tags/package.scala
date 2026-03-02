@@ -19,8 +19,8 @@ package uk.gov.hmrc.test.ui.specs
 import org.scalatest.Tag
 
 package object tags {
-  object ZapTests extends Tag("ZapTests")
-  object SubmissionUITests extends Tag("SubmissionUITests")
-  object SoloTests extends Tag("SoloTests")
+  object ZapTests            extends Tag("ZapTests")
+  object SubmissionUITests   extends Tag("SubmissionUITests")
+  object SoloTests           extends Tag("SoloTests")
   object RegistrationUITests extends Tag("RegistrationUITests")
 }

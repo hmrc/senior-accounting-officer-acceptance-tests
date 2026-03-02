@@ -24,7 +24,7 @@ import uk.gov.hmrc.test.ui.support.PageSupport.clickContinueButton
 
 object CompanyRegistrationNumberPage extends BasePage {
 
-  val grsCompanyDetailsPageUrl: String              = TestConfiguration.url("incorporated-entity-identification-frontend")
+  val grsCompanyDetailsPageUrl: String = TestConfiguration.url("incorporated-entity-identification-frontend")
   val validGrsStubCompanyRegistrationNumber: String = "AB123456"
 
   val companyRegistrationNumberTextBox: By = By.id("companyNumber")
