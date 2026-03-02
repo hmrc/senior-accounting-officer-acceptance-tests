@@ -31,9 +31,6 @@ trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageOb
     .withTimeout(Duration.ofSeconds(5))
     .pollingEvery(Duration.ofMillis(200))
 
-  def pageTitle: String
-  def pageErrorTitle: String = s"Error: $pageTitle"
-
   protected def navigateTo(url: String): lang.Boolean = {
     driver.navigate().to(url)
     fluentWait.until(ExpectedConditions.urlToBe(url))

@@ -17,6 +17,11 @@
 package uk.gov.hmrc.test.ui.pages
 
 trait CommonPage extends BasePage {
+
+  def pageTitle: String
+
+  def pageErrorTitle: String = s"Error: $pageTitle"
+
   def pageUrl: String
 
   def loadPage(): Unit = navigateTo(pageUrl)

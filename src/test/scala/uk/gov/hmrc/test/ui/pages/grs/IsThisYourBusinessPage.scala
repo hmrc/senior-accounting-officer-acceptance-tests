@@ -22,7 +22,6 @@ import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.clickContinueButton
 
 object IsThisYourBusinessPage extends BasePage {
-  override val pageTitle: String = ""
 
   val selectYesRadioButton: By = By.id("confirmBusinessName")
 
