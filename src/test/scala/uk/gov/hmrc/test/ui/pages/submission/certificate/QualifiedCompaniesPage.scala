@@ -17,7 +17,7 @@
 package uk.gov.hmrc.test.ui.pages.submission.certificate
 
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.{BasePage, CommonPage}
+import uk.gov.hmrc.test.ui.pages.CommonPage
 
 object QualifiedCompaniesPage extends CommonPage {
   override val pageUrl: String =

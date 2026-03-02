@@ -16,13 +16,12 @@
 
 package uk.gov.hmrc.test.ui.support
 
-import org.openqa.selenium.bidi.Command
 import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait, Select, Wait}
 import org.openqa.selenium.{By, WebDriver}
 import org.scalatest.matchers.must.Matchers
 import uk.gov.hmrc.selenium.component.PageObject
 import uk.gov.hmrc.test.ui.driver.BrowserDriver
-import uk.gov.hmrc.test.ui.pages.{BasePage, CommonPage}
+import uk.gov.hmrc.test.ui.pages.CommonPage
 
 import java.lang
 import java.time.Duration

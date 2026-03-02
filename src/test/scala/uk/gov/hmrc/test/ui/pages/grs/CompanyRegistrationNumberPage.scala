@@ -20,10 +20,9 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.support.PageSupport.{clickContinueButton, fluentWait}
+import uk.gov.hmrc.test.ui.support.PageSupport.clickContinueButton
 
 object CompanyRegistrationNumberPage extends BasePage {
-  override val pageUrl: String   = ""
   override val pageTitle: String = ""
 
   val grsCompanyDetailsPageUrl: String              = TestConfiguration.url("incorporated-entity-identification-frontend")
@@ -31,7 +30,8 @@ object CompanyRegistrationNumberPage extends BasePage {
 
   val companyRegistrationNumberTextBox: By = By.id("companyNumber")
 
-  def verifyGrsCompanyDetailsPageURL(): Unit = waitFor.until(ExpectedConditions.urlContains(grsCompanyDetailsPageUrl))
+  def verifyGrsCompanyDetailsPageURL(): Unit =
+    fluentWait.until(ExpectedConditions.urlContains(grsCompanyDetailsPageUrl))
 
   def enterCrnAndSubmit(): Unit = {
     fluentWait

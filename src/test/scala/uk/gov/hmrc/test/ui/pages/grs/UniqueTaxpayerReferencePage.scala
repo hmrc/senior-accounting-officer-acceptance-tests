@@ -18,15 +18,12 @@ package uk.gov.hmrc.test.ui.pages.grs
 
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
-import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.support.PageSupport.{clickContinueButton, fluentWait}
+import uk.gov.hmrc.test.ui.support.PageSupport.clickContinueButton
 
 object UniqueTaxpayerReferencePage extends BasePage {
-  override val pageUrl: String   = ""
   override val pageTitle: String = ""
 
-  val grsCompanyDetailsPageUrl: String            = TestConfiguration.url("incorporated-entity-identification-frontend")
   val validGrsStubUniqueTaxpayerReference: String = "1234567890"
 
   val corporationTaxUniqueTaxpayerReferenceTextBox: By = By.id("ctutr")

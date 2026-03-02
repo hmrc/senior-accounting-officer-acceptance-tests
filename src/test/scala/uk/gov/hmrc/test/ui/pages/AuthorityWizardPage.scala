@@ -19,8 +19,8 @@ package uk.gov.hmrc.test.ui.pages
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.registration.RegistrationPage
-import uk.gov.hmrc.test.ui.support.{AffinityGroup, SubmissionButtonSupport}
 import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, selectDropdownById}
+import uk.gov.hmrc.test.ui.support.{AffinityGroup, SubmissionButtonSupport}
 
 object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String   = TestConfiguration.url("auth-login-stub")

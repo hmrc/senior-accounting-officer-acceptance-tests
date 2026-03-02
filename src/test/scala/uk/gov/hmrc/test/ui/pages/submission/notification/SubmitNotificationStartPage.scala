@@ -18,7 +18,7 @@ package uk.gov.hmrc.test.ui.pages.submission.notification
 
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.{BasePage, CommonPage}
+import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 
 object SubmitNotificationStartPage extends CommonPage {

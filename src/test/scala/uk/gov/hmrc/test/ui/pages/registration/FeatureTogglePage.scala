@@ -17,7 +17,7 @@
 package uk.gov.hmrc.test.ui.pages.registration
 
 import org.openqa.selenium.By
-import uk.gov.hmrc.test.ui.pages.{BasePage, CommonPage}
+import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 enum GrsHost(val isStubGrsChecked: Boolean) {

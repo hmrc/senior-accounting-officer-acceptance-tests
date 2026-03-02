@@ -18,7 +18,7 @@ package uk.gov.hmrc.test.ui.pages.submission.certificate
 
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.{BasePage, CommonPage}
+import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.{SubmissionButtonSupport, YesNoRadioButtonSupport}
 
 object IsThisTheSaoPage extends CommonPage with SubmissionButtonSupport with YesNoRadioButtonSupport {

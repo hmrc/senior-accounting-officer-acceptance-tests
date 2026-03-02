@@ -21,11 +21,10 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalactic.Prettifier.default
 import uk.gov.hmrc.test.ui.adt.*
-import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
+import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.TestDataGenerator
 
-object ContactDetailsPage extends BasePage with TestDataGenerator {
+object ContactDetailsPage extends CommonPage with TestDataGenerator {
   override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details"
   override val pageTitle: String = ""
 
