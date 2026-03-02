@@ -18,10 +18,10 @@ package uk.gov.hmrc.test.ui.pages.submission.notification
 
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.BasePage
+import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 
-object SubmitNotificationStartPage extends BasePage {
+object SubmitNotificationStartPage extends CommonPage {
   override val pageUrl: String   =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/start"
   override val pageTitle: String =

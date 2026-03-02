@@ -18,14 +18,16 @@ package uk.gov.hmrc.test.ui.support
 
 import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait, Select, Wait}
 import org.openqa.selenium.{By, WebDriver}
-import uk.gov.hmrc.test.ui.pages.BasePage
+import org.scalatest.matchers.must.Matchers
+import uk.gov.hmrc.selenium.component.PageObject
+import uk.gov.hmrc.test.ui.driver.BrowserDriver
+import uk.gov.hmrc.test.ui.pages.CommonPage
 
 import java.lang
 import java.time.Duration
 
-object PageSupport extends BasePage {
-  def pageUrl: String    = ""
-  def pageTitle: String  = ""
+object PageSupport extends BrowserDriver with Matchers with IdGenerators with PageObject {
+
   val backLink: By       = By.cssSelector(".govuk-back-link")
   val continueButton: By = By.id("continue")
 
@@ -52,20 +54,20 @@ object PageSupport extends BasePage {
     text mustBe driver.findElement(locator).getText
   }
 
-  def assertOnPage(url: String = this.pageUrl): Unit = fluentWait.until(ExpectedConditions.urlToBe(url))
+  def assertOnPage(url: String): Unit = fluentWait.until(ExpectedConditions.urlToBe(url))
 
-  def assertPageWithError(page: BasePage): Unit = assertOnPage(page, Some(page.pageErrorTitle))
+  def assertPageWithError(page: CommonPage): Unit = assertOnPage(page, Some(page.pageErrorTitle))
 
   def assertElementNotVisible(locator: By): Unit = {
     val elementNotVisible = fluentWait.until(ExpectedConditions.invisibilityOfElementLocated(locator))
     elementNotVisible mustBe true
   }
 
-  def assertOnPage(page: BasePage, expectedTitle: String): Unit = assertOnPage(page, Some(expectedTitle))
+  def assertOnPage(page: CommonPage, expectedTitle: String): Unit = assertOnPage(page, Some(expectedTitle))
 
-  def assertOnPage(page: BasePage): Unit = assertOnPage(page, None)
+  def assertOnPage(page: CommonPage): Unit = assertOnPage(page, None)
 
-  private def assertOnPage(page: BasePage, titleOverride: Option[String]): Unit = {
+  private def assertOnPage(page: CommonPage, titleOverride: Option[String]): Unit = {
     val expectedTitle = titleOverride.getOrElse(page.pageTitle)
     fluentWait.until(_ => getCurrentUrl == page.pageUrl && getTitle == expectedTitle)
     getCurrentUrl mustBe page.pageUrl

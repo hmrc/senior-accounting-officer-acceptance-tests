@@ -17,21 +17,19 @@
 package uk.gov.hmrc.test.ui.pages.grs
 
 import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
+import uk.gov.hmrc.test.ui.pages.CommonPage
 
-object LimitedCompanyStubConfigurationPage extends BasePage {
-  override val pageUrl: String = TestConfiguration.url("incorporated-entity-identification-frontend")
-  val featureEnableUrl: String = s"$pageUrl/test-only/feature-switches"
-  val pageTitle: String        = ""
+object LimitedCompanyStubConfigurationPage extends CommonPage {
+  override val pageUrl: String   =
+    s"${TestConfiguration.url("incorporated-entity-identification-frontend")}/test-only/feature-switches"
+  override val pageTitle: String = ""
 
   private val companiesHouseStubCheckbox: By = By.id("feature-switch.companies-house-stub")
   private val submitButton: By               = By.xpath("//button[@type='submit']")
 
   def setStubbedDependencies(): Unit = {
-    goToPage()
+    loadPage()
     setCompaniesHouseStubCheckbox(checked = true)
     click(submitButton)
   }
@@ -42,8 +40,4 @@ object LimitedCompanyStubConfigurationPage extends BasePage {
     if (checkbox.isSelected != checked) checkbox.click()
   }
 
-  def goToPage(): Unit = {
-    navigateTo(featureEnableUrl)
-    fluentWait.until(ExpectedConditions.urlToBe(featureEnableUrl))
-  }
 }

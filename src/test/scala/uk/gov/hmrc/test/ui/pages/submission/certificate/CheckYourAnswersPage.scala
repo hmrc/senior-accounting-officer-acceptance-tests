@@ -18,11 +18,11 @@ package uk.gov.hmrc.test.ui.pages.submission.certificate
 
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
+import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
+import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object CheckYourAnswersPage extends BasePage with SubmissionButtonSupport {
+object CheckYourAnswersPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/check-your-answers"
 

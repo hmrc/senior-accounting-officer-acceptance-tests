@@ -21,13 +21,13 @@ import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait}
 import org.scalatest.AppendedClues.convertToClueful
 import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourCompanyDetailsLink
 import uk.gov.hmrc.test.ui.adt.{PageLink, PageSectionStatus, RegistrationPageSection}
-import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
+import uk.gov.hmrc.test.ui.conf.TestConfiguration
+import uk.gov.hmrc.test.ui.pages.CommonPage
 
 import scala.jdk.CollectionConverters.*
 
-object RegistrationPage extends BasePage {
-  override val pageUrl: String   = baseRegUrl
+object RegistrationPage extends CommonPage {
+  override val pageUrl: String   = TestConfiguration.url("senior-accounting-officer-registration-frontend")
   override val pageTitle: String =
     "Register your company - Senior Accounting Officer notification and certificate - GOV.UK"
 
@@ -86,7 +86,7 @@ object RegistrationPage extends BasePage {
       .until(ExpectedConditions.visibilityOfElementLocated(contactDetailsField))
       .findElement(By.tagName("a"))
       .getAttribute("href")
-      .trim mustBe ContactDetailsPage.enterYourContactDetailsLinkUrl
+      .trim mustBe ContactDetailsPage.pageUrl
 
   def clickEnterYourContactDetailsLink(): Unit =
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(contactDetailsField)).click()
