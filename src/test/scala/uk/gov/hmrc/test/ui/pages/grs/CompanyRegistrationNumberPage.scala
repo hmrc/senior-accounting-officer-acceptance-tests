@@ -23,7 +23,6 @@ import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.clickContinueButton
 
 object CompanyRegistrationNumberPage extends BasePage {
-  override val pageTitle: String = ""
 
   val grsCompanyDetailsPageUrl: String              = TestConfiguration.url("incorporated-entity-identification-frontend")
   val validGrsStubCompanyRegistrationNumber: String = "AB123456"

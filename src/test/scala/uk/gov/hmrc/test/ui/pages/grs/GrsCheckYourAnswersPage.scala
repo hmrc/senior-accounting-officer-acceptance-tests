@@ -22,7 +22,6 @@ import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.clickContinueButton
 
 object GrsCheckYourAnswersPage extends BasePage {
-  override val pageTitle: String = ""
 
   private val companyReferenceNumber: By  =
     By.cssSelector("div.govuk-summary-list__row:nth-child(1) .govuk-summary-list__value")

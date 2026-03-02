@@ -21,7 +21,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.pages.BasePage
 
 object GrsStubPage extends BasePage {
-  override val pageTitle: String = ""
 
   private val stubResponseButton: By = By.id("submit")
 
