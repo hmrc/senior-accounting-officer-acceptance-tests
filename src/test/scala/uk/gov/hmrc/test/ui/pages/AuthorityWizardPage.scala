@@ -35,32 +35,20 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
   private def selectAffinityGroup(affinityGroup: AffinityGroup): Unit =
     selectDropdownById(affinityGroupById).selectByVisibleText(affinityGroup.toString)
 
-  def selectValidRedirectUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit = {
-    loadPage()
-    sendKeys(redirectionUrlById, RegistrationPage.pageUrl)
-    selectAffinityGroup(affinityGroup)
-    clickSubmissionButton()
-  }
-
-  def selectRedirectedUrlAndAffinityGroup(affinityGroup: AffinityGroup): Unit =
-    selectValidRedirectUrlAndAffinityGroup(affinityGroup)
-
   def withAffinityGroup(affinityGroup: AffinityGroup): AuthorityWizardConfig = AuthorityWizardConfig(affinityGroup)
 
-  def redirectToRegistration(config: AuthorityWizardConfig): Unit = {
-    loadPage()
-    sendKeys(redirectionUrlById, RegistrationPage.pageUrl)
-    selectAffinityGroup(config.affinityGroup)
-    clickSubmissionButton()
-    assertOnPage(RegistrationPage.pageUrl)
-  }
+  def redirectToRegistration(config: AuthorityWizardConfig): Unit =
+    redirectTo(config, RegistrationPage.pageUrl)
 
-  def redirectToHub(config: AuthorityWizardConfig): Unit = {
+  def redirectToHub(config: AuthorityWizardConfig): Unit =
+    redirectTo(config, redirectHubUrl)
+
+  private def redirectTo(config: AuthorityWizardConfig, url: String): Unit = {
     loadPage()
-    sendKeys(redirectionUrlById, redirectHubUrl)
+    sendKeys(redirectionUrlById, url)
     selectAffinityGroup(config.affinityGroup)
     clickSubmissionButton()
-    assertOnPage(redirectHubUrl)
+    assertOnPage(url)
   }
 }
 
