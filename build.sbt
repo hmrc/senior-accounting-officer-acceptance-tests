@@ -6,3 +6,12 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Dependencies.test,
     (Compile / compile) := ((Compile / compile) dependsOn (Compile / scalafmtSbtCheck, Compile / scalafmtCheckAll)).value
   )
+  .settings(scalafixSettings *)
+
+val scalafixSettings: Seq[Setting[?]] = Seq(
+    semanticdbEnabled := true, // enable SemanticDB
+    scalacOptions += {
+        "-Wall"
+    }
+)
+addCommandAlias("lint", "scalafixAll;scalafmtAll")
