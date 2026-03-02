@@ -26,14 +26,15 @@ import java.time.Duration
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
 trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageObject {
-  def pageUrl: String
+//  def pageUrl: String
   def pageTitle: String
   def pageErrorTitle: String = s"Error: $pageTitle"
 
-  def loadPage(url: String = pageUrl): Unit = {
-    driver.navigate().to(url)
-    fluentWait.until(ExpectedConditions.urlToBe(url))
-  }
+//  def loadPage(url: String = pageUrl): Unit = {
+//    driver.navigate().to(url)
+//    fluentWait.until(ExpectedConditions.urlToBe(url))
+//  }
 
   protected def waitFor = new WebDriverWait(driver, Duration.ofSeconds(2))
+
 }

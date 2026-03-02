@@ -16,12 +16,13 @@
 
 package uk.gov.hmrc.test.ui.support
 
+import org.openqa.selenium.bidi.Command
 import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait, Select, Wait}
 import org.openqa.selenium.{By, WebDriver}
 import org.scalatest.matchers.must.Matchers
 import uk.gov.hmrc.selenium.component.PageObject
 import uk.gov.hmrc.test.ui.driver.BrowserDriver
-import uk.gov.hmrc.test.ui.pages.BasePage
+import uk.gov.hmrc.test.ui.pages.{BasePage, CommonPage}
 
 import java.lang
 import java.time.Duration
@@ -56,18 +57,18 @@ object PageSupport extends BrowserDriver with Matchers with IdGenerators with Pa
 
   def assertOnPage(url: String): Unit = fluentWait.until(ExpectedConditions.urlToBe(url))
 
-  def assertPageWithError(page: BasePage): Unit = assertOnPage(page, Some(page.pageErrorTitle))
+  def assertPageWithError(page: CommonPage): Unit = assertOnPage(page, Some(page.pageErrorTitle))
 
   def assertElementNotVisible(locator: By): Unit = {
     val elementNotVisible = fluentWait.until(ExpectedConditions.invisibilityOfElementLocated(locator))
     elementNotVisible mustBe true
   }
 
-  def assertOnPage(page: BasePage, expectedTitle: String): Unit = assertOnPage(page, Some(expectedTitle))
+  def assertOnPage(page: CommonPage, expectedTitle: String): Unit = assertOnPage(page, Some(expectedTitle))
 
-  def assertOnPage(page: BasePage): Unit = assertOnPage(page, None)
+  def assertOnPage(page: CommonPage): Unit = assertOnPage(page, None)
 
-  private def assertOnPage(page: BasePage, titleOverride: Option[String]): Unit = {
+  private def assertOnPage(page: CommonPage, titleOverride: Option[String]): Unit = {
     val expectedTitle = titleOverride.getOrElse(page.pageTitle)
     fluentWait.until(_ => getCurrentUrl == page.pageUrl && getTitle == expectedTitle)
     getCurrentUrl mustBe page.pageUrl

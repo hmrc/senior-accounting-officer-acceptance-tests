@@ -22,12 +22,12 @@ import org.scalatest.AppendedClues.convertToClueful
 import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourCompanyDetailsLink
 import uk.gov.hmrc.test.ui.adt.{PageLink, PageSectionStatus, RegistrationPageSection}
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.BasePage
+import uk.gov.hmrc.test.ui.pages.{BasePage, CommonPage}
 import uk.gov.hmrc.test.ui.support.PageSupport.fluentWait
 
 import scala.jdk.CollectionConverters.*
 
-object RegistrationPage extends BasePage {
+object RegistrationPage extends CommonPage {
   override val pageUrl: String   = TestConfiguration.url("senior-accounting-officer-registration-frontend")
   override val pageTitle: String =
     "Register your company - Senior Accounting Officer notification and certificate - GOV.UK"

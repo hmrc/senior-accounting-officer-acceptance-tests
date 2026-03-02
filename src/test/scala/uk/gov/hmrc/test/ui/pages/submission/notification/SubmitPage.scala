@@ -17,10 +17,10 @@
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.BasePage
+import uk.gov.hmrc.test.ui.pages.{BasePage, CommonPage}
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object SubmitPage extends BasePage with SubmissionButtonSupport {
+object SubmitPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String   =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/submit"
   override val pageTitle: String =

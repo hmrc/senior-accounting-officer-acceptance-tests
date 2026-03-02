@@ -29,7 +29,7 @@ object LimitedCompanyStubConfigurationPage extends BasePage {
   private val submitButton: By               = By.xpath("//button[@type='submit']")
 
   def setStubbedDependencies(): Unit = {
-    loadPage(featureEnableUrl)
+    navigateTo(featureEnableUrl)
     setCompaniesHouseStubCheckbox(checked = true)
     click(submitButton)
   }

@@ -22,7 +22,7 @@ import uk.gov.hmrc.test.ui.pages.registration.RegistrationPage
 import uk.gov.hmrc.test.ui.support.{AffinityGroup, SubmissionButtonSupport}
 import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, selectDropdownById}
 
-object AuthorityWizardPage extends BasePage with SubmissionButtonSupport {
+object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String   = TestConfiguration.url("auth-login-stub")
   override val pageTitle: String = ""
 
