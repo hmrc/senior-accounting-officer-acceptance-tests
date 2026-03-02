@@ -18,14 +18,15 @@ package uk.gov.hmrc.test.ui.support
 
 import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait, Select, Wait}
 import org.openqa.selenium.{By, WebDriver}
+import org.scalatest.matchers.must.Matchers
+import uk.gov.hmrc.selenium.component.PageObject
+import uk.gov.hmrc.test.ui.driver.BrowserDriver
 import uk.gov.hmrc.test.ui.pages.BasePage
 
 import java.lang
 import java.time.Duration
 
-object PageSupport extends BasePage {
-  override val pageUrl: String   = ""
-  override val pageTitle: String = ""
+object PageSupport extends BrowserDriver with Matchers with IdGenerators with PageObject {
 
   val backLink: By       = By.cssSelector(".govuk-back-link")
   val continueButton: By = By.id("continue")
@@ -53,7 +54,7 @@ object PageSupport extends BasePage {
     text mustBe driver.findElement(locator).getText
   }
 
-  def assertOnPage(url: String = this.pageUrl): Unit = fluentWait.until(ExpectedConditions.urlToBe(url))
+  def assertOnPage(url: String): Unit = fluentWait.until(ExpectedConditions.urlToBe(url))
 
   def assertPageWithError(page: BasePage): Unit = assertOnPage(page, Some(page.pageErrorTitle))
 

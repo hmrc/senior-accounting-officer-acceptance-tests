@@ -19,7 +19,6 @@ package uk.gov.hmrc.test.ui.pages
 import org.openqa.selenium.support.ui.*
 import org.scalatest.matchers.must.Matchers
 import uk.gov.hmrc.selenium.component.PageObject
-import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.driver.BrowserDriver
 import uk.gov.hmrc.test.ui.support.IdGenerators
 
