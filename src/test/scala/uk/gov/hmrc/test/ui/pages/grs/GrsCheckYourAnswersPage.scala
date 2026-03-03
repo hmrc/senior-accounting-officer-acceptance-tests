@@ -23,7 +23,7 @@ import uk.gov.hmrc.test.ui.support.PageSupport.clickContinueButton
 
 object GrsCheckYourAnswersPage extends BasePage {
 
-  private val companyReferenceNumber: By  =
+  private val companyReferenceNumber: By =
     By.cssSelector("div.govuk-summary-list__row:nth-child(1) .govuk-summary-list__value")
   private val uniqueTaxpayerReference: By =
     By.cssSelector("div.govuk-summary-list__row:nth-child(2) .govuk-summary-list__value")

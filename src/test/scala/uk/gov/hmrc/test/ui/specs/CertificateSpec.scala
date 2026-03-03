@@ -78,7 +78,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(SubmitCertificateSubmitterPage)
 
       When("the user selects 'I am authorised to submit the certificate on behalf of the Senior Accounting Officer'")
-      SubmitCertificateSubmitterPage.clickSaoProxySubmitterRadioButton
+      SubmitCertificateSubmitterPage.clickSaoProxySubmitterRadioButton()
 
       And("clicks 'Continue'")
       SubmitCertificateSubmitterPage.clickSubmissionButton()
@@ -404,7 +404,7 @@ class CertificateSpec extends BaseSpec {
       assertTextOnPage(SubmitCertificateSubmitterPage.errorTitle, "There is a problem")
 
       When("the user selects 'I am authorised to submit the certificate on behalf of the Senior Accounting Officer'")
-      SubmitCertificateSubmitterPage.clickSaoProxySubmitterRadioButton
+      SubmitCertificateSubmitterPage.clickSaoProxySubmitterRadioButton()
 
       And("clicks 'Continue'")
       SubmitCertificateSubmitterPage.clickSubmissionButton()

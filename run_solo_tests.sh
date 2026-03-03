@@ -13,7 +13,7 @@ if [ "${NO_LINT}" = "true" ]; then
   echo "Skipping lint"
 else
   echo "Linting"
-  sbt scalafmtAll
+  sbt lint
 fi
 
 sbt clean -Dbrowser="${BROWSER_TYPE:=$DEFAULT_BROWSER}" -Denvironment="${ENV:=local}" -Dbrowser.option.headless=false -Daccessibility.assessment=false -Dsecurity.assessment=false -Dbrowser.usePreviousVersion=true "testOnly uk.gov.hmrc.test.ui.specs.* -- -n SoloTests"

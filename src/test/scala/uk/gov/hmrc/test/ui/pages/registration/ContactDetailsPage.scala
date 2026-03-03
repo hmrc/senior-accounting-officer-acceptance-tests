@@ -62,7 +62,7 @@ object ContactDetailsPage extends CommonPage with TestDataGenerator {
   val newSecondContactEmail: String = emailForUser(newSecondContactName)
 
   val contactMap: Map[Contact, ContactDetails] = Map(
-    FirstContact  -> ContactDetails(
+    FirstContact -> ContactDetails(
       firstContactSectionHeader,
       "First contact details",
       firstContactNameField,
@@ -81,12 +81,18 @@ object ContactDetailsPage extends CommonPage with TestDataGenerator {
   )
 
   private val pageErrors: Map[PageError, (By, String)] = Map(
-    ContactDetailsPageError.MissingContactDetails -> (By.cssSelector(
-      "a[href='#value']"
-    ), "Enter the name of the person or team who can deal with enquiries about the companys tax accounting arrangements."),
-    ContactDetailsPageError.MissingEmailAddress   -> (By.cssSelector(
-      "a[href='#value']"
-    ), "Enter the email address of the person or team")
+    ContactDetailsPageError.MissingContactDetails -> (
+      By.cssSelector(
+        "a[href='#value']"
+      ),
+      "Enter the name of the person or team who can deal with enquiries about the companys tax accounting arrangements."
+    ),
+    ContactDetailsPageError.MissingEmailAddress -> (
+      By.cssSelector(
+        "a[href='#value']"
+      ),
+      "Enter the email address of the person or team"
+    )
   )
 
   def contactNameValueLocator(index: Int): By =
@@ -149,18 +155,18 @@ object ContactDetailsPage extends CommonPage with TestDataGenerator {
   }
 
   def changeContactDetail(
-    valueLocator: By,
-    changeLinkLocator: By,
-    updatedValue: String,
-    inputFunction: String => Unit
+      valueLocator: By,
+      changeLinkLocator: By,
+      updatedValue: String,
+      inputFunction: String => Unit
   ): Unit = {
     fluentWait.until(ExpectedConditions.elementToBeClickable(changeLinkLocator)).click()
     inputFunction(updatedValue)
   }
 
   def verifyChangedContactDetails(
-    valueLocator: By,
-    originalValue: String
+      valueLocator: By,
+      originalValue: String
   ): Unit = {
     val updatedValue = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(valueLocator))
 

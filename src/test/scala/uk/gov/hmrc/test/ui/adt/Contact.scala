@@ -19,14 +19,14 @@ package uk.gov.hmrc.test.ui.adt
 import org.openqa.selenium.By
 
 sealed trait Contact
-case object FirstContact extends Contact
+case object FirstContact  extends Contact
 case object SecondContact extends Contact
 
 case class ContactDetails(
-  headingField: By,
-  headingText: String,
-  fullNameField: By,
-  fullName: String,
-  emailField: By,
-  email: String
+    headingField: By,
+    headingText: String,
+    fullNameField: By,
+    fullName: String,
+    emailField: By,
+    email: String
 )

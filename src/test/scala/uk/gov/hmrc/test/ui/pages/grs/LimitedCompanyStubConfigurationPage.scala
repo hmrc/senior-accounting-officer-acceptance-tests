@@ -21,7 +21,7 @@ import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 
 object LimitedCompanyStubConfigurationPage extends CommonPage {
-  override val pageUrl: String   =
+  override val pageUrl: String =
     s"${TestConfiguration.url("incorporated-entity-identification-frontend")}/test-only/feature-switches"
   override val pageTitle: String = ""
 
@@ -37,7 +37,7 @@ object LimitedCompanyStubConfigurationPage extends CommonPage {
   def setCompaniesHouseStubCheckbox(checked: Boolean): Unit = {
     val checkbox = driver.findElement(companiesHouseStubCheckbox)
 
-    if (checkbox.isSelected != checked) checkbox.click()
+    if checkbox.isSelected != checked then checkbox.click()
   }
 
 }
