@@ -1,17 +1,15 @@
 lazy val root = (project in file("."))
   .settings(
-    name := "senior-accounting-officer-acceptance-tests",
-    version := "0.1.0",
+    name         := "senior-accounting-officer-acceptance-tests",
+    version      := "0.1.0",
     scalaVersion := "3.3.4",
-    libraryDependencies ++= Dependencies.test,
-    (Compile / compile) := ((Compile / compile) dependsOn (Compile / scalafmtSbtCheck, Compile / scalafmtCheckAll)).value
+    libraryDependencies ++= Dependencies.test
   )
   .settings(scalafixSettings *)
 
 val scalafixSettings: Seq[Setting[?]] = Seq(
-    semanticdbEnabled := true, // enable SemanticDB
-    scalacOptions += {
-        "-Wall"
-    }
+  semanticdbEnabled := true // enable SemanticDB
 )
-addCommandAlias("lint", "scalafixAll;scalafmtAll")
+
+addCommandAlias("checkLint", "scalafmtSbtCheck;scalafmtCheckAll")
+addCommandAlias("lint", "scalafixAll;scalafmtSbt;scalafmtAll")

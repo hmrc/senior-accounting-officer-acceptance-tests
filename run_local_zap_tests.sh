@@ -13,7 +13,7 @@ if [ "${NO_LINT}" = "true" ]; then
   echo "Skipping lint"
 else
   echo "Linting"
-  sbt scalafmtAll
+  sbt lint
 fi
 # NOTE: It is not required to proxy every journey test via ZAP. The intention of proxying a test through ZAP is to expose all the
 # relevant pages of an application to ZAP. So tagging a subset of the journey tests or creating a

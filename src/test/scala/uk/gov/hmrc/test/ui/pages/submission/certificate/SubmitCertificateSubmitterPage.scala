@@ -33,6 +33,6 @@ object SubmitCertificateSubmitterPage extends CommonPage with SubmissionButtonSu
   val saoProxySubmitterRadio: By = By.cssSelector("#value_1")
   val errorTitle: By             = By.cssSelector(".govuk-error-summary__title")
 
-  def clickSaoSubmitterRadioButton      = clickRadioButton(saoSubmitterRadio)
-  def clickSaoProxySubmitterRadioButton = clickRadioButton(saoProxySubmitterRadio)
+  def clickSaoSubmitterRadioButton(): Unit      = clickRadioButton(saoSubmitterRadio)
+  def clickSaoProxySubmitterRadioButton(): Unit = clickRadioButton(saoProxySubmitterRadio)
 }
