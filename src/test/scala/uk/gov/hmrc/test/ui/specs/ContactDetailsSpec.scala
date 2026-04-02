@@ -39,6 +39,29 @@ class ContactDetailsSpec extends BaseSpec {
 
   Feature("Add Contact Details For Registration") {
 
+    // TODO:
+    // * Consider removing test 1
+    // * Determine tests to have
+    // * Decide if we should have error scenarios is one test - are they covered elsewhere?
+    // * New pages to add - see UI journey
+    // * Add assertOnPage() for each step requiring it
+
+    // * See if we can remove references to .clickContinue() if submission button is the same
+    //   - remove clickContinue() from page object and use submissionButton
+
+    // * Dismantle and remove the compound steps
+    //   - Add sendKeys directly in spec
+    //   - Remove references to .clickContinue() in compound methods (e.g., enterContactNameAndClickContinue)
+
+    // * Consider whether 'contactMap' is the best approach for holding contact details
+    // * Consider a better way to test 'ContactDetailsPage.changeContactDetails()' - do we check this already elsewhere?
+    // * Consider adding the 'stub setup steps' into a local function
+
+    // * On the page object:
+    //   - review locators on page object (e.g. contactNameValueLocator)
+    //   - review and correct the verifyChangedContactDetails function
+
+
     Scenario(
       "Complete a registration adding first contact details with amendments",
       RegistrationUITests,
