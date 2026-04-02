@@ -21,10 +21,16 @@ import com.github.javafaker.Faker
 object TestData {
   private val faker = new Faker(new java.util.Locale("en-GB"))
 
-  val firstContactName: String   = s"${faker.name().fullName()}-Test"
-  val secondContactName: String  = s"${faker.name().fullName()}-Test"
-  val firstContactEmail: String  = emailForUser(firstContactName)
-  val secondContactEmail: String = emailForUser(secondContactName)
+  val firstPersonName: String   = s"${faker.name().fullName()}-Test"
+  val secondPersonName: String  = s"${faker.name().fullName()}-Test"
+  val firstPersonEmail: String  = emailForUser(firstPersonName)
+  val secondPersonEmail: String = emailForUser(secondPersonName)
 
-  def emailForUser(name: String): String = s"${name.toLowerCase.replace(" ", ".")}@example.com"
+  def generateNewEmail(): String = {
+    emailForUser(firstPersonName)
+  }
+
+  def emailForUser(name: String): String = {
+    s"${name.toLowerCase.replace(" ", ".")}@example.com"
+  }
 }

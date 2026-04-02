@@ -19,6 +19,7 @@ package uk.gov.hmrc.test.ui.pages.grs
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 
 object LimitedCompanyStubConfigurationPage extends CommonPage {
   override val pageUrl: String =
@@ -31,7 +32,7 @@ object LimitedCompanyStubConfigurationPage extends CommonPage {
   def setStubbedDependencies(): Unit = {
     loadPage()
     setCompaniesHouseStubCheckbox(checked = true)
-    click(submitButton)
+    clickElement(submitButton)
   }
 
   def setCompaniesHouseStubCheckbox(checked: Boolean): Unit = {

@@ -35,19 +35,29 @@ object PageSupport extends BrowserDriver with Matchers with PageObject {
     .withTimeout(Duration.ofSeconds(5))
     .pollingEvery(Duration.ofMillis(200))
 
-  def selectDropdownById(id: By): Select = new Select(driver.findElement(id: By))
-
-  def clickOnBackLink(): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(backLink)).click()
-
-  def clickContinueButton(): Unit =
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(continueButton)).click()
-
-  def assertElementIsClickable(locator: By): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(locator))
-
   def clickElement(locator: By): Unit = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(locator)).click()
 
   def clickRadioButton(locator: By): Unit =
     fluentWait.until(ExpectedConditions.presenceOfElementLocated(locator)).click()
+
+  def clickContinueButton(): Unit =
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(continueButton)).click()
+
+  def clickOnBackLink(): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(backLink)).click()
+
+  override def sendKeys(locator: By, value: String): Unit = {
+    fluentWait.until(ExpectedConditions.elementToBeClickable(locator)).clear()
+    driver.findElement(locator).sendKeys(value)
+  }
+
+  def selectDropdownById(id: By): Select = new Select(driver.findElement(id: By))
+
+  def assertElementIsClickable(locator: By): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(locator))
+
+  def assertElementNotVisible(locator: By): Unit = {
+    val elementNotVisible = fluentWait.until(ExpectedConditions.invisibilityOfElementLocated(locator))
+    elementNotVisible mustBe true
+  }
 
   def assertTextOnPage(locator: By, text: String): Unit = {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(locator))
@@ -56,26 +66,16 @@ object PageSupport extends BrowserDriver with Matchers with PageObject {
 
   def assertOnPage(url: String): Unit = fluentWait.until(ExpectedConditions.urlToBe(url))
 
-  def assertPageWithError(page: CommonPage): Unit = assertOnPage(page, Some(page.pageErrorTitle))
-
-  def assertElementNotVisible(locator: By): Unit = {
-    val elementNotVisible = fluentWait.until(ExpectedConditions.invisibilityOfElementLocated(locator))
-    elementNotVisible mustBe true
-  }
-
   def assertOnPage(page: CommonPage, expectedTitle: String): Unit = assertOnPage(page, Some(expectedTitle))
 
   def assertOnPage(page: CommonPage): Unit = assertOnPage(page, None)
+
+  def assertPageWithError(page: CommonPage): Unit = assertOnPage(page, Some(page.pageErrorTitle))
 
   private def assertOnPage(page: CommonPage, titleOverride: Option[String]): Unit = {
     val expectedTitle = titleOverride.getOrElse(page.pageTitle)
     fluentWait.until(_ => getCurrentUrl == page.pageUrl && getTitle == expectedTitle)
     getCurrentUrl mustBe page.pageUrl
     getTitle mustBe expectedTitle
-  }
-
-  override def sendKeys(locator: By, value: String): Unit = {
-    fluentWait.until(ExpectedConditions.elementToBeClickable(locator)).clear()
-    driver.findElement(locator).sendKeys(value)
   }
 }

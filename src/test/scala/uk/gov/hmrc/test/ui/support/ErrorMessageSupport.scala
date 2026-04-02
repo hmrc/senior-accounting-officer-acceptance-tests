@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages
+package uk.gov.hmrc.test.ui.support
 
-trait CommonPage extends BasePage {
-  def pageTitle: String
-  def pageUrl: String
-  def pageErrorTitle: String = s"Error: $pageTitle"
+import org.openqa.selenium.By
+import uk.gov.hmrc.test.ui.pages.BasePage
+import uk.gov.hmrc.test.ui.support.PageSupport.assertTextOnPage
 
-  def loadPage(): Unit = navigateTo(pageUrl)
+trait ErrorMessageSupport {
+
+  this: BasePage =>
+  protected def errorTitleLocator: By = By.cssSelector(".govuk-error-summary__title")
+
+  def assertErrorShownOnPage(): Unit = assertTextOnPage(errorTitleLocator, "There is a problem")
 }
