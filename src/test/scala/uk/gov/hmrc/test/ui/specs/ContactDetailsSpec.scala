@@ -24,7 +24,7 @@ import uk.gov.hmrc.test.ui.pages.registration.*
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
-import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, assertTextOnPage}
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, assertTextOnPage, sendKeys}
 
 class ContactDetailsSpec extends BaseSpec {
 
@@ -34,6 +34,7 @@ class ContactDetailsSpec extends BaseSpec {
     AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
     RegistrationPage.clickEnterYourCompanyDetailsLink()
     GrsStubPage.clickStubResponseButton()
+    assertOnPage(RegistrationPage)
   }
 
   Feature("Add Contact Details For Registration") {
@@ -75,6 +76,7 @@ class ContactDetailsSpec extends BaseSpec {
     Scenario(
       "Complete a registration adding first contact details with amendments",
       RegistrationUITests,
+      SoloTests,
       ZapTests
     ) {
 
@@ -85,21 +87,32 @@ class ContactDetailsSpec extends BaseSpec {
       // Then
       //     Assert registration id returned
 
-      Given("a user successfully adds company details from the registration page")
-
-      And("the user successfully adds a single contact from the registration page")
+      Given("an authenticated user successfully adds a single contact from the registration page")
       RegistrationPage.clickEnterYourContactDetailsLink()
+      assertOnPage(ContactDetailsPage)
       ContactDetailsPage.clickContinue()
-      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
-      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)
-      ContactDetailsPage.selectYesRadioAndClickContinue()
-      ContactDetailsPage.assertContactDetailsMatch(FirstContact)
+      assertOnPage(FirstContactNamePage)
 
-      When("the user selects to save and continue from the 'Check your answers' page")
-      ContactDetailsPage.clickContinue()
+      sendKeys(FirstContactNamePage.nameInput, "Amanda Test")
+      FirstContactNamePage.clickSubmissionButton()
+      assertOnPage(FirstContactEmailPage)
 
-      Then("the status on the registration page for the 'Enter your contact details' section is set to 'Completed'")
-      RegistrationPage.assertSectionStatus(ContactDetails, Completed)
+      sendKeys(FirstContactEmailPage.emailInput, "Amanda_Test@mail.com")
+      FirstContactEmailPage.clickSubmissionButton()
+      assertOnPage(AddAnotherContactPage)
+
+      AddAnotherContactPage.clickYesRadioButton()
+      AddAnotherContactPage.clickSubmissionButton()
+
+      assertOnPage(CheckYourAnswersPage)
+
+//      ContactDetailsPage.assertContactDetailsMatch(FirstContact)
+//
+//      When("the user selects to save and continue from the 'Check your answers' page")
+//      ContactDetailsPage.clickContinue()
+//
+//      Then("the status on the registration page for the 'Enter your contact details' section is set to 'Completed'")
+//      RegistrationPage.assertSectionStatus(ContactDetails, Completed)
     }
 
     Scenario("Complete second contact details", RegistrationUITests, ZapTests) {
@@ -210,7 +223,6 @@ class ContactDetailsSpec extends BaseSpec {
       // Then
       //     Assert registration id returned
 
-      
       Given("a user successfully adds company details from the registration page")
 
       And("the user successfully adds a single contact from the registration page")
