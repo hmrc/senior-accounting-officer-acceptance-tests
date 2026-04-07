@@ -27,6 +27,7 @@ import uk.gov.hmrc.test.ui.support.TestDataGenerator
 object ContactDetailsPage extends CommonPage with TestDataGenerator {
   override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details"
   override val pageTitle: String = ""
+  val errorTitle: By             = By.cssSelector(".govuk-error-summary__title")
 
   private val faker                             = new Faker(new java.util.Locale("en-GB"))
   val enterFirstContactEmailAddressPage: String = s"$pageUrl/first/email"
@@ -80,21 +81,6 @@ object ContactDetailsPage extends CommonPage with TestDataGenerator {
     )
   )
 
-  private val pageErrors: Map[PageError, (By, String)] = Map(
-    ContactDetailsPageError.MissingContactDetails -> (
-      By.cssSelector(
-        "a[href='#value']"
-      ),
-      "Enter the name of the person or team who can deal with enquiries about the companys tax accounting arrangements."
-    ),
-    ContactDetailsPageError.MissingEmailAddress -> (
-      By.cssSelector(
-        "a[href='#value']"
-      ),
-      "Enter the email address of the person or team"
-    )
-  )
-
   def contactNameValueLocator(index: Int): By =
     By.cssSelector(
       s"dl.govuk-summary-list:nth-of-type($index) > .govuk-summary-list__row:nth-of-type(1) > dd.govuk-summary-list__value"
@@ -144,14 +130,6 @@ object ContactDetailsPage extends CommonPage with TestDataGenerator {
   def assertFieldValueMatches(field: By, expectedValue: String): Unit = {
     val fieldValue = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(field))
     fieldValue.getText.trim mustBe expectedValue
-  }
-
-  def assertErrorMessageMatches(error: PageError): Unit = {
-    val (elementWithError: By, expectedErrorMessage: String) = pageErrors(error)
-
-    val element = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(elementWithError))
-    element.isDisplayed mustBe true
-    element.getText.trim mustBe expectedErrorMessage
   }
 
   def changeContactDetail(
