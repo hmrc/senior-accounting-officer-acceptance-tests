@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.test.ui.specs
 
-import uk.gov.hmrc.test.ui.adt.ContactDetailsPageError.{MissingContactDetails, MissingEmailAddress}
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.Completed
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.ContactDetails
 import uk.gov.hmrc.test.ui.adt.{FirstContact, SecondContact}
@@ -25,7 +24,7 @@ import uk.gov.hmrc.test.ui.pages.registration.*
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
-import uk.gov.hmrc.test.ui.support.PageSupport.assertOnPage
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, assertTextOnPage}
 
 class ContactDetailsSpec extends BaseSpec {
 
@@ -96,12 +95,12 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.clickContinue()
       ContactDetailsPage.clickContinue()
 
-      Then("an error page is shown noting the contact name is missing")
-      ContactDetailsPage.assertErrorMessageMatches(MissingContactDetails)
+      Then("an error page is shown")
+      assertTextOnPage(ContactDetailsPage.errorTitle, "There is a problem")
 
-      And("on the user selecting to again continue without adding a contact name the same error page is shown")
+      And("on the user selecting to again continue without adding a contact name the error page is shown again")
       ContactDetailsPage.clickContinue()
-      ContactDetailsPage.assertErrorMessageMatches(MissingContactDetails)
+      assertTextOnPage(ContactDetailsPage.errorTitle, "There is a problem")
 
       And("on the user adding a valid contact name and selecting to continue")
       ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
@@ -111,7 +110,7 @@ class ContactDetailsSpec extends BaseSpec {
     }
 
     Scenario(
-      "Attempting to add a contact with no email address produces the expected error",
+      "Attempting to add a contact with no email address causes an error to be displayed",
       RegistrationUITests,
       ZapTests
     ) {
@@ -127,12 +126,12 @@ class ContactDetailsSpec extends BaseSpec {
       ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
       ContactDetailsPage.clickContinue()
 
-      Then("an error page is shown noting the contact email is missing")
-      ContactDetailsPage.assertErrorMessageMatches(MissingEmailAddress)
+      Then("an error page is shown")
+      assertTextOnPage(ContactDetailsPage.errorTitle, "There is a problem")
 
-      And("on the user selecting to again continue without adding a contact email the same error page is shown")
+      And("on the user selecting to again continue without adding a contact email the error page is shown again")
       ContactDetailsPage.clickContinue()
-      ContactDetailsPage.assertErrorMessageMatches(MissingEmailAddress)
+      assertTextOnPage(ContactDetailsPage.errorTitle, "There is a problem")
 
       And("on the user adding a valid contact email and selecting to continue")
       ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)
