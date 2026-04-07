@@ -40,10 +40,17 @@ class ContactDetailsSpec extends BaseSpec {
   Feature("Add Contact Details For Registration") {
 
     // TODO:
-    // * Consider removing test 1
     // * Determine tests to have
     // * Decide if we should have error scenarios is one test - are they covered elsewhere?
-    // * New pages to add - see UI journey
+    // * New pages to add - see UI journey {
+    //          contact-details/first/name
+    //          contact-details/first/email
+    //          first/add-another
+    //          contact-details/second/name
+    //          contact-details/second/email
+    //          contact-details/check-your-answers
+    //          registration-complete
+    //   }
     // * Add assertOnPage() for each step requiring it
 
     // * See if we can remove references to .clickContinue() if submission button is the same
@@ -55,12 +62,16 @@ class ContactDetailsSpec extends BaseSpec {
 
     // * Consider whether 'contactMap' is the best approach for holding contact details
     // * Consider a better way to test 'ContactDetailsPage.changeContactDetails()' - do we check this already elsewhere?
-    // * Consider adding the 'stub setup steps' into a local function
 
     // * On the page object:
     //   - review locators on page object (e.g. contactNameValueLocator)
     //   - review and correct the verifyChangedContactDetails function
 
+    // SCENARIOS:
+    //   - Complete adding first contact details with amendments > Assert registration ID
+    //   - Complete adding second contact details without amendments > Assert registration ID
+    //   - Missing name shows error > missing email shows error
+    //   - Select to change all values without changing anything > assert CYA does not change.
 
     Scenario(
       "Complete a registration adding first contact details with amendments",
