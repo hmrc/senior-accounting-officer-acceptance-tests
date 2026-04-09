@@ -17,7 +17,7 @@
 package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, NotStarted}
-import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourCompanyDetailsLink
+import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourNominatedCompanyDetailsLink
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.{CompanyDetails, ContactDetails}
 import uk.gov.hmrc.test.ui.pages.AuthorityWizardPage
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
@@ -40,7 +40,7 @@ class RegistrationSpec extends BaseSpec {
       assertOnPage(RegistrationPage)
 
       Then("the page displays with the expected page elements and values required at the start of a new registration")
-      RegistrationPage.assertLinkIsVisibleWithText(EnterYourCompanyDetailsLink)
+      RegistrationPage.assertLinkIsVisibleWithText(EnterYourNominatedCompanyDetailsLink)
       RegistrationPage.assertSectionStatus(CompanyDetails, NotStarted)
       RegistrationPage.assertEnterYourContactDetailsLinkNotFound()
       RegistrationPage.assertSectionStatus(ContactDetails, CannotStartYet)
