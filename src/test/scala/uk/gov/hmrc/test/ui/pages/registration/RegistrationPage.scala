@@ -19,7 +19,7 @@ package uk.gov.hmrc.test.ui.pages.registration
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait}
 import org.scalatest.AppendedClues.convertToClueful
-import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourCompanyDetailsLink
+import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourNominatedCompanyDetailsLink
 import uk.gov.hmrc.test.ui.adt.{PageLink, PageSectionStatus, RegistrationPageSection}
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
@@ -29,14 +29,14 @@ import scala.jdk.CollectionConverters.*
 object RegistrationPage extends CommonPage {
   override val pageUrl: String   = TestConfiguration.url("senior-accounting-officer-registration-frontend")
   override val pageTitle: String =
-    "Register your company - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Register your nominated company - Senior Accounting Officer notification and certificate - GOV.UK"
 
   private val submitButton: By        = By.cssSelector("#submit")
   private val companyDetailsField: By = actionListItem(1)
   private val contactDetailsField: By = actionListItem(2)
 
   private val pageLinks: Map[PageLink, (By, String)] = Map(
-    EnterYourCompanyDetailsLink -> (
+    EnterYourNominatedCompanyDetailsLink -> (
       By.cssSelector("ul.govuk-task-list > li.govuk-task-list__item--with-link:nth-of-type(1)"),
       s"${pageUrl.stripSuffix("/")}/business-match"
     )

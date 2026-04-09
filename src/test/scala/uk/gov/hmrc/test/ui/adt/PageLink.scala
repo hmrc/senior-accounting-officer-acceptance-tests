@@ -19,6 +19,6 @@ package uk.gov.hmrc.test.ui.adt
 sealed trait PageLink
 
 object RegistrationPageLink extends PageLink {
-  case object EnterYourCompanyDetailsLink extends PageLink
-  case object EnterYourContactDetailsLink extends PageLink
+  case object EnterYourNominatedCompanyDetailsLink extends PageLink
+  case object EnterYourContactDetailsLink          extends PageLink
 }
