@@ -37,7 +37,7 @@ class GrsIntegrationSpec extends BaseSpec {
       LimitedCompanyStubConfigurationPage.setStubbedDependencies()
       FeatureTogglePage.setGrsHost(GrsMicroservice)
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
-      RegistrationPage.clickEnterYourCompanyDetailsLink()
+      RegistrationPage.clickEnterYourNominatedCompanyDetailsLink()
 
       When("the user completes a business match successfully")
       CompanyRegistrationNumberPage.verifyGrsCompanyDetailsPageURL()
@@ -50,7 +50,7 @@ class GrsIntegrationSpec extends BaseSpec {
       RegistrationPage.assertSectionStatus(CompanyDetails, Completed)
 
       And("the 'Enter your company details' link is not present")
-      RegistrationPage.assertEnterYourCompanyDetailsLinkNotFound()
+      RegistrationPage.assertEnterYourNominatedCompanyDetailsLinkNotFound()
     }
   }
 }

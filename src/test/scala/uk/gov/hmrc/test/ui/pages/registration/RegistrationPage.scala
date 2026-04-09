@@ -59,13 +59,13 @@ object RegistrationPage extends CommonPage {
     linkText mustBe expectedLinkText
   }
 
-  def assertEnterYourCompanyDetailsLinkNotFound(): Unit =
+  def assertEnterYourNominatedCompanyDetailsLinkNotFound(): Unit =
     fluentWait
       .until(ExpectedConditions.visibilityOfElementLocated(companyDetailsField))
       .findElements(By.tagName("a"))
       .asScala mustBe empty
 
-  def clickEnterYourCompanyDetailsLink(): Unit =
+  def clickEnterYourNominatedCompanyDetailsLink(): Unit =
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(companyDetailsField)).click()
 
   def assertSectionStatus(section: RegistrationPageSection, expectedStatus: PageSectionStatus): Unit = {
