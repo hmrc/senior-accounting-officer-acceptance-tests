@@ -16,11 +16,23 @@
 
 package uk.gov.hmrc.test.ui.pages.registration
 
+import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object CheckYourAnswersPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details/check-your-answers"
   override val pageTitle: String =
     "Check your answers - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  val firstContactNameKey: By         = By.cssSelector("""[data-test-id="first-contact-name-key"]""")
+  val firstContactNameValue: By       = By.cssSelector("""[data-test-id="first-contact-name-value"]""")
+  val firstContactNameChangeLink: By  = By.cssSelector("""[data-test-id="first-contact-name-change-link"]""")
+  val firstContactEmailKey: By        = By.cssSelector("""[data-test-id="first-contact-email-key"]""")
+  val firstContactEmailValue: By      = By.cssSelector("""[data-test-id="first-contact-email-value"]""")
+  val firstContactEmailChangeLink: By = By.cssSelector("""[data-test-id="first-contact-email-change-link"]""")
+
+  def clickFirstContactNameChangeLink(): Unit  = clickElement(firstContactNameChangeLink)
+  def clickFirstContactEmailChangeLink(): Unit = clickElement(firstContactEmailChangeLink)
 }

@@ -25,5 +25,7 @@ object FirstContactNamePage extends CommonPage with SubmissionButtonSupport {
   override val pageTitle: String =
     "First contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 
+  val changePageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/first/change-name"
+
   val nameInput: By = By.cssSelector("#value")
 }

@@ -23,10 +23,11 @@ import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourNominatedCompanyDet
 import uk.gov.hmrc.test.ui.adt.{PageLink, PageSectionStatus, RegistrationPageSection}
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 import scala.jdk.CollectionConverters.*
 
-object RegistrationPage extends CommonPage {
+object RegistrationPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String   = TestConfiguration.url("senior-accounting-officer-registration-frontend")
   override val pageTitle: String =
     "Register your nominated company - Senior Accounting Officer notification and certificate - GOV.UK"

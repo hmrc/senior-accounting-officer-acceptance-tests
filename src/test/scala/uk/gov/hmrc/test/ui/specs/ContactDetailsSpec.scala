@@ -17,7 +17,7 @@
 package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.Completed
-import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.ContactDetails
+import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.{CompanyDetails, ContactDetails}
 import uk.gov.hmrc.test.ui.adt.{FirstContact, SecondContact}
 import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.pages.registration.*
@@ -103,8 +103,27 @@ class ContactDetailsSpec extends BaseSpec {
 
       AddAnotherContactPage.clickYesRadioButton()
       AddAnotherContactPage.clickSubmissionButton()
-
       assertOnPage(CheckYourAnswersPage)
+
+      assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, "Amanda Test")
+      assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, "Amanda_Test@mail.com")
+
+      CheckYourAnswersPage.clickFirstContactNameChangeLink()
+      assertOnPage(FirstContactNamePage.changePageUrl)
+      sendKeys(FirstContactNamePage.nameInput, "Test-Amendment Of'name")
+      FirstContactNamePage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+      assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, "Test-Amendment Of'name")
+
+      CheckYourAnswersPage.clickFirstContactEmailChangeLink()
+      assertOnPage(FirstContactEmailPage.changePageUrl)
+
+      FirstContactEmailPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+      assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, "Amanda_Test@mail.com")
+
+      CheckYourAnswersPage.clickSubmissionButton()
+      assertOnPage(RegistrationPage)
 
 //      ContactDetailsPage.assertContactDetailsMatch(FirstContact)
 //
@@ -112,7 +131,10 @@ class ContactDetailsSpec extends BaseSpec {
 //      ContactDetailsPage.clickContinue()
 //
 //      Then("the status on the registration page for the 'Enter your contact details' section is set to 'Completed'")
-//      RegistrationPage.assertSectionStatus(ContactDetails, Completed)
+      RegistrationPage.assertSectionStatus(ContactDetails, Completed)
+      RegistrationPage.assertSectionStatus(CompanyDetails, Completed)
+      RegistrationPage.clickSubmissionButton()
+      assertOnPage(RegistrationCompletePage)
     }
 
     Scenario("Complete second contact details", RegistrationUITests, ZapTests) {
