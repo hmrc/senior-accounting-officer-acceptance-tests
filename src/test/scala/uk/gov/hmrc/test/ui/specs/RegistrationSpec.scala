@@ -55,7 +55,7 @@ class RegistrationSpec extends BaseSpec {
       Given("a user successfully adds company details from the registration page")
       FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
-      RegistrationPage.clickEnterYourCompanyDetailsLink()
+      RegistrationPage.clickEnterYourNominatedCompanyDetailsLink()
       GrsStubPage.clickStubResponseButton()
 
       Then("the action states displayed on the registration page are updated correctly")
