@@ -26,7 +26,7 @@ import uk.gov.hmrc.test.ui.support.TestDataGenerator
 
 object ContactDetailsPage extends CommonPage with TestDataGenerator {
   override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details"
-  override val pageTitle: String = ""
+  override val pageTitle: String = "Contact details - Senior Accounting Officer notification and certificate - GOV.UK"
   val errorTitle: By             = By.cssSelector(".govuk-error-summary__title")
 
   private val faker                             = new Faker(new java.util.Locale("en-GB"))
