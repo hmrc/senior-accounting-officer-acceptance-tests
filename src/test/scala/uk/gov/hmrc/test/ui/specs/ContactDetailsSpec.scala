@@ -17,7 +17,7 @@
 package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.Completed
-import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.{CompanyDetails, ContactDetails}
+import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.ContactDetails
 import uk.gov.hmrc.test.ui.adt.{FirstContact, SecondContact}
 import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.pages.registration.*
@@ -32,7 +32,7 @@ class ContactDetailsSpec extends BaseSpec {
     super.beforeEach()
     FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
     AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
-    RegistrationPage.clickEnterYourCompanyDetailsLink()
+    RegistrationPage.clickEnterYourNominatedCompanyDetailsLink()
     GrsStubPage.clickStubResponseButton()
     assertOnPage(RegistrationPage)
   }
@@ -79,62 +79,55 @@ class ContactDetailsSpec extends BaseSpec {
       SoloTests,
       ZapTests
     ) {
-
-      // Given
-      //
-      // When
-      //
-      // Then
-      //     Assert registration id returned
-
-      Given("an authenticated user successfully adds a single contact from the registration page")
+      Given("an authenticated user has added a first contact with name 'Amanda Test' and email 'Amanda_Test@mail.com'")
       RegistrationPage.clickEnterYourContactDetailsLink()
       assertOnPage(ContactDetailsPage)
       ContactDetailsPage.clickContinue()
       assertOnPage(FirstContactNamePage)
-
       sendKeys(FirstContactNamePage.nameInput, "Amanda Test")
       FirstContactNamePage.clickSubmissionButton()
       assertOnPage(FirstContactEmailPage)
-
       sendKeys(FirstContactEmailPage.emailInput, "Amanda_Test@mail.com")
       FirstContactEmailPage.clickSubmissionButton()
       assertOnPage(AddAnotherContactPage)
-
       AddAnotherContactPage.clickYesRadioButton()
       AddAnotherContactPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
-
       assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, "Amanda Test")
       assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, "Amanda_Test@mail.com")
 
+      When("the user amends the first contact name to 'Test-Amendment Of'name'")
       CheckYourAnswersPage.clickFirstContactNameChangeLink()
       assertOnPage(FirstContactNamePage.changePageUrl)
       sendKeys(FirstContactNamePage.nameInput, "Test-Amendment Of'name")
       FirstContactNamePage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
-      assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, "Test-Amendment Of'name")
 
+      And(
+        "navigates to the 'change email address' page using the 'change' link but selects to submit without making a change"
+      )
       CheckYourAnswersPage.clickFirstContactEmailChangeLink()
       assertOnPage(FirstContactEmailPage.changePageUrl)
-
       FirstContactEmailPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
+
+      Then("the amended name and original email are correctly displayed on the 'Check Your Answers' page")
+      assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, "Test-Amendment Of'name")
       assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, "Amanda_Test@mail.com")
 
+      When("the user submits the contact details")
       CheckYourAnswersPage.clickSubmissionButton()
       assertOnPage(RegistrationPage)
 
-//      ContactDetailsPage.assertContactDetailsMatch(FirstContact)
-//
-//      When("the user selects to save and continue from the 'Check your answers' page")
-//      ContactDetailsPage.clickContinue()
-//
-//      Then("the status on the registration page for the 'Enter your contact details' section is set to 'Completed'")
+      Then("the state of the 'Enter your contact details' section is correctly set as 'Completed'")
       RegistrationPage.assertSectionStatus(ContactDetails, Completed)
-      RegistrationPage.assertSectionStatus(CompanyDetails, Completed)
+
+      When("the user finally submits the registration")
       RegistrationPage.clickSubmissionButton()
+
+      Then("the registration is completed and a reference Id is displayed")
       assertOnPage(RegistrationCompletePage)
+      // assert ID returned
     }
 
     Scenario("Complete second contact details", RegistrationUITests, ZapTests) {
