@@ -127,7 +127,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       Then("the registration is completed and a reference Id is displayed")
       assertOnPage(RegistrationCompletePage)
-      // assert ID returned
+      RegistrationCompletePage.assertReferenceIdReturned()
     }
 
     Scenario("Complete second contact details", RegistrationUITests, ZapTests) {
