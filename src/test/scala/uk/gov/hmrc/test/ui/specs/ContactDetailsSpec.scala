@@ -39,44 +39,9 @@ class ContactDetailsSpec extends BaseSpec {
 
   Feature("Add Contact Details For Registration") {
 
-    // TODO:
-    // * Determine tests to have
-    // * Decide if we should have error scenarios is one test - are they covered elsewhere?
-    // * New pages to add - see UI journey {
-    //          contact-details/first/name
-    //          contact-details/first/email
-    //          first/add-another
-    //          contact-details/second/name
-    //          contact-details/second/email
-    //          contact-details/check-your-answers
-    //          registration-complete
-    //   }
-    // * Add assertOnPage() for each step requiring it
-
-    // * See if we can remove references to .clickContinue() if submission button is the same
-    //   - remove clickContinue() from page object and use submissionButton
-
-    // * Dismantle and remove the compound steps
-    //   - Add sendKeys directly in spec
-    //   - Remove references to .clickContinue() in compound methods (e.g., enterContactNameAndClickContinue)
-
-    // * Consider whether 'contactMap' is the best approach for holding contact details
-    // * Consider a better way to test 'ContactDetailsPage.changeContactDetails()' - do we check this already elsewhere?
-
-    // * On the page object:
-    //   - review locators on page object (e.g. contactNameValueLocator)
-    //   - review and correct the verifyChangedContactDetails function
-
-    // SCENARIOS:
-    //   - Complete adding first contact details with amendments > Assert registration ID
-    //   - Complete adding second contact details without amendments > Assert registration ID
-    //   - Missing name shows error > missing email shows error
-    //   - Select to change all values without changing anything > assert CYA does not change.
-
     Scenario(
       "Complete a registration adding first contact details with amendments",
       RegistrationUITests,
-      SoloTests,
       ZapTests
     ) {
       Given("an authenticated user has added a first contact with name 'Amanda Test' and email 'Amanda_Test@mail.com'")
@@ -131,17 +96,7 @@ class ContactDetailsSpec extends BaseSpec {
     }
 
     Scenario("Complete second contact details", RegistrationUITests, ZapTests) {
-
-      // Given
-      //
-      // When
-      //
-      // Then
-      //     Assert registration id returned
-
-      Given("a user successfully adds company details from the registration page")
-
-      And("the user successfully adds a single contact from the registration page")
+      Given("an authenticated user has added a first contact")
       RegistrationPage.clickEnterYourContactDetailsLink()
       assertOnPage(ContactDetailsPage)
       ContactDetailsPage.clickContinue()
@@ -163,17 +118,7 @@ class ContactDetailsSpec extends BaseSpec {
     }
 
     Scenario("Attempting to add a contact with no name produces the expected error", RegistrationUITests, ZapTests) {
-
-      // Given
-      //
-      // When
-      //
-      // Then
-      //     Assert registration id returned
-
-      Given("a user successfully adds company details from the registration page")
-
-      When("the user selects to add contact details but attempts to continue with no contact name added")
+      Given("an authenticated user attempts to add a contact with no name")
       RegistrationPage.clickEnterYourContactDetailsLink()
       ContactDetailsPage.clickContinue()
       ContactDetailsPage.clickContinue()
@@ -197,16 +142,7 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationUITests,
       ZapTests
     ) {
-      // Given
-      //
-      // When
-      //
-      // Then
-      //     Assert registration id returned
-
-      Given("a user successfully adds company details from the registration page")
-
-      When("the user selects to add contact details but attempts to continue with no email address added")
+      Given("an authenticated user attempts to add a contact with no email address")
       RegistrationPage.clickEnterYourContactDetailsLink()
       ContactDetailsPage.clickContinue()
       ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
@@ -231,16 +167,7 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationUITests,
       ZapTests
     ) {
-      // Given
-      //
-      // When
-      //
-      // Then
-      //     Assert registration id returned
-
-      Given("a user successfully adds company details from the registration page")
-
-      And("the user successfully adds a single contact from the registration page")
+      Given("an authenticated user successfully adds a single contact from the registration page")
       RegistrationPage.clickEnterYourContactDetailsLink()
       ContactDetailsPage.clickContinue()
       ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
