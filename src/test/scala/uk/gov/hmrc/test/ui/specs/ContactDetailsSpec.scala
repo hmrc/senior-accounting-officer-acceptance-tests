@@ -24,47 +24,81 @@ import uk.gov.hmrc.test.ui.pages.registration.*
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
-import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, assertTextOnPage}
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, assertTextOnPage, sendKeys}
 
 class ContactDetailsSpec extends BaseSpec {
 
-  Feature("Contact Details") {
+  override def beforeEach(): Unit = {
+    super.beforeEach()
+    FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
+    AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
+    RegistrationPage.clickEnterYourNominatedCompanyDetailsLink()
+    GrsStubPage.clickStubResponseButton()
+    assertOnPage(RegistrationPage)
+  }
+
+  Feature("Add Contact Details For Registration") {
 
     Scenario(
-      "Complete first contact details",
+      "Complete a registration adding first contact details with amendments",
       RegistrationUITests,
       ZapTests
     ) {
-      Given("a user successfully adds company details from the registration page")
-      FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
-      RegistrationPage.clickEnterYourNominatedCompanyDetailsLink()
-      GrsStubPage.clickStubResponseButton()
-
-      And("the user successfully adds a single contact from the registration page")
+      Given("an authenticated user has added a first contact with name 'Amanda Test' and email 'Amanda_Test@mail.com'")
       RegistrationPage.clickEnterYourContactDetailsLink()
+      assertOnPage(ContactDetailsPage)
       ContactDetailsPage.clickContinue()
-      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
-      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)
-      ContactDetailsPage.selectYesRadioAndClickContinue()
-      ContactDetailsPage.assertContactDetailsMatch(FirstContact)
+      assertOnPage(FirstContactNamePage)
+      sendKeys(FirstContactNamePage.nameInput, "Amanda Test")
+      FirstContactNamePage.clickSubmissionButton()
+      assertOnPage(FirstContactEmailPage)
+      sendKeys(FirstContactEmailPage.emailInput, "Amanda_Test@mail.com")
+      FirstContactEmailPage.clickSubmissionButton()
+      assertOnPage(AddAnotherContactPage)
+      AddAnotherContactPage.clickYesRadioButton()
+      AddAnotherContactPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+      assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, "Amanda Test")
+      assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, "Amanda_Test@mail.com")
 
-      When("the user selects to save and continue from the 'Check your answers' page")
-      ContactDetailsPage.clickContinue()
+      When("the user amends the first contact name to 'Test-Amendment Of'name'")
+      CheckYourAnswersPage.clickFirstContactNameChangeLink()
+      assertOnPage(FirstContactNamePage.changePageUrl)
+      sendKeys(FirstContactNamePage.nameInput, "Test-Amendment Of'name")
+      FirstContactNamePage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
 
-      Then("the status on the registration page for the 'Enter your contact details' section is set to 'Completed'")
+      And(
+        "navigates to the 'change email address' page using the 'change' link but selects to submit without making a change"
+      )
+      CheckYourAnswersPage.clickFirstContactEmailChangeLink()
+      assertOnPage(FirstContactEmailPage.changePageUrl)
+      FirstContactEmailPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+
+      Then("the amended name and original email are correctly displayed on the 'Check Your Answers' page")
+      assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, "Test-Amendment Of'name")
+      assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, "Amanda_Test@mail.com")
+
+      When("the user submits the contact details")
+      CheckYourAnswersPage.clickSubmissionButton()
+      assertOnPage(RegistrationPage)
+
+      Then("the state of the 'Enter your contact details' section is correctly set as 'Completed'")
       RegistrationPage.assertSectionStatus(ContactDetails, Completed)
+
+      When("the user finally submits the registration")
+      RegistrationPage.clickSubmissionButton()
+
+      Then("the registration is completed and a reference Id is displayed")
+      assertOnPage(RegistrationCompletePage)
+      RegistrationCompletePage.assertReferenceIdReturned()
     }
 
     Scenario("Complete second contact details", RegistrationUITests, ZapTests) {
-      Given("a user successfully adds company details from the registration page")
-      FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
-      RegistrationPage.clickEnterYourNominatedCompanyDetailsLink()
-      GrsStubPage.clickStubResponseButton()
-
-      And("the user successfully adds a single contact from the registration page")
+      Given("an authenticated user has added a first contact")
       RegistrationPage.clickEnterYourContactDetailsLink()
+      assertOnPage(ContactDetailsPage)
       ContactDetailsPage.clickContinue()
       ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
       ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)
@@ -84,13 +118,7 @@ class ContactDetailsSpec extends BaseSpec {
     }
 
     Scenario("Attempting to add a contact with no name produces the expected error", RegistrationUITests, ZapTests) {
-      Given("a user successfully adds company details from the registration page")
-      FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
-      RegistrationPage.clickEnterYourNominatedCompanyDetailsLink()
-      GrsStubPage.clickStubResponseButton()
-
-      When("the user selects to add contact details but attempts to continue with no contact name added")
+      Given("an authenticated user attempts to add a contact with no name")
       RegistrationPage.clickEnterYourContactDetailsLink()
       ContactDetailsPage.clickContinue()
       ContactDetailsPage.clickContinue()
@@ -114,13 +142,7 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationUITests,
       ZapTests
     ) {
-      Given("a user successfully adds company details from the registration page")
-      FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
-      RegistrationPage.clickEnterYourNominatedCompanyDetailsLink()
-      GrsStubPage.clickStubResponseButton()
-
-      When("the user selects to add contact details but attempts to continue with no email address added")
+      Given("an authenticated user attempts to add a contact with no email address")
       RegistrationPage.clickEnterYourContactDetailsLink()
       ContactDetailsPage.clickContinue()
       ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
@@ -145,13 +167,7 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationUITests,
       ZapTests
     ) {
-      Given("a user successfully adds company details from the registration page")
-      FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
-      RegistrationPage.clickEnterYourNominatedCompanyDetailsLink()
-      GrsStubPage.clickStubResponseButton()
-
-      And("the user successfully adds a single contact from the registration page")
+      Given("an authenticated user successfully adds a single contact from the registration page")
       RegistrationPage.clickEnterYourContactDetailsLink()
       ContactDetailsPage.clickContinue()
       ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
