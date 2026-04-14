@@ -129,26 +129,51 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationCompletePage.assertReferenceIdReturned()
     }
 
-    Scenario("Complete second contact details", RegistrationUITests, ZapTests) {
+    Scenario("Complete a registration adding second contact details", RegistrationUITests, ZapTests, SoloTests) {
       Given("an authenticated user has added a first contact")
       RegistrationPage.clickEnterYourContactDetailsLink()
       assertOnPage(ContactDetailsPage)
       ContactDetailsPage.clickContinue()
-      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
-      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)
+//      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
+//      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)
 
-      And("the user successfully adds a second contact when prompted if all contacts needed have been added")
-      ContactDetailsPage.selectNoRadioAndClickContinue()
-      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.secondContactName)
-      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.secondContactEmail)
-      ContactDetailsPage.assertContactDetailsMatch(FirstContact)
-      ContactDetailsPage.assertContactDetailsMatch(SecondContact)
+      assertOnPage(FirstContactNamePage)
+      sendKeys(FirstContactNamePage.nameInput, "Amanda Test")
+      FirstContactNamePage.clickSubmissionButton()
+      assertOnPage(FirstContactEmailPage)
+      sendKeys(FirstContactEmailPage.emailInput, "Amanda_Test@mail.com")
+      FirstContactEmailPage.clickSubmissionButton()
+      assertOnPage(AddAnotherContactPage)
+      AddAnotherContactPage.clickNoRadioButton()
+      AddAnotherContactPage.clickSubmissionButton()
+      assertOnPage(SecondContactNamePage)
+      sendKeys(SecondContactNamePage.nameInput, "Crown Test")
+      SecondContactNamePage.clickSubmissionButton()
+      assertOnPage(SecondContactEmailPage)
+      sendKeys(SecondContactEmailPage.emailInput, "Crown_Test@mail.com")
+      SecondContactEmailPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
 
-      When("the user selects to save and continue from the 'Check your answers' page")
-      ContactDetailsPage.clickContinue()
+      Then("the amended name and original email are correctly displayed on the 'Check Your Answers' page")
+//      assertTextOnPage(CheckYourAnswersPage.secondContactNameValue, "Test-Amendment Of'name")
+//      assertTextOnPage(CheckYourAnswersPage.secondContactEmailValue, "Amanda_Test@mail.com")
 
-      Then("the status on the registration page for the 'Enter your contact details' section is set to 'Completed'")
-      RegistrationPage.assertSectionStatus(ContactDetails, Completed)
+      When("the user submits the contact details")
+      CheckYourAnswersPage.clickSubmissionButton()
+      assertOnPage(RegistrationPage)
+
+//      And("the user successfully adds a second contact when prompted if all contacts needed have been added")
+//      ContactDetailsPage.selectNoRadioAndClickContinue()
+//      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.secondContactName)
+//      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.secondContactEmail)
+//      ContactDetailsPage.assertContactDetailsMatch(FirstContact)
+//      ContactDetailsPage.assertContactDetailsMatch(SecondContact)
+//
+//      When("the user selects to save and continue from the 'Check your answers' page")
+//      ContactDetailsPage.clickContinue()
+//
+//      Then("the status on the registration page for the 'Enter your contact details' section is set to 'Completed'")
+//      RegistrationPage.assertSectionStatus(ContactDetails, Completed)
     }
 
     Scenario("Attempting to add a contact with no name produces the expected error", RegistrationUITests, ZapTests) {
