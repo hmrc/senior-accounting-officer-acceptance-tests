@@ -22,17 +22,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalactic.Prettifier.default
 import uk.gov.hmrc.test.ui.adt.*
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.TestDataGenerator
 
-object ContactDetailsPage extends CommonPage with TestDataGenerator {
+object ContactDetailsPage extends CommonPage {
   override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details"
   override val pageTitle: String = "Contact details - Senior Accounting Officer notification and certificate - GOV.UK"
   val errorTitle: By             = By.cssSelector(".govuk-error-summary__title")
-
-  private val faker                             = new Faker(new java.util.Locale("en-GB"))
   val enterFirstContactEmailAddressPage: String = s"$pageUrl/first/email"
   val addAnotherContactPage: String             = s"$pageUrl/first/add-another"
 
+  private val faker                            = new Faker(new java.util.Locale("en-GB"))
   private val continueButton: By               = By.cssSelector("button[type='submit']")
   private val contactNameInput: By             = By.cssSelector("#value")
   private val emailAddressInput: By            = By.cssSelector("input[type=email]")
@@ -41,16 +39,16 @@ object ContactDetailsPage extends CommonPage with TestDataGenerator {
   private val noOptionRadioButton: By          = By.cssSelector("#value_1")
   private val addAnotherContactPageHeading: By = By.cssSelector(".govuk-fieldset__heading")
 
-  private val firstContactSectionHeader: By = By.cssSelector(".govuk-heading-s")
-  val firstContactNameField: By             = contactNameValueLocator(1)
-  val firstContactEmailField: By            = contactEmailValueLocator(1)
-  val secondContactSectionHeader: By        = By.cssSelector(".govuk-heading-s:nth-of-type(2)")
-  val secondContactNameField: By            = contactNameValueLocator(2)
-  val secondContactEmailField: By           = contactEmailValueLocator(2)
-  val changeFirstContactNameLink: By        = By.cssSelector("a[href*='first/change-name']")
-  val changeFirstContactEmailLink: By       = By.cssSelector("a[href*='first/change-email']")
-  val changeSecondContactNameLink: By       = By.cssSelector("a[href*='second/change-name']")
-  val changeSecondContactEmailLink: By      = By.cssSelector("a[href*='second/change-email']")
+  val firstContactSectionHeader: By    = By.cssSelector(".govuk-heading-s")
+  val firstContactNameField: By        = contactNameValueLocator(1)
+  val firstContactEmailField: By       = contactEmailValueLocator(1)
+  val secondContactSectionHeader: By   = By.cssSelector(".govuk-heading-s:nth-of-type(2)")
+  val secondContactNameField: By       = contactNameValueLocator(2)
+  val secondContactEmailField: By      = contactEmailValueLocator(2)
+  val changeFirstContactNameLink: By   = By.cssSelector("a[href*='first/change-name']")
+  val changeFirstContactEmailLink: By  = By.cssSelector("a[href*='first/change-email']")
+  val changeSecondContactNameLink: By  = By.cssSelector("a[href*='second/change-name']")
+  val changeSecondContactEmailLink: By = By.cssSelector("a[href*='second/change-email']")
 
   val firstContactName: String     = s"${faker.name().fullName()}-Test"
   val newFirstContactName: String  = s"${faker.name().fullName()}-Test"
@@ -90,6 +88,8 @@ object ContactDetailsPage extends CommonPage with TestDataGenerator {
     By.cssSelector(
       s"dl.govuk-summary-list:nth-of-type($index) > .govuk-summary-list__row:nth-of-type(2) > dd.govuk-summary-list__value"
     )
+
+  def emailForUser(name: String): String = s"${name.toLowerCase.replace(" ", ".")}@example.com"
 
   def clickContinue(): Unit =
     fluentWait.until(ExpectedConditions.elementToBeClickable(continueButton)).click()
