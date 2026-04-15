@@ -109,10 +109,8 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user submits the registration")
       RegistrationPage.clickSubmissionButton()
 
-      Then("the registration is completed")
+      Then("a unique reference Id is displayed on the 'Registration Complete' page")
       assertOnPage(RegistrationCompletePage)
-
-      And("a unique reference Id is displayed")
       RegistrationCompletePage.assertReferenceIdReturned()
     }
 
@@ -158,10 +156,8 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user submits the registration")
       RegistrationPage.clickSubmissionButton()
 
-      Then("the registration is completed")
+      Then("a unique reference Id is displayed on the 'Registration Complete' page")
       assertOnPage(RegistrationCompletePage)
-
-      And("a unique reference Id is displayed")
       RegistrationCompletePage.assertReferenceIdReturned()
     }
 
