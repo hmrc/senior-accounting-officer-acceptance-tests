@@ -26,13 +26,29 @@ object CheckYourAnswersPage extends CommonPage with SubmissionButtonSupport {
   override val pageTitle: String =
     "Check your answers - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val firstContactNameKey: By         = By.cssSelector("""[data-test-id="first-contact-name-key"]""")
-  val firstContactNameValue: By       = By.cssSelector("""[data-test-id="first-contact-name-value"]""")
-  val firstContactNameChangeLink: By  = By.cssSelector("""[data-test-id="first-contact-name-change-link"]""")
-  val firstContactEmailKey: By        = By.cssSelector("""[data-test-id="first-contact-email-key"]""")
-  val firstContactEmailValue: By      = By.cssSelector("""[data-test-id="first-contact-email-value"]""")
-  val firstContactEmailChangeLink: By = By.cssSelector("""[data-test-id="first-contact-email-change-link"]""")
+//  val firstContactNameKey: By         = By.cssSelector("""[data-test-id="first-contact-name-key"]""")
+//val firstContactNameValue: By       = By.cssSelector("""[data-test-id="first-contact-name-value"]""")
+//  val firstContactNameChangeLink: By  = By.cssSelector("""[data-test-id="first-contact-name-change-link"]""")
+//  val firstContactEmailKey: By        = By.cssSelector("""[data-test-id="first-contact-email-key"]""")
+//  val firstContactEmailValue: By      = By.cssSelector("""[data-test-id="first-contact-email-value"]""")
+//  val firstContactEmailChangeLink: By = By.cssSelector("""[data-test-id="first-contact-email-change-link"]""")
+  val firstContactNameKey: By          = getContactLocatorForElement("first", "name-key")
+  val firstContactNameValue: By        = getContactLocatorForElement("first", "name-value")
+  val firstContactNameChangeLink: By   = getContactLocatorForElement("first", "name-change-link")
+  val firstContactEmailKey: By         = getContactLocatorForElement("first", "email-key")
+  val firstContactEmailValue: By       = getContactLocatorForElement("first", "email-value")
+  val firstContactEmailChangeLink: By  = getContactLocatorForElement("first", "email-change-link")
+  val secondContactNameKey: By         = getContactLocatorForElement("second", "name-key")
+  val secondContactNameValue: By       = getContactLocatorForElement("second", "name-value")
+  val secondContactNameChangeLink: By  = getContactLocatorForElement("second", "name-change-link")
+  val secondContactEmailKey: By        = getContactLocatorForElement("second", "email-key")
+  val secondContactEmailValue: By      = getContactLocatorForElement("second", "email-value")
+  val secondContactEmailChangeLink: By = getContactLocatorForElement("second", "email-change-link")
 
   def clickFirstContactNameChangeLink(): Unit  = clickElement(firstContactNameChangeLink)
   def clickFirstContactEmailChangeLink(): Unit = clickElement(firstContactEmailChangeLink)
+
+  private def getContactLocatorForElement(contactType: String, elementName: String): By = {
+    By.cssSelector(s"""[data-test-id="$contactType-contact-$elementName"]""")
+  }
 }
