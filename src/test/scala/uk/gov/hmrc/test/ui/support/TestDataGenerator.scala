@@ -17,5 +17,5 @@
 package uk.gov.hmrc.test.ui.support
 
 trait TestDataGenerator {
-  def emailForUser(name: String): String = s"${name.toLowerCase.replace(" ", ".")}@example.com"
+  def emailForUser(name: String): String = s"${name.toLowerCase.replace(" ", ".")}@test-example.com"
 }

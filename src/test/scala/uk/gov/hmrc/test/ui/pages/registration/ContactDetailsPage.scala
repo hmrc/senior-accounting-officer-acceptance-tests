@@ -52,10 +52,10 @@ object ContactDetailsPage extends CommonPage with TestDataGenerator {
   val changeSecondContactNameLink: By       = By.cssSelector("a[href*='second/change-name']")
   val changeSecondContactEmailLink: By      = By.cssSelector("a[href*='second/change-email']")
 
-  val firstContactName: String     = faker.name().fullName()
-  val newFirstContactName: String  = faker.name().fullName()
-  val secondContactName: String    = faker.name().fullName()
-  val newSecondContactName: String = faker.name().fullName()
+  val firstContactName: String     = s"${faker.name().fullName()}-Test"
+  val newFirstContactName: String  = s"${faker.name().fullName()}-Test"
+  val secondContactName: String    = s"${faker.name().fullName()}-Test"
+  val newSecondContactName: String = s"${faker.name().fullName()}-Test"
 
   val firstContactEmail: String     = emailForUser(firstContactName)
   val newFirstContactEmail: String  = emailForUser(newFirstContactName)

@@ -40,7 +40,7 @@ class ContactDetailsSpec extends BaseSpec {
   Feature("Add Contact Details For Registration") {
 
     // TODO:
-     // * See if we can remove references to .clickContinue() if submission button is the same
+    // * See if we can remove references to .clickContinue() if submission button is the same
     //   - remove clickContinue() from page object and use submissionButton
 
     // * Dismantle and remove the compound steps
