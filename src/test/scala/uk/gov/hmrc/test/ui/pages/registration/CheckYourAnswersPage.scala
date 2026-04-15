@@ -26,12 +26,6 @@ object CheckYourAnswersPage extends CommonPage with SubmissionButtonSupport {
   override val pageTitle: String =
     "Check your answers - Senior Accounting Officer notification and certificate - GOV.UK"
 
-//  val firstContactNameKey: By         = By.cssSelector("""[data-test-id="first-contact-name-key"]""")
-//val firstContactNameValue: By       = By.cssSelector("""[data-test-id="first-contact-name-value"]""")
-//  val firstContactNameChangeLink: By  = By.cssSelector("""[data-test-id="first-contact-name-change-link"]""")
-//  val firstContactEmailKey: By        = By.cssSelector("""[data-test-id="first-contact-email-key"]""")
-//  val firstContactEmailValue: By      = By.cssSelector("""[data-test-id="first-contact-email-value"]""")
-//  val firstContactEmailChangeLink: By = By.cssSelector("""[data-test-id="first-contact-email-change-link"]""")
   val firstContactNameKey: By          = getContactLocatorForElement("first", "name-key")
   val firstContactNameValue: By        = getContactLocatorForElement("first", "name-value")
   val firstContactNameChangeLink: By   = getContactLocatorForElement("first", "name-change-link")
