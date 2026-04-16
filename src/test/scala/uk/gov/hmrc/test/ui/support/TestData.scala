@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages.registration
+package uk.gov.hmrc.test.ui.support
 
-import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
+import com.github.javafaker.Faker
 
-object ContactDetailsPage extends CommonPage with SubmissionButtonSupport {
-  override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details"
-  override val pageTitle: String = "Contact details - Senior Accounting Officer notification and certificate - GOV.UK"
+object TestData {
+  private val faker = new Faker(new java.util.Locale("en-GB"))
+
+  val firstContactName: String   = s"${faker.name().fullName()}-Test"
+  val secondContactName: String  = s"${faker.name().fullName()}-Test"
+  val firstContactEmail: String  = emailForUser(firstContactName)
+  val secondContactEmail: String = emailForUser(secondContactName)
+
+  def emailForUser(name: String): String = s"${name.toLowerCase.replace(" ", ".")}@example.com"
 }

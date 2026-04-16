@@ -48,8 +48,10 @@ object CheckYourAnswersPage extends CommonPage with SubmissionButtonSupport {
   val secondContactEmailValue: By      = contactLocator(SECOND_CONTACT, EMAIL_VALUE)
   val secondContactEmailChangeLink: By = contactLocator(SECOND_CONTACT, EMAIL_CHANGE_LINK)
 
-  def clickFirstContactNameChangeLink(): Unit  = clickElement(firstContactNameChangeLink)
-  def clickFirstContactEmailChangeLink(): Unit = clickElement(firstContactEmailChangeLink)
+  def clickFirstContactNameChangeLink(): Unit   = clickElement(firstContactNameChangeLink)
+  def clickFirstContactEmailChangeLink(): Unit  = clickElement(firstContactEmailChangeLink)
+  def clickSecondContactNameChangeLink(): Unit  = clickElement(secondContactNameChangeLink)
+  def clickSecondContactEmailChangeLink(): Unit = clickElement(secondContactEmailChangeLink)
 
   private def contactLocator(contactType: String, elementName: String): By = {
     By.cssSelector(s"""[data-test-id="$contactType-$elementName"]""")

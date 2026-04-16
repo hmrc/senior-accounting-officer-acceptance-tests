@@ -28,4 +28,5 @@ object FirstContactEmailPage extends CommonPage with SubmissionButtonSupport {
   val changePageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/first/change-email"
 
   val emailInput: By = By.cssSelector("#value")
+  val errorTitle: By = By.cssSelector(".govuk-error-summary__title")
 }
