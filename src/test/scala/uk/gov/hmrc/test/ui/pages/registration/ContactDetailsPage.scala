@@ -22,8 +22,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalactic.Prettifier.default
 import uk.gov.hmrc.test.ui.adt.*
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object ContactDetailsPage extends CommonPage {
+object ContactDetailsPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details"
   override val pageTitle: String = "Contact details - Senior Accounting Officer notification and certificate - GOV.UK"
   val errorTitle: By             = By.cssSelector(".govuk-error-summary__title")
@@ -31,7 +32,6 @@ object ContactDetailsPage extends CommonPage {
   val addAnotherContactPage: String             = s"$pageUrl/first/add-another"
 
   private val faker                            = new Faker(new java.util.Locale("en-GB"))
-  private val continueButton: By               = By.cssSelector("button[type='submit']")
   private val contactNameInput: By             = By.cssSelector("#value")
   private val emailAddressInput: By            = By.cssSelector("input[type=email]")
   private val yesOptionRadioButton: By         = By.cssSelector("#value_0")
@@ -91,33 +91,30 @@ object ContactDetailsPage extends CommonPage {
 
   def emailForUser(name: String): String = s"${name.toLowerCase.replace(" ", ".")}@example.com"
 
-  def clickContinue(): Unit =
-    fluentWait.until(ExpectedConditions.elementToBeClickable(continueButton)).click()
-
   def enterContactNameAndClickContinue(fullName: String): Unit = {
     val enterFullNameField = fluentWait.until(ExpectedConditions.elementToBeClickable(contactNameInput))
     enterFullNameField.clear()
     enterFullNameField.sendKeys(fullName)
-    clickContinue()
+    clickSubmissionButton()
   }
 
   def enterEmailAddressAndClickContinue(emailAddress: String): Unit = {
     val enterEmailAddressField = fluentWait.until(ExpectedConditions.elementToBeClickable(emailAddressInput))
     enterEmailAddressField.clear()
     enterEmailAddressField.sendKeys(emailAddress)
-    clickContinue()
+    clickSubmissionButton()
   }
 
   def selectYesRadioAndClickContinue(): Unit = {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(addAnotherContactPageHeading))
     driver.findElement(yesOptionRadioButton).click()
-    clickContinue()
+    clickSubmissionButton()
   }
 
   def selectNoRadioAndClickContinue(): Unit = {
     fluentWait.until(ExpectedConditions.elementToBeClickable(noOptionLabel)).click()
     fluentWait.until(ExpectedConditions.elementSelectionStateToBe(noOptionRadioButton, true))
-    clickContinue()
+    clickSubmissionButton()
   }
 
   def assertContactDetailsMatch(contact: Contact): Unit = {

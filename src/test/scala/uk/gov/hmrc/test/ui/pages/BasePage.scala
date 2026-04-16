@@ -21,12 +21,11 @@ import org.openqa.selenium.support.ui.*
 import org.scalatest.matchers.must.Matchers
 import uk.gov.hmrc.selenium.component.PageObject
 import uk.gov.hmrc.test.ui.driver.BrowserDriver
-import uk.gov.hmrc.test.ui.support.IdGenerators
 
 import java.lang
 import java.time.Duration
 
-trait BasePage extends BrowserDriver with Matchers with IdGenerators with PageObject {
+trait BasePage extends BrowserDriver with Matchers with PageObject {
   protected def fluentWait: Wait[WebDriver] = new FluentWait[WebDriver](driver)
     .withTimeout(Duration.ofSeconds(5))
     .pollingEvery(Duration.ofMillis(200))

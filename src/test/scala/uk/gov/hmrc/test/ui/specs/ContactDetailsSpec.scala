@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.test.ui.specs
 
+import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.Completed
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.ContactDetails
 import uk.gov.hmrc.test.ui.adt.{FirstContact, SecondContact}
@@ -23,7 +24,6 @@ import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.pages.registration.*
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
 import uk.gov.hmrc.test.ui.specs.tags.*
-import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, assertTextOnPage, sendKeys}
 
 class ContactDetailsSpec extends BaseSpec {
@@ -40,12 +40,8 @@ class ContactDetailsSpec extends BaseSpec {
   Feature("Add Contact Details For Registration") {
 
     // TODO:
-    // * See if we can remove references to .clickContinue() if submission button is the same
-    //   - remove clickContinue() from page object and use submissionButton
-
     // * Dismantle and remove the compound steps
     //   - Add sendKeys directly in spec
-    //   - Remove references to .clickContinue() in compound methods (e.g., enterContactNameAndClickContinue)
 
     // * Consider whether 'contactMap' is the best approach for holding contact details
     // * Consider a better way to test 'ContactDetailsPage.changeContactDetails()' - do we check this already elsewhere?
@@ -53,10 +49,6 @@ class ContactDetailsSpec extends BaseSpec {
     // * On the page object:
     //   - review locators on page object (e.g. contactNameValueLocator)
     //   - review and correct the verifyChangedContactDetails function
-
-    // SCENARIOS:
-    //   - Missing name shows error > missing email shows error
-    //   - Select to change all values without changing anything > assert CYA does not change.
 
     Scenario(
       "Complete a registration with amended first contact details",
@@ -66,7 +58,7 @@ class ContactDetailsSpec extends BaseSpec {
       Given("an authenticated user adds company details and a first contact")
       RegistrationPage.clickEnterYourContactDetailsLink()
       assertOnPage(ContactDetailsPage)
-      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.clickSubmissionButton()
       assertOnPage(FirstContactNamePage)
       sendKeys(FirstContactNamePage.nameInput, ContactDetailsPage.firstContactName)
       FirstContactNamePage.clickSubmissionButton()
@@ -122,7 +114,7 @@ class ContactDetailsSpec extends BaseSpec {
       Given("an authenticated user completes company details and adds first and second contacts")
       RegistrationPage.clickEnterYourContactDetailsLink()
       assertOnPage(ContactDetailsPage)
-      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.clickSubmissionButton()
       assertOnPage(FirstContactNamePage)
       sendKeys(FirstContactNamePage.nameInput, ContactDetailsPage.firstContactName)
       FirstContactNamePage.clickSubmissionButton()
@@ -161,17 +153,26 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationCompletePage.assertReferenceIdReturned()
     }
 
-    Scenario("Attempting to add a contact with no name produces the expected error", RegistrationUITests, ZapTests) {
+    // SCENARIOS:
+    //   - Missing name shows error > missing email shows error
+    //   - Select to change all values without changing anything > assert CYA does not change.
+
+    Scenario(
+      "Attempting to add a contact with no name produces the expected error",
+      RegistrationUITests,
+      ZapTests,
+      SoloTests
+    ) {
       Given("an authenticated user attempts to add a contact with no name")
       RegistrationPage.clickEnterYourContactDetailsLink()
-      ContactDetailsPage.clickContinue()
-      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.clickSubmissionButton() // why does this test only pass when this is clicked twice
+      ContactDetailsPage.clickSubmissionButton()
 
       Then("an error page is shown")
       assertTextOnPage(ContactDetailsPage.errorTitle, "There is a problem")
 
       And("on the user selecting to again continue without adding a contact name the error page is shown again")
-      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.clickSubmissionButton()
       assertTextOnPage(ContactDetailsPage.errorTitle, "There is a problem")
 
       And("on the user adding a valid contact name and selecting to continue")
@@ -184,19 +185,20 @@ class ContactDetailsSpec extends BaseSpec {
     Scenario(
       "Attempting to add a contact with no email address causes an error to be displayed",
       RegistrationUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user attempts to add a contact with no email address")
       RegistrationPage.clickEnterYourContactDetailsLink()
-      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.clickSubmissionButton()
       ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
-      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.clickSubmissionButton()
 
       Then("an error page is shown")
       assertTextOnPage(ContactDetailsPage.errorTitle, "There is a problem")
 
       And("on the user selecting to again continue without adding a contact email the error page is shown again")
-      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.clickSubmissionButton()
       assertTextOnPage(ContactDetailsPage.errorTitle, "There is a problem")
 
       And("on the user adding a valid contact email and selecting to continue")
@@ -209,11 +211,12 @@ class ContactDetailsSpec extends BaseSpec {
     Scenario(
       "Change contact details from Check Your Answers page",
       RegistrationUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user successfully adds a single contact from the registration page")
       RegistrationPage.clickEnterYourContactDetailsLink()
-      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.clickSubmissionButton()
       ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
       ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)
 

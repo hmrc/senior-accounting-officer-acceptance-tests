@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.support
+package uk.gov.hmrc.test.ui.adt
 
 enum AffinityGroup {
   case Organisation, Individual, Agent
