@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 HM Revenue & Customs
+ * Copyright 2026 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,15 @@
 
 package uk.gov.hmrc.test.ui.support
 
-trait TestDataGenerator {
+import com.github.javafaker.Faker
+
+object TestData {
+  private val faker = new Faker(new java.util.Locale("en-GB"))
+
+  val firstContactName: String   = s"${faker.name().fullName()}-Test"
+  val secondContactName: String  = s"${faker.name().fullName()}-Test"
+  val firstContactEmail: String  = emailForUser(firstContactName)
+  val secondContactEmail: String = emailForUser(secondContactName)
+
   def emailForUser(name: String): String = s"${name.toLowerCase.replace(" ", ".")}@example.com"
 }

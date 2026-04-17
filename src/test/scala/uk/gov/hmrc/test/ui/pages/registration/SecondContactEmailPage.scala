@@ -20,13 +20,12 @@ import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object FirstContactNamePage extends CommonPage with SubmissionButtonSupport {
-  override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details/first/name"
+object SecondContactEmailPage extends CommonPage with SubmissionButtonSupport {
+  override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details/second/email"
   override val pageTitle: String =
-    "First contact details - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Second contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val changePageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/first/change-name"
+  val changePageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/second/change-email"
 
-  val nameInput: By  = By.cssSelector("#value")
-  val errorTitle: By = By.cssSelector(".govuk-error-summary__title")
+  val emailInput: By = By.cssSelector("#value")
 }

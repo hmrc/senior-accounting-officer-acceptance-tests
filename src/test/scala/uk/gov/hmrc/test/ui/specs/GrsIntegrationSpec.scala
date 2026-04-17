@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.test.ui.specs
 
+import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.Completed
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.CompanyDetails
 import uk.gov.hmrc.test.ui.pages.AuthorityWizardPage
@@ -23,7 +24,6 @@ import uk.gov.hmrc.test.ui.pages.grs.*
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsMicroservice
 import uk.gov.hmrc.test.ui.pages.registration.{FeatureTogglePage, RegistrationPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
-import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 
 class GrsIntegrationSpec extends BaseSpec {
 

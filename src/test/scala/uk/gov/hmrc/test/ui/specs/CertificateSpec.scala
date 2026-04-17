@@ -16,11 +16,11 @@
 
 package uk.gov.hmrc.test.ui.specs
 
+import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.pages.submission.certificate.{CheckYourAnswersPage as CertificateCheckYourAnswersPage, *}
 import uk.gov.hmrc.test.ui.pages.submission.notification.{CheckYourAnswersPage as NotificationCheckYourAnswersPage, *}
 import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
 import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
-import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 

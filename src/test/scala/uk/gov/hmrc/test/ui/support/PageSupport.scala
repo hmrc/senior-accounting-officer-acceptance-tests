@@ -26,7 +26,7 @@ import uk.gov.hmrc.test.ui.pages.CommonPage
 import java.lang
 import java.time.Duration
 
-object PageSupport extends BrowserDriver with Matchers with IdGenerators with PageObject {
+object PageSupport extends BrowserDriver with Matchers with PageObject {
 
   val backLink: By       = By.cssSelector(".govuk-back-link")
   val continueButton: By = By.id("continue")

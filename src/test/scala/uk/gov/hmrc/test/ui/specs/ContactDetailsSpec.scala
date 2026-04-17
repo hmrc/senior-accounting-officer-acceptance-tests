@@ -16,15 +16,15 @@
 
 package uk.gov.hmrc.test.ui.specs
 
+import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.Completed
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.ContactDetails
-import uk.gov.hmrc.test.ui.adt.{FirstContact, SecondContact}
 import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.pages.registration.*
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
 import uk.gov.hmrc.test.ui.specs.tags.*
-import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, assertTextOnPage, sendKeys}
+import uk.gov.hmrc.test.ui.support.TestData
 
 class ContactDetailsSpec extends BaseSpec {
 
@@ -40,195 +40,223 @@ class ContactDetailsSpec extends BaseSpec {
   Feature("Add Contact Details For Registration") {
 
     Scenario(
-      "Complete a registration adding first contact details with amendments",
+      "Complete a registration with amended first contact details",
       RegistrationUITests,
       ZapTests
     ) {
-      Given("an authenticated user has added a first contact with name 'Amanda Test' and email 'Amanda_Test@mail.com'")
+      Given("an authenticated user adds company details and a first contact")
       RegistrationPage.clickEnterYourContactDetailsLink()
       assertOnPage(ContactDetailsPage)
-      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.clickSubmissionButton()
       assertOnPage(FirstContactNamePage)
-      sendKeys(FirstContactNamePage.nameInput, "Amanda Test")
+      sendKeys(FirstContactNamePage.nameInput, TestData.firstContactName)
       FirstContactNamePage.clickSubmissionButton()
       assertOnPage(FirstContactEmailPage)
-      sendKeys(FirstContactEmailPage.emailInput, "Amanda_Test@mail.com")
+      sendKeys(FirstContactEmailPage.emailInput, TestData.firstContactEmail)
       FirstContactEmailPage.clickSubmissionButton()
       assertOnPage(AddAnotherContactPage)
       AddAnotherContactPage.clickYesRadioButton()
       AddAnotherContactPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
-      assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, "Amanda Test")
-      assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, "Amanda_Test@mail.com")
+      assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, TestData.firstContactName)
+      assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, TestData.firstContactEmail)
 
-      When("the user amends the first contact name to 'Test-Amendment Of'name'")
+      When("the user amends the first contact name using the 'Change' link")
       CheckYourAnswersPage.clickFirstContactNameChangeLink()
       assertOnPage(FirstContactNamePage.changePageUrl)
-      sendKeys(FirstContactNamePage.nameInput, "Test-Amendment Of'name")
+      sendKeys(FirstContactNamePage.nameInput, TestData.secondContactName)
       FirstContactNamePage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
 
-      And(
-        "navigates to the 'change email address' page using the 'change' link but selects to submit without making a change"
-      )
+      And("amends the first contact email using the 'Change' link")
       CheckYourAnswersPage.clickFirstContactEmailChangeLink()
       assertOnPage(FirstContactEmailPage.changePageUrl)
+      sendKeys(FirstContactEmailPage.emailInput, TestData.secondContactEmail)
       FirstContactEmailPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
 
-      Then("the amended name and original email are correctly displayed on the 'Check Your Answers' page")
-      assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, "Test-Amendment Of'name")
-      assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, "Amanda_Test@mail.com")
+      Then("the amended name and email are correctly displayed on the 'Check Your Answers' page")
+      assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, TestData.secondContactName)
+      assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, TestData.secondContactEmail)
 
       When("the user submits the contact details")
       CheckYourAnswersPage.clickSubmissionButton()
       assertOnPage(RegistrationPage)
 
-      Then("the state of the 'Enter your contact details' section is correctly set as 'Completed'")
+      Then("the 'Enter your contact details' section status is 'Completed'")
       RegistrationPage.assertSectionStatus(ContactDetails, Completed)
 
-      When("the user finally submits the registration")
+      When("the user submits the registration")
       RegistrationPage.clickSubmissionButton()
 
-      Then("the registration is completed and a reference Id is displayed")
+      Then("a unique reference Id is displayed on the 'Registration Complete' page")
       assertOnPage(RegistrationCompletePage)
       RegistrationCompletePage.assertReferenceIdReturned()
     }
 
-    Scenario("Complete second contact details", RegistrationUITests, ZapTests) {
-      Given("an authenticated user has added a first contact")
+    Scenario(
+      "Complete a registration with second contact details",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user completes company details and adds first and second contacts")
       RegistrationPage.clickEnterYourContactDetailsLink()
       assertOnPage(ContactDetailsPage)
-      ContactDetailsPage.clickContinue()
-      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
-      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)
+      ContactDetailsPage.clickSubmissionButton()
+      assertOnPage(FirstContactNamePage)
+      sendKeys(FirstContactNamePage.nameInput, TestData.firstContactName)
+      FirstContactNamePage.clickSubmissionButton()
+      assertOnPage(FirstContactEmailPage)
+      sendKeys(FirstContactEmailPage.emailInput, TestData.firstContactEmail)
+      FirstContactEmailPage.clickSubmissionButton()
+      assertOnPage(AddAnotherContactPage)
+      AddAnotherContactPage.clickNoRadioButton()
+      AddAnotherContactPage.clickSubmissionButton()
+      assertOnPage(SecondContactNamePage)
+      sendKeys(SecondContactNamePage.nameInput, TestData.secondContactName)
+      SecondContactNamePage.clickSubmissionButton()
+      assertOnPage(SecondContactEmailPage)
+      sendKeys(SecondContactEmailPage.emailInput, TestData.secondContactEmail)
+      SecondContactEmailPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
 
-      And("the user successfully adds a second contact when prompted if all contacts needed have been added")
-      ContactDetailsPage.selectNoRadioAndClickContinue()
-      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.secondContactName)
-      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.secondContactEmail)
-      ContactDetailsPage.assertContactDetailsMatch(FirstContact)
-      ContactDetailsPage.assertContactDetailsMatch(SecondContact)
+      Then("both contacts details are correctly displayed on the 'Check Your Answers' page")
+      assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, TestData.firstContactName)
+      assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, TestData.firstContactEmail)
+      assertTextOnPage(CheckYourAnswersPage.secondContactNameValue, TestData.secondContactName)
+      assertTextOnPage(CheckYourAnswersPage.secondContactEmailValue, TestData.secondContactEmail)
 
-      When("the user selects to save and continue from the 'Check your answers' page")
-      ContactDetailsPage.clickContinue()
+      When("the user submits the contact details")
+      CheckYourAnswersPage.clickSubmissionButton()
+      assertOnPage(RegistrationPage)
 
-      Then("the status on the registration page for the 'Enter your contact details' section is set to 'Completed'")
+      Then("the 'Enter your contact details' section status is 'Completed'")
       RegistrationPage.assertSectionStatus(ContactDetails, Completed)
-    }
 
-    Scenario("Attempting to add a contact with no name produces the expected error", RegistrationUITests, ZapTests) {
-      Given("an authenticated user attempts to add a contact with no name")
-      RegistrationPage.clickEnterYourContactDetailsLink()
-      ContactDetailsPage.clickContinue()
-      ContactDetailsPage.clickContinue()
+      When("the user submits the registration")
+      RegistrationPage.clickSubmissionButton()
 
-      Then("an error page is shown")
-      assertTextOnPage(ContactDetailsPage.errorTitle, "There is a problem")
-
-      And("on the user selecting to again continue without adding a contact name the error page is shown again")
-      ContactDetailsPage.clickContinue()
-      assertTextOnPage(ContactDetailsPage.errorTitle, "There is a problem")
-
-      And("on the user adding a valid contact name and selecting to continue")
-      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
-
-      Then("the user progresses to the 'Enter email address' screen successfully")
-      assertOnPage(ContactDetailsPage.enterFirstContactEmailAddressPage)
+      Then("a unique reference Id is displayed on the 'Registration Complete' page")
+      assertOnPage(RegistrationCompletePage)
+      RegistrationCompletePage.assertReferenceIdReturned()
     }
 
     Scenario(
-      "Attempting to add a contact with no email address causes an error to be displayed",
+      "Validate that contact details are required during registration",
       RegistrationUITests,
       ZapTests
     ) {
-      Given("an authenticated user attempts to add a contact with no email address")
+      Given(
+        "an authenticated user lands on the first contact details page showing question 'What is the name of the person or team to keep on record?'"
+      )
       RegistrationPage.clickEnterYourContactDetailsLink()
-      ContactDetailsPage.clickContinue()
-      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
-      ContactDetailsPage.clickContinue()
+      ContactDetailsPage.clickSubmissionButton()
+      assertOnPage(FirstContactNamePage)
 
-      Then("an error page is shown")
-      assertTextOnPage(ContactDetailsPage.errorTitle, "There is a problem")
+      When("the user clicks 'Continue' without entering a name")
+      FirstContactNamePage.clickSubmissionButton()
 
-      And("on the user selecting to again continue without adding a contact email the error page is shown again")
-      ContactDetailsPage.clickContinue()
-      assertTextOnPage(ContactDetailsPage.errorTitle, "There is a problem")
+      Then("an error is shown")
+      assertTextOnPage(FirstContactNamePage.errorTitle, "There is a problem")
 
-      And("on the user adding a valid contact email and selecting to continue")
-      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)
+      When("the user enters a valid name and clicks 'Continue'")
+      sendKeys(FirstContactNamePage.nameInput, TestData.firstContactName)
+      FirstContactNamePage.clickSubmissionButton()
 
-      Then("the user progresses to the 'Add another contact' screen successfully")
-      assertOnPage(ContactDetailsPage.addAnotherContactPage)
+      Then("the user is taken to the first contact details page showing question 'What is their email address?'")
+      assertOnPage(FirstContactEmailPage)
+
+      When("the user clicks 'Continue' without entering an email address")
+      FirstContactEmailPage.clickSubmissionButton()
+
+      Then("an error is shown")
+      assertTextOnPage(FirstContactEmailPage.errorTitle, "There is a problem")
+
+      When("the user enters a valid email and clicks 'Continue'")
+      sendKeys(FirstContactEmailPage.emailInput, TestData.firstContactEmail)
+      FirstContactEmailPage.clickSubmissionButton()
+
+      Then("the user is taken to the 'Have you added all the contacts you need?' question page")
+      assertOnPage(AddAnotherContactPage)
+
+      When("the selects the 'Yes' radio button and clicks 'Continue'")
+      AddAnotherContactPage.clickYesRadioButton()
+      AddAnotherContactPage.clickSubmissionButton()
+
+      Then("the given contact details are correctly displayed on the 'Check Your Answers' page")
+      assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, TestData.firstContactName)
+      assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, TestData.firstContactEmail)
     }
 
     Scenario(
-      "Change contact details from Check Your Answers page",
+      "When a user selects any 'Change' link and does not commit changes the resultant values on the 'Check Your Answers' page remain unchanged",
       RegistrationUITests,
       ZapTests
     ) {
-      Given("an authenticated user successfully adds a single contact from the registration page")
+      Given("an authenticated user completes company details and adds first and second contacts")
       RegistrationPage.clickEnterYourContactDetailsLink()
-      ContactDetailsPage.clickContinue()
-      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.firstContactName)
-      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.firstContactEmail)
+      assertOnPage(ContactDetailsPage)
+      ContactDetailsPage.clickSubmissionButton()
+      assertOnPage(FirstContactNamePage)
+      sendKeys(FirstContactNamePage.nameInput, TestData.firstContactName)
+      FirstContactNamePage.clickSubmissionButton()
+      assertOnPage(FirstContactEmailPage)
+      sendKeys(FirstContactEmailPage.emailInput, TestData.firstContactEmail)
+      FirstContactEmailPage.clickSubmissionButton()
+      assertOnPage(AddAnotherContactPage)
+      AddAnotherContactPage.clickNoRadioButton()
+      AddAnotherContactPage.clickSubmissionButton()
+      assertOnPage(SecondContactNamePage)
+      sendKeys(SecondContactNamePage.nameInput, TestData.secondContactName)
+      SecondContactNamePage.clickSubmissionButton()
+      assertOnPage(SecondContactEmailPage)
+      sendKeys(SecondContactEmailPage.emailInput, TestData.secondContactEmail)
+      SecondContactEmailPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
 
-      And("the user successfully adds a second contact when prompted if all contacts needed have been added")
-      ContactDetailsPage.selectNoRadioAndClickContinue()
-      ContactDetailsPage.enterContactNameAndClickContinue(ContactDetailsPage.secondContactName)
-      ContactDetailsPage.enterEmailAddressAndClickContinue(ContactDetailsPage.secondContactEmail)
-      ContactDetailsPage.assertContactDetailsMatch(FirstContact)
-      ContactDetailsPage.assertContactDetailsMatch(SecondContact)
+      When("the user navigates to the first contact 'change name' page using the 'Change' link")
+      CheckYourAnswersPage.clickFirstContactNameChangeLink()
+      assertOnPage(FirstContactNamePage.changePageUrl)
 
-      And("the user changes all contact details")
-      ContactDetailsPage.changeContactDetail(
-        ContactDetailsPage.firstContactNameField,
-        ContactDetailsPage.changeFirstContactNameLink,
-        ContactDetailsPage.newFirstContactName,
-        ContactDetailsPage.enterContactNameAndClickContinue
-      )
+      And("submits without changing the name")
+      FirstContactNamePage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
 
-      ContactDetailsPage.changeContactDetail(
-        ContactDetailsPage.firstContactEmailField,
-        ContactDetailsPage.changeFirstContactEmailLink,
-        ContactDetailsPage.newFirstContactEmail,
-        ContactDetailsPage.enterEmailAddressAndClickContinue
-      )
+      Then("the original first contact name is correctly displayed on the 'Check Your Answers' page")
+      assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, TestData.firstContactName)
 
-      ContactDetailsPage.changeContactDetail(
-        ContactDetailsPage.secondContactNameField,
-        ContactDetailsPage.changeSecondContactNameLink,
-        ContactDetailsPage.newSecondContactName,
-        ContactDetailsPage.enterContactNameAndClickContinue
-      )
+      When("the user navigates to the first contact 'change email address' page using the 'Change' link")
+      CheckYourAnswersPage.clickFirstContactEmailChangeLink()
+      assertOnPage(FirstContactEmailPage.changePageUrl)
 
-      ContactDetailsPage.changeContactDetail(
-        ContactDetailsPage.secondContactEmailField,
-        ContactDetailsPage.changeSecondContactEmailLink,
-        ContactDetailsPage.newSecondContactEmail,
-        ContactDetailsPage.enterEmailAddressAndClickContinue
-      )
+      And("submits without changing the email")
+      FirstContactEmailPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
 
-      Then("the new contact detail amendments are shown on screen correctly")
-      ContactDetailsPage.verifyChangedContactDetails(
-        ContactDetailsPage.firstContactNameField,
-        ContactDetailsPage.firstContactName
-      )
+      Then("the original first contact email address is correctly displayed on the 'Check Your Answers' page")
+      assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, TestData.firstContactEmail)
 
-      ContactDetailsPage.verifyChangedContactDetails(
-        ContactDetailsPage.firstContactEmailField,
-        ContactDetailsPage.firstContactEmail
-      )
+      When("the user navigates to the second contact 'change name' page using the 'Change' link")
+      CheckYourAnswersPage.clickSecondContactNameChangeLink()
+      assertOnPage(SecondContactNamePage.changePageUrl)
 
-      ContactDetailsPage.verifyChangedContactDetails(
-        ContactDetailsPage.secondContactNameField,
-        ContactDetailsPage.secondContactName
-      )
+      And("submits without changing the name")
+      SecondContactNamePage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
 
-      ContactDetailsPage.verifyChangedContactDetails(
-        ContactDetailsPage.secondContactEmailField,
-        ContactDetailsPage.secondContactEmail
-      )
+      Then("the original second contact name is correctly displayed on the 'Check Your Answers' page")
+      assertTextOnPage(CheckYourAnswersPage.secondContactNameValue, TestData.secondContactName)
+
+      When("the user navigates to the second contact 'change email address' page using the 'Change' link")
+      CheckYourAnswersPage.clickSecondContactEmailChangeLink()
+      assertOnPage(SecondContactEmailPage.changePageUrl)
+
+      And("submits without changing the email")
+      SecondContactEmailPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+
+      Then("the original second contact email address is correctly displayed on the 'Check Your Answers' page")
+      assertTextOnPage(CheckYourAnswersPage.secondContactEmailValue, TestData.secondContactEmail)
     }
   }
 }

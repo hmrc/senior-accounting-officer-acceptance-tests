@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.test.ui.specs
 
+import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, NotStarted}
 import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourNominatedCompanyDetailsLink
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.{CompanyDetails, ContactDetails}
@@ -23,7 +24,6 @@ import uk.gov.hmrc.test.ui.pages.AuthorityWizardPage
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
 import uk.gov.hmrc.test.ui.pages.registration.{FeatureTogglePage, GrsStubPage, RegistrationPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
-import uk.gov.hmrc.test.ui.support.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.support.PageSupport.assertOnPage
 
 class RegistrationSpec extends BaseSpec {
