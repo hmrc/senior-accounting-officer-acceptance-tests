@@ -87,6 +87,17 @@ sbt scalafmtAll
 
 [Visit the official Scalafmt documentation to view a complete list of tasks which can be run.](https://scalameta.org/scalafmt/docs/installation.html#task-keys)
 
+## MongoDB
+
+**Steps to verify in MongoDB Compass that the 'user-answers' collection is updated for the upload submission template**
+
+* Before connecting to mongoDB, please ensure the Upscan service is up and running locally on sm2.
+* Run the 'mongosh' command in the terminal to retrieve the mongoDB url (e.g. URL: mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.8.2).
+* Launch MongoDB Compass, paste the mongoDB url into connection field , and connect to the database.
+* Navigate to and open the 'user_answers' collection under the senior-accounting-officer-submission-frontend.
+* The 'data.notificationUpload.reference' is added and the 'statusType' is set to 'InProgress'  in the 'user-answers' collection after  user navigates to  the notification upload form page on  UI.
+* The 'statusType' is updated to 'UploadedSuccessfully' after user uploaded  csv file on UI, and refresh the collection  to verify the updated 'statusType'.
+
 ## License
 
 **This code is open source software licensed under
