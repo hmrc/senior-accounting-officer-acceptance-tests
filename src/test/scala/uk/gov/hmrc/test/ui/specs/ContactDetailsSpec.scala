@@ -179,13 +179,43 @@ class ContactDetailsSpec extends BaseSpec {
       Then("the user is taken to the 'Have you added all the contacts you need?' question page")
       assertOnPage(AddAnotherContactPage)
 
-      When("the selects the 'Yes' radio button and clicks 'Continue'")
-      AddAnotherContactPage.clickYesRadioButton()
+      When("the selects the 'No' radio button and clicks 'Continue'")
+      AddAnotherContactPage.clickNoRadioButton()
       AddAnotherContactPage.clickSubmissionButton()
 
-      Then("the given contact details are correctly displayed on the 'Check Your Answers' page")
+      And(
+        "the user lands on the second contact details page showing question 'What is the name of the person or team to keep on record?'"
+      )
+      assertOnPage(SecondContactNamePage)
+
+      When("the user clicks 'Continue' without entering a name")
+      SecondContactNamePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      SecondContactNamePage.assertErrorShownOnPage()
+
+      When("the user enters a valid name and clicks 'Continue'")
+      SecondContactNamePage.addName(TestData.secondPersonName)
+      SecondContactNamePage.clickSubmissionButton()
+
+      Then("the user is taken to the second contact details page showing question 'What is their email address?'")
+      assertOnPage(SecondContactEmailPage)
+
+      When("the user clicks 'Continue' without entering an email address")
+      SecondContactEmailPage.clickSubmissionButton()
+
+      Then("an error is shown")
+      SecondContactEmailPage.assertErrorShownOnPage()
+
+      When("the user enters a valid email and clicks 'Continue'")
+      SecondContactEmailPage.addEmail(TestData.secondPersonEmail)
+      SecondContactEmailPage.clickSubmissionButton()
+
+      Then("both contacts details are correctly displayed on the 'Check Your Answers' page")
       assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, TestData.firstPersonName)
       assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, TestData.firstPersonEmail)
+      assertTextOnPage(CheckYourAnswersPage.secondContactNameValue, TestData.secondPersonName)
+      assertTextOnPage(CheckYourAnswersPage.secondContactEmailValue, TestData.secondPersonEmail)
     }
 
     Scenario(
