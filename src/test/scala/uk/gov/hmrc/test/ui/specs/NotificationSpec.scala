@@ -40,7 +40,7 @@ class NotificationSpec extends BaseSpec {
       goToAdditionalInformationPageFromHub()
 
       When("additional information is added")
-      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
+      AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
@@ -70,12 +70,12 @@ class NotificationSpec extends BaseSpec {
       assertPageWithError(AdditionalInformationPage)
 
       Then("an error appears on screen")
-      assertTextOnPage(AdditionalInformationPage.errorTitle, "There is a problem")
+      AdditionalInformationPage.assertErrorShownOnPage()
 
       And(
         "on continuing after adding additional information the text added is displayed on the 'Check Your Answers' page"
       )
-      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
+      AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
@@ -94,7 +94,7 @@ class NotificationSpec extends BaseSpec {
       assertPageWithError(AdditionalInformationPage)
 
       Then("an error appears on screen")
-      assertTextOnPage(AdditionalInformationPage.errorTitle, "There is a problem")
+      AdditionalInformationPage.assertErrorShownOnPage()
 
       And(
         "on pressing 'Skip', no text is displayed on the 'Check Your Answers' page"
@@ -129,7 +129,7 @@ class NotificationSpec extends BaseSpec {
       goToAdditionalInformationPageFromHub()
 
       When("pressing skip with additional information provided")
-      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
+      AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSkipButton()
 
       Then("no text is displayed on the 'Check Your Answers' page")
@@ -146,7 +146,7 @@ class NotificationSpec extends BaseSpec {
         "an authenticated user provides additional information and arrives on the 'Check Your Answers' page during a notification submission"
       )
       goToAdditionalInformationPageFromHub()
-      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
+      AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
@@ -154,7 +154,7 @@ class NotificationSpec extends BaseSpec {
       When("pressing the change link and updating the provided additional information")
       CheckYourAnswersPage.clickAdditionalInformationChangeLink()
       assertOnPage(AdditionalInformationPage.changePageUrl)
-      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "New Test For Changed Text")
+      AdditionalInformationPage.addInformation("New Test For Changed Text")
 
       Then("on pressing 'Continue' the updated text is displayed on the 'Check Your Answers' page")
       AdditionalInformationPage.clickSubmissionButton()
@@ -171,7 +171,7 @@ class NotificationSpec extends BaseSpec {
         "an authenticated user provides additional information and arrives on the 'Check Your Answers' page during a notification submission"
       )
       goToAdditionalInformationPageFromHub()
-      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
+      AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
@@ -179,7 +179,7 @@ class NotificationSpec extends BaseSpec {
       When("pressing the change link and updating the provided additional information")
       CheckYourAnswersPage.clickAdditionalInformationChangeLink()
       assertOnPage(AdditionalInformationPage.changePageUrl)
-      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "New Test For Changed Text")
+      AdditionalInformationPage.addInformation("New Test For Changed Text")
 
       Then("on pressing 'Skip' the updated text is not displayed on the 'Check Your Answers' page")
       AdditionalInformationPage.clickSkipButton()
@@ -196,7 +196,7 @@ class NotificationSpec extends BaseSpec {
         "an authenticated user provides additional information and arrives on the 'Check Your Answers' page during a notification submission"
       )
       goToAdditionalInformationPageFromHub()
-      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "Test")
+      AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
@@ -204,11 +204,11 @@ class NotificationSpec extends BaseSpec {
       When("pressing the change link and clearing the existing additional information")
       CheckYourAnswersPage.clickAdditionalInformationChangeLink()
       assertOnPage(AdditionalInformationPage.changePageUrl)
-      sendKeys(AdditionalInformationPage.additionalInformationTextBox, "")
+      AdditionalInformationPage.addInformation("")
 
       Then("on pressing 'Continue' an error appears on screen")
       AdditionalInformationPage.clickSubmissionButton()
-      assertTextOnPage(AdditionalInformationPage.errorTitle, "There is a problem")
+      AdditionalInformationPage.assertErrorShownOnPage()
     }
   }
 

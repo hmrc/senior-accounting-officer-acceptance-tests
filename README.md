@@ -1,4 +1,6 @@
-# Senior Accounting Officer Frontend Journey Tests
+# Digital Senior Accounting Officer (DSAO) Frontend Acceptance Tests
+
+----
 
 >  **Current chrome issue**:
 > [21/11/25] There is a current issue when running tests using later versions of chrome as per https://hmrcdigital.slack.com/archives/C0J8BH46N/p1760607965741119.
@@ -11,59 +13,92 @@ e.g. Run the following command to trigger the test via the CLI.
 >
 >The scripts are also updated, and once this is fixed we'll need to remove them
 
-## Services
+----
 
-**Run the following command to start services locally:**
+## Running Tests
+
+* Start the needed services in a terminal session with the following command:
 
 ```bash
 sm2 --start SAO_ALL
 ```
 
-## Tests
-
-**Run tests as follows:**
-
-* Argument `<browser>` must be `chrome`, `edge`, or `firefox`.
-* Argument `<environment>` must be `local`, `dev`, `qa` or `staging`.
+* Run your tests with the following command:
 
 ```bash
 sbt clean -Dbrowser="chrome" -Denvironment="local" test
 ```
 
-**Run all tests:**
+| Parameter | Supported values              |
+|-----------|-------------------------------|
+| `-Dbrowser` | `chrome`, `edge`, `firefox` |
+| `-Denvironment` | `local`, `dev`, `qa`    |
 
-The `run_all_tests.sh` script defaults to using `chrome` in the `local` environment.
+
+### Convenience scripts
+We have a few convenience scripts that take `chrome` as a default value for browser and `local` as environment.
+
+#### 1. Run all tests
+
+* From your terminal, run the following command:
 
 ```bash
  ./run_all_tests.sh
 ```
 
-**To run any test individually, add "SoloTests" tag to the respective scenario and use:**
+#### 2. Run individually selected tests
+
+* Add the `SoloTests` tag to the scenario(s) you wish to run as per the below example:
+
+> ![SoloTests Tag Example](./src/test/resources/images/solotests_tag_example.png)
+
+* From your terminal, run the following command:
 
 ```bash
  ./run_solo_tests.sh
 ```
-**To run only the submission tests, ensure "SubmissionUITests" tag is added to the respective scenario(s) and use:**
+
+* Remember to remove the `SoloTests` tag(s) added when testing before pushing code to a pull request.
+
+#### 3. Run ony the `submission` tests
+
+* To run only the submission tests, ensure `SubmissionUITests` tag is added to the respective scenario(s). These should already be tagged.
+* From a terminal run:
 
 ```bash
  ./run_submission_ui_tests.sh
 ```
 
-**To run only the registration tests, ensure "RegistrationUITests" tag is added to the respective scenario(s) and use:**
+#### 4. Run ony the `registration` tests
+
+* To run only the registration tests, ensure `RegistrationUITests` tag is added to the respective scenario(s). These should already be tagged.
+* From a terminal run:
 
 ```bash
  ./run_registration_ui_tests.sh
 ```
 
-**Executing a local ZAP test:**
+#### 5. Executing a local Zed Attack Proxy (ZAP) test
 
-First [run the DAST tool locally](https://github.com/hmrc/dast-config-manager/blob/main/README.md#running-zap-locally)
-
-The shell script is available to execute ZAP tests. The script proxies the journeys tagged with 'ZapTests' via ZAP.
+* First [run the DAST tool locally](https://github.com/hmrc/dast-config-manager/blob/main/README.md#running-zap-locally).
+* The following script is available to execute ZAP tests. The script proxies the journeys tagged with 'ZapTests' via ZAP.
 
 ```bash
 ./run_local_zap_tests.sh
 ```
+
+### Manual Upscan testing in MongoDB
+
+**Steps to verify in MongoDB Compass that the 'user-answers' collection is updated for the upload submission template.**
+
+* Before connecting to mongoDB, please ensure the Upscan service is up and running locally on sm2.
+* Run the 'mongosh' command in the terminal to retrieve the mongoDB url (e.g. URL: mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.8.2).
+* Launch MongoDB Compass, paste the mongoDB url into connection field , and connect to the database.
+* Navigate to and open the 'user_answers' collection under the senior-accounting-officer-submission-frontend.
+* The 'data.notificationUpload.reference' is added and the 'statusType' is set to 'InProgress'  in the 'user-answers' collection after  user navigates to  the notification upload form page on  UI.
+* The 'statusType' is updated to 'UploadedSuccessfully' after user uploaded  csv file on UI, and refresh the collection  to verify the updated 'statusType'.
+
+----
 
 ## Scalafmt
 
@@ -87,16 +122,7 @@ sbt scalafmtAll
 
 [Visit the official Scalafmt documentation to view a complete list of tasks which can be run.](https://scalameta.org/scalafmt/docs/installation.html#task-keys)
 
-## MongoDB
-
-**Steps to verify in MongoDB Compass that the 'user-answers' collection is updated for the upload submission template**
-
-* Before connecting to mongoDB, please ensure the Upscan service is up and running locally on sm2.
-* Run the 'mongosh' command in the terminal to retrieve the mongoDB url (e.g. URL: mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.8.2).
-* Launch MongoDB Compass, paste the mongoDB url into connection field , and connect to the database.
-* Navigate to and open the 'user_answers' collection under the senior-accounting-officer-submission-frontend.
-* The 'data.notificationUpload.reference' is added and the 'statusType' is set to 'InProgress'  in the 'user-answers' collection after  user navigates to  the notification upload form page on  UI.
-* The 'statusType' is updated to 'UploadedSuccessfully' after user uploaded  csv file on UI, and refresh the collection  to verify the updated 'statusType'.
+----
 
 ## License
 

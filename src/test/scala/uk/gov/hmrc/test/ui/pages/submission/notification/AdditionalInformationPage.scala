@@ -19,10 +19,11 @@ package uk.gov.hmrc.test.ui.pages.submission.notification
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
-import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
+import uk.gov.hmrc.test.ui.support.PageSupport.{clickElement, sendKeys}
+import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
 
-object AdditionalInformationPage extends CommonPage with SubmissionButtonSupport {
+object AdditionalInformationPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
+
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/additional-information"
 
@@ -32,8 +33,11 @@ object AdditionalInformationPage extends CommonPage with SubmissionButtonSupport
   val changePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/change-additional-information"
   val additionalInformationTextBox: By = By.cssSelector(".govuk-textarea")
-  val errorTitle: By                   = By.cssSelector(".govuk-error-summary__title")
   val skipButton: By                   = By.id("skip")
 
   def clickSkipButton(): Unit = clickElement(skipButton)
+
+  def addInformation(text: String): Unit = {
+    sendKeys(additionalInformationTextBox, text)
+  }
 }
