@@ -20,6 +20,7 @@ import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.Completed
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.ContactDetails
 import uk.gov.hmrc.test.ui.pages.*
+import uk.gov.hmrc.test.ui.pages.grs.NominatedCompanyDetailsGuidancePage
 import uk.gov.hmrc.test.ui.pages.registration.*
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
 import uk.gov.hmrc.test.ui.specs.tags.*
@@ -33,6 +34,8 @@ class ContactDetailsSpec extends BaseSpec {
     FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
     AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
     RegistrationPage.clickEnterYourNominatedCompanyDetailsLink()
+    assertOnPage(NominatedCompanyDetailsGuidancePage)
+    NominatedCompanyDetailsGuidancePage.clickSubmissionButton()
     GrsStubPage.clickStubResponseButton()
     assertOnPage(RegistrationPage)
   }

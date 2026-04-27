@@ -39,7 +39,7 @@ object RegistrationPage extends CommonPage with SubmissionButtonSupport {
   private val pageLinks: Map[PageLink, (By, String)] = Map(
     EnterYourNominatedCompanyDetailsLink -> (
       By.cssSelector("ul.govuk-task-list > li.govuk-task-list__item--with-link:nth-of-type(1)"),
-      s"${pageUrl.stripSuffix("/")}/business-match"
+      s"${pageUrl.stripSuffix("/")}/nominated-company-details-guidance"
     )
   )
 
