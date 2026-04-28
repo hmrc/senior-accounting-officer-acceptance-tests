@@ -21,6 +21,7 @@ import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, NotStarted}
 import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourNominatedCompanyDetailsLink
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.{CompanyDetails, ContactDetails}
 import uk.gov.hmrc.test.ui.pages.AuthorityWizardPage
+import uk.gov.hmrc.test.ui.pages.grs.NominatedCompanyDetailsGuidancePage
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
 import uk.gov.hmrc.test.ui.pages.registration.{FeatureTogglePage, GrsStubPage, RegistrationPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
@@ -56,6 +57,8 @@ class RegistrationSpec extends BaseSpec {
       FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
       RegistrationPage.clickEnterYourNominatedCompanyDetailsLink()
+      assertOnPage(NominatedCompanyDetailsGuidancePage)
+      NominatedCompanyDetailsGuidancePage.clickSubmissionButton()
       GrsStubPage.clickStubResponseButton()
 
       Then("the action states displayed on the registration page are updated correctly")

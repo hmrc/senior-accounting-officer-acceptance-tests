@@ -24,6 +24,7 @@ import uk.gov.hmrc.test.ui.pages.grs.*
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsMicroservice
 import uk.gov.hmrc.test.ui.pages.registration.{FeatureTogglePage, RegistrationPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
+import uk.gov.hmrc.test.ui.support.PageSupport.assertOnPage
 
 class GrsIntegrationSpec extends BaseSpec {
 
@@ -38,6 +39,8 @@ class GrsIntegrationSpec extends BaseSpec {
       FeatureTogglePage.setGrsHost(GrsMicroservice)
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
       RegistrationPage.clickEnterYourNominatedCompanyDetailsLink()
+      assertOnPage(NominatedCompanyDetailsGuidancePage)
+      NominatedCompanyDetailsGuidancePage.clickSubmissionButton()
 
       When("the user completes a business match successfully")
       CompanyRegistrationNumberPage.verifyGrsCompanyDetailsPageURL()

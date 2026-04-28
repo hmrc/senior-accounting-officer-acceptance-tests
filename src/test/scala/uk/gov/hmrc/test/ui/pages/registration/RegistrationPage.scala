@@ -23,6 +23,7 @@ import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourNominatedCompanyDet
 import uk.gov.hmrc.test.ui.adt.{PageLink, PageSectionStatus, RegistrationPageSection}
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.pages.grs.NominatedCompanyDetailsGuidancePage
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 import scala.jdk.CollectionConverters.*
@@ -39,7 +40,7 @@ object RegistrationPage extends CommonPage with SubmissionButtonSupport {
   private val pageLinks: Map[PageLink, (By, String)] = Map(
     EnterYourNominatedCompanyDetailsLink -> (
       By.cssSelector("ul.govuk-task-list > li.govuk-task-list__item--with-link:nth-of-type(1)"),
-      s"${pageUrl.stripSuffix("/")}/business-match"
+      NominatedCompanyDetailsGuidancePage.pageUrl
     )
   )
 
