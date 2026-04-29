@@ -19,7 +19,7 @@ package uk.gov.hmrc.test.ui.specs
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.pages.submission.certificate.{CheckYourAnswersPage as CertificateCheckYourAnswersPage, *}
 import uk.gov.hmrc.test.ui.pages.submission.notification.{CheckYourAnswersPage as NotificationCheckYourAnswersPage, *}
-import uk.gov.hmrc.test.ui.pages.{AuthorityWizardPage, HubPage}
+import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
 import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
@@ -417,21 +417,21 @@ class CertificateSpec extends BaseSpec {
 
   private def navigateToCertificateStartPage(): Unit = {
     AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
-    assertOnPage(HubPage)
+    assertOnPage(AccountHomePage)
 
     // TODO: (MA - 26/01) Temporary workaround until data is available at this point in the journey.
-    HubPage.clickSubmitNotificationLink()
+    AccountHomePage.clickSubmitNotificationLink()
     assertOnPage(SubmitNotificationStartPage)
     driver.navigate().back()
-    assertOnPage(HubPage)
+    assertOnPage(AccountHomePage)
 
-    HubPage.clickSubmitCertificateLink()
+    AccountHomePage.clickSubmitCertificateLink()
     assertOnPage(SubmitCertificateStartPage)
   }
 
   private def addNotificationFromHub(): Unit = {
-    assertOnPage(HubPage)
-    HubPage.clickSubmitNotificationLink()
+    assertOnPage(AccountHomePage)
+    AccountHomePage.clickSubmitNotificationLink()
     assertOnPage(SubmitNotificationStartPage)
     SubmitNotificationStartPage.clickSubmitNotificationLink()
     assertOnPage(GuidancePage)
