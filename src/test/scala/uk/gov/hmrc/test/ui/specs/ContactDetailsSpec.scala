@@ -49,8 +49,8 @@ class ContactDetailsSpec extends BaseSpec {
     ) {
       Given("an authenticated user adds company details and a first contact")
       AddFirstContactDetails()
-      AddAnotherContactPage.clickYesRadioButton()
-      AddAnotherContactPage.clickSubmissionButton()
+      HaveYouAddedAllContactsPage.clickYesRadioButton()
+      HaveYouAddedAllContactsPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, TestData.firstPersonName)
       assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, TestData.firstPersonEmail)
@@ -95,8 +95,8 @@ class ContactDetailsSpec extends BaseSpec {
     ) {
       Given("an authenticated user completes company details and adds first and second contacts")
       AddFirstContactDetails()
-      AddAnotherContactPage.clickNoRadioButton()
-      AddAnotherContactPage.clickSubmissionButton()
+      HaveYouAddedAllContactsPage.clickNoRadioButton()
+      HaveYouAddedAllContactsPage.clickSubmissionButton()
       assertOnPage(SecondContactNamePage)
       AddSecondContactDetails()
 
@@ -128,8 +128,8 @@ class ContactDetailsSpec extends BaseSpec {
     ) {
       Given("a user has completed registration with a single contact")
       AddFirstContactDetails()
-      AddAnotherContactPage.clickYesRadioButton()
-      AddAnotherContactPage.clickSubmissionButton()
+      HaveYouAddedAllContactsPage.clickYesRadioButton()
+      HaveYouAddedAllContactsPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       CheckYourAnswersPage.clickSubmissionButton()
       assertOnPage(RegistrationPage)
@@ -179,11 +179,11 @@ class ContactDetailsSpec extends BaseSpec {
       FirstContactEmailPage.clickSubmissionButton()
 
       Then("the user is taken to the 'Have you added all the contacts you need?' question page")
-      assertOnPage(AddAnotherContactPage)
+      assertOnPage(HaveYouAddedAllContactsPage)
 
       When("the selects the 'No' radio button and clicks 'Continue'")
-      AddAnotherContactPage.clickNoRadioButton()
-      AddAnotherContactPage.clickSubmissionButton()
+      HaveYouAddedAllContactsPage.clickNoRadioButton()
+      HaveYouAddedAllContactsPage.clickSubmissionButton()
 
       And(
         "the user lands on the second contact details page showing question 'What is the name of the person or team to keep on record?'"
@@ -227,8 +227,8 @@ class ContactDetailsSpec extends BaseSpec {
     ) {
       Given("an authenticated user completes company details and adds first and second contacts")
       AddFirstContactDetails()
-      AddAnotherContactPage.clickNoRadioButton()
-      AddAnotherContactPage.clickSubmissionButton()
+      HaveYouAddedAllContactsPage.clickNoRadioButton()
+      HaveYouAddedAllContactsPage.clickSubmissionButton()
       assertOnPage(SecondContactNamePage)
       AddSecondContactDetails()
 
@@ -288,7 +288,7 @@ class ContactDetailsSpec extends BaseSpec {
     assertOnPage(FirstContactEmailPage)
     FirstContactEmailPage.addEmail(TestData.firstPersonEmail)
     FirstContactEmailPage.clickSubmissionButton()
-    assertOnPage(AddAnotherContactPage)
+    assertOnPage(HaveYouAddedAllContactsPage)
   }
 
   private def AddSecondContactDetails(): Unit = {
