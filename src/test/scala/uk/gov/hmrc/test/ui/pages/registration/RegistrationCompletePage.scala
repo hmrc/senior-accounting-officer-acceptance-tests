@@ -19,13 +19,14 @@ package uk.gov.hmrc.test.ui.pages.registration
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object RegistrationCompletePage extends CommonPage {
+object RegistrationCompletePage extends CommonPage with SubmissionButtonSupport {
   override def pageUrl: String   = s"${RegistrationPage.pageUrl}/registration-complete"
   override def pageTitle: String =
     "SAO Registration Confirmation - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  def assertReferenceIdReturned(): Unit = {
+  def assertReferenceNumberReturned(): Unit = {
     val referenceNumberElement: By = By.cssSelector("""[data-test-id="registration-reference-number"]""")
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(referenceNumberElement))
 
