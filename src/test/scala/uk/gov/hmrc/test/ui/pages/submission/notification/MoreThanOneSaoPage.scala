@@ -16,24 +16,13 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
-import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
+import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object SubmitNotificationStartPage extends CommonPage {
+object MoreThanOneSaoPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/start"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/more-than-one-sao"
   override val pageTitle: String =
-    "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
-
-  val provideSaoDetailsLink: By        = actionListItem(1)
-  val uploadSubmissionTemplateLink: By = actionListItem(2)
-  val submitNotificationLink: By       = actionListItem(3)
-
-  def actionListItem(index: Int): By =
-    By.cssSelector(s".govuk-task-list li:nth-child($index) a")
-
-  def clickSubmitNotificationLink(): Unit = clickElement(submitNotificationLink)
-  def clickProvideSaoDetailsLink(): Unit  = clickElement(provideSaoDetailsLink)
+    "Submit a notification - Was there more than one SAO during the financial year? - Senior Accounting Officer notification and certificate - GOV.UK"
 }
