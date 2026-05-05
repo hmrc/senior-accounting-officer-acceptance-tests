@@ -27,11 +27,13 @@ object SubmitNotificationStartPage extends CommonPage {
   override val pageTitle: String =
     "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val uploadTemplateLink: By     = actionListItem(1)
-  val submitNotificationLink: By = actionListItem(2)
+  val provideSaoDetailsLink: By        = actionListItem(1)
+  val uploadSubmissionTemplateLink: By = actionListItem(2)
+  val submitNotificationLink: By       = actionListItem(3)
 
   def actionListItem(index: Int): By =
     By.cssSelector(s".govuk-task-list li:nth-child($index) a")
 
   def clickSubmitNotificationLink(): Unit = clickElement(submitNotificationLink)
+  def clickProvideSaoDetailsLink(): Unit  = clickElement(provideSaoDetailsLink)
 }
