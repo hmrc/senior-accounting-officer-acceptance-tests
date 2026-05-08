@@ -19,7 +19,7 @@ package uk.gov.hmrc.test.ui.specs
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
 class NotificationSpec extends BaseSpec {
@@ -210,6 +210,58 @@ class NotificationSpec extends BaseSpec {
       AdditionalInformationPage.clickSubmissionButton()
       AdditionalInformationPage.assertErrorShownOnPage()
     }
+
+    // TODO: This will be the happy journey, updated with each new page
+    Scenario(
+      "A user has selected to submit a Notification only, when there was only one SAO in the financial year they can move successfully through the journey providing the SAO details",
+      SubmissionUITests,
+      ZapTests,
+      SoloTests
+    ) {
+      Given("an authenticated user is on the more than one SAO page, selects No and presses continue")
+      goToMoreThanOneSaoPageFromHub()
+      MoreThanOneSaoPage.clickNoRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
+
+      When("they arrive on the SAO name page and enter the SAO name")
+      println(s"URL: ${NotificationSaoNamePage.pageUrl}")
+      println(s"Title: ${NotificationSaoNamePage.pageTitle}")
+//      assertOnPage(NotificationSaoNamePage)
+      NotificationSaoNamePage.addName("Jane Doe")
+
+//TODO - update when the next page in the journey is made
+      Then("continue is pressed, no error appears and the user moves to the next page in the journey")
+      NotificationSaoNamePage.clickSubmissionButton()
+    }
+
+    // TODO: This will be the error journey, updated with each new page
+    Scenario(
+      "A user has selected to submit a Notification only, when there was only one SAO in the financial year they receive the expected error messages but can correct the mistake and move successfully through the journey providing the SAO details",
+      SubmissionUITests,
+      ZapTests,
+      SoloTests
+    ) {
+      Given("an authenticated user is on the more than one SAO page, selects neither radio button and presses continue")
+      goToMoreThanOneSaoPageFromHub()
+      MoreThanOneSaoPage.clickSubmissionButton()
+
+      When("the error message appears, the user can select No and continue, moving to the Sao Name Page")
+      MoreThanOneSaoPage.assertErrorShownOnPage()
+      MoreThanOneSaoPage.clickNoRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
+      //      assertOnPage(NotificationSaoNamePage)
+
+      And(" then user does not enter a name but continue is clicked an error message appears")
+      NotificationSaoNamePage.clickSubmissionButton()
+      NotificationSaoNamePage.assertErrorShownOnPage()
+
+      // TODO - update when the next page in the journey is made
+      Then(
+        "the user can input a name and press continue, no error appears and the user moves to the next page in the journey"
+      )
+      NotificationSaoNamePage.addName("Jane Doe")
+      NotificationSaoNamePage.clickSubmissionButton()
+    }
   }
 
   private def goToAdditionalInformationPageFromHub(): Unit = {
@@ -220,5 +272,13 @@ class NotificationSpec extends BaseSpec {
     assertOnPage(GuidancePage)
     GuidancePage.clickSubmissionButton()
     assertOnPage(AdditionalInformationPage)
+  }
+
+  private def goToMoreThanOneSaoPageFromHub(): Unit = {
+    assertOnPage(AccountHomePage)
+    AccountHomePage.clickSubmitNotificationLink()
+    assertOnPage(SubmitNotificationStartPage)
+    SubmitNotificationStartPage.clickProvideSaoDetailsLink()
+    assertOnPage(MoreThanOneSaoPage)
   }
 }
