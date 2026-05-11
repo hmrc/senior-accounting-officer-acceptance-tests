@@ -211,7 +211,6 @@ class NotificationSpec extends BaseSpec {
       AdditionalInformationPage.assertErrorShownOnPage()
     }
 
-    // TODO: This will be the happy journey, updated with each new page
     Scenario(
       "A user has selected to submit a Notification only, when there was only one SAO in the financial year they can move successfully through the journey providing the SAO details",
       SubmissionUITests,
@@ -226,37 +225,44 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(NotificationOneSaoNamePage)
       NotificationOneSaoNamePage.addName("Jane Doe")
 
-//TODO - update when the next page in the journey is made
       Then("continue is pressed, no error appears and the user moves to the next page in the journey")
       NotificationOneSaoNamePage.clickSubmissionButton()
     }
 
-    // TODO: This will be the error journey, updated with each new page
     Scenario(
-      "A user has selected to submit a Notification only, when there was only one SAO in the financial year they receive the expected error messages but can correct the mistake and move successfully through the journey providing the SAO details",
+      "Validate that SAO details are required during a notification only submission",
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
-      Given("an authenticated user is on the more than one SAO page, selects neither radio button and presses continue")
+      Given("an authenticated user does not select any option after landing on the 'More than one SAO' page")
       goToMoreThanOneSaoPageFromHub()
+
+      When("the 'Continue' button is clicked")
       MoreThanOneSaoPage.clickSubmissionButton()
 
-      When("the error message appears, the user can select No and continue, moving to the Sao Name Page")
+      Then("an error message is displayed")
       MoreThanOneSaoPage.assertErrorShownOnPage()
+
+      When("the 'Continue' button is clicked after the 'No' radio button is selected")
       MoreThanOneSaoPage.clickNoRadioButton()
       MoreThanOneSaoPage.clickSubmissionButton()
+
+      Then("the user lands on the 'NotificationOneSaoNamePage' page")
       assertOnPage(NotificationOneSaoNamePage)
 
-      And(" then user does not enter a name but continue is clicked an error message appears")
+      When("the 'Continue' button is clicked after no name is entered")
       NotificationOneSaoNamePage.clickSubmissionButton()
+
+      Then("an error message is displayed")
       NotificationOneSaoNamePage.assertErrorShownOnPage()
 
-      // TODO - update when the next page in the journey is made
-      Then(
-        "the user can input a name and press continue, no error appears and the user moves to the next page in the journey"
-      )
+      When("the 'Continue' button is clicked after a name is entered")
       NotificationOneSaoNamePage.addName("Jane Doe")
       NotificationOneSaoNamePage.clickSubmissionButton()
+
+      Then("the user lands on the Account Homepage")
+//      assertOnPage(AccountHomePage) TODO: comment back in once navigation is implemented by devs
     }
   }
 
