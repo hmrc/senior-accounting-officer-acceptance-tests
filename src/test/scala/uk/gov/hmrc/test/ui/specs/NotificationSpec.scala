@@ -212,21 +212,26 @@ class NotificationSpec extends BaseSpec {
     }
 
     Scenario(
-      "A user has selected to submit a Notification only, when there was only one SAO in the financial year they can move successfully through the journey providing the SAO details",
+      "Complete a notification only, providing SAO details for the only SAO in the financial year",
       SubmissionUITests,
       ZapTests
     ) {
-      Given("an authenticated user is on the more than one SAO page, selects No and presses continue")
+      Given("an authenticated user lands on the 'More than one SAO' page")
       goToMoreThanOneSaoPageFromHub()
+
+      When("the 'Continue' button is clicked after the 'No' radio button is selected")
       MoreThanOneSaoPage.clickNoRadioButton()
       MoreThanOneSaoPage.clickSubmissionButton()
 
-      When("they arrive on the SAO name page and enter the SAO name")
+      Then("the user lands on the 'NotificationOneSaoNamePage' page")
       assertOnPage(NotificationOneSaoNamePage)
-      NotificationOneSaoNamePage.addName("Jane Doe")
 
-      Then("continue is pressed, no error appears and the user moves to the next page in the journey")
+      When("the 'Continue' button is clicked after an SAO name is entered")
+      NotificationOneSaoNamePage.addName("Jane Doe")
       NotificationOneSaoNamePage.clickSubmissionButton()
+
+      Then("the user lands on the Account Homepage")
+//      assertOnPage(AccountHomePage) TODO: comment back in once navigation is implemented by devs
     }
 
     Scenario(
