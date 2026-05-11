@@ -237,8 +237,7 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "Validate that SAO details are required during a notification only submission",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user does not select any option after landing on the 'More than one SAO' page")
       goToMoreThanOneSaoPageFromHub()
