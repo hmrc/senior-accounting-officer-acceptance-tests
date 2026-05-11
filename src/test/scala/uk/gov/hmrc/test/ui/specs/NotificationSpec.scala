@@ -215,8 +215,7 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "A user has selected to submit a Notification only, when there was only one SAO in the financial year they can move successfully through the journey providing the SAO details",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user is on the more than one SAO page, selects No and presses continue")
       goToMoreThanOneSaoPageFromHub()
@@ -224,20 +223,19 @@ class NotificationSpec extends BaseSpec {
       MoreThanOneSaoPage.clickSubmissionButton()
 
       When("they arrive on the SAO name page and enter the SAO name")
-      assertOnPage(NotificationSaoNamePage)
-      NotificationSaoNamePage.addName("Jane Doe")
+      assertOnPage(NotificationOneSaoNamePage)
+      NotificationOneSaoNamePage.addName("Jane Doe")
 
 //TODO - update when the next page in the journey is made
       Then("continue is pressed, no error appears and the user moves to the next page in the journey")
-      NotificationSaoNamePage.clickSubmissionButton()
+      NotificationOneSaoNamePage.clickSubmissionButton()
     }
 
     // TODO: This will be the error journey, updated with each new page
     Scenario(
       "A user has selected to submit a Notification only, when there was only one SAO in the financial year they receive the expected error messages but can correct the mistake and move successfully through the journey providing the SAO details",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user is on the more than one SAO page, selects neither radio button and presses continue")
       goToMoreThanOneSaoPageFromHub()
@@ -247,18 +245,18 @@ class NotificationSpec extends BaseSpec {
       MoreThanOneSaoPage.assertErrorShownOnPage()
       MoreThanOneSaoPage.clickNoRadioButton()
       MoreThanOneSaoPage.clickSubmissionButton()
-      assertOnPage(NotificationSaoNamePage)
+      assertOnPage(NotificationOneSaoNamePage)
 
       And(" then user does not enter a name but continue is clicked an error message appears")
-      NotificationSaoNamePage.clickSubmissionButton()
-      NotificationSaoNamePage.assertErrorShownOnPage()
+      NotificationOneSaoNamePage.clickSubmissionButton()
+      NotificationOneSaoNamePage.assertErrorShownOnPage()
 
       // TODO - update when the next page in the journey is made
       Then(
         "the user can input a name and press continue, no error appears and the user moves to the next page in the journey"
       )
-      NotificationSaoNamePage.addName("Jane Doe")
-      NotificationSaoNamePage.clickSubmissionButton()
+      NotificationOneSaoNamePage.addName("Jane Doe")
+      NotificationOneSaoNamePage.clickSubmissionButton()
     }
   }
 
