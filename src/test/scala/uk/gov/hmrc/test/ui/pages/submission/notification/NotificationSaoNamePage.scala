@@ -28,7 +28,7 @@ object NotificationSaoNamePage extends CommonPage with SubmissionButtonSupport w
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/one-sao/submit-notification-full-name"
 
   override val pageTitle: String = {
-    "Submit a notification - SAO full name – Senior Accounting Officer notification and certificate – GOV.UK"
+    "Submit a notification - SAO full name - Senior Accounting Officer notification and certificate - GOV.UK"
   }
 
   val saoNameInput: By = By.cssSelector("#value")

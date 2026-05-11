@@ -226,7 +226,7 @@ class NotificationSpec extends BaseSpec {
       When("they arrive on the SAO name page and enter the SAO name")
       println(s"URL: ${NotificationSaoNamePage.pageUrl}")
       println(s"Title: ${NotificationSaoNamePage.pageTitle}")
-//      assertOnPage(NotificationSaoNamePage)
+      assertOnPage(NotificationSaoNamePage)
       NotificationSaoNamePage.addName("Jane Doe")
 
 //TODO - update when the next page in the journey is made
@@ -249,7 +249,7 @@ class NotificationSpec extends BaseSpec {
       MoreThanOneSaoPage.assertErrorShownOnPage()
       MoreThanOneSaoPage.clickNoRadioButton()
       MoreThanOneSaoPage.clickSubmissionButton()
-      //      assertOnPage(NotificationSaoNamePage)
+      assertOnPage(NotificationSaoNamePage)
 
       And(" then user does not enter a name but continue is clicked an error message appears")
       NotificationSaoNamePage.clickSubmissionButton()
