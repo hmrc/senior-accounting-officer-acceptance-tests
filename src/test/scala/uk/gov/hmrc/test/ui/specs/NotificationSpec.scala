@@ -224,8 +224,6 @@ class NotificationSpec extends BaseSpec {
       MoreThanOneSaoPage.clickSubmissionButton()
 
       When("they arrive on the SAO name page and enter the SAO name")
-      println(s"URL: ${NotificationSaoNamePage.pageUrl}")
-      println(s"Title: ${NotificationSaoNamePage.pageTitle}")
       assertOnPage(NotificationSaoNamePage)
       NotificationSaoNamePage.addName("Jane Doe")
 
