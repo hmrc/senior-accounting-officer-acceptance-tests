@@ -22,7 +22,7 @@ import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.sendKeys
 import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
 
-object NotificationOneSaoNamePage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
+object NotificationFirstSaoNamePage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
 
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/one-sao/submit-notification-full-name"
