@@ -210,6 +210,64 @@ class NotificationSpec extends BaseSpec {
       AdditionalInformationPage.clickSubmissionButton()
       AdditionalInformationPage.assertErrorShownOnPage()
     }
+
+    Scenario(
+      "Complete a notification only, providing SAO details for the only SAO in the financial year",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'More than one SAO' page")
+      goToMoreThanOneSaoPageFromHub()
+
+      When("the 'Continue' button is clicked after the 'No' radio button is selected")
+      MoreThanOneSaoPage.clickNoRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
+
+      Then("the user lands on the 'NotificationOneSaoNamePage' page")
+      assertOnPage(NotificationFirstSaoNamePage)
+
+      When("the 'Continue' button is clicked after an SAO name is entered")
+      NotificationFirstSaoNamePage.addName("Jane Doe")
+      NotificationFirstSaoNamePage.clickSubmissionButton()
+
+      Then("the user lands on the Account Homepage")
+//      assertOnPage(AccountHomePage) TODO: comment back in once navigation is implemented by devs
+    }
+
+    Scenario(
+      "Validate that SAO details are required during a notification only submission",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user does not select any option after landing on the 'More than one SAO' page")
+      goToMoreThanOneSaoPageFromHub()
+
+      When("the 'Continue' button is clicked")
+      MoreThanOneSaoPage.clickSubmissionButton()
+
+      Then("an error message is displayed")
+      MoreThanOneSaoPage.assertErrorShownOnPage()
+
+      When("the 'Continue' button is clicked after the 'No' radio button is selected")
+      MoreThanOneSaoPage.clickNoRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
+
+      Then("the user lands on the 'NotificationOneSaoNamePage' page")
+      assertOnPage(NotificationFirstSaoNamePage)
+
+      When("the 'Continue' button is clicked after no name is entered")
+      NotificationFirstSaoNamePage.clickSubmissionButton()
+
+      Then("an error message is displayed")
+      NotificationFirstSaoNamePage.assertErrorShownOnPage()
+
+      When("the 'Continue' button is clicked after a name is entered")
+      NotificationFirstSaoNamePage.addName("Jane Doe")
+      NotificationFirstSaoNamePage.clickSubmissionButton()
+
+      Then("the user lands on the Account Homepage")
+//      assertOnPage(AccountHomePage) TODO: comment back in once navigation is implemented by devs
+    }
   }
 
   private def goToAdditionalInformationPageFromHub(): Unit = {
@@ -220,5 +278,13 @@ class NotificationSpec extends BaseSpec {
     assertOnPage(GuidancePage)
     GuidancePage.clickSubmissionButton()
     assertOnPage(AdditionalInformationPage)
+  }
+
+  private def goToMoreThanOneSaoPageFromHub(): Unit = {
+    assertOnPage(AccountHomePage)
+    AccountHomePage.clickSubmitNotificationLink()
+    assertOnPage(SubmitNotificationStartPage)
+    SubmitNotificationStartPage.clickProvideSaoDetailsLink()
+    assertOnPage(MoreThanOneSaoPage)
   }
 }
