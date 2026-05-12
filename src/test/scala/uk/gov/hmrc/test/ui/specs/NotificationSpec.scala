@@ -19,7 +19,7 @@ package uk.gov.hmrc.test.ui.specs
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
 class NotificationSpec extends BaseSpec {
@@ -224,11 +224,11 @@ class NotificationSpec extends BaseSpec {
       MoreThanOneSaoPage.clickSubmissionButton()
 
       Then("the user lands on the 'NotificationOneSaoNamePage' page")
-      assertOnPage(NotificationOneSaoNamePage)
+      assertOnPage(NotificationFirstSaoNamePage)
 
       When("the 'Continue' button is clicked after an SAO name is entered")
-      NotificationOneSaoNamePage.addName("Jane Doe")
-      NotificationOneSaoNamePage.clickSubmissionButton()
+      NotificationFirstSaoNamePage.addName("Jane Doe")
+      NotificationFirstSaoNamePage.clickSubmissionButton()
 
       Then("the user lands on the Account Homepage")
 //      assertOnPage(AccountHomePage) TODO: comment back in once navigation is implemented by devs
@@ -253,17 +253,17 @@ class NotificationSpec extends BaseSpec {
       MoreThanOneSaoPage.clickSubmissionButton()
 
       Then("the user lands on the 'NotificationOneSaoNamePage' page")
-      assertOnPage(NotificationOneSaoNamePage)
+      assertOnPage(NotificationFirstSaoNamePage)
 
       When("the 'Continue' button is clicked after no name is entered")
-      NotificationOneSaoNamePage.clickSubmissionButton()
+      NotificationFirstSaoNamePage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      NotificationOneSaoNamePage.assertErrorShownOnPage()
+      NotificationFirstSaoNamePage.assertErrorShownOnPage()
 
       When("the 'Continue' button is clicked after a name is entered")
-      NotificationOneSaoNamePage.addName("Jane Doe")
-      NotificationOneSaoNamePage.clickSubmissionButton()
+      NotificationFirstSaoNamePage.addName("Jane Doe")
+      NotificationFirstSaoNamePage.clickSubmissionButton()
 
       Then("the user lands on the Account Homepage")
 //      assertOnPage(AccountHomePage) TODO: comment back in once navigation is implemented by devs
