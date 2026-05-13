@@ -61,7 +61,7 @@ class ContactDetailsSpec extends BaseSpec {
       assertOnPage(CheckYourAnswersPageFirst)
 
       And("amends the first contact email using the 'Change' link")
-      CheckYourAnswersPage.clickFirstContactEmailChangeLink()
+      CheckYourAnswersPageFirst.clickFirstContactEmailChangeLink()
       assertOnPage(FirstContactEmailPage.changePageUrl)
       FirstContactEmailPage.addEmail(TestData.secondPersonEmail)
       FirstContactEmailPage.clickSubmissionButton()
@@ -101,7 +101,7 @@ class ContactDetailsSpec extends BaseSpec {
       assertTextOnPage(CheckYourAnswersPageFirst.firstContactNameValue, TestData.firstPersonName)
       assertTextOnPage(CheckYourAnswersPageFirst.firstContactEmailValue, TestData.firstPersonEmail)
       CheckYourAnswersPageFirst.clickSubmissionButton()
-      HaveYouAddedAllContactsPage.clickNoRadioButton() 
+      HaveYouAddedAllContactsPage.clickNoRadioButton()
       HaveYouAddedAllContactsPage.clickSubmissionButton()
       assertOnPage(SecondContactNamePage)
       AddSecondContactDetails()
@@ -112,7 +112,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user submits the contact details")
       CheckYourAnswersPageSecond.clickSubmissionButton()
-      assertOnPage(RegistrationPage) 
+      assertOnPage(RegistrationPage)
 
       Then("the 'Enter your contact details' section status is 'Completed'")
       RegistrationPage.assertSectionStatus(ContactDetails, Completed)
