@@ -74,6 +74,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user submits the contact details")
       CheckYourAnswersPageFirst.clickSubmissionButton()
 
+      And("the selects the 'Yes' radio button and clicks 'Continue'")
       HaveYouAddedAllContactsPage.clickYesRadioButton()
       HaveYouAddedAllContactsPage.clickSubmissionButton()
       assertOnPage(RegistrationPage)
@@ -100,7 +101,7 @@ class ContactDetailsSpec extends BaseSpec {
       assertTextOnPage(CheckYourAnswersPageFirst.firstContactNameValue, TestData.firstPersonName)
       assertTextOnPage(CheckYourAnswersPageFirst.firstContactEmailValue, TestData.firstPersonEmail)
       CheckYourAnswersPageFirst.clickSubmissionButton()
-      HaveYouAddedAllContactsPage.clickNoRadioButton() // ToDo : Remove sleep and replace with appropriate wait
+      HaveYouAddedAllContactsPage.clickNoRadioButton() 
       HaveYouAddedAllContactsPage.clickSubmissionButton()
       assertOnPage(SecondContactNamePage)
       AddSecondContactDetails()
@@ -131,7 +132,6 @@ class ContactDetailsSpec extends BaseSpec {
     ) {
       Given("a user has completed registration with a single contact")
       AddFirstContactDetails()
-
       assertOnPage(CheckYourAnswersPageFirst)
       assertTextOnPage(CheckYourAnswersPageFirst.firstContactNameValue, TestData.firstPersonName)
       assertTextOnPage(CheckYourAnswersPageFirst.firstContactEmailValue, TestData.firstPersonEmail)
@@ -186,7 +186,7 @@ class ContactDetailsSpec extends BaseSpec {
       FirstContactEmailPage.addEmail(TestData.firstPersonEmail)
       FirstContactEmailPage.clickSubmissionButton()
 
-      Then("the user is taken to the 'Check Your Answers'page")
+      Then("the user is taken to the first contact 'Check Your Answers'page")
       assertOnPage(CheckYourAnswersPageFirst)
       assertTextOnPage(CheckYourAnswersPageFirst.firstContactNameValue, TestData.firstPersonName)
       assertTextOnPage(CheckYourAnswersPageFirst.firstContactEmailValue, TestData.firstPersonEmail)
