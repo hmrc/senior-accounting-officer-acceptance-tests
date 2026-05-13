@@ -31,6 +31,9 @@ object SecondContactNamePage extends CommonPage with SubmissionButtonSupport wit
   val nameInput: By         = By.cssSelector("#value")
 
   def addName(name: String): Unit = {
+
+//    println(">>>>>>>>>> 2ND NAME - " + name)
+
     sendKeys(nameInput, name)
   }
 }
