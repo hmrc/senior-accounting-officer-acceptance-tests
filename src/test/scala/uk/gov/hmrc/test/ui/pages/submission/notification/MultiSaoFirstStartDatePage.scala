@@ -14,26 +14,29 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages.submission.certificate
+package uk.gov.hmrc.test.ui.pages.submission.notification
 
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.sendKeys
-import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
+import uk.gov.hmrc.test.ui.support.PageSupport.assertTextOnPage
+import uk.gov.hmrc.test.ui.support.{DayMonthYearInputSupport, ErrorMessageSupport, SubmissionButtonSupport}
 
-object SaoNamePage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
+object MultiSaoFirstStartDatePage
+    extends CommonPage
+    with SubmissionButtonSupport
+    with ErrorMessageSupport
+    with DayMonthYearInputSupport {
+
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/sao-name"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/more-sao/submit-notification-first-start-date"
 
   override val pageTitle: String =
-    "Senior Accounting Officer contact details - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/change-sao-name"
-  val saoNameInput: By = By.cssSelector("#value")
+  val pageHeadingElement: By = By.cssSelector(".govuk-fieldset__heading")
 
-  def addName(name: String): Unit = {
-    sendKeys(saoNameInput, name)
+  def assertHeadingMatches(text: String): Unit = {
+    assertTextOnPage(pageHeadingElement, text)
   }
 }

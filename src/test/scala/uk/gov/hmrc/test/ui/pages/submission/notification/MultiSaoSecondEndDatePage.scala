@@ -16,24 +16,20 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
-import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.sendKeys
-import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
+import uk.gov.hmrc.test.ui.support.*
 
-object NotificationFirstSaoNamePage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
+object MultiSaoSecondEndDatePage
+    extends CommonPage
+    with SubmissionButtonSupport
+    with ErrorMessageSupport
+    with DayMonthYearInputSupport
+    with BackLinkSupport {
 
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/one-sao/submit-notification-full-name"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notificationMoreSaoSecondEndDate"
 
-  override val pageTitle: String = {
-    "Submit a notification - SAO full name - Senior Accounting Officer notification and certificate - GOV.UK"
-  }
-
-  val saoNameInput: By = By.cssSelector("#value")
-
-  def addName(name: String): Unit = {
-    sendKeys(saoNameInput, name)
-  }
+  override val pageTitle: String =
+    "NotificationMoreSaoSecondEndDate - Senior Accounting Officer notification and certificate - GOV.UK"
 }

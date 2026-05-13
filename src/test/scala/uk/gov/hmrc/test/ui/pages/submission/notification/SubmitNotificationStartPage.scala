@@ -24,6 +24,7 @@ import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 object SubmitNotificationStartPage extends CommonPage {
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/start"
+
   override val pageTitle: String =
     "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
@@ -31,9 +32,15 @@ object SubmitNotificationStartPage extends CommonPage {
   val uploadSubmissionTemplateLink: By = actionListItem(2)
   val submitNotificationLink: By       = actionListItem(3)
 
-  def actionListItem(index: Int): By =
+  def actionListItem(index: Int): By = {
     By.cssSelector(s".govuk-task-list li:nth-child($index) a")
+  }
 
-  def clickSubmitNotificationLink(): Unit = clickElement(submitNotificationLink)
-  def clickProvideSaoDetailsLink(): Unit  = clickElement(provideSaoDetailsLink)
+  def clickSubmitNotificationLink(): Unit = {
+    clickElement(submitNotificationLink)
+  }
+
+  def clickProvideSaoDetailsLink(): Unit = {
+    clickElement(provideSaoDetailsLink)
+  }
 }
