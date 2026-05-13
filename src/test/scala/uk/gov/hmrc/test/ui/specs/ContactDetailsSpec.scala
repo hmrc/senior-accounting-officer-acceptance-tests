@@ -25,7 +25,7 @@ import uk.gov.hmrc.test.ui.pages.registration.*
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, assertTextOnPage}
-import uk.gov.hmrc.test.ui.support.TestData
+import uk.gov.hmrc.test.ui.support.{Persons, ScenarioData, TestData}
 
 class ContactDetailsSpec extends BaseSpec {
 
@@ -42,63 +42,80 @@ class ContactDetailsSpec extends BaseSpec {
 
   Feature("Add Contact Details For Registration") {
 
-    Scenario(
-      "Complete a registration with amended first contact details",
-      RegistrationUITests,
-      ZapTests
-    ) {
-      Given("an authenticated user adds company details and a first contact")
-      AddFirstContactDetails()
-      HaveYouAddedAllContactsPage.clickYesRadioButton()
-      HaveYouAddedAllContactsPage.clickSubmissionButton()
-      assertOnPage(CheckYourAnswersPage)
-      assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, TestData.firstPersonName)
-      assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, TestData.firstPersonEmail)
+    TestData.create(Persons.Two) { data =>
+      println(">>>>>>>>>>>FIRST NAME " + data.firstPerson.name)
+      println(">>>>>>>>>>>FIRST EMAIL " + data.firstPerson.email)
+      println(">>>>>>>>>>>SECOND NAME " + data.secondPerson.name)
+      println(">>>>>>>>>>>SECOND NAME " + data.secondPerson.name)
 
-      When("the user amends the first contact name using the 'Change' link")
-      CheckYourAnswersPage.clickFirstContactNameChangeLink()
-      assertOnPage(FirstContactNamePage.changePageUrl)
-      FirstContactNamePage.addName(TestData.secondPersonName)
-      FirstContactNamePage.clickSubmissionButton()
-      assertOnPage(CheckYourAnswersPage)
+      Scenario(
+        "Complete a registration with amended first contact details",
+        RegistrationUITests,
+        ZapTests,
+        SoloTests
+      ) {
+        Given("an authenticated user adds company details and a first contact")
+        AddFirstContactDetails(data)
+        HaveYouAddedAllContactsPage.clickYesRadioButton()
+        HaveYouAddedAllContactsPage.clickSubmissionButton()
+        assertOnPage(CheckYourAnswersPage)
+        assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, data.firstPerson.name)
+        assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, data.firstPerson.email)
 
-      And("amends the first contact email using the 'Change' link")
-      CheckYourAnswersPage.clickFirstContactEmailChangeLink()
-      assertOnPage(FirstContactEmailPage.changePageUrl)
-      FirstContactEmailPage.addEmail(TestData.secondPersonEmail)
-      FirstContactEmailPage.clickSubmissionButton()
-      assertOnPage(CheckYourAnswersPage)
+        When("the user amends the first contact name using the 'Change' link")
+        CheckYourAnswersPage.clickFirstContactNameChangeLink()
+        assertOnPage(FirstContactNamePage.changePageUrl)
+        FirstContactNamePage.addName(TestData.secondPersonName)
+        FirstContactNamePage.clickSubmissionButton()
+        assertOnPage(CheckYourAnswersPage)
 
-      Then("the amended name and email are correctly displayed on the 'Check Your Answers' page")
-      assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, TestData.secondPersonName)
-      assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, TestData.secondPersonEmail)
+        And("amends the first contact email using the 'Change' link")
+        CheckYourAnswersPage.clickFirstContactEmailChangeLink()
+        assertOnPage(FirstContactEmailPage.changePageUrl)
+        FirstContactEmailPage.addEmail(data.secondPerson.email)
+        FirstContactEmailPage.clickSubmissionButton()
+        assertOnPage(CheckYourAnswersPage)
 
-      When("the user submits the contact details")
-      CheckYourAnswersPage.clickSubmissionButton()
-      assertOnPage(RegistrationPage)
+        Then("the amended name and email are correctly displayed on the 'Check Your Answers' page")
+        assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, data.secondPerson.name)
+        assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, data.secondPerson.email)
 
-      Then("the 'Enter your contact details' section status is 'Completed'")
-      RegistrationPage.assertSectionStatus(ContactDetails, Completed)
+        When("the user submits the contact details")
+        CheckYourAnswersPage.clickSubmissionButton()
+        assertOnPage(RegistrationPage)
 
-      When("the user submits the registration")
-      RegistrationPage.clickSubmissionButton()
+        Then("the 'Enter your contact details' section status is 'Completed'")
+        RegistrationPage.assertSectionStatus(ContactDetails, Completed)
 
-      Then("a unique reference number is displayed on the 'Registration Complete' page")
-      assertOnPage(RegistrationCompletePage)
-      RegistrationCompletePage.assertReferenceNumberReturned()
+        When("the user submits the registration")
+        RegistrationPage.clickSubmissionButton()
+
+        Then("a unique reference number is displayed on the 'Registration Complete' page")
+        assertOnPage(RegistrationCompletePage)
+        RegistrationCompletePage.assertReferenceNumberReturned()
+      }
     }
 
-    Scenario(
-      "Complete a registration with second contact details",
-      RegistrationUITests,
-      ZapTests
-    ) {
-      Given("an authenticated user completes company details and adds first and second contacts")
-      AddFirstContactDetails()
-      HaveYouAddedAllContactsPage.clickNoRadioButton()
-      HaveYouAddedAllContactsPage.clickSubmissionButton()
-      assertOnPage(SecondContactNamePage)
-      AddSecondContactDetails()
+    TestData.create(Persons.Three) { data =>
+      println(">>>>>>>>>>>FIRST NAME " + data.firstPerson.name)
+      println(">>>>>>>>>>>FIRST EMAIL " + data.firstPerson.email)
+      println(">>>>>>>>>>>SECOND NAME " + data.secondPerson.name)
+      println(">>>>>>>>>>>SECOND NAME " + data.secondPerson.email)
+      println(">>>>>>>>>>>THIRD NAME " + data.thirdPerson.name)
+      println(">>>>>>>>>>>THIRD NAME " + data.thirdPerson.email)
+
+      Scenario(
+        "Complete a registration with second contact details",
+        RegistrationUITests,
+        ZapTests,
+        SoloTests
+      ) {
+        Given("an authenticated user completes company details and adds first and second contacts")
+        AddFirstContactDetails(data)
+        HaveYouAddedAllContactsPage.clickNoRadioButton()
+        HaveYouAddedAllContactsPage.clickSubmissionButton()
+        assertOnPage(SecondContactNamePage)
+        AddSecondContactDetails(data)
 
       Then("both contacts details are correctly displayed on the 'Check Your Answers' page")
       assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, TestData.firstPersonName)
@@ -106,19 +123,20 @@ class ContactDetailsSpec extends BaseSpec {
       assertTextOnPage(CheckYourAnswersPage.secondContactNameValue, TestData.secondPersonName)
       assertTextOnPage(CheckYourAnswersPage.secondContactEmailValue, TestData.secondPersonEmail)
 
-      When("the user submits the contact details")
-      CheckYourAnswersPage.clickSubmissionButton()
-      assertOnPage(RegistrationPage)
+        When("the user submits the contact details")
+        CheckYourAnswersPage.clickSubmissionButton()
+        assertOnPage(RegistrationPage)
 
-      Then("the 'Enter your contact details' section status is 'Completed'")
-      RegistrationPage.assertSectionStatus(ContactDetails, Completed)
+        Then("the 'Enter your contact details' section status is 'Completed'")
+        RegistrationPage.assertSectionStatus(ContactDetails, Completed)
 
-      When("the user submits the registration")
-      RegistrationPage.clickSubmissionButton()
+        When("the user submits the registration")
+        RegistrationPage.clickSubmissionButton()
 
-      Then("a unique reference number is displayed on the 'Registration Complete' page")
-      assertOnPage(RegistrationCompletePage)
-      RegistrationCompletePage.assertReferenceNumberReturned()
+        Then("a unique reference number is displayed on the 'Registration Complete' page")
+        assertOnPage(RegistrationCompletePage)
+        RegistrationCompletePage.assertReferenceNumberReturned()
+      }
     }
 
     Scenario(
@@ -127,7 +145,7 @@ class ContactDetailsSpec extends BaseSpec {
       ZapTests
     ) {
       Given("a user has completed registration with a single contact")
-      AddFirstContactDetails()
+//      AddFirstContactDetails()
       HaveYouAddedAllContactsPage.clickYesRadioButton()
       HaveYouAddedAllContactsPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
@@ -226,11 +244,11 @@ class ContactDetailsSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user completes company details and adds first and second contacts")
-      AddFirstContactDetails()
+//      AddFirstContactDetails()
       HaveYouAddedAllContactsPage.clickNoRadioButton()
       HaveYouAddedAllContactsPage.clickSubmissionButton()
       assertOnPage(SecondContactNamePage)
-      AddSecondContactDetails()
+//      AddSecondContactDetails()
 
       When("the user navigates to the first contact 'change name' page using the 'Change' link")
       CheckYourAnswersPage.clickFirstContactNameChangeLink()
@@ -278,24 +296,24 @@ class ContactDetailsSpec extends BaseSpec {
     }
   }
 
-  private def AddFirstContactDetails(): Unit = {
+  def AddFirstContactDetails(data: ScenarioData): Unit = {
     RegistrationPage.clickEnterYourContactDetailsLink()
     assertOnPage(ContactDetailsPage)
     ContactDetailsPage.clickSubmissionButton()
     assertOnPage(FirstContactNamePage)
-    FirstContactNamePage.addName(TestData.firstPersonName)
+    FirstContactNamePage.addName(data.firstPerson.name)
     FirstContactNamePage.clickSubmissionButton()
     assertOnPage(FirstContactEmailPage)
-    FirstContactEmailPage.addEmail(TestData.firstPersonEmail)
+    FirstContactEmailPage.addEmail(data.firstPerson.email)
     FirstContactEmailPage.clickSubmissionButton()
     assertOnPage(HaveYouAddedAllContactsPage)
   }
 
-  private def AddSecondContactDetails(): Unit = {
-    SecondContactNamePage.addName(TestData.secondPersonName)
+  def AddSecondContactDetails(data: ScenarioData): Unit = {
+    SecondContactNamePage.addName(data.secondPerson.name)
     SecondContactNamePage.clickSubmissionButton()
     assertOnPage(SecondContactEmailPage)
-    SecondContactEmailPage.addEmail(TestData.secondPersonEmail)
+    SecondContactEmailPage.addEmail(data.secondPerson.email)
     SecondContactEmailPage.clickSubmissionButton()
     assertOnPage(CheckYourAnswersPage)
   }

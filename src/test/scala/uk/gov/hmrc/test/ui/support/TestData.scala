@@ -23,8 +23,16 @@ object TestData {
 
   val firstPersonName: String   = s"${faker.name().fullName()}-Test"
   val secondPersonName: String  = s"${faker.name().fullName()}-Test"
+  val thirdPersonName: String   = s"${faker.name().fullName()}-Test"
   val firstPersonEmail: String  = emailForUser(firstPersonName)
   val secondPersonEmail: String = emailForUser(secondPersonName)
+  val thirdPersonEmail: String  = emailForUser(thirdPersonName)
+
+  private def generatePerson(): Person = {
+    val name  = s"${faker.name().fullName()}-Test"
+    val email = emailForUser(name)
+    Person(name, email)
+  }
 
   def generateNewEmail(): String = {
     emailForUser(firstPersonName)
@@ -33,4 +41,37 @@ object TestData {
   def emailForUser(name: String): String = {
     s"${name.toLowerCase.replace(" ", ".")}@example.com"
   }
+
+  def create(numberOfPersons: Persons)(test: ScenarioData => Unit): Unit = {
+    val data = numberOfPersons match {
+      case Persons.One =>
+        ScenarioData(firstPerson = generatePerson())
+      case Persons.Two =>
+        ScenarioData(
+          firstPerson = generatePerson(),
+          secondPerson = generatePerson()
+        )
+      case Persons.Three =>
+        ScenarioData(
+          firstPerson = generatePerson(),
+          secondPerson = generatePerson(),
+          thirdPerson = generatePerson()
+        )
+    }
+    test(data)
+  }
 }
+
+enum Persons {
+  case One
+  case Two
+  case Three
+}
+
+case class Person(name: String, email: String)
+
+case class ScenarioData(
+    firstPerson: Person = Person("", ""),
+    secondPerson: Person = Person("", ""),
+    thirdPerson: Person = Person("", "")
+)
