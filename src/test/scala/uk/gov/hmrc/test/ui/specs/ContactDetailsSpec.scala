@@ -140,7 +140,6 @@ class ContactDetailsSpec extends BaseSpec {
 
       HaveYouAddedAllContactsPage.clickYesRadioButton()
       HaveYouAddedAllContactsPage.clickSubmissionButton()
-
       RegistrationPage.clickSubmissionButton()
       assertOnPage(RegistrationCompletePage)
 
