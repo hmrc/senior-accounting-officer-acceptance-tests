@@ -42,6 +42,8 @@ class NotificationSpec extends BaseSpec {
       When("additional information is added")
       AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSubmissionButton()
+      assertOnPage(ConfirmNotificationPage)
+      ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
@@ -77,6 +79,8 @@ class NotificationSpec extends BaseSpec {
       )
       AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSubmissionButton()
+      assertOnPage(ConfirmNotificationPage)
+      ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
     }
@@ -100,6 +104,8 @@ class NotificationSpec extends BaseSpec {
         "on pressing 'Skip', no text is displayed on the 'Check Your Answers' page"
       )
       AdditionalInformationPage.clickSkipButton()
+      assertOnPage(ConfirmNotificationPage)
+      ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
     }
@@ -114,8 +120,9 @@ class NotificationSpec extends BaseSpec {
 
       When("pressing 'Skip' without providing additional information")
       AdditionalInformationPage.clickSkipButton()
-
+      assertOnPage(ConfirmNotificationPage)
       Then("no text is displayed on the 'Check Your Answers' page")
+      ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
     }
@@ -131,8 +138,9 @@ class NotificationSpec extends BaseSpec {
       When("pressing skip with additional information provided")
       AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSkipButton()
-
+      assertOnPage(ConfirmNotificationPage)
       Then("no text is displayed on the 'Check Your Answers' page")
+      ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
     }
@@ -148,6 +156,8 @@ class NotificationSpec extends BaseSpec {
       goToAdditionalInformationPageFromHub()
       AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSubmissionButton()
+      assertOnPage(ConfirmNotificationPage)
+      ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
@@ -173,6 +183,8 @@ class NotificationSpec extends BaseSpec {
       goToAdditionalInformationPageFromHub()
       AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSubmissionButton()
+      assertOnPage(ConfirmNotificationPage)
+      ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
@@ -198,6 +210,8 @@ class NotificationSpec extends BaseSpec {
       goToAdditionalInformationPageFromHub()
       AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSubmissionButton()
+      assertOnPage(ConfirmNotificationPage)
+      ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
@@ -275,8 +289,6 @@ class NotificationSpec extends BaseSpec {
     AccountHomePage.clickSubmitNotificationLink()
     assertOnPage(SubmitNotificationStartPage)
     SubmitNotificationStartPage.clickSubmitNotificationLink()
-    assertOnPage(GuidancePage)
-    GuidancePage.clickSubmissionButton()
     assertOnPage(AdditionalInformationPage)
   }
 
