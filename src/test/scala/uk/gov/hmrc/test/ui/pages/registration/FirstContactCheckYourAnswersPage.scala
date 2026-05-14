@@ -21,7 +21,7 @@ import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object CheckYourAnswersPageFirst extends CommonPage with SubmissionButtonSupport {
+object FirstContactCheckYourAnswersPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-registration-frontend")}/contact-details/first/check-your-answers"
   override val pageTitle: String =

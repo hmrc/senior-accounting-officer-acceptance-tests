@@ -49,30 +49,30 @@ class ContactDetailsSpec extends BaseSpec {
     ) {
       Given("an authenticated user adds company details and a first contact")
       AddFirstContactDetails()
-      assertOnPage(CheckYourAnswersPageFirst)
-      assertTextOnPage(CheckYourAnswersPageFirst.firstContactNameValue, TestData.firstPersonName)
-      assertTextOnPage(CheckYourAnswersPageFirst.firstContactEmailValue, TestData.firstPersonEmail)
+      assertOnPage(FirstContactCheckYourAnswersPage)
+      assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactNameValue, TestData.firstPersonName)
+      assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactEmailValue, TestData.firstPersonEmail)
 
       When("the user amends the first contact name using the 'Change' link")
-      CheckYourAnswersPageFirst.clickFirstContactNameChangeLink()
+      FirstContactCheckYourAnswersPage.clickFirstContactNameChangeLink()
       assertOnPage(FirstContactNamePage.changePageUrl)
       FirstContactNamePage.addName(TestData.secondPersonName)
       FirstContactNamePage.clickSubmissionButton()
-      assertOnPage(CheckYourAnswersPageFirst)
+      assertOnPage(FirstContactCheckYourAnswersPage)
 
       And("amends the first contact email using the 'Change' link")
-      CheckYourAnswersPageFirst.clickFirstContactEmailChangeLink()
+      FirstContactCheckYourAnswersPage.clickFirstContactEmailChangeLink()
       assertOnPage(FirstContactEmailPage.changePageUrl)
       FirstContactEmailPage.addEmail(TestData.secondPersonEmail)
       FirstContactEmailPage.clickSubmissionButton()
-      assertOnPage(CheckYourAnswersPageFirst)
+      assertOnPage(FirstContactCheckYourAnswersPage)
 
       Then("the amended name and email are correctly displayed on the 'Check Your Answers' page")
-      assertTextOnPage(CheckYourAnswersPageFirst.firstContactNameValue, TestData.secondPersonName)
-      assertTextOnPage(CheckYourAnswersPageFirst.firstContactEmailValue, TestData.secondPersonEmail)
+      assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactNameValue, TestData.secondPersonName)
+      assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactEmailValue, TestData.secondPersonEmail)
 
       When("the user submits the contact details")
-      CheckYourAnswersPageFirst.clickSubmissionButton()
+      FirstContactCheckYourAnswersPage.clickSubmissionButton()
 
       And("the selects the 'Yes' radio button and clicks 'Continue'")
       HaveYouAddedAllContactsPage.clickYesRadioButton()
@@ -97,21 +97,21 @@ class ContactDetailsSpec extends BaseSpec {
     ) {
       Given("an authenticated user completes company details and adds first and second contacts")
       AddFirstContactDetails()
-      assertOnPage(CheckYourAnswersPageFirst)
-      assertTextOnPage(CheckYourAnswersPageFirst.firstContactNameValue, TestData.firstPersonName)
-      assertTextOnPage(CheckYourAnswersPageFirst.firstContactEmailValue, TestData.firstPersonEmail)
-      CheckYourAnswersPageFirst.clickSubmissionButton()
+      assertOnPage(FirstContactCheckYourAnswersPage)
+      assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactNameValue, TestData.firstPersonName)
+      assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactEmailValue, TestData.firstPersonEmail)
+      FirstContactCheckYourAnswersPage.clickSubmissionButton()
       HaveYouAddedAllContactsPage.clickNoRadioButton()
       HaveYouAddedAllContactsPage.clickSubmissionButton()
       assertOnPage(SecondContactNamePage)
       AddSecondContactDetails()
 
       Then("both contacts details are correctly displayed on the 'Check Your Answers' page")
-      assertTextOnPage(CheckYourAnswersPageSecond.secondContactNameValue, TestData.secondPersonName)
-      assertTextOnPage(CheckYourAnswersPageSecond.secondContactEmailValue, TestData.secondPersonEmail)
+      assertTextOnPage(SecondContactCheckYourAnswersPage.secondContactNameValue, TestData.secondPersonName)
+      assertTextOnPage(SecondContactCheckYourAnswersPage.secondContactEmailValue, TestData.secondPersonEmail)
 
       When("the user submits the contact details")
-      CheckYourAnswersPageSecond.clickSubmissionButton()
+      SecondContactCheckYourAnswersPage.clickSubmissionButton()
       assertOnPage(RegistrationPage)
 
       Then("the 'Enter your contact details' section status is 'Completed'")
@@ -132,10 +132,10 @@ class ContactDetailsSpec extends BaseSpec {
     ) {
       Given("a user has completed registration with a single contact")
       AddFirstContactDetails()
-      assertOnPage(CheckYourAnswersPageFirst)
-      assertTextOnPage(CheckYourAnswersPageFirst.firstContactNameValue, TestData.firstPersonName)
-      assertTextOnPage(CheckYourAnswersPageFirst.firstContactEmailValue, TestData.firstPersonEmail)
-      CheckYourAnswersPageFirst.clickSubmissionButton()
+      assertOnPage(FirstContactCheckYourAnswersPage)
+      assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactNameValue, TestData.firstPersonName)
+      assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactEmailValue, TestData.firstPersonEmail)
+      FirstContactCheckYourAnswersPage.clickSubmissionButton()
       assertOnPage(HaveYouAddedAllContactsPage)
 
       HaveYouAddedAllContactsPage.clickYesRadioButton()
@@ -186,10 +186,10 @@ class ContactDetailsSpec extends BaseSpec {
       FirstContactEmailPage.clickSubmissionButton()
 
       Then("the user is taken to the first contact 'Check Your Answers'page")
-      assertOnPage(CheckYourAnswersPageFirst)
-      assertTextOnPage(CheckYourAnswersPageFirst.firstContactNameValue, TestData.firstPersonName)
-      assertTextOnPage(CheckYourAnswersPageFirst.firstContactEmailValue, TestData.firstPersonEmail)
-      CheckYourAnswersPageFirst.clickSubmissionButton()
+      assertOnPage(FirstContactCheckYourAnswersPage)
+      assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactNameValue, TestData.firstPersonName)
+      assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactEmailValue, TestData.firstPersonEmail)
+      FirstContactCheckYourAnswersPage.clickSubmissionButton()
 
       Then("the user is taken to the 'Have you added all the contacts you need?' question page")
       assertOnPage(HaveYouAddedAllContactsPage)
@@ -234,61 +234,61 @@ class ContactDetailsSpec extends BaseSpec {
     ) {
       Given("an authenticated user completes company details and adds first and second contacts")
       AddFirstContactDetails()
-      assertOnPage(CheckYourAnswersPageFirst)
-      assertTextOnPage(CheckYourAnswersPageFirst.firstContactNameValue, TestData.firstPersonName)
-      assertTextOnPage(CheckYourAnswersPageFirst.firstContactEmailValue, TestData.firstPersonEmail)
+      assertOnPage(FirstContactCheckYourAnswersPage)
+      assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactNameValue, TestData.firstPersonName)
+      assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactEmailValue, TestData.firstPersonEmail)
 
       When("the user navigates to the first contact 'change name' page using the 'Change' link")
-      CheckYourAnswersPageFirst.clickFirstContactNameChangeLink()
+      FirstContactCheckYourAnswersPage.clickFirstContactNameChangeLink()
       assertOnPage(FirstContactNamePage.changePageUrl)
 
       And("submits without changing the name")
       FirstContactNamePage.clickSubmissionButton()
-      assertOnPage(CheckYourAnswersPageFirst)
+      assertOnPage(FirstContactCheckYourAnswersPage)
 
       Then("the original first contact name is correctly displayed on the 'Check Your Answers' page")
-      assertTextOnPage(CheckYourAnswersPageFirst.firstContactNameValue, TestData.firstPersonName)
+      assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactNameValue, TestData.firstPersonName)
 
       When("the user navigates to the first contact 'change email address' page using the 'Change' link")
-      CheckYourAnswersPageFirst.clickFirstContactEmailChangeLink()
+      FirstContactCheckYourAnswersPage.clickFirstContactEmailChangeLink()
       assertOnPage(FirstContactEmailPage.changePageUrl)
 
       And("submits without changing the email")
       FirstContactEmailPage.clickSubmissionButton()
-      assertOnPage(CheckYourAnswersPageFirst)
+      assertOnPage(FirstContactCheckYourAnswersPage)
 
       Then("the original first contact email address is correctly displayed on the 'Check Your Answers' page")
-      assertTextOnPage(CheckYourAnswersPageFirst.firstContactEmailValue, TestData.firstPersonEmail)
+      assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactEmailValue, TestData.firstPersonEmail)
 
-      CheckYourAnswersPageFirst.clickSubmissionButton()
+      FirstContactCheckYourAnswersPage.clickSubmissionButton()
       HaveYouAddedAllContactsPage.clickNoRadioButton()
       HaveYouAddedAllContactsPage.clickSubmissionButton()
       assertOnPage(SecondContactNamePage)
       AddSecondContactDetails()
-      assertTextOnPage(CheckYourAnswersPageSecond.secondContactNameValue, TestData.secondPersonName)
-      assertTextOnPage(CheckYourAnswersPageSecond.secondContactEmailValue, TestData.secondPersonEmail)
+      assertTextOnPage(SecondContactCheckYourAnswersPage.secondContactNameValue, TestData.secondPersonName)
+      assertTextOnPage(SecondContactCheckYourAnswersPage.secondContactEmailValue, TestData.secondPersonEmail)
 
       When("the user navigates to the second contact 'change name' page using the 'Change' link")
-      CheckYourAnswersPageSecond.clickSecondContactNameChangeLink()
+      SecondContactCheckYourAnswersPage.clickSecondContactNameChangeLink()
       assertOnPage(SecondContactNamePage.changePageUrl)
 
       And("submits without changing the name")
       SecondContactNamePage.clickSubmissionButton()
-      assertOnPage(CheckYourAnswersPageSecond)
+      assertOnPage(SecondContactCheckYourAnswersPage)
 
       Then("the original second contact name is correctly displayed on the 'Check Your Answers' page")
-      assertTextOnPage(CheckYourAnswersPageSecond.secondContactNameValue, TestData.secondPersonName)
+      assertTextOnPage(SecondContactCheckYourAnswersPage.secondContactNameValue, TestData.secondPersonName)
 
       When("the user navigates to the second contact 'change email address' page using the 'Change' link")
-      CheckYourAnswersPageSecond.clickSecondContactEmailChangeLink()
+      SecondContactCheckYourAnswersPage.clickSecondContactEmailChangeLink()
       assertOnPage(SecondContactEmailPage.changePageUrl)
 
       And("submits without changing the email")
       SecondContactEmailPage.clickSubmissionButton()
-      assertOnPage(CheckYourAnswersPageSecond)
+      assertOnPage(SecondContactCheckYourAnswersPage)
 
       Then("the original second contact email address is correctly displayed on the 'Check Your Answers' page")
-      assertTextOnPage(CheckYourAnswersPageSecond.secondContactEmailValue, TestData.secondPersonEmail)
+      assertTextOnPage(SecondContactCheckYourAnswersPage.secondContactEmailValue, TestData.secondPersonEmail)
     }
   }
 
@@ -302,7 +302,7 @@ class ContactDetailsSpec extends BaseSpec {
     assertOnPage(FirstContactEmailPage)
     FirstContactEmailPage.addEmail(TestData.firstPersonEmail)
     FirstContactEmailPage.clickSubmissionButton()
-    assertOnPage(CheckYourAnswersPageFirst)
+    assertOnPage(FirstContactCheckYourAnswersPage)
   }
 
   private def AddSecondContactDetails(): Unit = {
@@ -311,6 +311,6 @@ class ContactDetailsSpec extends BaseSpec {
     assertOnPage(SecondContactEmailPage)
     SecondContactEmailPage.addEmail(TestData.secondPersonEmail)
     SecondContactEmailPage.clickSubmissionButton()
-    assertOnPage(CheckYourAnswersPageSecond)
+    assertOnPage(SecondContactCheckYourAnswersPage)
   }
 }
