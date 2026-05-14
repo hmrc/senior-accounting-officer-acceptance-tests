@@ -185,7 +185,7 @@ class ContactDetailsSpec extends BaseSpec {
       FirstContactEmailPage.addEmail(TestData.firstPersonEmail)
       FirstContactEmailPage.clickSubmissionButton()
 
-      Then("the user is taken to the first contact 'Check Your Answers'page")
+      Then("the user is taken to the first contact 'Check Your Answers' page")
       assertOnPage(FirstContactCheckYourAnswersPage)
       assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactNameValue, TestData.firstPersonName)
       assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactEmailValue, TestData.firstPersonEmail)
