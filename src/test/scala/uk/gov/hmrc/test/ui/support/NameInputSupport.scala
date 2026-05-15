@@ -1,0 +1,35 @@
+/*
+ * Copyright 2026 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package uk.gov.hmrc.test.ui.support
+
+import org.openqa.selenium.By
+import uk.gov.hmrc.test.ui.pages.BasePage
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertAttributeValueMatches, sendKeys}
+
+trait NameInputSupport {
+
+  this: BasePage =>
+  val nameInputElement: By = By.cssSelector("#value")
+
+  def addName(name: String): Unit = {
+    sendKeys(nameInputElement, name)
+  }
+
+  def assertNameMatches(text: String): Unit = {
+    assertAttributeValueMatches(nameInputElement, text)
+  }
+}

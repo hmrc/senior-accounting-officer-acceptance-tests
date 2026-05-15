@@ -19,14 +19,15 @@ package uk.gov.hmrc.test.ui.pages.submission.notification
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.{assertTextOnPage, sendKeys}
-import uk.gov.hmrc.test.ui.support.{BackLinkSupport, ErrorMessageSupport, SubmissionButtonSupport}
+import uk.gov.hmrc.test.ui.support.*
+import uk.gov.hmrc.test.ui.support.PageSupport.assertTextOnPage
 
 object WhoWasTheSaoBeforePage
     extends CommonPage
     with SubmissionButtonSupport
     with ErrorMessageSupport
-    with BackLinkSupport {
+    with BackLinkSupport
+    with NameInputSupport {
 
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/who-was-the-sao-before"
@@ -34,9 +35,8 @@ object WhoWasTheSaoBeforePage
   override val pageTitle: String =
     "Senior Accounting Officer full name - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val pageHeadingElement: By   = By.cssSelector(".govuk-label.govuk-label--l")
-  val pageHintElement: By      = By.id("value-hint")
-  val previousSaoNameInput: By = By.id("value")
+  val pageHeadingElement: By = By.cssSelector(".govuk-label.govuk-label--l")
+  val pageHintElement: By    = By.id("value-hint")
 
   def assertHeadingMatches(text: String): Unit = {
     assertTextOnPage(pageHeadingElement, text)
@@ -44,9 +44,5 @@ object WhoWasTheSaoBeforePage
 
   def assertHintMatches(text: String): Unit = {
     assertTextOnPage(pageHintElement, text)
-  }
-
-  def addName(name: String): Unit = {
-    sendKeys(previousSaoNameInput, name)
   }
 }

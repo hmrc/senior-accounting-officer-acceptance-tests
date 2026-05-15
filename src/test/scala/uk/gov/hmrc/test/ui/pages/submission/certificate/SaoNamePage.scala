@@ -16,13 +16,11 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.certificate
 
-import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.sendKeys
-import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
+import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, NameInputSupport, SubmissionButtonSupport}
 
-object SaoNamePage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
+object SaoNamePage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport with NameInputSupport {
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/sao-name"
 
@@ -31,9 +29,4 @@ object SaoNamePage extends CommonPage with SubmissionButtonSupport with ErrorMes
 
   val changePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/change-sao-name"
-  val saoNameInput: By = By.cssSelector("#value")
-
-  def addName(name: String): Unit = {
-    sendKeys(saoNameInput, name)
-  }
 }

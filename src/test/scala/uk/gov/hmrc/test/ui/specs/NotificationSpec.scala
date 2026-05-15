@@ -456,6 +456,7 @@ class NotificationSpec extends BaseSpec {
     And("the page displays the correct content")
     WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Shane Warne?")
     WhoWasTheSaoBeforePage.assertHintMatches("This is the person who held the role before Shane Warne")
+    WhoWasTheSaoBeforePage.assertNameMatches("Jonty Rhodes")
 
     When("the 'Back' link is clicked")
     WhoWasTheSaoBeforePage.clickBackLink()
