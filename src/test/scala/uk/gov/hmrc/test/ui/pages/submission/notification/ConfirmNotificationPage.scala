@@ -20,9 +20,9 @@ import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object GuidancePage extends CommonPage with SubmissionButtonSupport {
+object ConfirmNotificationPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/guidance"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/confirm-your-notification"
   override val pageTitle: String =
-    "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Confirm notification and submit - Senior Accounting Officer notification and certificate - GOV.UK"
 }
