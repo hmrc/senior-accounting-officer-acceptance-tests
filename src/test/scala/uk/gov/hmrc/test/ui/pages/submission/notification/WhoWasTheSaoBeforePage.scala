@@ -19,28 +19,30 @@ package uk.gov.hmrc.test.ui.pages.submission.notification
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
+import uk.gov.hmrc.test.ui.support.*
+import uk.gov.hmrc.test.ui.support.PageSupport.assertTextOnPage
 
-object SubmitNotificationStartPage extends CommonPage {
+object WhoWasTheSaoBeforePage
+    extends CommonPage
+    with SubmissionButtonSupport
+    with ErrorMessageSupport
+    with BackLinkSupport
+    with NameInputSupport {
+
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/start"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/who-was-the-sao-before"
 
   override val pageTitle: String =
-    "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Senior Accounting Officer full name - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val provideSaoDetailsLink: By        = actionListItem(1)
-  val uploadSubmissionTemplateLink: By = actionListItem(2)
-  val submitNotificationLink: By       = actionListItem(3)
+  val pageHeadingElement: By = By.cssSelector(".govuk-label.govuk-label--l")
+  val pageHintElement: By    = By.id("value-hint")
 
-  def actionListItem(index: Int): By = {
-    By.cssSelector(s".govuk-task-list li:nth-child($index) a")
+  def assertHeadingMatches(text: String): Unit = {
+    assertTextOnPage(pageHeadingElement, text)
   }
 
-  def clickSubmitNotificationLink(): Unit = {
-    clickElement(submitNotificationLink)
-  }
-
-  def clickProvideSaoDetailsLink(): Unit = {
-    clickElement(provideSaoDetailsLink)
+  def assertHintMatches(text: String): Unit = {
+    assertTextOnPage(pageHintElement, text)
   }
 }

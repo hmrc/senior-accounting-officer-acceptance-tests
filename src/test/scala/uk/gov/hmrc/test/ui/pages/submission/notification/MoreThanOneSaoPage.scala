@@ -25,8 +25,10 @@ object MoreThanOneSaoPage
     with SubmissionButtonSupport
     with YesNoRadioButtonSupport
     with ErrorMessageSupport {
+
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/more-than-one-sao"
+
   override val pageTitle: String =
     "Submit a notification - Was there more than one SAO during the financial year? - Senior Accounting Officer notification and certificate - GOV.UK"
 }

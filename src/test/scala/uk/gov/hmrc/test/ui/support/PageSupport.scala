@@ -64,6 +64,11 @@ object PageSupport extends BrowserDriver with Matchers with PageObject {
     text mustBe driver.findElement(locator).getText
   }
 
+  def assertAttributeValueMatches(locator: By, text: String): Unit = {
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(locator))
+    text mustBe driver.findElement(locator).getAttribute("value")
+  }
+
   def assertOnPage(url: String): Unit = fluentWait.until(ExpectedConditions.urlToBe(url))
 
   def assertOnPage(page: CommonPage, expectedTitle: String): Unit = assertOnPage(page, Some(expectedTitle))

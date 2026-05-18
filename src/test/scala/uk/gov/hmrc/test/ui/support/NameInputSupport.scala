@@ -18,14 +18,18 @@ package uk.gov.hmrc.test.ui.support
 
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertAttributeValueMatches, sendKeys}
 
-trait SubmissionButtonSupport {
+trait NameInputSupport {
 
   this: BasePage =>
-  protected def submissionButtonLocator: By = By.id("submit")
+  val nameInputElement: By = By.cssSelector("#value")
 
-  def clickSubmissionButton(): Unit = {
-    clickElement(submissionButtonLocator)
+  def addName(name: String): Unit = {
+    sendKeys(nameInputElement, name)
+  }
+
+  def assertNameMatches(text: String): Unit = {
+    assertAttributeValueMatches(nameInputElement, text)
   }
 }
