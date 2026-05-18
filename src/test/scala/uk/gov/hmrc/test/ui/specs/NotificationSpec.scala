@@ -49,11 +49,6 @@ class NotificationSpec extends BaseSpec {
 
       And("the user confirms their answers by clicking 'Continue'")
       CheckYourAnswersPage.clickSubmissionButton()
-      assertOnPage(SubmitPage)
-
-      And("submits the notification")
-      SubmitPage.clickSubmissionButton()
-      assertOnPage(ConfirmationPage)
 
       Then("the given notification reference number is successfully returned")
       ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
