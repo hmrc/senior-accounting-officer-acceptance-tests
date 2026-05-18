@@ -287,7 +287,7 @@ class NotificationSpec extends BaseSpec {
       WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Jack Sparrow?")
       WhoWasTheSaoBeforePage.assertHintMatches("This is the person who held the role before Jack Sparrow")
 
-      When("the 'Continue' button is clicked after entering a name for a preceding SAO")
+      When("the 'Continue' button is clicked after entering a name of 'Gert Bo'")
       WhoWasTheSaoBeforePage.addName("Gert Bo")
       WhoWasTheSaoBeforePage.clickSubmissionButton()
 
@@ -402,7 +402,7 @@ class NotificationSpec extends BaseSpec {
     Then("an error message is displayed")
     MultiSaoSecondStartDatePage.assertErrorShownOnPage()
 
-    When("the 'Continue' button is clicked after adding a past date")
+    When("the 'Continue' button is clicked after adding a date 45 days in the past")
     MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(45))
     MultiSaoSecondStartDatePage.clickSubmissionButton()
 
