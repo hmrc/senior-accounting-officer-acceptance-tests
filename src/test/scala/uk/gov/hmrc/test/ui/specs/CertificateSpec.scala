@@ -443,8 +443,6 @@ class CertificateSpec extends BaseSpec {
     ConfirmNotificationPage.clickSubmissionButton()
     assertOnPage(NotificationCheckYourAnswersPage)
     NotificationCheckYourAnswersPage.clickSubmissionButton()
-    // assertOnPage(SubmitPage)
-    // SubmitPage.clickSubmissionButton()
     assertOnPage(ConfirmationPage)
     ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
     ConfirmationPage.clickSubmissionButton()
