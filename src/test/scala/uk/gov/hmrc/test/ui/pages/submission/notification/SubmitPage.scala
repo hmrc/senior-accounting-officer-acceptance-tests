@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages.registration
+package uk.gov.hmrc.test.ui.pages.submission.notification
 
+import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, NameInputSupport, SubmissionButtonSupport}
+import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object FirstContactNamePage
-    extends CommonPage
-    with SubmissionButtonSupport
-    with ErrorMessageSupport
-    with NameInputSupport {
+object SubmitPage extends CommonPage with SubmissionButtonSupport {
+  override val pageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/submit"
 
-  override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details/first/name"
   override val pageTitle: String =
-    "First contact details - Senior Accounting Officer notification and certificate - GOV.UK"
-
-  val changePageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/first/change-name"
+    "Confirm notification and submit - Senior Accounting Officer notification and certificate - GOV.UK"
 }

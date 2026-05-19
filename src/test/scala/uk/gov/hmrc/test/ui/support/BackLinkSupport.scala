@@ -20,12 +20,12 @@ import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 
-trait SubmissionButtonSupport {
+trait BackLinkSupport {
 
   this: BasePage =>
-  protected def submissionButtonLocator: By = By.id("submit")
+  protected def backLinkLocator: By = By.cssSelector(".govuk-back-link")
 
-  def clickSubmissionButton(): Unit = {
-    clickElement(submissionButtonLocator)
+  def clickBackLink(): Unit = {
+    clickElement(backLinkLocator)
   }
 }

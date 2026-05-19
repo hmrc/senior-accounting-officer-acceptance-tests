@@ -18,14 +18,21 @@ package uk.gov.hmrc.test.ui.support
 
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
+import uk.gov.hmrc.test.ui.support.PageSupport.sendKeys
 
-trait SubmissionButtonSupport {
+import java.time.LocalDate
+
+trait DayMonthYearInputSupport {
 
   this: BasePage =>
-  protected def submissionButtonLocator: By = By.id("submit")
+  def dayInput: By   = By.id("value.day")
+  def monthInput: By = By.id("value.month")
+  def yearInput: By  = By.id("value.year")
 
-  def clickSubmissionButton(): Unit = {
-    clickElement(submissionButtonLocator)
+  def addDate(date: LocalDate): Unit = {
+    sendKeys(dayInput, date.getDayOfMonth.toString)
+    sendKeys(monthInput, date.getMonthValue.toString)
+    sendKeys(yearInput, date.getYear.toString)
   }
+
 }

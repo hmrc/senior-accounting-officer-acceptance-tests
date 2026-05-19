@@ -21,13 +21,19 @@ import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 
 object AccountHomePage extends CommonPage {
-  override val pageUrl: String   = TestConfiguration.url("senior-accounting-officer-hub-frontend")
+  override val pageUrl: String = TestConfiguration.url("senior-accounting-officer-hub-frontend")
+
   override val pageTitle: String =
     "Senior Accounting Officer notification and certificate - Senior Accounting Officer notification and certificate - site.govuk"
 
   val submitNotificationLink: By = By.cssSelector("#section-submit-notification-link a")
   val submitCertificateLink: By  = By.cssSelector("#section-submit-certificate-link a")
 
-  def clickSubmitNotificationLink(): Unit = clickElement(submitNotificationLink)
-  def clickSubmitCertificateLink(): Unit  = clickElement(submitCertificateLink)
+  def clickSubmitNotificationLink(): Unit = {
+    clickElement(submitNotificationLink)
+  }
+
+  def clickSubmitCertificateLink(): Unit = {
+    clickElement(submitCertificateLink)
+  }
 }

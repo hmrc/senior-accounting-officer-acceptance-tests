@@ -23,9 +23,9 @@ import uk.gov.hmrc.test.ui.support.PageSupport.sendKeys
 import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
 
 object SaoEmailPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
-
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/sao-email"
+
   override val pageTitle: String =
     "Senior Accounting Officer contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 

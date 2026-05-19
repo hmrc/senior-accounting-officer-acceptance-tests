@@ -23,7 +23,6 @@ import uk.gov.hmrc.test.ui.support.PageSupport.clickRadioButton
 import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
 
 object SubmitCertificateSubmitterPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
-
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/submit-certificate-submitter"
 
