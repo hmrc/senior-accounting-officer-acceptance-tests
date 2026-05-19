@@ -23,7 +23,6 @@ import uk.gov.hmrc.test.ui.support.PageSupport.{clickElement, sendKeys}
 import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
 
 object AdditionalInformationPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
-
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/additional-information"
 

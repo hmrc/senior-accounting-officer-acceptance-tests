@@ -14,20 +14,30 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages.registration
+package uk.gov.hmrc.test.ui.pages.submission.notification
 
+import org.openqa.selenium.By
+import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, NameInputSupport, SubmissionButtonSupport}
+import uk.gov.hmrc.test.ui.support.*
+import uk.gov.hmrc.test.ui.support.PageSupport.assertTextOnPage
 
-object FirstContactNamePage
+object MultiSaoSecondStartDatePage
     extends CommonPage
     with SubmissionButtonSupport
     with ErrorMessageSupport
-    with NameInputSupport {
+    with DayMonthYearInputSupport
+    with BackLinkSupport {
 
-  override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details/first/name"
+  override val pageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/multi-sao-second-start-date"
+
   override val pageTitle: String =
-    "First contact details - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val changePageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/first/change-name"
+  val pageHeadingElement: By = By.cssSelector(".govuk-fieldset__heading")
+
+  def assertHeadingMatches(text: String): Unit = {
+    assertTextOnPage(pageHeadingElement, text)
+  }
 }
