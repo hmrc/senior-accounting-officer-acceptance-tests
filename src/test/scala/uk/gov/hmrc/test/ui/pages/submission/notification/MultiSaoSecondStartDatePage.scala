@@ -37,6 +37,10 @@ object MultiSaoSecondStartDatePage
 
   val pageHeadingElement: By = By.cssSelector(".govuk-fieldset__heading")
 
+  val changePageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/multi-sao-second-start-date?saoIndex=1"
+  val saoEmailInput: By = By.cssSelector("#value")
+
   def assertHeadingMatches(text: String): Unit = {
     assertTextOnPage(pageHeadingElement, text)
   }
