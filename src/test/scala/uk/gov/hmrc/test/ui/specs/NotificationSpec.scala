@@ -551,7 +551,7 @@ class NotificationSpec extends BaseSpec {
     And("is on the page asking 'if all the SAO for the financial year this notification relates to?'")
     assertOnPage(AreAllAddedPage.changePageUrl)
 
-    When("the 'Yes' radio button is clicked")
+    When("the 'Yes' radio button is clicked to complete the notification submission")
     AreAllAddedPage.clickYesRadioButton()
     AreAllAddedPage.clickSubmissionButton()
 
