@@ -19,7 +19,6 @@ package uk.gov.hmrc.test.ui.specs
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
-import uk.gov.hmrc.test.ui.specs.tags.SoloTests
 import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
@@ -503,10 +502,9 @@ class NotificationSpec extends BaseSpec {
   }
 
   Scenario(
-    "Complete a notification only, but choosing 'No' to 'Have you added all the SAO for the financial year this notification relates to?' question",
+    "Complete a notification only, but choosing 'No' to 'Have you added all the SAO for the financial year this notification relates to?' question and completing the journey",
     SubmissionUITests,
-    ZapTests,
-    SoloTests
+    ZapTests
   ) {
     Given("an authenticated user has added 'Shane Warne' as the last SAO")
     goToMoreThanOneSaoPageFromHub()
