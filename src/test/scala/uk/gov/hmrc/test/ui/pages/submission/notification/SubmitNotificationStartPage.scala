@@ -40,6 +40,10 @@ object SubmitNotificationStartPage extends CommonPage {
     clickElement(submitNotificationLink)
   }
 
+  def clickUploadSubmissionTemplateLink(): Unit = {
+    clickElement(uploadSubmissionTemplateLink)
+  }
+
   def clickProvideSaoDetailsLink(): Unit = {
     clickElement(provideSaoDetailsLink)
   }
