@@ -19,24 +19,20 @@ package uk.gov.hmrc.test.ui.pages.submission.notification
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait}
 import org.scalatest.AppendedClues.convertToClueful
-import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.{
-  ProvideSaoDetails,
-  SubmitNotification,
-  UploadSubmissionTemplate
-}
+import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.{NotificationTaskListSection, PageSectionStatus}
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
-
 object SubmitNotificationStartPage extends CommonPage {
 
   case class TaskListSection(
       name: String,
       nameLocator: By,
-      statusLocator: By
+      statusLocator: By,
+      statusHighlightLocator: By
   )
 
   override val pageUrl: String =
@@ -45,31 +41,40 @@ object SubmitNotificationStartPage extends CommonPage {
   override val pageTitle: String =
     "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val provideSaoDetailsLocator: By              = By.cssSelector("""[data-test-id="provide-sao-details"]""")
-  val uploadSubmissionTemplateLocator: By       = By.cssSelector("""[data-test-id="upload-submission-template"]""")
-  val submitNotificationLocator: By             = By.cssSelector("""[data-test-id="submit-notification"]""")
-  val provideSaoDetailsStatusLocator: By        = By.cssSelector("#provide-sao-details-status strong")
-  val uploadSubmissionTemplateStatusLocator: By = By.cssSelector("#upload-template-details-status strong")
-  val submitNotificationStatusLocator: By       = By.cssSelector("#submit-notification-details-status strong")
+  private def statusLocator(id: String): By          = By.cssSelector(s"#$id-status")
+  private def statusHighlightLocator(id: String): By = By.cssSelector(s"#$id-status .govuk-tag.govuk-tag--blue")
+
+  val provideSaoDetailsLocator: By                       = testId("provide-sao-details")
+  val uploadSubmissionTemplateLocator: By                = testId("upload-submission-template")
+  val submitNotificationLocator: By                      = testId("submit-notification")
+  val provideSaoDetailsStatusLocator: By                 = statusLocator("provide-sao-details")
+  val uploadSubmissionTemplateStatusLocator: By          = statusLocator("upload-template-details")
+  val submitNotificationStatusLocator: By                = statusLocator("submit-notification-details")
+  val provideSaoDetailsStatusHighlightLocator: By        = statusHighlightLocator("provide-sao-details")
+  val uploadSubmissionTemplateStatusHighlightLocator: By = statusHighlightLocator("upload-template-details")
+  val submitNotificationStatusHighlightLocator: By       = statusHighlightLocator("submit-notification-details")
 
   private val taskListSections: Map[NotificationTaskListSection, TaskListSection] = Map(
     ProvideSaoDetails ->
       TaskListSection(
         name = "Provide the SAO’s details",
         nameLocator = provideSaoDetailsLocator,
-        statusLocator = provideSaoDetailsStatusLocator
+        statusLocator = provideSaoDetailsStatusLocator,
+        statusHighlightLocator = provideSaoDetailsStatusHighlightLocator
       ),
     UploadSubmissionTemplate ->
       TaskListSection(
         name = "Upload a submission template",
         nameLocator = uploadSubmissionTemplateLocator,
-        statusLocator = uploadSubmissionTemplateStatusLocator
+        statusLocator = uploadSubmissionTemplateStatusLocator,
+        statusHighlightLocator = uploadSubmissionTemplateStatusHighlightLocator
       ),
     SubmitNotification ->
       TaskListSection(
         name = "Submit a notification",
         nameLocator = submitNotificationLocator,
-        statusLocator = submitNotificationStatusLocator
+        statusLocator = submitNotificationStatusLocator,
+        statusHighlightLocator = submitNotificationStatusHighlightLocator
       )
   )
 
@@ -87,9 +92,15 @@ object SubmitNotificationStartPage extends CommonPage {
     assertTextIsNotHyperlink(givenSection.nameLocator, givenSection.name)
   }
 
-  def assertStatusHighlightedForSection(section: NotificationTaskListSection): Unit = {
+  def assertStatusNotHighlighted(section: NotificationTaskListSection): Unit = {
+    assertElementNotVisible(
+      taskListSections(section).statusHighlightLocator
+    )
+  }
+
+  def assertStatusHighlightedBlue(section: NotificationTaskListSection): Unit = {
     assertAttributeMatches(
-      locator = taskListSections(section).statusLocator,
+      locator = taskListSections(section).statusHighlightLocator,
       attribute = "class",
       expectedText = "govuk-tag govuk-tag--blue"
     )

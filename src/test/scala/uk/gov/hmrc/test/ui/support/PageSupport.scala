@@ -95,13 +95,21 @@ object PageSupport extends BrowserDriver with Matchers with PageObject {
     getElementIfVisible(locator).getAttribute(attribute) mustBe expectedText
   }
 
-  def assertOnPage(url: String): Unit = fluentWait.until(ExpectedConditions.urlToBe(url))
+  def assertOnPage(url: String): Unit = {
+    fluentWait.until(ExpectedConditions.urlToBe(url))
+  }
 
-  def assertOnPage(page: CommonPage, expectedTitle: String): Unit = assertOnPage(page, Some(expectedTitle))
+  def assertOnPage(page: CommonPage, expectedTitle: String): Unit = {
+    assertOnPage(page, Some(expectedTitle))
+  }
 
-  def assertOnPage(page: CommonPage): Unit = assertOnPage(page, None)
+  def assertOnPage(page: CommonPage): Unit = {
+    assertOnPage(page, None)
+  }
 
-  def assertPageWithError(page: CommonPage): Unit = assertOnPage(page, Some(page.pageErrorTitle))
+  def assertPageWithError(page: CommonPage): Unit = {
+    assertOnPage(page, Some(page.pageErrorTitle))
+  }
 
   private def assertOnPage(page: CommonPage, titleOverride: Option[String]): Unit = {
     val expectedTitle = titleOverride.getOrElse(page.pageTitle)
