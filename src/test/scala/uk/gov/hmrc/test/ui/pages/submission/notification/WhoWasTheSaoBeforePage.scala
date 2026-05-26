@@ -21,15 +21,13 @@ import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.*
 import uk.gov.hmrc.test.ui.support.PageSupport.assertTextOnPage
-import uk.gov.hmrc.test.ui.support.YesNoRadioButtonSupport
 
 object WhoWasTheSaoBeforePage
     extends CommonPage
     with SubmissionButtonSupport
     with ErrorMessageSupport
     with BackLinkSupport
-    with NameInputSupport
-    with YesNoRadioButtonSupport {
+    with NameInputSupport {
 
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/who-was-the-sao-before"
