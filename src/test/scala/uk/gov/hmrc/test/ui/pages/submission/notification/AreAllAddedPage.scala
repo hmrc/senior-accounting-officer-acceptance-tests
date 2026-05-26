@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
-import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
@@ -30,6 +29,4 @@ object AreAllAddedPage extends CommonPage with SubmissionButtonSupport with YesN
 
   val changePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/more-sao/are-all-added?saoIndex=1"
-  val saoEmailInput: By = By.cssSelector("#value")
-
 }
