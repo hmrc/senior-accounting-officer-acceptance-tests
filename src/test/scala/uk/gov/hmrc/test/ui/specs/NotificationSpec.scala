@@ -575,7 +575,7 @@ class NotificationSpec extends BaseSpec {
     assertOnPage(MoreThanOneSaoPage)
   }
 
-   Scenario(
+  Scenario(
     "Complete a notification only, but choosing 'No' to 'Have you added all the SAO for the financial year this notification relates to?' question and completing the journey",
     SubmissionUITests,
     ZapTests
