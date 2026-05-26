@@ -24,10 +24,10 @@ import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object ConfirmationPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/confirmation"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/confirmation?notificationIdReferenceNumber=SAONOT0123456789"
 
   override val pageTitle: String =
-    "Confirmation page - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Submit a notification - Notification submitted - Senior Accounting Officer notification and certificate - GOV.UK"
 
   def assertReferenceNumberEquals(number: String): Unit = {
     val referenceNumberElement: By = By.cssSelector("""[data-test-id="notification-reference-number"]""")

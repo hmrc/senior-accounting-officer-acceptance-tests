@@ -79,6 +79,10 @@ object PageSupport extends BrowserDriver with Matchers with PageObject {
 
   private def assertOnPage(page: CommonPage, titleOverride: Option[String]): Unit = {
     val expectedTitle = titleOverride.getOrElse(page.pageTitle)
+    println(s"title : $getTitle")
+    println(s"expectedTitle: $expectedTitle")
+    println(s"url: ${page.pageUrl}")
+    println(s"current url: ${getCurrentUrl}")
     fluentWait.until(_ => getCurrentUrl == page.pageUrl && getTitle == expectedTitle)
     getCurrentUrl mustBe page.pageUrl
     getTitle mustBe expectedTitle
