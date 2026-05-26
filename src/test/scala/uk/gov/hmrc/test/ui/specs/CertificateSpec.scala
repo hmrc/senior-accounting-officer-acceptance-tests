@@ -17,6 +17,7 @@
 package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
+import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.SubmitNotification
 import uk.gov.hmrc.test.ui.pages.submission.certificate.{CheckYourAnswersPage as CertificateCheckYourAnswersPage, *}
 import uk.gov.hmrc.test.ui.pages.submission.notification.{CheckYourAnswersPage as NotificationCheckYourAnswersPage, *}
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
@@ -436,7 +437,7 @@ class CertificateSpec extends BaseSpec {
     assertOnPage(AccountHomePage)
     AccountHomePage.clickSubmitNotificationLink()
     assertOnPage(SubmitNotificationStartPage)
-    SubmitNotificationStartPage.clickSubmitNotificationLink()
+    SubmitNotificationStartPage.clickTaskListSectionLink(SubmitNotification)
     assertOnPage(AdditionalInformationPage)
     AdditionalInformationPage.clickSkipButton()
     assertOnPage(ConfirmNotificationPage)

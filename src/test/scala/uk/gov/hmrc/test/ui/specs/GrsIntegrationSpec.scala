@@ -50,7 +50,7 @@ class GrsIntegrationSpec extends BaseSpec {
       GrsCheckYourAnswersPage.assertAnswersAndSubmit()
 
       Then("the company details have a status of 'Completed' on the registration dashboard")
-      RegistrationPage.assertSectionStatus(CompanyDetails, Completed)
+      RegistrationPage.assertRegistrationPageSectionStatus(CompanyDetails, Completed)
 
       And("the 'Enter your company details' link is not present")
       RegistrationPage.assertEnterYourNominatedCompanyDetailsLinkNotFound()
