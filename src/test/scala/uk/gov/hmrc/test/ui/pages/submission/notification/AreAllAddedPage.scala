@@ -19,9 +19,13 @@ package uk.gov.hmrc.test.ui.pages.submission.notification
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
-import uk.gov.hmrc.test.ui.support.YesNoRadioButtonSupport
+import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, YesNoRadioButtonSupport}
 
-object AreAllAddedPage extends CommonPage with SubmissionButtonSupport with YesNoRadioButtonSupport {
+object AreAllAddedPage
+    extends CommonPage
+    with SubmissionButtonSupport
+    with YesNoRadioButtonSupport
+    with ErrorMessageSupport {
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/more-sao/are-all-added"
   override val pageTitle: String =

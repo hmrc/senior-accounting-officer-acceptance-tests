@@ -493,6 +493,12 @@ class NotificationSpec extends BaseSpec {
     And("is on the page asking 'if all the SAO for the financial year this notification relates to?'")
     assertOnPage(AreAllAddedPage)
 
+    When("pressing continue without selecting any radio button")
+    AreAllAddedPage.clickSubmissionButton()
+
+    Then("an error appears on screen")
+    AreAllAddedPage.assertErrorShownOnPage()
+
     When("the 'Yes' radio button is clicked")
     AreAllAddedPage.clickYesRadioButton()
     AreAllAddedPage.clickSubmissionButton()
