@@ -574,4 +574,62 @@ class NotificationSpec extends BaseSpec {
     SubmitNotificationStartPage.clickProvideSaoDetailsLink()
     assertOnPage(MoreThanOneSaoPage)
   }
+
+   Scenario(
+    "Complete a notification only, but choosing 'No' to 'Have you added all the SAO for the financial year this notification relates to?' question and completing the journey",
+    SubmissionUITests,
+    ZapTests
+  ) {
+    Given("an authenticated user has added 'Shane Warne' as the last SAO")
+    goToMoreThanOneSaoPageFromHub()
+    MoreThanOneSaoPage.clickYesRadioButton()
+    MoreThanOneSaoPage.clickSubmissionButton()
+    assertOnPage(MultiSaoNamePage)
+    MultiSaoNamePage.addName("Shane Warne")
+    MultiSaoNamePage.clickSubmissionButton()
+    assertOnPage(MultiSaoFirstStartDatePage)
+    MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(20))
+    MultiSaoFirstStartDatePage.clickSubmissionButton()
+    assertOnPage(WhoWasTheSaoBeforePage)
+
+    And("has added 'Jonty Rhodes' as a prior SAO")
+    WhoWasTheSaoBeforePage.addName("Jonty Rhodes")
+    WhoWasTheSaoBeforePage.clickSubmissionButton()
+    assertOnPage(MultiSaoSecondStartDatePage)
+    MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(65))
+    MultiSaoSecondStartDatePage.clickSubmissionButton()
+    assertOnPage(MultiSaoSecondEndDatePage)
+    MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(65))
+    MultiSaoSecondEndDatePage.clickSubmissionButton()
+
+    And("is on the page asking 'if all the SAO for the financial year this notification relates to?'")
+    assertOnPage(AreAllAddedPage)
+
+    When("the 'No' radio button is clicked")
+    AreAllAddedPage.clickNoRadioButton()
+    AreAllAddedPage.clickSubmissionButton()
+
+    Then("the user lands on the 'WhoWasTheSaoBeforePage' page")
+    assertOnPage(WhoWasTheSaoBeforePage.changePageUrl)
+
+    And("a new name is provided after changing the radio option to 'No'")
+    WhoWasTheSaoBeforePage.addName("Alex Rhodes")
+    WhoWasTheSaoBeforePage.clickSubmissionButton()
+    assertOnPage(MultiSaoSecondStartDatePage.changePageUrl)
+    MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(65))
+    MultiSaoSecondStartDatePage.clickSubmissionButton()
+    assertOnPage(MultiSaoSecondEndDatePage.changePageUrl)
+    MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(65))
+    MultiSaoSecondEndDatePage.clickSubmissionButton()
+
+    And("is on the page asking 'if all the SAO for the financial year this notification relates to?'")
+    assertOnPage(AreAllAddedPage.changePageUrl)
+
+    When("the 'Yes' radio button is clicked to complete the notification submission")
+    AreAllAddedPage.clickYesRadioButton()
+    AreAllAddedPage.clickSubmissionButton()
+
+    Then("the user lands on the 'Submit a notification' start page")
+    assertOnPage(SubmitNotificationStartPage)
+  }
 }
