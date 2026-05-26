@@ -70,7 +70,7 @@ object RegistrationPage extends CommonPage with SubmissionButtonSupport {
   def clickEnterYourNominatedCompanyDetailsLink(): Unit =
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(companyDetailsField)).click()
 
-  def assertSectionStatus(section: RegistrationPageSection, expectedStatus: PageSectionStatus): Unit = {
+  def assertRegistrationPageSectionStatus(section: RegistrationPageSection, expectedStatus: PageSectionStatus): Unit = {
     val statusElement = new FluentWait(driver)
       .until(ExpectedConditions.visibilityOfElementLocated(sectionLocators(section)))
     statusElement.getText.trim mustBe expectedStatus.toString withClue
