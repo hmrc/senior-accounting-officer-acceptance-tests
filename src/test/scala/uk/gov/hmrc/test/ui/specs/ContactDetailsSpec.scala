@@ -80,7 +80,7 @@ class ContactDetailsSpec extends BaseSpec {
       assertOnPage(RegistrationPage)
 
       Then("the 'Enter your contact details' section status is 'Completed'")
-      RegistrationPage.assertSectionStatus(ContactDetails, Completed)
+      RegistrationPage.assertRegistrationPageSectionStatus(ContactDetails, Completed)
 
       When("the user submits the registration")
       RegistrationPage.clickSubmissionButton()
@@ -115,7 +115,7 @@ class ContactDetailsSpec extends BaseSpec {
       assertOnPage(RegistrationPage)
 
       Then("the 'Enter your contact details' section status is 'Completed'")
-      RegistrationPage.assertSectionStatus(ContactDetails, Completed)
+      RegistrationPage.assertRegistrationPageSectionStatus(ContactDetails, Completed)
 
       When("the user submits the registration")
       RegistrationPage.clickSubmissionButton()

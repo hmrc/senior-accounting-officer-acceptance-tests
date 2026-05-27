@@ -17,6 +17,7 @@
 package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
+import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.pages.submission.certificate.{CheckYourAnswersPage as CertificateCheckYourAnswersPage, *}
 import uk.gov.hmrc.test.ui.pages.submission.notification.{CheckYourAnswersPage as NotificationCheckYourAnswersPage, *}
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
@@ -436,7 +437,9 @@ class CertificateSpec extends BaseSpec {
     assertOnPage(AccountHomePage)
     AccountHomePage.clickSubmitNotificationLink()
     assertOnPage(SubmitNotificationStartPage)
-    SubmitNotificationStartPage.clickSubmitNotificationLink()
+    provideSingleSaoDetailsFromStartPage()
+    uploadSubmissionTemplateFromStartPage()
+    SubmitNotificationStartPage.clickTaskListSectionLink(SubmitNotification)
     assertOnPage(AdditionalInformationPage)
     AdditionalInformationPage.clickSkipButton()
     assertOnPage(ConfirmNotificationPage)
@@ -446,5 +449,26 @@ class CertificateSpec extends BaseSpec {
     assertOnPage(ConfirmationPage)
     ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
     ConfirmationPage.clickSubmissionButton()
+  }
+
+  private def provideSingleSaoDetailsFromStartPage(): Unit = {
+    SubmitNotificationStartPage.clickTaskListSectionLink(ProvideSaoDetails)
+    assertOnPage(MoreThanOneSaoPage)
+    MoreThanOneSaoPage.clickNoRadioButton()
+    MoreThanOneSaoPage.clickSubmissionButton()
+    assertOnPage(SingleSaoNamePage)
+    SingleSaoNamePage.addName("Spyder Mann")
+    SingleSaoNamePage.clickSubmissionButton()
+    assertOnPage(SubmitNotificationStartPage)
+  }
+
+  private def uploadSubmissionTemplateFromStartPage(): Unit = {
+    SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+    assertOnPage(UploadSubmissionTemplatePage)
+    UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateEmptyFile)
+    UploadSubmissionTemplatePage.clickSubmissionButton()
+    assertOnPage(UploadTablePage)
+    UploadTablePage.clickSubmissionButton()
+    assertOnPage(SubmitNotificationStartPage)
   }
 }

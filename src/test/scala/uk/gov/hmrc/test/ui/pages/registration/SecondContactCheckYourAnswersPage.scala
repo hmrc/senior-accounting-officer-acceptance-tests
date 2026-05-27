@@ -18,6 +18,7 @@ package uk.gov.hmrc.test.ui.pages.registration
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.pages.registration.FirstContactCheckYourAnswersPage.testId
 import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
@@ -44,6 +45,6 @@ object SecondContactCheckYourAnswersPage extends CommonPage with SubmissionButto
   def clickSecondContactEmailChangeLink(): Unit = clickElement(secondContactEmailChangeLink)
 
   private def contactLocator(contactType: String, elementName: String): By = {
-    By.cssSelector(s"""[data-test-id="$contactType-$elementName"]""")
+    testId(s"$contactType-$elementName")
   }
 }

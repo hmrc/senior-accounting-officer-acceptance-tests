@@ -27,7 +27,7 @@ object RegistrationCompletePage extends CommonPage with SubmissionButtonSupport 
     "SAO Registration Confirmation - Senior Accounting Officer notification and certificate - GOV.UK"
 
   def assertReferenceNumberReturned(): Unit = {
-    val referenceNumberElement: By = By.cssSelector("""[data-test-id="registration-reference-number"]""")
+    val referenceNumberElement: By = testId("registration-reference-number")
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(referenceNumberElement))
 
     val referenceNumber = driver.findElement(referenceNumberElement).getText

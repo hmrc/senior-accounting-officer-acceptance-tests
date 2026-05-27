@@ -16,9 +16,14 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
+import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
+
+import java.nio.file.Paths
 
 object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupport {
 
@@ -27,4 +32,22 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
 
   override val pageTitle: String =
     "Upload a submission template for your notification - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  private val hiddenFileInputLocator = By.cssSelector(".govuk-file-upload")
+
+  override def clickSubmissionButton(): Unit = {
+    clickElement(submissionButtonLocator)
+    fluentWait.until(
+      ExpectedConditions.textToBePresentInElementLocated(
+        By.cssSelector("h1"),
+        "Review the companies in your notification"
+      )
+    )
+  }
+
+  def chooseFile(resourceName: String): Unit = {
+    val fileUrl      = getClass.getClassLoader.getResource(resourceName)
+    val absolutePath = Paths.get(fileUrl.toURI).toString
+    driver.findElement(hiddenFileInputLocator).sendKeys(absolutePath)
+  }
 }
