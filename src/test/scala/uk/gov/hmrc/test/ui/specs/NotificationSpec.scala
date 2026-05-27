@@ -19,7 +19,7 @@ package uk.gov.hmrc.test.ui.specs
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
 import java.time.LocalDate
@@ -36,7 +36,8 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "A user can submit a notification successfully when additional information is added and not changed",
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user initiates adding a notification from the 'Hub' page")
       goToAdditionalInformationPageFromHub()
@@ -54,6 +55,9 @@ class NotificationSpec extends BaseSpec {
 
       Then("the given notification reference number is successfully returned")
       ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
+
+      Then("the 'Download a PDF' link is displayed on the 'Notification Submitted' page")
+      assertElementIsClickable(ConfirmationPage.downloadPdfLink)
     }
 
     Scenario(

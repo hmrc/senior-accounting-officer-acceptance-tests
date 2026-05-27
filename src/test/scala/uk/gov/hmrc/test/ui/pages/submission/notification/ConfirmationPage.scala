@@ -34,4 +34,8 @@ object ConfirmationPage extends CommonPage with SubmissionButtonSupport {
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(referenceNumberElement))
     driver.findElement(referenceNumberElement).getText mustBe number
   }
+
+  val downloadPdfLink: By = By.cssSelector("""[href="#"]""")
+  // val printPageLink: By = By.cssSelector("""[href="#"]""")
+
 }

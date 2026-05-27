@@ -16,6 +16,7 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
+import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
@@ -26,4 +27,7 @@ object SubmitPage extends CommonPage with SubmissionButtonSupport {
 
   override val pageTitle: String =
     "Confirm notification and submit - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  val uploadSubmissionTemplateLink: By = By.cssSelector("""[href="#"]""")
+
 }
