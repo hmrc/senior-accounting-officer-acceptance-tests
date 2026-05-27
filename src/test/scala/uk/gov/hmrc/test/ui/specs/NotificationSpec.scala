@@ -21,7 +21,7 @@ import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, Completed, NotStarted}
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
 
@@ -39,8 +39,7 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "Notification task list shows the correct initial state",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user lands on the notification start page at the start of a new submission")
       assertOnPage(AccountHomePage)
@@ -64,8 +63,7 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "Notification task list shows the correct state after providing SAO details",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user lands on the notification start page after providing SAO details")
       assertOnPage(AccountHomePage)
@@ -90,8 +88,7 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "Notification task list shows the correct state after uploading a submission template",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user lands on the notification start page after uploading a submission template")
       assertOnPage(AccountHomePage)
