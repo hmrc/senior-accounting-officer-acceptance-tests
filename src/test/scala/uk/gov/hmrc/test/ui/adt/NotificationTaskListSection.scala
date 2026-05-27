@@ -1,5 +1,5 @@
 /*
- * Copyright 2026 HM Revenue & Customs
+ * Copyright 2025 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,22 +14,12 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.support
+package uk.gov.hmrc.test.ui.adt
 
-import org.openqa.selenium.By
-import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.support.PageSupport.{assertAttributeMatches, sendKeys}
+sealed trait NotificationTaskListSection
 
-trait NameInputSupport {
-
-  this: BasePage =>
-  val nameInputElement: By = By.cssSelector("#value")
-
-  def addName(name: String): Unit = {
-    sendKeys(nameInputElement, name)
-  }
-
-  def assertNameMatches(text: String): Unit = {
-    assertAttributeMatches(locator = nameInputElement, attribute = "value", expectedText = text)
-  }
+object NotificationTaskListSection {
+  case object ProvideSaoDetails        extends NotificationTaskListSection
+  case object UploadSubmissionTemplate extends NotificationTaskListSection
+  case object SubmitNotification       extends NotificationTaskListSection
 }

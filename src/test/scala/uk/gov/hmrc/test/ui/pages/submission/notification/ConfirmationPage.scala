@@ -30,7 +30,7 @@ object ConfirmationPage extends CommonPage with SubmissionButtonSupport {
     "Submit a notification - Notification submitted - Senior Accounting Officer notification and certificate - GOV.UK"
 
   def assertReferenceNumberEquals(number: String): Unit = {
-    val referenceNumberElement: By = By.cssSelector("""[data-test-id="notification-reference-number"]""")
+    val referenceNumberElement: By = testId("notification-reference-number")
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(referenceNumberElement))
     driver.findElement(referenceNumberElement).getText mustBe number
   }
