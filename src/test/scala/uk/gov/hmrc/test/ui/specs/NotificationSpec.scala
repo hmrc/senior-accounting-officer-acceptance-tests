@@ -682,4 +682,3 @@ class NotificationSpec extends BaseSpec {
     assertOnPage(MoreThanOneSaoPage)
   }
 }
-
