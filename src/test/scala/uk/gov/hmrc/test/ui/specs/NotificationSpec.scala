@@ -16,12 +16,13 @@
 
 package uk.gov.hmrc.test.ui.specs
 
+import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, Completed, NotStarted}
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
 
@@ -114,8 +115,7 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "A user can submit a notification successfully when additional information is added and not changed",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user initiates adding a notification from the 'Hub' page")
       goToAdditionalInformationPageFromHomePage()
@@ -136,6 +136,16 @@ class NotificationSpec extends BaseSpec {
 
       Then("the 'Download a PDF' link is displayed on the 'Notification Submitted' page")
       assertElementIsClickable(ConfirmationPage.downloadPdfLink)
+      val downloadPdfElement =
+        fluentWait.until(ExpectedConditions.visibilityOfElementLocated(ConfirmationPage.downloadPdfLink))
+      downloadPdfElement.getText mustBe "Download a PDF"
+
+      Then("the 'Print this page' link is displayed on the 'Notification Submitted' page")
+      assertElementIsClickable(ConfirmationPage.printPageLink)
+      val printPageElement =
+        fluentWait.until(ExpectedConditions.visibilityOfElementLocated(ConfirmationPage.printPageLink))
+      printPageElement.getText mustBe "Print this page"
+
     }
 
     Scenario(
