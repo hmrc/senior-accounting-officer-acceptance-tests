@@ -20,6 +20,7 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertElementIsClickable, assertTextOnPage}
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object ConfirmationPage extends CommonPage with SubmissionButtonSupport {
@@ -29,13 +30,21 @@ object ConfirmationPage extends CommonPage with SubmissionButtonSupport {
   override val pageTitle: String =
     "Submit a notification - Notification submitted - Senior Accounting Officer notification and certificate - GOV.UK"
 
+  val downloadPdfLink: By =
+    By.cssSelector("""#download-pdf-link[href="#"]""")
+
+  val printPageLink: By =
+    By.cssSelector("""#print-page-link[href="#"]""")
+
   def assertReferenceNumberEquals(number: String): Unit = {
     val referenceNumberElement: By = testId("notification-reference-number")
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(referenceNumberElement))
     driver.findElement(referenceNumberElement).getText mustBe number
   }
 
-  val downloadPdfLink: By = By.cssSelector("""#download-pdf-link[href="#"]""")
-  val printPageLink: By   = By.cssSelector("""#print-page-link[href="#"]""")
+  def assertTextInLink(link: By, text: String): Unit = {
+    assertElementIsClickable(link)
+    assertTextOnPage(link, text)
+  }
 
 }
