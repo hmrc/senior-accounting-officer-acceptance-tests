@@ -44,6 +44,6 @@ object FirstContactCheckYourAnswersPage extends CommonPage with SubmissionButton
   def clickFirstContactEmailChangeLink(): Unit = clickElement(firstContactEmailChangeLink)
 
   private def contactLocator(contactType: String, elementName: String): By = {
-    By.cssSelector(s"""[data-test-id="$contactType-$elementName"]""")
+    testId(s"$contactType-$elementName")
   }
 }

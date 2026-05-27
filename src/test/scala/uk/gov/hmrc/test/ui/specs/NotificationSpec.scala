@@ -17,18 +17,13 @@
 package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
-import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection
-import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.{
-  ProvideSaoDetails,
-  SubmitNotification,
-  UploadSubmissionTemplate
-}
-import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, NotStarted}
+import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
+import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, Completed, NotStarted}
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
 import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
-import uk.gov.hmrc.test.ui.support.PageSupport
 import uk.gov.hmrc.test.ui.support.PageSupport.*
+import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
 
 import java.time.LocalDate
 
@@ -46,21 +41,74 @@ class NotificationSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given("an authenticated user lands on the notification start page (task list) at the start of a new submission")
+      Given("an authenticated user lands on the notification start page at the start of a new submission")
       assertOnPage(AccountHomePage)
       AccountHomePage.clickSubmitNotificationLink()
       assertOnPage(SubmitNotificationStartPage)
 
       Then("the task list displays each element in the correct state with the correct status")
       SubmitNotificationStartPage.assertTaskListSectionStatus(ProvideSaoDetails, NotStarted)
-      SubmitNotificationStartPage.assertStatusHighlightedForSection(ProvideSaoDetails)
+      SubmitNotificationStartPage.assertStatusHighlightedBlue(ProvideSaoDetails)
       SubmitNotificationStartPage.assertTaskListSectionNameIsHyperlink(ProvideSaoDetails)
 
       SubmitNotificationStartPage.assertTaskListSectionStatus(UploadSubmissionTemplate, CannotStartYet)
+      SubmitNotificationStartPage.assertStatusNotHighlighted(UploadSubmissionTemplate)
       SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(UploadSubmissionTemplate)
 
       SubmitNotificationStartPage.assertTaskListSectionStatus(SubmitNotification, CannotStartYet)
+      SubmitNotificationStartPage.assertStatusNotHighlighted(SubmitNotification)
       SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(SubmitNotification)
+    }
+
+    Scenario(
+      "Notification task list shows the correct state after providing SAO details",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the notification start page after providing SAO details")
+      assertOnPage(AccountHomePage)
+      AccountHomePage.clickSubmitNotificationLink()
+      assertOnPage(SubmitNotificationStartPage)
+      provideSingleSaoDetailsFromStartPage()
+
+      Then("the task list displays each element in the correct state with the correct status")
+      SubmitNotificationStartPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
+      SubmitNotificationStartPage.assertStatusNotHighlighted(ProvideSaoDetails)
+      SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(ProvideSaoDetails)
+
+      SubmitNotificationStartPage.assertTaskListSectionStatus(UploadSubmissionTemplate, NotStarted)
+      SubmitNotificationStartPage.assertStatusHighlightedBlue(UploadSubmissionTemplate)
+      SubmitNotificationStartPage.assertTaskListSectionNameIsHyperlink(UploadSubmissionTemplate)
+
+      SubmitNotificationStartPage.assertTaskListSectionStatus(SubmitNotification, CannotStartYet)
+      SubmitNotificationStartPage.assertStatusNotHighlighted(SubmitNotification)
+      SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(SubmitNotification)
+    }
+
+    Scenario(
+      "Notification task list shows the correct state after uploading a submission template",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the notification start page after uploading a submission template")
+      assertOnPage(AccountHomePage)
+      AccountHomePage.clickSubmitNotificationLink()
+      assertOnPage(SubmitNotificationStartPage)
+      provideSingleSaoDetailsFromStartPage()
+      uploadSimpleSubmissionTemplateFromStartPage()
+
+      Then("the task list displays each element in the correct state with the correct status")
+      SubmitNotificationStartPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
+      SubmitNotificationStartPage.assertStatusNotHighlighted(ProvideSaoDetails)
+      SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(ProvideSaoDetails)
+
+      SubmitNotificationStartPage.assertTaskListSectionStatus(UploadSubmissionTemplate, Completed)
+      SubmitNotificationStartPage.assertStatusNotHighlighted(UploadSubmissionTemplate)
+      SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(UploadSubmissionTemplate)
+
+      SubmitNotificationStartPage.assertTaskListSectionStatus(SubmitNotification, NotStarted)
+      SubmitNotificationStartPage.assertStatusHighlightedBlue(SubmitNotification)
+      SubmitNotificationStartPage.assertTaskListSectionNameIsHyperlink(SubmitNotification)
     }
 
     Scenario(
@@ -69,7 +117,7 @@ class NotificationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user initiates adding a notification from the 'Hub' page")
-      goToAdditionalInformationPageFromHub()
+      goToAdditionalInformationPageFromHomePage()
 
       When("additional information is added")
       AdditionalInformationPage.addInformation("Test")
@@ -92,7 +140,7 @@ class NotificationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user arrives on the additional information page during a notification submission")
-      goToAdditionalInformationPageFromHub()
+      goToAdditionalInformationPageFromHomePage()
 
       When("pressing continue without providing additional information")
       AdditionalInformationPage.clickSubmissionButton()
@@ -118,7 +166,7 @@ class NotificationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user arrives on the additional information page during a notification submission")
-      goToAdditionalInformationPageFromHub()
+      goToAdditionalInformationPageFromHomePage()
 
       When("pressing 'Continue' without providing additional information")
       AdditionalInformationPage.clickSubmissionButton()
@@ -143,7 +191,7 @@ class NotificationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user arrives on the 'Additional Information' page during a notification submission")
-      goToAdditionalInformationPageFromHub()
+      goToAdditionalInformationPageFromHomePage()
 
       When("pressing 'Skip' without providing additional information")
       AdditionalInformationPage.clickSkipButton()
@@ -160,7 +208,7 @@ class NotificationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user arrives on the 'Additional Information' page during a notification submission")
-      goToAdditionalInformationPageFromHub()
+      goToAdditionalInformationPageFromHomePage()
 
       When("pressing skip with additional information provided")
       AdditionalInformationPage.addInformation("Test")
@@ -180,7 +228,7 @@ class NotificationSpec extends BaseSpec {
       Given(
         "an authenticated user provides additional information and arrives on the 'Check Your Answers' page during a notification submission"
       )
-      goToAdditionalInformationPageFromHub()
+      goToAdditionalInformationPageFromHomePage()
       AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSubmissionButton()
       assertOnPage(ConfirmNotificationPage)
@@ -207,7 +255,7 @@ class NotificationSpec extends BaseSpec {
       Given(
         "an authenticated user provides additional information and arrives on the 'Check Your Answers' page during a notification submission"
       )
-      goToAdditionalInformationPageFromHub()
+      goToAdditionalInformationPageFromHomePage()
       AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSubmissionButton()
       assertOnPage(ConfirmNotificationPage)
@@ -234,7 +282,7 @@ class NotificationSpec extends BaseSpec {
       Given(
         "an authenticated user provides additional information and arrives on the 'Check Your Answers' page during a notification submission"
       )
-      goToAdditionalInformationPageFromHub()
+      goToAdditionalInformationPageFromHomePage()
       AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSubmissionButton()
       assertOnPage(ConfirmNotificationPage)
@@ -441,7 +489,7 @@ class NotificationSpec extends BaseSpec {
     SubmissionUITests,
     ZapTests
   ) {
-    Given("an authenticated user has added 'Shane Warne'as the last SAO")
+    Given("an authenticated user has added 'Shane Warne' as the last SAO")
     goToMoreThanOneSaoPageFromHub()
     MoreThanOneSaoPage.clickYesRadioButton()
     MoreThanOneSaoPage.clickSubmissionButton()
@@ -493,12 +541,35 @@ class NotificationSpec extends BaseSpec {
     MultiSaoFirstStartDatePage.assertHeadingMatches("What date did Shane Warne become the SAO?")
   }
 
-  private def goToAdditionalInformationPageFromHub(): Unit = {
+  private def goToAdditionalInformationPageFromHomePage(): Unit = {
     assertOnPage(AccountHomePage)
     AccountHomePage.clickSubmitNotificationLink()
     assertOnPage(SubmitNotificationStartPage)
+    provideSingleSaoDetailsFromStartPage()
+    uploadSimpleSubmissionTemplateFromStartPage()
     SubmitNotificationStartPage.clickTaskListSectionLink(SubmitNotification)
     assertOnPage(AdditionalInformationPage)
+  }
+
+  private def provideSingleSaoDetailsFromStartPage(): Unit = {
+    SubmitNotificationStartPage.clickTaskListSectionLink(ProvideSaoDetails)
+    assertOnPage(MoreThanOneSaoPage)
+    MoreThanOneSaoPage.clickNoRadioButton()
+    MoreThanOneSaoPage.clickSubmissionButton()
+    assertOnPage(SingleSaoNamePage)
+    SingleSaoNamePage.addName("Cat Noir")
+    SingleSaoNamePage.clickSubmissionButton()
+    assertOnPage(SubmitNotificationStartPage)
+  }
+
+  private def uploadSimpleSubmissionTemplateFromStartPage(): Unit = {
+    SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+    assertOnPage(UploadSubmissionTemplatePage)
+    UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateEmptyFile)
+    UploadSubmissionTemplatePage.clickSubmissionButton()
+    assertOnPage(UploadTablePage)
+    UploadTablePage.clickSubmissionButton()
+    assertOnPage(SubmitNotificationStartPage)
   }
 
   private def goToMoreThanOneSaoPageFromHub(): Unit = {

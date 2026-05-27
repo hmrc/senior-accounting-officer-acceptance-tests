@@ -16,21 +16,16 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
-import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object CheckYourAnswersPage extends CommonPage with SubmissionButtonSupport {
+object UploadTablePage extends CommonPage with SubmissionButtonSupport {
+
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/check-your-answers"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/upload/table"
 
-  override val pageTitle: String =
-    "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
-
-  val additionalInformationValueElement: By = By.cssSelector(".govuk-summary-list__value")
-  val additionalInformationChangeLink: By   = testId("change-additional-information-link")
-
-  def clickAdditionalInformationChangeLink(): Unit = clickElement(additionalInformationChangeLink)
+  override val pageTitle: String = {
+    "Review the companies in your notification - Senior Accounting Officer notification and certificate - GOV.UK"
+  }
 }
