@@ -643,6 +643,7 @@ class NotificationSpec extends BaseSpec {
     assertOnPage(SubmitNotificationStartPage)
   }
 
+  private def goToAdditionalInformationPageFromHub(): Unit = {
   private def goToAdditionalInformationPageFromHomePage(): Unit = {
     assertOnPage(AccountHomePage)
     AccountHomePage.clickSubmitNotificationLink()
