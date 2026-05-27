@@ -16,10 +16,14 @@
 
 package uk.gov.hmrc.test.ui.pages
 
+import org.openqa.selenium.By
+
 trait CommonPage extends BasePage {
   def pageTitle: String
   def pageUrl: String
   def pageErrorTitle: String = s"Error: $pageTitle"
 
   def loadPage(): Unit = navigateTo(pageUrl)
+
+  protected def testId(id: String): By = By.cssSelector(s"""[data-test-id="$id"]""")
 }

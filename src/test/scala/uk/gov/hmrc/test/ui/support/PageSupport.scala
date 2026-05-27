@@ -17,11 +17,13 @@
 package uk.gov.hmrc.test.ui.support
 
 import org.openqa.selenium.support.ui.*
-import org.openqa.selenium.{By, WebDriver}
+import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.scalatest.matchers.must.Matchers
 import uk.gov.hmrc.selenium.component.PageObject
 import uk.gov.hmrc.test.ui.driver.BrowserDriver
 import uk.gov.hmrc.test.ui.pages.CommonPage
+
+import scala.collection.JavaConverters.asScalaBufferConverter
 
 import java.lang
 import java.time.Duration
@@ -35,47 +37,79 @@ object PageSupport extends BrowserDriver with Matchers with PageObject {
     .withTimeout(Duration.ofSeconds(5))
     .pollingEvery(Duration.ofMillis(200))
 
-  def clickElement(locator: By): Unit = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(locator)).click()
+  def clickElement(locator: By): Unit = {
+    getElementIfClickable(locator).click()
+  }
+
+  def clickContinueButton(): Unit = {
+    getElementIfClickable(continueButton).click()
+  }
 
   def clickRadioButton(locator: By): Unit =
     fluentWait.until(ExpectedConditions.presenceOfElementLocated(locator)).click()
 
-  def clickContinueButton(): Unit =
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(continueButton)).click()
-
-  def clickOnBackLink(): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(backLink)).click()
-
-  override def sendKeys(locator: By, value: String): Unit = {
-    fluentWait.until(ExpectedConditions.elementToBeClickable(locator)).clear()
-    driver.findElement(locator).sendKeys(value)
+  def clickOnBackLink(): Unit = {
+    getElementIfClickable(backLink).click()
   }
 
-  def selectDropdownById(id: By): Select = new Select(driver.findElement(id: By))
+  override def sendKeys(locator: By, value: String): Unit = {
+    val element = getElementIfVisible(locator)
+    element.clear()
+    element.sendKeys(value)
+  }
 
-  def assertElementIsClickable(locator: By): Unit = fluentWait.until(ExpectedConditions.elementToBeClickable(locator))
+  def selectDropdownById(id: By): Select = {
+    new Select(driver.findElement(id: By))
+  }
+
+  def assertElementIsClickable(locator: By): Unit = {
+    fluentWait.until(ExpectedConditions.elementToBeClickable(locator))
+  }
 
   def assertElementNotVisible(locator: By): Unit = {
     val elementNotVisible = fluentWait.until(ExpectedConditions.invisibilityOfElementLocated(locator))
     elementNotVisible mustBe true
   }
 
+  def assertTextIsHyperlink(locator: By, text: String): Unit = {
+    val element = getElementIfVisible(locator)
+    assertTextOnPage(element, text)
+    element.findElement(By.tagName("a")).getAttribute("href") mustNot be(empty)
+  }
+
+  def assertTextIsNotHyperlink(locator: By, text: String): Unit = {
+    val element = getElementIfVisible(locator)
+    assertTextOnPage(element, text)
+    element.findElements(By.tagName("a")).asScala mustBe empty
+  }
+
   def assertTextOnPage(locator: By, text: String): Unit = {
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(locator))
-    text mustBe driver.findElement(locator).getText
+    getElementIfVisible(locator).getText mustBe text
   }
 
-  def assertAttributeValueMatches(locator: By, text: String): Unit = {
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(locator))
-    text mustBe driver.findElement(locator).getAttribute("value")
+  def assertTextOnPage(element: WebElement, text: String): Unit = {
+    element.getText mustBe text
   }
 
-  def assertOnPage(url: String): Unit = fluentWait.until(ExpectedConditions.urlToBe(url))
+  def assertAttributeMatches(locator: By, attribute: String, expectedText: String): Unit = {
+    getElementIfVisible(locator).getAttribute(attribute) mustBe expectedText
+  }
 
-  def assertOnPage(page: CommonPage, expectedTitle: String): Unit = assertOnPage(page, Some(expectedTitle))
+  def assertOnPage(url: String): Unit = {
+    fluentWait.until(ExpectedConditions.urlToBe(url))
+  }
 
-  def assertOnPage(page: CommonPage): Unit = assertOnPage(page, None)
+  def assertOnPage(page: CommonPage, expectedTitle: String): Unit = {
+    assertOnPage(page, Some(expectedTitle))
+  }
 
-  def assertPageWithError(page: CommonPage): Unit = assertOnPage(page, Some(page.pageErrorTitle))
+  def assertOnPage(page: CommonPage): Unit = {
+    assertOnPage(page, None)
+  }
+
+  def assertPageWithError(page: CommonPage): Unit = {
+    assertOnPage(page, Some(page.pageErrorTitle))
+  }
 
   private def assertOnPage(page: CommonPage, titleOverride: Option[String]): Unit = {
     val expectedTitle = titleOverride.getOrElse(page.pageTitle)
@@ -83,4 +117,11 @@ object PageSupport extends BrowserDriver with Matchers with PageObject {
     getCurrentUrl mustBe page.pageUrl
     getTitle mustBe expectedTitle
   }
+
+  private def getElementIfVisible(locator: By): WebElement = {
+    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(locator))
+  }
+
+  private def getElementIfClickable(locator: By): WebElement =
+    fluentWait.until(ExpectedConditions.elementToBeClickable(locator))
 }
