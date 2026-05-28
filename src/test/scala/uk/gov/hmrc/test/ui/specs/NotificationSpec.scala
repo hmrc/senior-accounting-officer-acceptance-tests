@@ -21,6 +21,7 @@ import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, Completed, NotStarted}
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
+import uk.gov.hmrc.test.ui.specs.tags.SoloTests
 import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
@@ -327,7 +328,8 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "Complete a notification providing multiple SAO's for the financial year",
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user lands on the 'More than one SAO' page")
       goToMoreThanOneSaoPageFromHub()
@@ -379,12 +381,39 @@ class NotificationSpec extends BaseSpec {
       MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(65))
       MultiSaoSecondEndDatePage.clickSubmissionButton()
 
-      And("is on the page asking 'if all the SAO for the financial year this notification relates to?'")
+      When("is on the page asking 'if all the SAO for the financial year this notification relates to?'")
       assertOnPage(MultiSaoAreAllAddedPage)
 
-      When("the 'Yes' radio button is clicked")
+      Then("the 'No' radio button is clicked")
+      MultiSaoAreAllAddedPage.clickNoRadioButton()
+      MultiSaoAreAllAddedPage.clickSubmissionButton()
+
+      When("the user lands on the 'WhoWasTheSaoBeforePage' page")
+      assertOnPage(WhoWasTheSaoBeforePage.changePageUrl)
+
+      And("a new name is provided after changing the radio option to 'No'")
+      WhoWasTheSaoBeforePage.addName("Alex Rhodes")
+      WhoWasTheSaoBeforePage.clickSubmissionButton()
+      assertOnPage(MultiSaoSecondStartDatePage.changePageUrl)
+
+      When("the 'Continue' button is clicked after adding a start date 90 days in the past for the new SAO")
+      MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(90))
+      MultiSaoSecondStartDatePage.clickSubmissionButton()
+
+      Then("the 'Continue' button is clicked after adding a end date 90 days in the past for the new SAO")
+      assertOnPage(MultiSaoSecondEndDatePage.changePageUrl)
+      MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(90))
+      MultiSaoSecondEndDatePage.clickSubmissionButton()
+
+      And("is on the page asking 'if all the SAO for the financial year this notification relates to?'")
+      assertOnPage(MultiSaoAreAllAddedPage.changePageUrl)
+
+      When("the 'Yes' radio button is clicked to complete the notification submission")
       MultiSaoAreAllAddedPage.clickYesRadioButton()
       MultiSaoAreAllAddedPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Submit a notification' start page")
+      assertOnPage(SubmitNotificationStartPage)
 
       And("the user lands on the 'Submit a notification' start page")
       assertOnPage(SubmitNotificationStartPage)
@@ -570,64 +599,6 @@ class NotificationSpec extends BaseSpec {
 
     And("the page displays the correct content")
     MultiSaoFirstStartDatePage.assertHeadingMatches("What date did Shane Warne become the SAO?")
-  }
-
-  Scenario(
-    "Complete a notification only, but choosing 'No' to 'Have you added all the SAO for the financial year this notification relates to?' question and completing the journey",
-    SubmissionUITests,
-    ZapTests
-  ) {
-    Given("an authenticated user has added 'Shane Warne' as the last SAO")
-    goToMoreThanOneSaoPageFromHub()
-    MoreThanOneSaoPage.clickYesRadioButton()
-    MoreThanOneSaoPage.clickSubmissionButton()
-    assertOnPage(MultiSaoNamePage)
-    MultiSaoNamePage.addName("Shane Warne")
-    MultiSaoNamePage.clickSubmissionButton()
-    assertOnPage(MultiSaoFirstStartDatePage)
-    MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(20))
-    MultiSaoFirstStartDatePage.clickSubmissionButton()
-    assertOnPage(WhoWasTheSaoBeforePage)
-
-    And("has added 'Jonty Rhodes' as a prior SAO")
-    WhoWasTheSaoBeforePage.addName("Jonty Rhodes")
-    WhoWasTheSaoBeforePage.clickSubmissionButton()
-    assertOnPage(MultiSaoSecondStartDatePage)
-    MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(65))
-    MultiSaoSecondStartDatePage.clickSubmissionButton()
-    assertOnPage(MultiSaoSecondEndDatePage)
-    MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(65))
-    MultiSaoSecondEndDatePage.clickSubmissionButton()
-
-    And("is on the page asking 'if all the SAO for the financial year this notification relates to?'")
-    assertOnPage(MultiSaoAreAllAddedPage)
-
-    When("the 'No' radio button is clicked")
-    MultiSaoAreAllAddedPage.clickNoRadioButton()
-    MultiSaoAreAllAddedPage.clickSubmissionButton()
-
-    Then("the user lands on the 'WhoWasTheSaoBeforePage' page")
-    assertOnPage(WhoWasTheSaoBeforePage.changePageUrl)
-
-    And("a new name is provided after changing the radio option to 'No'")
-    WhoWasTheSaoBeforePage.addName("Alex Rhodes")
-    WhoWasTheSaoBeforePage.clickSubmissionButton()
-    assertOnPage(MultiSaoSecondStartDatePage.changePageUrl)
-    MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(65))
-    MultiSaoSecondStartDatePage.clickSubmissionButton()
-    assertOnPage(MultiSaoSecondEndDatePage.changePageUrl)
-    MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(65))
-    MultiSaoSecondEndDatePage.clickSubmissionButton()
-
-    And("is on the page asking 'if all the SAO for the financial year this notification relates to?'")
-    assertOnPage(MultiSaoAreAllAddedPage.changePageUrl)
-
-    When("the 'Yes' radio button is clicked to complete the notification submission")
-    MultiSaoAreAllAddedPage.clickYesRadioButton()
-    MultiSaoAreAllAddedPage.clickSubmissionButton()
-
-    Then("the user lands on the 'Submit a notification' start page")
-    assertOnPage(SubmitNotificationStartPage)
   }
 
   private def goToAdditionalInformationPageFromHomePage(): Unit = {
