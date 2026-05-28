@@ -21,6 +21,7 @@ import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, Completed, NotStarted}
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
+import uk.gov.hmrc.test.ui.specs.tags.SoloTests
 import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
@@ -327,7 +328,8 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "Complete a notification providing multiple SAO's for the financial year",
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user lands on the 'More than one SAO' page")
       goToMoreThanOneSaoPageFromHub()
@@ -374,42 +376,51 @@ class NotificationSpec extends BaseSpec {
       MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(90))
       MultiSaoSecondStartDatePage.clickSubmissionButton()
 
-      Then("the user lands on the 'NotificationMoreSaoSecondEndDate' page")
+      Then("the user lands on the 'When did Gert Bo stop being the SAO' page")
       assertOnPage(MultiSaoSecondEndDatePage)
+      MultiSaoSecondEndDatePage.assertHeadingMatches("When did Gert Bo stop being the SAO?")
+
+      When("the 'Continue' button is clicked after adding a date 65 days in the past")
       MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(65))
       MultiSaoSecondEndDatePage.clickSubmissionButton()
 
-      When("is on the page asking 'if all the SAO for the financial year this notification relates to?'")
+      Then(
+        "the user lands on the 'Have you added all the SAO for the financial year this notification relates to' page"
+      )
       assertOnPage(MultiSaoAreAllAddedPage)
 
-      Then("the 'No' radio button is clicked")
+      When("the 'Continue' button is clicked after the 'No' radio button is selected")
       MultiSaoAreAllAddedPage.clickNoRadioButton()
       MultiSaoAreAllAddedPage.clickSubmissionButton()
 
-      When("the user lands on the 'WhoWasTheSaoBeforePage' page")
+      Then("the user lands on the 'Who was the SAO before Gert Bo' page")
       assertOnPage(WhoWasTheSaoBeforePage.changePageUrl)
 
       And("the page displays the correct content")
       WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Gert Bo?")
 
-      Then("a new name is provided after changing the radio option to 'No'")
+      When("the 'COntinue' button is clicked after a new SAO name is provided after changing the radio option to 'No'")
       WhoWasTheSaoBeforePage.addName("Alex Rhodes")
       WhoWasTheSaoBeforePage.clickSubmissionButton()
+
+      Then("the user lands on the 'When did Alex Rhodes’s responsibility as the SAO start' page")
       assertOnPage(MultiSaoSecondStartDatePage.changePageUrl)
 
-      When("the 'Continue' button is clicked after adding a start date 90 days in the past for the new SAO")
+      Then("the 'Continue' button is clicked after adding a start date 90 days in the past for the new SAO")
       MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(90))
       MultiSaoSecondStartDatePage.clickSubmissionButton()
 
-      Then("the 'Continue' button is clicked after adding a end date 90 days in the past for the new SAO")
+      When("the 'Continue' button is clicked after adding a end date 90 days in the past for the new SAO")
       assertOnPage(MultiSaoSecondEndDatePage.changePageUrl)
       MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(90))
       MultiSaoSecondEndDatePage.clickSubmissionButton()
 
-      And("is on the page asking 'if all the SAO for the financial year this notification relates to?'")
+      Then(
+        "the user lands on the 'Have you added all the SAO for the financial year this notification relates to' page"
+      )
       assertOnPage(MultiSaoAreAllAddedPage.changePageUrl)
 
-      When("the 'Yes' radio button is clicked to complete the notification submission")
+      When("the 'Continue' button is clicked after the 'Yes' radio button is selected")
       MultiSaoAreAllAddedPage.clickYesRadioButton()
       MultiSaoAreAllAddedPage.clickSubmissionButton()
 
