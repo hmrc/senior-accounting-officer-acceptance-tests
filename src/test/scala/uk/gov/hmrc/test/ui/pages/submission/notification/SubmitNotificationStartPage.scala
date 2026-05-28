@@ -64,14 +64,14 @@ object SubmitNotificationStartPage extends CommonPage {
       ),
     UploadSubmissionTemplate ->
       TaskListSection(
-        name = "Upload a submission template",
+        name = "Upload the submission template",
         nameLocator = uploadSubmissionTemplateLocator,
         statusLocator = uploadSubmissionTemplateStatusLocator,
         statusHighlightLocator = uploadSubmissionTemplateStatusHighlightLocator
       ),
     SubmitNotification ->
       TaskListSection(
-        name = "Submit a notification",
+        name = "Submit the notification",
         nameLocator = submitNotificationLocator,
         statusLocator = submitNotificationStatusLocator,
         statusHighlightLocator = submitNotificationStatusHighlightLocator

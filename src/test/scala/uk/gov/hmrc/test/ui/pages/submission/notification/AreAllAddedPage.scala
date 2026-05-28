@@ -16,31 +16,21 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
-import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.*
-import uk.gov.hmrc.test.ui.support.PageSupport.assertTextOnPage
+import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
+import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, YesNoRadioButtonSupport}
 
-object MultiSaoSecondStartDatePage
+object AreAllAddedPage
     extends CommonPage
     with SubmissionButtonSupport
-    with ErrorMessageSupport
-    with DayMonthYearInputSupport
-    with BackLinkSupport {
-
+    with YesNoRadioButtonSupport
+    with ErrorMessageSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/multi-sao-second-start-date"
-
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/more-sao/are-all-added"
   override val pageTitle: String =
-    "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
-
-  val pageHeadingElement: By = By.cssSelector(".govuk-fieldset__heading")
+    "Submit a notification - Have you added all the SAO for the financial year this notification relates to? - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/multi-sao-second-start-date?saoIndex=1"
-
-  def assertHeadingMatches(text: String): Unit = {
-    assertTextOnPage(pageHeadingElement, text)
-  }
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/more-sao/are-all-added?saoIndex=1"
 }
