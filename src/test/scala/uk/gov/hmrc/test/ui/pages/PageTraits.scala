@@ -16,14 +16,47 @@
 
 package uk.gov.hmrc.test.ui.pages
 
-import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.ExpectedConditions
 
-trait CommonPage extends BasePage {
+trait CommonPage extends BasePage with StaticUrl with StaticTitle
+
+trait StaticTitle {
+  this: BasePage =>
+
   def pageTitle: String
-  def pageUrl: String
   def pageErrorTitle: String = s"Error: $pageTitle"
+}
 
+trait DynamicTitle[A] {
+  this: BasePage =>
+
+  def pageTitle(param: A): String
+  def pageErrorTitle(param: A): String = s"Error: ${pageTitle(param)}"
+}
+
+trait StaticUrl {
+  this: BasePage =>
+
+  def pageUrl: String
   def loadPage(): Unit = navigateTo(pageUrl)
+}
 
-  protected def testId(id: String): By = By.cssSelector(s"""[data-test-id="$id"]""")
+trait DynamicUrlWithKnownParam[A] {
+  this: BasePage =>
+
+  def pageUrl(param: A): String
+
+  def loadPage(param: A): Unit = navigateTo(pageUrl(param))
+}
+
+trait DynamicUrlWithUnknownParam[A] {
+  this: BasePage =>
+
+  protected def urlRegex: String
+
+  def extractParams: A
+
+  def assertOnPage(): Unit =
+    fluentWait.until(ExpectedConditions.urlMatches(urlRegex))
+
 }

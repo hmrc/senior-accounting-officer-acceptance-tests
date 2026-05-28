@@ -19,23 +19,31 @@ package uk.gov.hmrc.test.ui.pages.grs
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.BasePage
+import uk.gov.hmrc.test.ui.pages.{BasePage, DynamicUrlWithUnknownParam}
 import uk.gov.hmrc.test.ui.support.PageSupport.clickContinueButton
 
-object CompanyRegistrationNumberPage extends BasePage {
+object CompanyRegistrationNumberPage extends BasePage with DynamicUrlWithUnknownParam[String] {
 
-  val grsCompanyDetailsPageUrl: String = TestConfiguration.url("incorporated-entity-identification-frontend")
+  private val grsHost: String = TestConfiguration.url("incorporated-entity-identification-frontend")
+
   val validGrsStubCompanyRegistrationNumber: String = "AB123456"
 
   val companyRegistrationNumberTextBox: By = By.id("companyNumber")
-
-  def verifyGrsCompanyDetailsPageURL(): Unit =
-    fluentWait.until(ExpectedConditions.urlContains(grsCompanyDetailsPageUrl))
 
   def enterCrnAndSubmit(): Unit = {
     fluentWait
       .until(ExpectedConditions.visibilityOfElementLocated(companyRegistrationNumberTextBox))
       .sendKeys(validGrsStubCompanyRegistrationNumber)
     clickContinueButton()
+  }
+
+  override protected val urlRegex: String =
+    s"$grsHost/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/company-number"
+
+  override def extractParams: String = {
+    val Pattern       = urlRegex.r
+    val Pattern(uuid) = driver.getCurrentUrl: @unchecked
+
+    uuid
   }
 }

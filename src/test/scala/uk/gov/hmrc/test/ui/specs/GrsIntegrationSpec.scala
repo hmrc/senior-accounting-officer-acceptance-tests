@@ -43,13 +43,18 @@ class GrsIntegrationSpec extends BaseSpec {
       NominatedCompanyDetailsGuidancePage.clickSubmissionButton()
 
       When("the user completes a business match successfully")
-      CompanyRegistrationNumberPage.verifyGrsCompanyDetailsPageURL()
+      CompanyRegistrationNumberPage.assertOnPage()
+      val grsJourneyId = CompanyRegistrationNumberPage.extractParams
       CompanyRegistrationNumberPage.enterCrnAndSubmit()
+      assertOnPage(IsThisYourBusinessPage.pageUrl(grsJourneyId))
       IsThisYourBusinessPage.selectYesRadioAndSubmit()
+      assertOnPage(UniqueTaxpayerReferencePage.pageUrl(grsJourneyId))
       UniqueTaxpayerReferencePage.enterUtrAndSubmit()
+      assertOnPage(GrsCheckYourAnswersPage.pageUrl(grsJourneyId))
       GrsCheckYourAnswersPage.assertAnswersAndSubmit()
 
       Then("the company details have a status of 'Completed' on the registration dashboard")
+      assertOnPage(RegistrationPage.pageUrl)
       RegistrationPage.assertRegistrationPageSectionStatus(CompanyDetails, Completed)
 
       And("the 'Enter your company details' link is not present")

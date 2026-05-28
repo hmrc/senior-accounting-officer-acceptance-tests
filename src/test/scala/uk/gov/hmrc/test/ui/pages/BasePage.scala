@@ -16,8 +16,8 @@
 
 package uk.gov.hmrc.test.ui.pages
 
-import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.ui.*
+import org.openqa.selenium.{By, WebDriver}
 import org.scalatest.matchers.must.Matchers
 import uk.gov.hmrc.test.ui.driver.BrowserDriver
 
@@ -34,4 +34,7 @@ trait BasePage extends BrowserDriver with Matchers {
     driver.navigate().to(url)
     fluentWait.until(ExpectedConditions.urlToBe(url))
   }
+
+  protected def testId(id: String): By = By.cssSelector(s"""[data-test-id="$id"]""")
+
 }
