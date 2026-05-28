@@ -21,6 +21,7 @@ import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, Completed, NotStarted}
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
+import uk.gov.hmrc.test.ui.specs.tags.SoloTests
 import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
@@ -327,7 +328,8 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "Complete a notification providing multiple SAO's for the financial year",
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user lands on the 'More than one SAO' page")
       goToMoreThanOneSaoPageFromHub()
@@ -389,7 +391,10 @@ class NotificationSpec extends BaseSpec {
       When("the user lands on the 'WhoWasTheSaoBeforePage' page")
       assertOnPage(WhoWasTheSaoBeforePage.changePageUrl)
 
-      And("a new name is provided after changing the radio option to 'No'")
+      And("the page displays the correct content")
+      WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Gert Bo?")
+
+      Then("a new name is provided after changing the radio option to 'No'")
       WhoWasTheSaoBeforePage.addName("Alex Rhodes")
       WhoWasTheSaoBeforePage.clickSubmissionButton()
       assertOnPage(MultiSaoSecondStartDatePage.changePageUrl)
