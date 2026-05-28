@@ -21,7 +21,6 @@ import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, Completed, NotStarted}
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
-import uk.gov.hmrc.test.ui.specs.tags.SoloTests
 import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
@@ -328,8 +327,7 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "Complete a notification providing multiple SAO's for the financial year",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user lands on the 'More than one SAO' page")
       goToMoreThanOneSaoPageFromHub()
@@ -414,9 +412,6 @@ class NotificationSpec extends BaseSpec {
       When("the 'Yes' radio button is clicked to complete the notification submission")
       MultiSaoAreAllAddedPage.clickYesRadioButton()
       MultiSaoAreAllAddedPage.clickSubmissionButton()
-
-      Then("the user lands on the 'Submit a notification' start page")
-      assertOnPage(SubmitNotificationStartPage)
 
       And("the user lands on the 'Submit a notification' start page")
       assertOnPage(SubmitNotificationStartPage)
