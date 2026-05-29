@@ -366,8 +366,6 @@ class NotificationSpec extends BaseSpec {
 
       Then("the user lands on the 'When did Gert Bo’s responsibility as the SAO start' page")
       assertOnPage(MultiSaoSecondStartDatePage)
-
-      Then("the page displays the correct content")
       MultiSaoSecondStartDatePage.assertHeadingMatches("When did Gert Bo’s responsibility as the SAO start?")
 
       When("the 'Continue' button is clicked after adding a date 90 days in the past")
@@ -393,8 +391,6 @@ class NotificationSpec extends BaseSpec {
 
       Then("the user lands on the 'Who was the SAO before Gert Bo' page")
       assertOnPage(WhoWasTheSaoBeforePage.changePageUrl)
-
-      Then("the page displays the correct content")
       WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Gert Bo?")
 
       When("the 'Continue' button is clicked after entering a name of 'Alex Rhodes'")
@@ -427,7 +423,7 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'Submit a notification' start page")
       assertOnPage(SubmitNotificationStartPage)
 
-      And("the task list displays each element in the correct state with the correct status")
+      And("the task list displays the correct state and status for the SAO task")
       SubmitNotificationStartPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
     }
 
