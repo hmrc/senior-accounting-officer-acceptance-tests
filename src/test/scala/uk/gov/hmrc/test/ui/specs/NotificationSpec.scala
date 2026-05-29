@@ -409,10 +409,10 @@ class NotificationSpec extends BaseSpec {
       MultiSaoSecondStartDatePage.clickSubmissionButton()
 
       Then("the user lands on the 'When did Alex Rhodes stop being the SAO' page")
-      assertOnPage(MultiSaoSecondEndDatePage.changePageUrl)
+      assertOnPage(MultiSaoSecondEndDatePage.pageUrlWithSaoIndexOne)
 
-      When("the 'Continue' button is clicked after adding a end date 90 days in the past for the new SAO")
-      MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(90))
+      When("the 'Continue' button is clicked after adding a end date 70 days in the past for the new SAO")
+      MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(70))
       MultiSaoSecondEndDatePage.clickSubmissionButton()
 
       Then(
