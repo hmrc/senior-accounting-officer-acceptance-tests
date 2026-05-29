@@ -534,6 +534,7 @@ class NotificationSpec extends BaseSpec {
 
     Then("the user lands on the 'NotificationMoreSaoSecondEndDate' page")
     assertOnPage(MultiSaoSecondEndDatePage)
+    MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(30))
     MultiSaoSecondEndDatePage.clickSubmissionButton()
 
     And("is on the page asking 'if all the SAO for the financial year this notification relates to?'")
@@ -609,43 +610,43 @@ class NotificationSpec extends BaseSpec {
     And("the page displays the correct content")
     MultiSaoFirstStartDatePage.assertHeadingMatches("What date did Shane Warne become the SAO?")
   }
+}
 
-  private def goToAdditionalInformationPageFromHomePage(): Unit = {
-    assertOnPage(AccountHomePage)
-    AccountHomePage.clickSubmitNotificationLink()
-    assertOnPage(SubmitNotificationStartPage)
-    provideSingleSaoDetailsFromStartPage()
-    uploadSimpleSubmissionTemplateFromStartPage()
-    SubmitNotificationStartPage.clickTaskListSectionLink(SubmitNotification)
-    assertOnPage(AdditionalInformationPage)
-  }
+private def goToAdditionalInformationPageFromHomePage(): Unit = {
+  assertOnPage(AccountHomePage)
+  AccountHomePage.clickSubmitNotificationLink()
+  assertOnPage(SubmitNotificationStartPage)
+  provideSingleSaoDetailsFromStartPage()
+  uploadSimpleSubmissionTemplateFromStartPage()
+  SubmitNotificationStartPage.clickTaskListSectionLink(SubmitNotification)
+  assertOnPage(AdditionalInformationPage)
+}
 
-  private def provideSingleSaoDetailsFromStartPage(): Unit = {
-    SubmitNotificationStartPage.clickTaskListSectionLink(ProvideSaoDetails)
-    assertOnPage(MoreThanOneSaoPage)
-    MoreThanOneSaoPage.clickNoRadioButton()
-    MoreThanOneSaoPage.clickSubmissionButton()
-    assertOnPage(SingleSaoNamePage)
-    SingleSaoNamePage.addName("Cat Noir")
-    SingleSaoNamePage.clickSubmissionButton()
-    assertOnPage(SubmitNotificationStartPage)
-  }
+private def provideSingleSaoDetailsFromStartPage(): Unit = {
+  SubmitNotificationStartPage.clickTaskListSectionLink(ProvideSaoDetails)
+  assertOnPage(MoreThanOneSaoPage)
+  MoreThanOneSaoPage.clickNoRadioButton()
+  MoreThanOneSaoPage.clickSubmissionButton()
+  assertOnPage(SingleSaoNamePage)
+  SingleSaoNamePage.addName("Cat Noir")
+  SingleSaoNamePage.clickSubmissionButton()
+  assertOnPage(SubmitNotificationStartPage)
+}
 
-  private def uploadSimpleSubmissionTemplateFromStartPage(): Unit = {
-    SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
-    assertOnPage(UploadSubmissionTemplatePage)
-    UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateEmptyFile)
-    UploadSubmissionTemplatePage.clickSubmissionButton()
-    assertOnPage(UploadTablePage)
-    UploadTablePage.clickSubmissionButton()
-    assertOnPage(SubmitNotificationStartPage)
-  }
+private def uploadSimpleSubmissionTemplateFromStartPage(): Unit = {
+  SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+  assertOnPage(UploadSubmissionTemplatePage)
+  UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateEmptyFile)
+  UploadSubmissionTemplatePage.clickSubmissionButton()
+  assertOnPage(UploadTablePage)
+  UploadTablePage.clickSubmissionButton()
+  assertOnPage(SubmitNotificationStartPage)
+}
 
-  private def goToMoreThanOneSaoPageFromHub(): Unit = {
-    assertOnPage(AccountHomePage)
-    AccountHomePage.clickSubmitNotificationLink()
-    assertOnPage(SubmitNotificationStartPage)
-    SubmitNotificationStartPage.clickTaskListSectionLink(ProvideSaoDetails)
-    assertOnPage(MoreThanOneSaoPage)
-  }
+private def goToMoreThanOneSaoPageFromHub(): Unit = {
+  assertOnPage(AccountHomePage)
+  AccountHomePage.clickSubmitNotificationLink()
+  assertOnPage(SubmitNotificationStartPage)
+  SubmitNotificationStartPage.clickTaskListSectionLink(ProvideSaoDetails)
+  assertOnPage(MoreThanOneSaoPage)
 }
