@@ -21,7 +21,7 @@ import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, Completed, NotStarted}
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
 
@@ -301,7 +301,7 @@ class NotificationSpec extends BaseSpec {
     }
 
     Scenario(
-      "Complete a notification only, providing details for a single SAO in the financial year",
+      "Complete a notification providing details for a single SAO in the financial year",
       SubmissionUITests,
       ZapTests
     ) {
@@ -319,9 +319,72 @@ class NotificationSpec extends BaseSpec {
       SingleSaoNamePage.addName("Jane Doe")
       SingleSaoNamePage.clickSubmissionButton()
 
-      // TODO: Update the below step when the page is fully developed. This will land on the 'Account Homepage'.
-      Then("the user lands on the 'Submit a notification' start page")
+      Then("the user lands on the 'Submit a notification' start page which displays the correct task list state")
       assertOnPage(SubmitNotificationStartPage)
+      SubmitNotificationStartPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
+      SubmitNotificationStartPage.assertTaskListSectionStatus(UploadSubmissionTemplate, NotStarted)
+      SubmitNotificationStartPage.assertTaskListSectionStatus(SubmitNotification, CannotStartYet)
+
+      When("the 'Upload the submission template' link is clicked")
+      SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+
+      Then("the user lands on the 'Upload a submission template' page")
+      assertOnPage(UploadSubmissionTemplatePage)
+
+      When("the 'Continue' button is clicked after choosing a file for upload")
+      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateEmptyFile)
+      UploadSubmissionTemplatePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Review the companies in your notification' page")
+      assertOnPage(UploadTablePage)
+
+      When("the 'Continue' button is clicked")
+      UploadTablePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Submit a notification' start page which displays the correct task list state")
+      assertOnPage(SubmitNotificationStartPage)
+      SubmitNotificationStartPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
+      SubmitNotificationStartPage.assertTaskListSectionStatus(UploadSubmissionTemplate, Completed)
+      SubmitNotificationStartPage.assertTaskListSectionStatus(SubmitNotification, NotStarted)
+
+      When("the 'Submit the notification' link is clicked")
+      SubmitNotificationStartPage.clickTaskListSectionLink(SubmitNotification)
+
+      Then("the user lands on the 'Additional information' page")
+      assertOnPage(AdditionalInformationPage)
+
+      When("the 'Skip' button is clicked")
+      AdditionalInformationPage.clickSkipButton()
+
+      Then("the user lands on the 'Confirm your notification' page")
+      assertOnPage(ConfirmNotificationPage)
+
+      When("the 'Continue' button is clicked")
+      ConfirmNotificationPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Check your answers' page")
+      assertOnPage(CheckYourAnswersPage)
+
+      When("the 'Continue' button is clicked")
+      CheckYourAnswersPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Confirmation' page")
+      assertOnPage(ConfirmationPage)
+
+      When("the 'Continue' button is clicked")
+      ConfirmationPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Submit a notification' complete page which displays the correct task list state")
+      assertOnPage(SubmitNotificationCompletePage)
+      SubmitNotificationCompletePage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
+      SubmitNotificationCompletePage.assertTaskListSectionStatus(UploadSubmissionTemplate, Completed)
+      SubmitNotificationCompletePage.assertTaskListSectionStatus(SubmitNotification, Completed)
+
+      When("the 'Go back to the homepage' button is clicked")
+      SubmitNotificationCompletePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Account Homepage'")
+      assertOnPage(AccountHomePage)
     }
 
     Scenario(
