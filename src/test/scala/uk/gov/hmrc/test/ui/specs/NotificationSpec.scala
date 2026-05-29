@@ -427,7 +427,7 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'Submit a notification' start page")
       assertOnPage(SubmitNotificationStartPage)
 
-      Then("the task list displays each element in the correct state with the correct status")
+      And("the task list displays each element in the correct state with the correct status")
       SubmitNotificationStartPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
     }
 
