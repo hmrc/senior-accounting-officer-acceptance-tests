@@ -397,7 +397,7 @@ class NotificationSpec extends BaseSpec {
       Then("the page displays the correct content")
       WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Gert Bo?")
 
-      When("the 'Continue' button is clicked after a new SAO name is provided after changing the radio option to 'No'")
+      When("the 'Continue' button is clicked after entering a name of 'Alex Rhodes'")
       WhoWasTheSaoBeforePage.addName("Alex Rhodes")
       WhoWasTheSaoBeforePage.clickSubmissionButton()
 
