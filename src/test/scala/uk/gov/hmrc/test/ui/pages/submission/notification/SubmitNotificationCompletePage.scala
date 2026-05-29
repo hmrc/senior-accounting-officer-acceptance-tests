@@ -24,7 +24,7 @@ import uk.gov.hmrc.test.ui.adt.{NotificationTaskListSection, PageSectionStatus}
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.*
-import uk.gov.hmrc.test.ui.support.{PageSupport, SubmissionButtonSupport}
+import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object SubmitNotificationCompletePage extends CommonPage with SubmissionButtonSupport {
 
