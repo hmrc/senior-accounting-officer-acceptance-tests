@@ -356,7 +356,7 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'Who was the SAO before Jack Sparrow' page")
       assertOnPage(WhoWasTheSaoBeforePage)
 
-      Then("the page displays the correct content")
+      And("the page displays the correct content")
       WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Jack Sparrow?")
       WhoWasTheSaoBeforePage.assertHintMatches("This is the person who held the role before Jack Sparrow")
 
