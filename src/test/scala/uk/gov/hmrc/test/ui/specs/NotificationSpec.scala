@@ -21,6 +21,7 @@ import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, Completed, NotStarted}
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
+import uk.gov.hmrc.test.ui.specs.tags.SoloTests
 import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
@@ -345,8 +346,6 @@ class NotificationSpec extends BaseSpec {
 
       Then("the user lands on the 'What date did Jack Sparrow become the SAO' page")
       assertOnPage(MultiSaoFirstStartDatePage)
-
-      Then("the page displays the correct content")
       MultiSaoFirstStartDatePage.assertHeadingMatches("What date did Jack Sparrow become the SAO?")
 
       When("the 'Continue' button is clicked after adding a date 30 days in the past")
@@ -407,7 +406,7 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'When did Alex Rhodes stop being the SAO' page")
       assertOnPage(MultiSaoSecondEndDatePage.pageUrlWithSaoIndexOne)
 
-      When("the 'Continue' button is clicked after adding a end date 70 days in the past for the new SAO")
+      When("the 'Continue' button is clicked after adding an end date 70 days in the past for the new SAO")
       MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(70))
       MultiSaoSecondEndDatePage.clickSubmissionButton()
 
@@ -423,7 +422,7 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'Submit a notification' start page")
       assertOnPage(SubmitNotificationStartPage)
 
-      And("the task list displays the correct state and status for the SAO task")
+      And("the 'Provide the SAO's details' option status is set as 'Completed'")
       SubmitNotificationStartPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
     }
 
@@ -467,7 +466,8 @@ class NotificationSpec extends BaseSpec {
   Scenario(
     "Validate that SAO details are required for a notification submission given there are multiple SAO's in the financial year",
     SubmissionUITests,
-    ZapTests
+    ZapTests,
+    SoloTests
   ) {
     Given("an authenticated user lands on the 'More than one SAO' page")
     goToMoreThanOneSaoPageFromHub()
