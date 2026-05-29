@@ -348,7 +348,7 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'What date did Jack Sparrow become the SAO' page")
       assertOnPage(MultiSaoFirstStartDatePage)
 
-      And("the page displays the correct content")
+      Then("the page displays the correct content")
       MultiSaoFirstStartDatePage.assertHeadingMatches("What date did Jack Sparrow become the SAO?")
 
       When("the 'Continue' button is clicked after adding a date 30 days in the past")
@@ -358,7 +358,7 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'Who was the SAO before Jack Sparrow' page")
       assertOnPage(WhoWasTheSaoBeforePage)
 
-      And("the page displays the correct content")
+      Then("the page displays the correct content")
       WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Jack Sparrow?")
       WhoWasTheSaoBeforePage.assertHintMatches("This is the person who held the role before Jack Sparrow")
 
@@ -369,7 +369,7 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'When did Gert Bo’s responsibility as the SAO start' page")
       assertOnPage(MultiSaoSecondStartDatePage)
 
-      And("the page displays the correct content")
+      Then("the page displays the correct content")
       MultiSaoSecondStartDatePage.assertHeadingMatches("When did Gert Bo’s responsibility as the SAO start?")
 
       When("the 'Continue' button is clicked after adding a date 90 days in the past")
@@ -396,22 +396,24 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'Who was the SAO before Gert Bo' page")
       assertOnPage(WhoWasTheSaoBeforePage.changePageUrl)
 
-      And("the page displays the correct content")
+      Then("the page displays the correct content")
       WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Gert Bo?")
 
-      When("the 'COntinue' button is clicked after a new SAO name is provided after changing the radio option to 'No'")
+      When("the 'Continue' button is clicked after a new SAO name is provided after changing the radio option to 'No'")
       WhoWasTheSaoBeforePage.addName("Alex Rhodes")
       WhoWasTheSaoBeforePage.clickSubmissionButton()
 
       Then("the user lands on the 'When did Alex Rhodes’s responsibility as the SAO start' page")
       assertOnPage(MultiSaoSecondStartDatePage.changePageUrl)
 
-      Then("the 'Continue' button is clicked after adding a start date 90 days in the past for the new SAO")
+      When("the 'Continue' button is clicked after adding a start date 90 days in the past for the new SAO")
       MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(90))
       MultiSaoSecondStartDatePage.clickSubmissionButton()
 
-      When("the 'Continue' button is clicked after adding a end date 90 days in the past for the new SAO")
+      Then("the user lands on the 'When did Alex Rhodes stop being the SAO' page")
       assertOnPage(MultiSaoSecondEndDatePage.changePageUrl)
+
+      When("the 'Continue' button is clicked after adding a end date 90 days in the past for the new SAO")
       MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(90))
       MultiSaoSecondEndDatePage.clickSubmissionButton()
 
@@ -424,7 +426,7 @@ class NotificationSpec extends BaseSpec {
       MultiSaoAreAllAddedPage.clickYesRadioButton()
       MultiSaoAreAllAddedPage.clickSubmissionButton()
 
-      And("the user lands on the 'Submit a notification' start page")
+      Then("the user lands on the 'Submit a notification' start page")
       assertOnPage(SubmitNotificationStartPage)
 
       Then("the task list displays each element in the correct state with the correct status")
