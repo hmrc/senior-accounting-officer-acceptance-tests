@@ -17,10 +17,10 @@
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
 import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalatest.matchers.should.Matchers.*
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.PageSupport.assertTextOnPage
 import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
@@ -50,12 +50,12 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
   override def clickSubmissionButton(): Unit = {
     clickElement(submissionButtonLocator)
 
-    fluentWait.until(
-      ExpectedConditions.textToBePresentInElementLocated(
-        By.cssSelector("h1"),
-        "Review the companies in your notification"
-      )
-    )
+    // fluentWait.until(
+    //   ExpectedConditions.textToBePresentInElementLocated(
+    //     By.cssSelector("h1"),
+    //     "Review the companies in your notification"
+    //   )
+    // )
   }
 
   def chooseFile(resourceName: String): Unit = {
@@ -63,5 +63,10 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
     val absolutePath = Paths.get(fileUrl.toURI).toString
 
     driver.findElement(hiddenFileInputLocator).sendKeys(absolutePath)
+  }
+
+  val pageHeadingElement: By                   = By.cssSelector(".govuk-fieldset__heading")
+  def assertHeadingMatches(text: String): Unit = {
+    assertTextOnPage(pageHeadingElement, text)
   }
 }

@@ -292,10 +292,23 @@ class NotificationSpec extends BaseSpec {
       And("the guidance link is present and correct")
       UploadSubmissionTemplatePage.verifyTemplateGuidanceLink()
 
+      // uploading a file with incorrect data to move to the next page
+      When("the 'Continue' button is clicked after choosing a file for upload")
+      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateIncorrectFile)
+      UploadSubmissionTemplatePage.clickSubmissionButton()
+
+      // problem with your submission page
+      Then("the user lands on the 'There is a problem with your submission template file' page")
+      assertOnPage(UploadFileErrorPage)
+
+      // click on return to file upload and upload a correct file to move forward with the submission
+      When("the 'Return to file upload' button is clicked to upload a new file again")
+      UploadFileErrorPage.ReturnToFileUploadPage()
+
       When("the 'Continue' button is clicked after choosing a file for upload")
       UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateEmptyFile)
       UploadSubmissionTemplatePage.clickSubmissionButton()
-    
+
       Then("the user lands on the 'Review the companies in your notification' page")
       assertOnPage(UploadTablePage)
 
