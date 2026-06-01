@@ -50,65 +50,12 @@ class NotificationSpec extends BaseSpec {
       SubmitNotificationStartPage.assertTaskListSectionStatus(ProvideSaoDetails, NotStarted)
       SubmitNotificationStartPage.assertStatusHighlightedBlue(ProvideSaoDetails)
       SubmitNotificationStartPage.assertTaskListSectionNameIsHyperlink(ProvideSaoDetails)
-
       SubmitNotificationStartPage.assertTaskListSectionStatus(UploadSubmissionTemplate, CannotStartYet)
       SubmitNotificationStartPage.assertStatusNotHighlighted(UploadSubmissionTemplate)
       SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(UploadSubmissionTemplate)
-
       SubmitNotificationStartPage.assertTaskListSectionStatus(SubmitNotification, CannotStartYet)
       SubmitNotificationStartPage.assertStatusNotHighlighted(SubmitNotification)
       SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(SubmitNotification)
-    }
-
-    Scenario(
-      "Notification task list shows the correct state after providing SAO details",
-      SubmissionUITests,
-      ZapTests
-    ) {
-      Given("an authenticated user lands on the notification start page after providing SAO details")
-      assertOnPage(AccountHomePage)
-      AccountHomePage.clickSubmitNotificationLink()
-      assertOnPage(SubmitNotificationStartPage)
-      provideSingleSaoDetailsFromStartPage()
-
-      Then("the task list displays each element in the correct state with the correct status")
-      SubmitNotificationStartPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
-      SubmitNotificationStartPage.assertStatusNotHighlighted(ProvideSaoDetails)
-      SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(ProvideSaoDetails)
-
-      SubmitNotificationStartPage.assertTaskListSectionStatus(UploadSubmissionTemplate, NotStarted)
-      SubmitNotificationStartPage.assertStatusHighlightedBlue(UploadSubmissionTemplate)
-      SubmitNotificationStartPage.assertTaskListSectionNameIsHyperlink(UploadSubmissionTemplate)
-
-      SubmitNotificationStartPage.assertTaskListSectionStatus(SubmitNotification, CannotStartYet)
-      SubmitNotificationStartPage.assertStatusNotHighlighted(SubmitNotification)
-      SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(SubmitNotification)
-    }
-
-    Scenario(
-      "Notification task list shows the correct state after uploading a submission template",
-      SubmissionUITests,
-      ZapTests
-    ) {
-      Given("an authenticated user lands on the notification start page after uploading a submission template")
-      assertOnPage(AccountHomePage)
-      AccountHomePage.clickSubmitNotificationLink()
-      assertOnPage(SubmitNotificationStartPage)
-      provideSingleSaoDetailsFromStartPage()
-      uploadSimpleSubmissionTemplateFromStartPage()
-
-      Then("the task list displays each element in the correct state with the correct status")
-      SubmitNotificationStartPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
-      SubmitNotificationStartPage.assertStatusNotHighlighted(ProvideSaoDetails)
-      SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(ProvideSaoDetails)
-
-      SubmitNotificationStartPage.assertTaskListSectionStatus(UploadSubmissionTemplate, Completed)
-      SubmitNotificationStartPage.assertStatusNotHighlighted(UploadSubmissionTemplate)
-      SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(UploadSubmissionTemplate)
-
-      SubmitNotificationStartPage.assertTaskListSectionStatus(SubmitNotification, NotStarted)
-      SubmitNotificationStartPage.assertStatusHighlightedBlue(SubmitNotification)
-      SubmitNotificationStartPage.assertTaskListSectionNameIsHyperlink(SubmitNotification)
     }
 
     Scenario(
@@ -301,7 +248,7 @@ class NotificationSpec extends BaseSpec {
     }
 
     Scenario(
-      "Complete a notification only, providing details for a single SAO in the financial year",
+      "Complete a notification providing details for a single SAO in the financial year",
       SubmissionUITests,
       ZapTests
     ) {
@@ -319,9 +266,96 @@ class NotificationSpec extends BaseSpec {
       SingleSaoNamePage.addName("Jane Doe")
       SingleSaoNamePage.clickSubmissionButton()
 
-      // TODO: Update the below step when the page is fully developed. This will land on the 'Account Homepage'.
       Then("the user lands on the 'Submit a notification' start page")
       assertOnPage(SubmitNotificationStartPage)
+
+      And("the task list displays each element in the correct state with the correct status")
+      SubmitNotificationStartPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
+      SubmitNotificationStartPage.assertStatusNotHighlighted(ProvideSaoDetails)
+      SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(ProvideSaoDetails)
+      SubmitNotificationStartPage.assertTaskListSectionStatus(UploadSubmissionTemplate, NotStarted)
+      SubmitNotificationStartPage.assertStatusHighlightedBlue(UploadSubmissionTemplate)
+      SubmitNotificationStartPage.assertTaskListSectionNameIsHyperlink(UploadSubmissionTemplate)
+      SubmitNotificationStartPage.assertTaskListSectionStatus(SubmitNotification, CannotStartYet)
+      SubmitNotificationStartPage.assertStatusNotHighlighted(SubmitNotification)
+      SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(SubmitNotification)
+
+      When("the 'Upload the submission template' link is clicked")
+      SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+
+      Then("the user lands on the 'Upload a submission template' page")
+      assertOnPage(UploadSubmissionTemplatePage)
+
+      When("the 'Continue' button is clicked after choosing a file for upload")
+      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateEmptyFile)
+      UploadSubmissionTemplatePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Review the companies in your notification' page")
+      assertOnPage(UploadTablePage)
+
+      When("the 'Continue' button is clicked")
+      UploadTablePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Submit a notification' start page")
+      assertOnPage(SubmitNotificationStartPage)
+
+      And("the task list displays each element in the correct state with the correct status")
+      SubmitNotificationStartPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
+      SubmitNotificationStartPage.assertStatusNotHighlighted(ProvideSaoDetails)
+      SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(ProvideSaoDetails)
+      SubmitNotificationStartPage.assertTaskListSectionStatus(UploadSubmissionTemplate, Completed)
+      SubmitNotificationStartPage.assertStatusNotHighlighted(UploadSubmissionTemplate)
+      SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(UploadSubmissionTemplate)
+      SubmitNotificationStartPage.assertTaskListSectionStatus(SubmitNotification, NotStarted)
+      SubmitNotificationStartPage.assertStatusHighlightedBlue(SubmitNotification)
+      SubmitNotificationStartPage.assertTaskListSectionNameIsHyperlink(SubmitNotification)
+
+      When("the 'Submit the notification' link is clicked")
+      SubmitNotificationStartPage.clickTaskListSectionLink(SubmitNotification)
+
+      Then("the user lands on the 'Additional information' page")
+      assertOnPage(AdditionalInformationPage)
+
+      When("the 'Skip' button is clicked")
+      AdditionalInformationPage.clickSkipButton()
+
+      Then("the user lands on the 'Confirm your notification' page")
+      assertOnPage(ConfirmNotificationPage)
+
+      When("the 'Continue' button is clicked")
+      ConfirmNotificationPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Check your answers' page")
+      assertOnPage(CheckYourAnswersPage)
+
+      When("the 'Continue' button is clicked")
+      CheckYourAnswersPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Confirmation' page")
+      assertOnPage(ConfirmationPage)
+
+      When("the 'Continue' button is clicked")
+      ConfirmationPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Submit a notification' complete page")
+      assertOnPage(SubmitNotificationCompletePage)
+
+      And("the task list displays each element in the correct state with the correct status")
+      SubmitNotificationCompletePage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
+      SubmitNotificationCompletePage.assertStatusNotHighlighted(ProvideSaoDetails)
+      SubmitNotificationCompletePage.assertTaskListSectionNameIsNotHyperlink(ProvideSaoDetails)
+      SubmitNotificationCompletePage.assertTaskListSectionStatus(UploadSubmissionTemplate, Completed)
+      SubmitNotificationCompletePage.assertStatusNotHighlighted(UploadSubmissionTemplate)
+      SubmitNotificationCompletePage.assertTaskListSectionNameIsNotHyperlink(UploadSubmissionTemplate)
+      SubmitNotificationCompletePage.assertTaskListSectionStatus(SubmitNotification, Completed)
+      SubmitNotificationCompletePage.assertStatusNotHighlighted(SubmitNotification)
+      SubmitNotificationCompletePage.assertTaskListSectionNameIsNotHyperlink(SubmitNotification)
+
+      When("the 'Go back to the homepage' button is clicked")
+      SubmitNotificationCompletePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Account Homepage'")
+      assertOnPage(AccountHomePage)
     }
 
     Scenario(

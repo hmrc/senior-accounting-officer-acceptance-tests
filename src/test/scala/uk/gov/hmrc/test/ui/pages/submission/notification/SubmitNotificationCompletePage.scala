@@ -24,9 +24,9 @@ import uk.gov.hmrc.test.ui.adt.{NotificationTaskListSection, PageSectionStatus}
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.*
-import uk.gov.hmrc.test.ui.support.{PageSupport, SubmissionButtonSupport}
+import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object SubmitNotificationStartPage extends CommonPage with SubmissionButtonSupport {
+object SubmitNotificationCompletePage extends CommonPage with SubmissionButtonSupport {
 
   case class TaskListSection(
       name: String,
@@ -36,7 +36,7 @@ object SubmitNotificationStartPage extends CommonPage with SubmissionButtonSuppo
   )
 
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/start"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/complete"
 
   override val pageTitle: String =
     "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
@@ -78,15 +78,6 @@ object SubmitNotificationStartPage extends CommonPage with SubmissionButtonSuppo
       )
   )
 
-  def clickTaskListSectionLink(section: NotificationTaskListSection): Unit = {
-    clickElement(taskListSections(section).nameLocator)
-  }
-
-  def assertTaskListSectionNameIsHyperlink(section: NotificationTaskListSection): Unit = {
-    val givenSection = taskListSections(section)
-    assertTextIsHyperlink(givenSection.nameLocator, givenSection.name)
-  }
-
   def assertTaskListSectionNameIsNotHyperlink(section: NotificationTaskListSection): Unit = {
     val givenSection = taskListSections(section)
     assertTextIsNotHyperlink(givenSection.nameLocator, givenSection.name)
@@ -95,14 +86,6 @@ object SubmitNotificationStartPage extends CommonPage with SubmissionButtonSuppo
   def assertStatusNotHighlighted(section: NotificationTaskListSection): Unit = {
     assertElementNotVisible(
       taskListSections(section).statusHighlightLocator
-    )
-  }
-
-  def assertStatusHighlightedBlue(section: NotificationTaskListSection): Unit = {
-    assertAttributeMatches(
-      locator = taskListSections(section).statusHighlightLocator,
-      attribute = "class",
-      expectedText = "govuk-tag govuk-tag--blue"
     )
   }
 
