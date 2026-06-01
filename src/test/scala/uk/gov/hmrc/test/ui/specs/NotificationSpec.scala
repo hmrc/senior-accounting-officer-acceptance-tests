@@ -528,21 +528,30 @@ class NotificationSpec extends BaseSpec {
     MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(45))
     MultiSaoSecondStartDatePage.clickSubmissionButton()
 
-    Then("the user lands on the 'NotificationMoreSaoSecondEndDate' page")
+    Then("the user lands on the 'When did Jock B stop being the SAO' page")
     assertOnPage(MultiSaoSecondEndDatePage)
-    MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(30))
+    MultiSaoSecondEndDatePage.assertHeadingMatches("When did Jock B stop being the SAO?")
+
+    When("the 'Continue' button is clicked after no date is entered")
     MultiSaoSecondEndDatePage.clickSubmissionButton()
 
-    And("is on the page asking 'if all the SAO for the financial year this notification relates to?'")
+    Then("an error message is displayed")
+    MultiSaoSecondEndDatePage.assertErrorShownOnPage()
+
+    When("the 'Continue' button is clicked after adding a date 35 days in the past")
+    MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(35))
+    MultiSaoSecondEndDatePage.clickSubmissionButton()
+
+    Then("the user lands on the 'Have you added all the SAO for the financial year this notification relates to' page")
     assertOnPage(MultiSaoAreAllAddedPage)
 
-    When("pressing continue without selecting any radio button")
+    When("the 'Continue' button is clicked without a radio button being selected")
     MultiSaoAreAllAddedPage.clickSubmissionButton()
 
     Then("an error appears on screen")
     MultiSaoAreAllAddedPage.assertErrorShownOnPage()
 
-    When("the 'Yes' radio button is clicked")
+    When("the 'Continue' button is clicked after selecting 'Yes'")
     MultiSaoAreAllAddedPage.clickYesRadioButton()
     MultiSaoAreAllAddedPage.clickSubmissionButton()
 
