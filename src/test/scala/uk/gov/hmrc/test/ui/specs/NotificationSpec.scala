@@ -21,6 +21,7 @@ import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, Completed, NotStarted}
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
+import uk.gov.hmrc.test.ui.specs.tags.SoloTests
 import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
@@ -250,7 +251,8 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "Complete a notification providing details for a single SAO in the financial year",
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user lands on the 'More than one SAO' page")
       goToMoreThanOneSaoPageFromHub()
@@ -286,10 +288,14 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
 
+      // Checking guidance link is present and correct
+      And("the guidance link is present and correct")
+      UploadSubmissionTemplatePage.verifyTemplateGuidanceLink()
+
       When("the 'Continue' button is clicked after choosing a file for upload")
       UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateEmptyFile)
       UploadSubmissionTemplatePage.clickSubmissionButton()
-
+    
       Then("the user lands on the 'Review the companies in your notification' page")
       assertOnPage(UploadTablePage)
 

@@ -18,6 +18,7 @@ package uk.gov.hmrc.test.ui.pages.submission.notification
 
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
+import org.scalatest.matchers.should.Matchers.*
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
@@ -35,8 +36,20 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
 
   private val hiddenFileInputLocator = By.cssSelector(".govuk-file-upload")
 
+  def verifyTemplateGuidanceLink(): Unit = {
+    val guidanceLink =
+      driver.findElement(By.id("template-guidance"))
+
+    guidanceLink.getAttribute("target") shouldBe "_blank"
+
+    guidanceLink
+      .getAttribute("href")
+      .contains("/senior-accounting-officer/submission/template-guidance") shouldBe true
+  }
+
   override def clickSubmissionButton(): Unit = {
     clickElement(submissionButtonLocator)
+
     fluentWait.until(
       ExpectedConditions.textToBePresentInElementLocated(
         By.cssSelector("h1"),
@@ -48,6 +61,7 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
   def chooseFile(resourceName: String): Unit = {
     val fileUrl      = getClass.getClassLoader.getResource(resourceName)
     val absolutePath = Paths.get(fileUrl.toURI).toString
+
     driver.findElement(hiddenFileInputLocator).sendKeys(absolutePath)
   }
 }
