@@ -20,7 +20,7 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.{assertElementIsClickable, assertTextOnPage}
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertElementIsClickable, assertLinkHasText, assertTextOnPage}
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object ConfirmationPage extends CommonPage with SubmissionButtonSupport {
@@ -45,6 +45,10 @@ object ConfirmationPage extends CommonPage with SubmissionButtonSupport {
   def assertTextInLink(link: By, text: String): Unit = {
     assertElementIsClickable(link)
     assertTextOnPage(link, text)
+  }
+
+  def assertLinkHasTextOnPage(link: By, expectedText: String): Unit = {
+    assertLinkHasText(link, expectedText)
   }
 
 }

@@ -21,7 +21,7 @@ import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, Completed, NotStarted}
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
 
@@ -61,7 +61,8 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "A user can submit a notification successfully when additional information is added and not changed",
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user initiates adding a notification from the 'Hub' page")
       goToAdditionalInformationPageFromHomePage()
@@ -77,10 +78,15 @@ class NotificationSpec extends BaseSpec {
       And("the user confirms their answers by clicking 'Continue'")
       CheckYourAnswersPage.clickSubmissionButton()
 
-      Then("the user lands on the confirmation page which displays the correct content")
+      Then("the user lands on the 'Confirmation' page")
+      assertOnPage(ConfirmationPage)
+
+      And("a unique reference number is displayed on screen")
       ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
-      ConfirmationPage.assertTextInLink(ConfirmationPage.downloadPdfLink, "Download a PDF")
-      ConfirmationPage.assertTextInLink(ConfirmationPage.printPageLink, "Print this page")
+
+      And("the expected 'download a pdf' and 'print this page' links are present")
+      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "Download a PDF")
+      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "Print this page")
     }
 
     Scenario(

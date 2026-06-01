@@ -83,6 +83,11 @@ object PageSupport extends BrowserDriver with Matchers with PageObject {
     element.findElements(By.tagName("a")).asScala mustBe empty
   }
 
+  def assertLinkHasText(link: By, expectedText: String): Unit = {
+    assertElementIsClickable(link)
+    assertTextOnPage(link, expectedText)
+  }
+
   def assertTextOnPage(locator: By, text: String): Unit = {
     getElementIfVisible(locator).getText mustBe text
   }
