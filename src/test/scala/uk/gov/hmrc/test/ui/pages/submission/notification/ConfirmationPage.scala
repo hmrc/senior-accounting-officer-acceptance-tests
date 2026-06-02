@@ -20,18 +20,35 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertElementIsClickable, assertLinkHasText, assertTextOnPage}
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object ConfirmationPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/confirmation"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/confirmation?notificationIdReferenceNumber=SAONOT0123456789"
 
   override val pageTitle: String =
-    "Confirmation page - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Submit a notification - Notification submitted - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  val downloadPdfLink: By =
+    By.cssSelector("""#download-pdf-link[href="#"]""")
+
+  val printPageLink: By =
+    By.cssSelector("""#print-page-link[href="#"]""")
 
   def assertReferenceNumberEquals(number: String): Unit = {
     val referenceNumberElement: By = testId("notification-reference-number")
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(referenceNumberElement))
     driver.findElement(referenceNumberElement).getText mustBe number
   }
+
+  def assertTextInLink(link: By, text: String): Unit = {
+    assertElementIsClickable(link)
+    assertTextOnPage(link, text)
+  }
+
+  def assertLinkHasTextOnPage(link: By, expectedText: String): Unit = {
+    assertLinkHasText(link, expectedText)
+  }
+
 }

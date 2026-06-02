@@ -77,8 +77,15 @@ class NotificationSpec extends BaseSpec {
       And("the user confirms their answers by clicking 'Continue'")
       CheckYourAnswersPage.clickSubmissionButton()
 
-      Then("the given notification reference number is successfully returned")
+      Then("the user lands on the 'Confirmation' page")
+      assertOnPage(ConfirmationPage)
+
+      And("a unique reference number is displayed on screen")
       ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
+
+      And("the expected 'download a pdf' and 'print this page' links are present")
+      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "Download a PDF")
+      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "Print this page")
     }
 
     Scenario(
