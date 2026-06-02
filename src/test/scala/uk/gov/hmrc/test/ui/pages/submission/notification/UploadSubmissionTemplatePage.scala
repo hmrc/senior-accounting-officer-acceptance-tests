@@ -17,11 +17,11 @@
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
 import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.ExpectedConditions
 import org.scalatest.matchers.should.Matchers.*
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.assertTextOnPage
-import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertTextOnPage, clickElement}
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 import java.nio.file.Paths
@@ -49,13 +49,23 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
 
   override def clickSubmissionButton(): Unit = {
     clickElement(submissionButtonLocator)
+    fluentWait.until(
+      ExpectedConditions.textToBePresentInElementLocated(
+        By.cssSelector("h1"),
+        "Review the companies in your notification"
+      )
+    )
 
-    // fluentWait.until(
-    //   ExpectedConditions.textToBePresentInElementLocated(
-    //     By.cssSelector("h1"),
-    //     "Review the companies in your notification"
-    //   )
-    // )
+  }
+
+  def clickSubmissionButtonExpectingTemplateError(): Unit = {
+    clickElement(submissionButtonLocator)
+    fluentWait.until(
+      ExpectedConditions.textToBePresentInElementLocated(
+        By.cssSelector("h1"),
+        "There is a problem with your submission template file"
+      )
+    )
   }
 
   def chooseFile(resourceName: String): Unit = {

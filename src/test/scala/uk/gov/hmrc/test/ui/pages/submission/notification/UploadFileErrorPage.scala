@@ -16,8 +16,6 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
-import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport
@@ -30,11 +28,7 @@ object UploadFileErrorPage extends CommonPage {
   override val pageTitle: String =
     "There is a problem with your submission template file - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val continueButton: By = By.id("continue")
-
   def ReturnToFileUploadPage(): Unit = {
-    fluentWait
-      .until(ExpectedConditions.visibilityOfElementLocated(continueButton))
     clickContinueButton()
   }
 }
