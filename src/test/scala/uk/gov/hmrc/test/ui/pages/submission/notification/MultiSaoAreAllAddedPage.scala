@@ -21,7 +21,7 @@ import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, YesNoRadioButtonSupport}
 
-object AreAllAddedPage
+object MultiSaoAreAllAddedPage
     extends CommonPage
     with SubmissionButtonSupport
     with YesNoRadioButtonSupport

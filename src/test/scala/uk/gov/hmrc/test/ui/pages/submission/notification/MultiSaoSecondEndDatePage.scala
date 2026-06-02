@@ -16,9 +16,11 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
+import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.*
+import uk.gov.hmrc.test.ui.support.PageSupport.assertTextOnPage
 
 object MultiSaoSecondEndDatePage
     extends CommonPage
@@ -33,6 +35,12 @@ object MultiSaoSecondEndDatePage
   override val pageTitle: String =
     "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val changePageUrl: String =
+  val pageUrlWithSaoIndexOne: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notificationMoreSaoSecondEndDate?saoIndex=1"
+  val pageHeadingElement: By = By.cssSelector(".govuk-fieldset__heading")
+
+  def assertHeadingMatches(text: String): Unit = {
+    assertTextOnPage(pageHeadingElement, text)
+  }
+
 }
