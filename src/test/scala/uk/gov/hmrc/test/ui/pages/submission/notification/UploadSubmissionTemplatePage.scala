@@ -55,7 +55,6 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
         "Review the companies in your notification"
       )
     )
-
   }
 
   def clickSubmissionButtonExpectingTemplateError(): Unit = {

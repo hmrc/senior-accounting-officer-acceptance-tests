@@ -391,7 +391,7 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
 
-      When("the 'Continue' button is clicked after choosing a file an Invalid qualification csv filefor upload")
+      When("the 'Continue' button is clicked after choosing an Invalid qualification csv file for upload")
       UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateInvalidQualificationFile)
       UploadSubmissionTemplatePage.clickSubmissionButtonExpectingTemplateError()
 
@@ -401,7 +401,7 @@ class NotificationSpec extends BaseSpec {
       When("the 'Return to file upload' button is clicked to upload a new file again")
       UploadFileErrorPage.ReturnToFileUploadPage()
 
-      Then("the user lands on the 'Upload a submission template' page")
+      Then("the user lands back on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
     }
 

@@ -27,7 +27,7 @@ object TestData {
   val secondPersonEmail: String = emailForUser(secondPersonName)
 
   val submissionTemplateEmptyFile: String                = "Submission-template-empty-v15.csv"
-  val submissionTemplateInvalidQualificationFile: String = "Submission-Invalid-Qualification-template"
+  val submissionTemplateInvalidQualificationFile: String = "Submission-Invalid-Qualification-template.csv"
 
   def generateNewEmail(): String = {
     emailForUser(firstPersonName)
