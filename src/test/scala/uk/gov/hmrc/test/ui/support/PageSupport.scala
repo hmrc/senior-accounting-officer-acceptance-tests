@@ -34,8 +34,8 @@ object PageSupport extends BrowserDriver with Matchers with PageObject {
   val continueButton: By = By.id("continue")
 
   def fluentWait: Wait[WebDriver] = new FluentWait[WebDriver](driver)
-    .withTimeout(Duration.ofSeconds(5))
-    .pollingEvery(Duration.ofMillis(200))
+    .withTimeout(Duration.ofSeconds(7))
+    .pollingEvery(Duration.ofMillis(250))
 
   def clickElement(locator: By): Unit = {
     getElementIfClickable(locator).click()

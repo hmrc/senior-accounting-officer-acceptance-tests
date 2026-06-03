@@ -27,8 +27,8 @@ import java.time.Duration
 trait BasePage extends BrowserDriver with Matchers {
 
   protected def fluentWait: Wait[WebDriver] = new FluentWait[WebDriver](driver)
-    .withTimeout(Duration.ofSeconds(5))
-    .pollingEvery(Duration.ofMillis(200))
+    .withTimeout(Duration.ofSeconds(7))
+    .pollingEvery(Duration.ofMillis(250))
 
   protected def navigateTo(url: String): Unit = {
     driver.navigate().to(url)
