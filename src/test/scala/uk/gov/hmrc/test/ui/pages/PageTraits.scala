@@ -56,7 +56,7 @@ trait DynamicUrlWithUnknownParam[A] {
 
   def extractParams: A
 
-  def assertOnPage(): Unit =
+  def verifyUrl(): Unit =
     fluentWait.until(ExpectedConditions.urlMatches(urlRegex))
 
 }

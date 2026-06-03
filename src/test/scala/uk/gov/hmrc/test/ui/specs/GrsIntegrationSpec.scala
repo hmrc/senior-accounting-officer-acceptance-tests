@@ -24,7 +24,7 @@ import uk.gov.hmrc.test.ui.pages.grs.*
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsMicroservice
 import uk.gov.hmrc.test.ui.pages.registration.{FeatureTogglePage, RegistrationPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
-import uk.gov.hmrc.test.ui.support.PageSupport.assertOnPage
+import uk.gov.hmrc.test.ui.support.PageSupport.*
 
 class GrsIntegrationSpec extends BaseSpec {
 
@@ -43,18 +43,21 @@ class GrsIntegrationSpec extends BaseSpec {
       NominatedCompanyDetailsGuidancePage.clickSubmissionButton()
 
       When("the user completes a business match successfully")
-      CompanyRegistrationNumberPage.assertOnPage()
+      CompanyRegistrationNumberPage.verifyUrl()
       val grsJourneyId = CompanyRegistrationNumberPage.extractParams
       CompanyRegistrationNumberPage.enterCrnAndSubmit()
-      assertOnPage(IsThisYourBusinessPage.pageUrl(grsJourneyId))
+      assertUrl(IsThisYourBusinessPage.pageUrl(grsJourneyId))
+      assertPageTitle(IsThisYourBusinessPage.pageTitle)
       IsThisYourBusinessPage.selectYesRadioAndSubmit()
-      assertOnPage(UniqueTaxpayerReferencePage.pageUrl(grsJourneyId))
+      assertUrl(UniqueTaxpayerReferencePage.pageUrl(grsJourneyId))
+      assertPageTitle(UniqueTaxpayerReferencePage.pageTitle)
       UniqueTaxpayerReferencePage.enterUtrAndSubmit()
-      assertOnPage(GrsCheckYourAnswersPage.pageUrl(grsJourneyId))
+      assertUrl(GrsCheckYourAnswersPage.pageUrl(grsJourneyId))
+      assertPageTitle(GrsCheckYourAnswersPage.pageTitle)
       GrsCheckYourAnswersPage.assertAnswersAndSubmit()
 
       Then("the company details have a status of 'Completed' on the registration dashboard")
-      assertOnPage(RegistrationPage.pageUrl)
+      assertOnPage(RegistrationPage)
       RegistrationPage.assertRegistrationPageSectionStatus(CompanyDetails, Completed)
 
       And("the 'Enter your company details' link is not present")

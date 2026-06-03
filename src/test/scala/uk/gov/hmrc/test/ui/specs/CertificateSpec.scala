@@ -127,12 +127,12 @@ class CertificateSpec extends BaseSpec {
 
       When("the user clicks the 'Change' link on the 'Is given person the named SAO on the certificate' row")
       CertificateCheckYourAnswersPage.clickIsThisTheSaoChangeLink()
-      assertOnPage(IsThisTheSaoPage.changePageUrl)
+      assertUrl(IsThisTheSaoPage.changePageUrl)
 
       And("a new name is provided after changing the radio option to 'No'")
       IsThisTheSaoPage.clickNoRadioButton()
       IsThisTheSaoPage.clickSubmissionButton()
-      assertOnPage(SaoNamePage.changePageUrl)
+      assertUrl(SaoNamePage.changePageUrl)
       SaoNamePage.addName(TestData.firstPersonName)
       SaoNamePage.clickSubmissionButton()
 
@@ -170,7 +170,7 @@ class CertificateSpec extends BaseSpec {
 
       When("the user clicks the 'Change' link on the 'Is given person the named SAO on the certificate' row")
       CertificateCheckYourAnswersPage.clickIsThisTheSaoChangeLink()
-      assertOnPage(IsThisTheSaoPage.changePageUrl)
+      assertUrl(IsThisTheSaoPage.changePageUrl)
 
       And("changes the radio button to 'Yes'")
       IsThisTheSaoPage.clickYesRadioButton()
@@ -202,7 +202,7 @@ class CertificateSpec extends BaseSpec {
 
       When("the user clicks the 'Change' link on the 'Email address' row")
       CertificateCheckYourAnswersPage.clickEmailAddressChangeLink()
-      assertOnPage(SaoEmailPage.changePageUrl)
+      assertUrl(SaoEmailPage.changePageUrl)
 
       And("changes the email address to another valid value")
       SaoEmailPage.addEmail(TestData.secondPersonEmail)
@@ -237,13 +237,13 @@ class CertificateSpec extends BaseSpec {
 
       When("the user clicks the 'Change' link on the 'Is given person the named SAO on the certificate' row")
       CertificateCheckYourAnswersPage.clickIsThisTheSaoChangeLink()
-      assertOnPage(IsThisTheSaoPage.changePageUrl)
+      assertUrl(IsThisTheSaoPage.changePageUrl)
 
       And("the user makes no changes and clicks 'Continue'")
       IsThisTheSaoPage.clickSubmissionButton()
 
       When("the user lands on the 'sao name' page, makes no changes and clicks 'Continue'")
-      assertOnPage(SaoNamePage.changePageUrl)
+      assertUrl(SaoNamePage.changePageUrl)
       SaoNamePage.clickSubmissionButton()
 
       Then(
@@ -254,7 +254,7 @@ class CertificateSpec extends BaseSpec {
 
       When("the user clicks the 'Change' link on the 'Full name' row")
       CertificateCheckYourAnswersPage.clickFullNameChangeLink()
-      assertOnPage(SaoNamePage.changePageUrl)
+      assertUrl(SaoNamePage.changePageUrl)
 
       And("the user makes no changes and clicks 'Continue'")
       SaoNamePage.clickSubmissionButton()
@@ -267,7 +267,7 @@ class CertificateSpec extends BaseSpec {
 
       When("the user clicks the 'Change' link on the 'Email address' row")
       CertificateCheckYourAnswersPage.clickEmailAddressChangeLink()
-      assertOnPage(SaoEmailPage.changePageUrl)
+      assertUrl(SaoEmailPage.changePageUrl)
 
       And("the user makes no changes and clicks 'Continue'")
       SaoEmailPage.clickSubmissionButton()
@@ -280,7 +280,7 @@ class CertificateSpec extends BaseSpec {
 
       When("the user clicks the 'Change' link on the 'Email communications' row")
       CertificateCheckYourAnswersPage.clickEmailCommunicationChoiceChangeLink()
-      assertOnPage(SaoEmailCommunicationChoicePage.changePageUrl)
+      assertUrl(SaoEmailCommunicationChoicePage.changePageUrl)
 
       And("the user makes no changes and clicks 'Continue'")
       SaoEmailCommunicationChoicePage.clickSubmissionButton()
@@ -382,7 +382,7 @@ class CertificateSpec extends BaseSpec {
 
       When("the user clicks the 'Change' link on the 'Email address' row")
       CertificateCheckYourAnswersPage.clickEmailAddressChangeLink()
-      assertOnPage(SaoEmailPage.changePageUrl)
+      assertUrl(SaoEmailPage.changePageUrl)
 
       Then("the user removes the existing email and clicks continue, an error is shown")
       SaoEmailPage.addEmail("")

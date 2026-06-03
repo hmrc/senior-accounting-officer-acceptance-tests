@@ -19,12 +19,17 @@ package uk.gov.hmrc.test.ui.pages.grs
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.{BasePage, DynamicUrlWithUnknownParam}
+import uk.gov.hmrc.test.ui.pages.{BasePage, DynamicUrlWithUnknownParam, StaticTitle}
 import uk.gov.hmrc.test.ui.support.PageSupport.clickContinueButton
 
-object CompanyRegistrationNumberPage extends BasePage with DynamicUrlWithUnknownParam[String] {
+import java.util.regex.Pattern
+
+object CompanyRegistrationNumberPage extends BasePage with DynamicUrlWithUnknownParam[String] with StaticTitle {
 
   private val grsHost: String = TestConfiguration.url("incorporated-entity-identification-frontend")
+
+  override def pageTitle: String =
+    "Company registration number - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val validGrsStubCompanyRegistrationNumber: String = "AB123456"
 
@@ -36,9 +41,8 @@ object CompanyRegistrationNumberPage extends BasePage with DynamicUrlWithUnknown
       .sendKeys(validGrsStubCompanyRegistrationNumber)
     clickContinueButton()
   }
-
   override protected val urlRegex: String =
-    s"$grsHost/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/company-number"
+    s"^${Pattern.quote(grsHost)}/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/company-number"
 
   override def extractParams: String = {
     val Pattern       = urlRegex.r

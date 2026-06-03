@@ -21,9 +21,9 @@ import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.scalatest.matchers.must.Matchers
 import uk.gov.hmrc.selenium.component.PageObject
 import uk.gov.hmrc.test.ui.driver.BrowserDriver
-import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.pages.*
 
-import scala.collection.JavaConverters.asScalaBufferConverter
+import scala.jdk.CollectionConverters.*
 
 import java.lang
 import java.time.Duration
@@ -100,27 +100,41 @@ object PageSupport extends BrowserDriver with Matchers with PageObject {
     getElementIfVisible(locator).getAttribute(attribute) mustBe expectedText
   }
 
-  def assertOnPage(url: String): Unit = {
+  private def assertOnPage(expectedPageUrl: String, expectedTitle: String): Unit = {
+    assertUrl(expectedPageUrl)
+    assertPageTitle(expectedTitle)
+  }
+
+  def assertUrl(url: String): Unit = {
     fluentWait.until(ExpectedConditions.urlToBe(url))
   }
 
-  def assertOnPage(page: CommonPage, expectedTitle: String): Unit = {
-    assertOnPage(page, Some(expectedTitle))
+  @deprecated(
+    "replaced by PageSupport.assertUrl since this doesn't assert the page title like the other assertOnPage variants"
+  )
+  def assertOnPage(url: String): Unit = {
+    assertUrl(url)
   }
 
-  def assertOnPage(page: CommonPage): Unit = {
+  def assertOnPage(page: BasePage with StaticUrl, expectedTitle: String): Unit = {
+    assertOnPage(page.pageUrl, expectedTitle)
+  }
+
+  def assertOnPage(page: BasePage with StaticUrl with StaticTitle): Unit = {
     assertOnPage(page, None)
   }
 
-  def assertPageWithError(page: CommonPage): Unit = {
+  def assertPageWithError(page: BasePage with StaticUrl with StaticTitle): Unit = {
     assertOnPage(page, Some(page.pageErrorTitle))
   }
 
-  private def assertOnPage(page: CommonPage, titleOverride: Option[String]): Unit = {
+  private def assertOnPage(page: BasePage with StaticUrl with StaticTitle, titleOverride: Option[String]): Unit = {
     val expectedTitle = titleOverride.getOrElse(page.pageTitle)
-    fluentWait.until(_ => getCurrentUrl == page.pageUrl && getTitle == expectedTitle)
-    getCurrentUrl mustBe page.pageUrl
-    getTitle mustBe expectedTitle
+    assertOnPage(page, expectedTitle)
+  }
+
+  def assertPageTitle(expectedTitle: String): Unit = {
+    fluentWait.until(ExpectedConditions.titleIs(expectedTitle))
   }
 
   private def getElementIfVisible(locator: By): WebElement = {

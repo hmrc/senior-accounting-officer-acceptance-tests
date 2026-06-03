@@ -24,7 +24,7 @@ import uk.gov.hmrc.test.ui.pages.grs.NominatedCompanyDetailsGuidancePage
 import uk.gov.hmrc.test.ui.pages.registration.*
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
 import uk.gov.hmrc.test.ui.specs.tags.*
-import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, assertTextOnPage}
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, assertTextOnPage, assertUrl}
 import uk.gov.hmrc.test.ui.support.TestData
 
 class ContactDetailsSpec extends BaseSpec {
@@ -55,14 +55,14 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user amends the first contact name using the 'Change' link")
       FirstContactCheckYourAnswersPage.clickFirstContactNameChangeLink()
-      assertOnPage(FirstContactNamePage.changePageUrl)
+      assertUrl(FirstContactNamePage.changePageUrl)
       FirstContactNamePage.addName(TestData.secondPersonName)
       FirstContactNamePage.clickSubmissionButton()
       assertOnPage(FirstContactCheckYourAnswersPage)
 
       And("amends the first contact email using the 'Change' link")
       FirstContactCheckYourAnswersPage.clickFirstContactEmailChangeLink()
-      assertOnPage(FirstContactEmailPage.changePageUrl)
+      assertUrl(FirstContactEmailPage.changePageUrl)
       FirstContactEmailPage.addEmail(TestData.secondPersonEmail)
       FirstContactEmailPage.clickSubmissionButton()
       assertOnPage(FirstContactCheckYourAnswersPage)
@@ -240,7 +240,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user navigates to the first contact 'change name' page using the 'Change' link")
       FirstContactCheckYourAnswersPage.clickFirstContactNameChangeLink()
-      assertOnPage(FirstContactNamePage.changePageUrl)
+      assertUrl(FirstContactNamePage.changePageUrl)
 
       And("submits without changing the name")
       FirstContactNamePage.clickSubmissionButton()
@@ -251,7 +251,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user navigates to the first contact 'change email address' page using the 'Change' link")
       FirstContactCheckYourAnswersPage.clickFirstContactEmailChangeLink()
-      assertOnPage(FirstContactEmailPage.changePageUrl)
+      assertUrl(FirstContactEmailPage.changePageUrl)
 
       And("submits without changing the email")
       FirstContactEmailPage.clickSubmissionButton()
@@ -270,7 +270,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user navigates to the second contact 'change name' page using the 'Change' link")
       SecondContactCheckYourAnswersPage.clickSecondContactNameChangeLink()
-      assertOnPage(SecondContactNamePage.changePageUrl)
+      assertUrl(SecondContactNamePage.changePageUrl)
 
       And("submits without changing the name")
       SecondContactNamePage.clickSubmissionButton()
@@ -281,7 +281,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user navigates to the second contact 'change email address' page using the 'Change' link")
       SecondContactCheckYourAnswersPage.clickSecondContactEmailChangeLink()
-      assertOnPage(SecondContactEmailPage.changePageUrl)
+      assertUrl(SecondContactEmailPage.changePageUrl)
 
       And("submits without changing the email")
       SecondContactEmailPage.clickSubmissionButton()

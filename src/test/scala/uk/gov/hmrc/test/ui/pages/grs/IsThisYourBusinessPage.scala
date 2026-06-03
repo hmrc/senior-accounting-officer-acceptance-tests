@@ -19,12 +19,15 @@ package uk.gov.hmrc.test.ui.pages.grs
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.{BasePage, DynamicUrlWithKnownParam}
+import uk.gov.hmrc.test.ui.pages.{BasePage, DynamicUrlWithKnownParam, StaticTitle}
 import uk.gov.hmrc.test.ui.support.PageSupport.clickContinueButton
 
-object IsThisYourBusinessPage extends BasePage with DynamicUrlWithKnownParam[String] {
+object IsThisYourBusinessPage extends BasePage with DynamicUrlWithKnownParam[String] with StaticTitle {
 
   private val grsHost: String = TestConfiguration.url("incorporated-entity-identification-frontend")
+
+  override def pageTitle: String =
+    "Is this your business? - Senior Accounting Officer notification and certificate - GOV.UK"
 
   override def pageUrl(param: String): String = s"$grsHost/$param/confirm-business-name"
 
