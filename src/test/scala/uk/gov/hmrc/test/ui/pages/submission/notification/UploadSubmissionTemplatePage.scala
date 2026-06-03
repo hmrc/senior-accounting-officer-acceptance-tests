@@ -16,13 +16,15 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
-import org.openqa.selenium.By
-import org.openqa.selenium.support.ui.ExpectedConditions
+import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait}
+import org.openqa.selenium.{By, WebDriver}
 import org.scalatest.matchers.should.Matchers.*
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.{assertTextOnPage, clickElement}
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
+
+import scala.concurrent.duration.*
 
 import java.nio.file.Paths
 
@@ -47,9 +49,12 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
       .contains("/senior-accounting-officer/submission/template-guidance") shouldBe true
   }
 
+  private def fluentWaitWithLongDelay: FluentWait[WebDriver] =
+    fluentWait(timeout = 7.seconds, polling = 250.milliseconds)
+
   override def clickSubmissionButton(): Unit = {
     clickElement(submissionButtonLocator)
-    fluentWait.until(
+    fluentWaitWithLongDelay.until(
       ExpectedConditions.textToBePresentInElementLocated(
         By.cssSelector("h1"),
         "Review the companies in your notification"
@@ -59,7 +64,7 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
 
   def clickSubmissionButtonExpectingTemplateError(): Unit = {
     clickElement(submissionButtonLocator)
-    fluentWait.until(
+    fluentWaitWithLongDelay.until(
       ExpectedConditions.textToBePresentInElementLocated(
         By.cssSelector("h1"),
         "There is a problem with your submission template file"
