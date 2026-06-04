@@ -43,7 +43,7 @@ class GrsIntegrationSpec extends BaseSpec {
       NominatedCompanyDetailsGuidancePage.clickSubmissionButton()
 
       When("the user completes a business match successfully")
-      CompanyRegistrationNumberPage.verifyUrl()
+      CompanyRegistrationNumberPage.assertUrl()
       val grsJourneyId = CompanyRegistrationNumberPage.extractParams
       CompanyRegistrationNumberPage.enterCrnAndSubmit()
       assertUrl(IsThisYourBusinessPage.pageUrl(grsJourneyId))

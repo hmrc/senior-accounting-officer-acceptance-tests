@@ -45,8 +45,8 @@ object CompanyRegistrationNumberPage extends BasePage with DynamicUrlWithUnknown
     s"^${Pattern.quote(grsHost)}/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/company-number"
 
   override def extractParams: String = {
-    val Pattern       = urlRegex.r
-    val Pattern(uuid) = driver.getCurrentUrl: @unchecked
+    val UrlPattern       = urlRegex.r
+    val UrlPattern(uuid) = driver.getCurrentUrl: @unchecked
 
     uuid
   }
