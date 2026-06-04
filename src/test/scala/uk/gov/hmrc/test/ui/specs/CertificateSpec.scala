@@ -16,4 +16,34 @@
 
 package uk.gov.hmrc.test.ui.specs
 
-class CertificateSpec {}
+import org.scalatest.*
+import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
+import uk.gov.hmrc.test.ui.pages.submission.combinedSubmission.*
+import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
+import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.support.PageSupport.*
+
+class CertificateSpec extends BaseSpec {
+
+  Feature("Submit Certificate") {
+
+    Scenario(
+      "A user can submit a certificate successfully from the 'Hub' page",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user initiates a certificate submission from the 'Hub' page")
+      navigateToCertificateStartPage()
+    }
+  }
+}
+
+private def navigateToCertificateStartPage(): Unit = {
+  AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+  assertOnPage(AccountHomePage)
+  AccountHomePage.clickSubmitCertificateLink()
+  assertOnPage(SubmissionTypePage)
+  SubmissionTypePage.clickCertificateRadioButton()
+  SubmissionTypePage.clickSubmissionButton()
+  assertOnPage(SubmitCertificateStartPage)
+}

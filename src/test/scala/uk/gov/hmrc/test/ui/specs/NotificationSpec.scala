@@ -19,7 +19,8 @@ package uk.gov.hmrc.test.ui.specs
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, Completed, NotStarted}
-import uk.gov.hmrc.test.ui.pages.submission.notification.*
+import uk.gov.hmrc.test.ui.pages.submission.combinedSubmission.*
+import uk.gov.hmrc.test.ui.pages.submission.notification.{CheckYourAnswersPage, *}
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
 import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
