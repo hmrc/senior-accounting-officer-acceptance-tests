@@ -192,7 +192,7 @@ class NotificationSpec extends BaseSpec {
 
       When("pressing the change link and updating the provided additional information")
       CheckYourAnswersPage.clickAdditionalInformationChangeLink()
-      assertOnPage(AdditionalInformationPage.changePageUrl)
+      assertUrl(AdditionalInformationPage.changePageUrl)
       AdditionalInformationPage.addInformation("New Test For Changed Text")
 
       Then("on pressing 'Continue' the updated text is displayed on the 'Check Your Answers' page")
@@ -219,7 +219,7 @@ class NotificationSpec extends BaseSpec {
 
       When("pressing the change link and updating the provided additional information")
       CheckYourAnswersPage.clickAdditionalInformationChangeLink()
-      assertOnPage(AdditionalInformationPage.changePageUrl)
+      assertUrl(AdditionalInformationPage.changePageUrl)
       AdditionalInformationPage.addInformation("New Test For Changed Text")
 
       Then("on pressing 'Skip' the updated text is not displayed on the 'Check Your Answers' page")
@@ -246,7 +246,7 @@ class NotificationSpec extends BaseSpec {
 
       When("pressing the change link and clearing the existing additional information")
       CheckYourAnswersPage.clickAdditionalInformationChangeLink()
-      assertOnPage(AdditionalInformationPage.changePageUrl)
+      assertUrl(AdditionalInformationPage.changePageUrl)
       AdditionalInformationPage.addInformation("")
 
       Then("on pressing 'Continue' an error appears on screen")
@@ -474,7 +474,7 @@ class NotificationSpec extends BaseSpec {
       MultiSaoAreAllAddedPage.clickSubmissionButton()
 
       Then("the user lands on the 'Who was the SAO before Gert Bo' page")
-      assertOnPage(WhoWasTheSaoBeforePage.changePageUrl)
+      assertUrl(WhoWasTheSaoBeforePage.changePageUrl)
       WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Gert Bo?")
 
       When("the 'Continue' button is clicked after entering a name of 'Alex Rhodes'")
@@ -482,14 +482,14 @@ class NotificationSpec extends BaseSpec {
       WhoWasTheSaoBeforePage.clickSubmissionButton()
 
       Then("the user lands on the 'When did Alex Rhodes’s responsibility as the SAO start' page")
-      assertOnPage(MultiSaoSecondStartDatePage.changePageUrl)
+      assertUrl(MultiSaoSecondStartDatePage.changePageUrl)
 
       When("the 'Continue' button is clicked after adding a start date 90 days in the past for the new SAO")
       MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(90))
       MultiSaoSecondStartDatePage.clickSubmissionButton()
 
       Then("the user lands on the 'When did Alex Rhodes stop being the SAO' page")
-      assertOnPage(MultiSaoSecondEndDatePage.pageUrlWithSaoIndexOne)
+      assertUrl(MultiSaoSecondEndDatePage.pageUrlWithSaoIndexOne)
 
       When("the 'Continue' button is clicked after adding an end date 70 days in the past for the new SAO")
       MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(70))
@@ -498,7 +498,7 @@ class NotificationSpec extends BaseSpec {
       Then(
         "the user lands on the 'Have you added all the SAO for the financial year this notification relates to' page"
       )
-      assertOnPage(MultiSaoAreAllAddedPage.changePageUrl)
+      assertUrl(MultiSaoAreAllAddedPage.changePageUrl)
 
       When("the 'Continue' button is clicked after the 'Yes' radio button is selected")
       MultiSaoAreAllAddedPage.clickYesRadioButton()
