@@ -293,6 +293,9 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
 
+      And("the guidance link is present and correct")
+      UploadSubmissionTemplatePage.verifyTemplateGuidanceLink()
+
       When("the 'Continue' button is clicked after choosing a file for upload")
       UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateEmptyFile)
       UploadSubmissionTemplatePage.clickSubmissionButton()
@@ -363,6 +366,48 @@ class NotificationSpec extends BaseSpec {
 
       Then("the user lands on the 'Account Homepage'")
       assertOnPage(AccountHomePage)
+    }
+
+    Scenario(
+      "Upload submission page template - Submit a notification journey with an invalid template file upload",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'More than one SAO' page")
+      goToMoreThanOneSaoPageFromHub()
+
+      When("the 'Continue' button is clicked after the 'No' radio button is selected")
+      MoreThanOneSaoPage.clickNoRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
+
+      Then("the user lands on the 'What is the name of the SAO' page")
+      assertOnPage(SingleSaoNamePage)
+
+      When("the 'Continue' button is clicked after an SAO name is entered")
+      SingleSaoNamePage.addName("Jane Doe")
+      SingleSaoNamePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Submit a notification' start page")
+      assertOnPage(SubmitNotificationStartPage)
+
+      When("the 'Upload the submission template' link is clicked")
+      SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+
+      Then("the user lands on the 'Upload a submission template' page")
+      assertOnPage(UploadSubmissionTemplatePage)
+
+      When("the 'Continue' button is clicked after choosing an Invalid qualification csv file for upload")
+      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateInvalidQualificationFile)
+      UploadSubmissionTemplatePage.clickSubmissionButtonExpectingTemplateError()
+
+      Then("the user lands on the 'There is a problem with your submission template file' page")
+      assertOnPage(UploadFileErrorPage)
+
+      When("the 'Return to file upload' button is clicked to upload a new file again")
+      UploadFileErrorPage.ReturnToFileUploadPage()
+
+      Then("the user lands back on the 'Upload a submission template' page")
+      assertOnPage(UploadSubmissionTemplatePage)
     }
 
     Scenario(
