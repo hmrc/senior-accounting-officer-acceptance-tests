@@ -25,11 +25,7 @@ trait YesNoRadioButtonSupport {
   this: BasePage =>
   def yesRadioButton: By = By.cssSelector("#value")
   def noRadioButton: By  = By.cssSelector("#value-no")
-  def aNotification: By  = By.cssSelector("""input[value="notification"]""")
-  def aCertificate: By   = By.cssSelector("""input[value="certificate"]""")
 
-  def clickYesRadioButton(): Unit          = clickRadioButton(yesRadioButton)
-  def clickNoRadioButton(): Unit           = clickRadioButton(noRadioButton)
-  def clickNotificationRadioButton(): Unit = clickRadioButton(aNotification)
-  def clickCertificateRadioButton(): Unit  = clickRadioButton(aCertificate)
+  def clickYesRadioButton(): Unit = clickRadioButton(yesRadioButton)
+  def clickNoRadioButton(): Unit  = clickRadioButton(noRadioButton)
 }

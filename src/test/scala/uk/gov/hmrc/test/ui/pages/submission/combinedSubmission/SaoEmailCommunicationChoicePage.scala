@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages.submission.certificate
+package uk.gov.hmrc.test.ui.pages.submission.combinedSubmission
 
-import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.clickRadioButton
-import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
+import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport, YesNoRadioButtonSupport}
 
-object SubmitCertificateSubmitterPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
+object SaoEmailCommunicationChoicePage
+    extends CommonPage
+    with SubmissionButtonSupport
+    with YesNoRadioButtonSupport
+    with ErrorMessageSupport {
+
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/submit-certificate-submitter"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/sao-email-communication-choice"
 
   override val pageTitle: String =
     "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val saoSubmitterRadio: By      = By.cssSelector("#value_0")
-  val saoProxySubmitterRadio: By = By.cssSelector("#value_1")
-
-  def clickSaoSubmitterRadioButton(): Unit      = clickRadioButton(saoSubmitterRadio)
-  def clickSaoProxySubmitterRadioButton(): Unit = clickRadioButton(saoProxySubmitterRadio)
+  val changePageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/change-sao-email-communication-choice"
 }

@@ -16,8 +16,10 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
+import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.PageSupport.clickRadioButton
 import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport, YesNoRadioButtonSupport}
 
 object SubmissionTypePage
@@ -25,10 +27,15 @@ object SubmissionTypePage
     with SubmissionButtonSupport
     with YesNoRadioButtonSupport
     with ErrorMessageSupport {
-
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/submission-type"
 
   override val pageTitle: String =
     "What would you like to submit? - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  val aNotification: By = By.cssSelector("""input[value="notification"]""")
+  val aCertificate: By  = By.cssSelector("""input[value="certificate"]""")
+
+  def clickNotificationRadioButton(): Unit = clickRadioButton(aNotification)
+  def clickCertificateRadioButton(): Unit  = clickRadioButton(aCertificate)
 }
