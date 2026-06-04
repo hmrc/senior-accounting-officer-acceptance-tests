@@ -18,10 +18,16 @@ package uk.gov.hmrc.test.ui.pages.grs
 
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
-import uk.gov.hmrc.test.ui.pages.BasePage
+import uk.gov.hmrc.test.ui.conf.TestConfiguration
+import uk.gov.hmrc.test.ui.pages.{BasePage, DynamicUrlWithKnownParam, StaticTitle}
 import uk.gov.hmrc.test.ui.support.PageSupport.clickContinueButton
 
-object GrsCheckYourAnswersPage extends BasePage {
+object GrsCheckYourAnswersPage extends BasePage with DynamicUrlWithKnownParam[String] with StaticTitle {
+  private val grsHost: String = TestConfiguration.url("incorporated-entity-identification-frontend")
+
+  override def pageUrl(param: String): String = s"$grsHost/$param/check-your-answers-business"
+  override def pageTitle: String              =
+    "Check your answers - Senior Accounting Officer notification and certificate - GOV.UK"
 
   private val companyReferenceNumber: By =
     By.cssSelector("div.govuk-summary-list__row:nth-child(1) .govuk-summary-list__value")
