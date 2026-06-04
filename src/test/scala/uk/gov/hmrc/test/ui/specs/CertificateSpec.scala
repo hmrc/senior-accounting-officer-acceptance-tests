@@ -24,9 +24,13 @@ import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
 class CertificateSpec extends BaseSpec {
+  override def beforeEach(): Unit = {
+    super.beforeEach()
+    AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+  }
 
   Feature("Submit Certificate") {
-
+    // The  below scenario would be extended as in when the pages/features are ready
     Scenario(
       "A user can submit a certificate successfully from the 'Hub' page",
       SubmissionUITests,
@@ -35,15 +39,30 @@ class CertificateSpec extends BaseSpec {
       Given("an authenticated user initiates a certificate submission from the 'Hub' page")
       navigateToCertificateStartPage()
     }
-  }
-}
 
-private def navigateToCertificateStartPage(): Unit = {
-  AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
-  assertOnPage(AccountHomePage)
-  AccountHomePage.clickSubmitCertificateLink()
-  assertOnPage(SubmissionTypePage)
-  SubmissionTypePage.clickCertificateRadioButton()
-  SubmissionTypePage.clickSubmissionButton()
-  assertOnPage(SubmitCertificateStartPage)
+    Scenario(
+      "Validate that choosing a Submission type is required for a certification submission",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'What would you like to submit?' page")
+      assertOnPage(AccountHomePage)
+      AccountHomePage.clickSubmitCertificateLink()
+      assertOnPage(SubmissionTypePage)
+      SubmissionTypePage.clickSubmissionButton()
+
+      When("the 'Continue' button is clicked after selecting no radio options")
+      SubmissionTypePage.assertErrorShownOnPage()
+    }
+  }
+
+  private def navigateToCertificateStartPage(): Unit = {
+    AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+    assertOnPage(AccountHomePage)
+    AccountHomePage.clickSubmitCertificateLink()
+    assertOnPage(SubmissionTypePage)
+    SubmissionTypePage.clickCertificateRadioButton()
+    SubmissionTypePage.clickSubmissionButton()
+    assertOnPage(SubmitCertificateStartPage)
+  }
 }
