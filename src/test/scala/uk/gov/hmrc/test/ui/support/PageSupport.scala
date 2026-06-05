@@ -113,13 +113,6 @@ object PageSupport extends BrowserDriver with Matchers with PageObject {
     fluentWait.until(ExpectedConditions.urlToBe(url))
   }
 
-  @deprecated(
-    "replaced by PageSupport.assertUrl since this doesn't assert the page title like the other assertOnPage variants"
-  )
-  def assertOnPage(url: String): Unit = {
-    assertUrl(url)
-  }
-
   def assertOnPage(page: BasePage with StaticUrl, expectedTitle: String): Unit = {
     assertOnPage(page.pageUrl, expectedTitle)
   }
