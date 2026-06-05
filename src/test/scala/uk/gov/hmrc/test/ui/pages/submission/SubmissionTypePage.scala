@@ -29,7 +29,7 @@ object SubmissionTypePage extends CommonPage with SubmissionButtonSupport with E
   override val pageTitle: String =
     "What would you like to submit? - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val aNotification: By = By.cssSelector("""input[value="notification"]""")
+  val notification: By = By.cssSelector("""input[value="notification"]""")
   val aCertificate: By  = By.cssSelector("""input[value="certificate"]""")
 
   def clickNotificationRadioButton(): Unit = clickRadioButton(aNotification)
