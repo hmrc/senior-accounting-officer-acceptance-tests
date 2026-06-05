@@ -52,7 +52,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(SubmissionTypePage)
       SubmissionTypePage.clickSubmissionButton()
 
-      When("the 'Continue' button is clicked after selecting no radio options")
+      When("neither radio button is selected and the 'Continue' button is clicked")
       SubmissionTypePage.assertErrorShownOnPage()
     }
   }
