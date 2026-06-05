@@ -20,15 +20,17 @@ import org.openqa.selenium.support.ui.*
 import org.openqa.selenium.{By, WebDriver}
 import org.scalatest.matchers.must.Matchers
 import uk.gov.hmrc.test.ui.driver.BrowserDriver
+import uk.gov.hmrc.test.ui.support.PageSupport
+
+import scala.concurrent.duration.FiniteDuration
 
 import java.lang
-import java.time.Duration
 
 trait BasePage extends BrowserDriver with Matchers {
 
-  protected def fluentWait: Wait[WebDriver] = new FluentWait[WebDriver](driver)
-    .withTimeout(Duration.ofSeconds(7))
-    .pollingEvery(Duration.ofMillis(250))
+  inline protected def fluentWait: Wait[WebDriver] = PageSupport.fluentWait
+  inline final protected def fluentWait(timeout: FiniteDuration, polling: FiniteDuration): FluentWait[WebDriver] =
+    PageSupport.fluentWait(timeout, polling)
 
   protected def navigateTo(url: String): Unit = {
     driver.navigate().to(url)

@@ -23,19 +23,23 @@ import uk.gov.hmrc.selenium.component.PageObject
 import uk.gov.hmrc.test.ui.driver.BrowserDriver
 import uk.gov.hmrc.test.ui.pages.*
 
+import scala.concurrent.duration.*
 import scala.jdk.CollectionConverters.*
+import scala.jdk.DurationConverters.*
 
 import java.lang
-import java.time.Duration
 
 object PageSupport extends BrowserDriver with Matchers with PageObject {
 
   val backLink: By       = By.cssSelector(".govuk-back-link")
   val continueButton: By = By.id("continue")
 
-  def fluentWait: Wait[WebDriver] = new FluentWait[WebDriver](driver)
-    .withTimeout(Duration.ofSeconds(7))
-    .pollingEvery(Duration.ofMillis(250))
+  inline final def fluentWait: Wait[WebDriver] = fluentWait(3.seconds, 200.milliseconds)
+
+  def fluentWait(timeout: FiniteDuration, polling: FiniteDuration): FluentWait[WebDriver] =
+    new FluentWait[WebDriver](driver)
+      .withTimeout(timeout.toJava)
+      .pollingEvery(polling.toJava)
 
   def clickElement(locator: By): Unit = {
     getElementIfClickable(locator).click()
