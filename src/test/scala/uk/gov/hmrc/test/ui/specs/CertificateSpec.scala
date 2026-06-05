@@ -33,7 +33,7 @@ class CertificateSpec extends BaseSpec {
   Feature("Submit Certificate") {
     // The  below scenario would be extended as in when the pages/features are ready
     Scenario(
-      "A user can submit a certificate successfully from the 'Hub' page",
+      "A user can submit a certificate successfully from the 'Account Homepage'",
       SubmissionUITests,
       ZapTests
     ) {
