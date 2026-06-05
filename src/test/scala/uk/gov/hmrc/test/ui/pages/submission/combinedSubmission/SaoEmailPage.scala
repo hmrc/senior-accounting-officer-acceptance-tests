@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages.submission.certificate
+package uk.gov.hmrc.test.ui.pages.submission.combinedSubmission
 
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
+import uk.gov.hmrc.test.ui.support.PageSupport.sendKeys
+import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
 
-object SubmitCertificateStartPage extends CommonPage with SubmissionButtonSupport {
+object SaoEmailPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/start"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/sao-email"
 
   override val pageTitle: String =
-    "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Senior Accounting Officer contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val uploadSubmissionTemplateLink: By = By.cssSelector("""[href="#"]""")
+  val changePageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/change-sao-email"
+  val saoEmailInput: By = By.cssSelector("#value")
+
+  def addEmail(emailAddress: String): Unit = {
+    sendKeys(saoEmailInput, emailAddress)
+  }
 }

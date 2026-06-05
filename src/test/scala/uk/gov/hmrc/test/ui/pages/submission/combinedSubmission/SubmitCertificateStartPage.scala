@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages.submission.certificate
+package uk.gov.hmrc.test.ui.pages.submission.combinedSubmission
 
+import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object QualifiedCompaniesPage extends CommonPage {
+object SubmitCertificateStartPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/qualified-companies"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/start"
 
   override val pageTitle: String =
-    "qualifiedCompanies - Senior Accounting Officer notification and certificate - GOV.UK"
+    // TODO: Title will be changed once the page is developed
+    "certificateTaskList - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  val uploadSubmissionTemplateLink: By = By.cssSelector("""[href="#"]""")
 }

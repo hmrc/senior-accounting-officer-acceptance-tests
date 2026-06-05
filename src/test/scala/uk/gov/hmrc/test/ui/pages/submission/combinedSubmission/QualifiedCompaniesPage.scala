@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages.submission.certificate
+package uk.gov.hmrc.test.ui.pages.submission.combinedSubmission
 
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport, YesNoRadioButtonSupport}
 
-object IsThisTheSaoPage
-    extends CommonPage
-    with SubmissionButtonSupport
-    with YesNoRadioButtonSupport
-    with ErrorMessageSupport {
-
+object QualifiedCompaniesPage extends CommonPage {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/is-this-the-sao"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/qualified-companies"
 
   override val pageTitle: String =
-    "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
-
-  val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/change-is-this-the-sao"
+    "qualifiedCompanies - Senior Accounting Officer notification and certificate - GOV.UK"
 }

@@ -19,6 +19,7 @@ package uk.gov.hmrc.test.ui.specs
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, Completed, NotStarted}
+import uk.gov.hmrc.test.ui.pages.submission.*
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
 import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
@@ -44,6 +45,9 @@ class NotificationSpec extends BaseSpec {
       Given("an authenticated user lands on the notification start page at the start of a new submission")
       assertOnPage(AccountHomePage)
       AccountHomePage.clickSubmitNotificationLink()
+      assertOnPage(SubmissionTypePage)
+      SubmissionTypePage.clickNotificationRadioButton()
+      SubmissionTypePage.clickSubmissionButton()
       assertOnPage(SubmitNotificationStartPage)
 
       Then("the task list displays each element in the correct state with the correct status")
@@ -546,163 +550,168 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'Submit a notification' start page")
       assertOnPage(SubmitNotificationStartPage)
     }
-  }
 
-  Scenario(
-    "Validate that SAO details are required for a notification submission given there are multiple SAO's in the financial year",
-    SubmissionUITests,
-    ZapTests
-  ) {
-    Given("an authenticated user lands on the 'More than one SAO' page")
-    goToMoreThanOneSaoPageFromHub()
+    Scenario(
+      "Validate that SAO details are required for a notification submission given there are multiple SAO's in the financial year",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'More than one SAO' page")
+      goToMoreThanOneSaoPageFromHub()
 
-    When("the 'Continue' button is clicked after selecting 'Yes'")
-    MoreThanOneSaoPage.clickYesRadioButton()
-    MoreThanOneSaoPage.clickSubmissionButton()
+      When("the 'Continue' button is clicked after selecting 'Yes'")
+      MoreThanOneSaoPage.clickYesRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
 
-    Then("the user lands on the 'What is name of the last SAO' question page")
-    assertOnPage(MultiSaoNamePage)
+      Then("the user lands on the 'What is name of the last SAO' question page")
+      assertOnPage(MultiSaoNamePage)
 
-    When("the 'Continue' button is clicked after no name is entered")
-    MultiSaoNamePage.clickSubmissionButton()
+      When("the 'Continue' button is clicked after no name is entered")
+      MultiSaoNamePage.clickSubmissionButton()
 
-    Then("an error message is displayed")
-    MultiSaoNamePage.assertErrorShownOnPage()
+      Then("an error message is displayed")
+      MultiSaoNamePage.assertErrorShownOnPage()
 
-    When("the 'Continue' button is clicked after entering a name of 'Jerry Hatrix'")
-    MultiSaoNamePage.addName("Jerry Hatrix")
-    MultiSaoNamePage.clickSubmissionButton()
+      When("the 'Continue' button is clicked after entering a name of 'Jerry Hatrix'")
+      MultiSaoNamePage.addName("Jerry Hatrix")
+      MultiSaoNamePage.clickSubmissionButton()
 
-    Then("the user lands on the 'What date did Jerry Hatrix become the SAO' page")
-    assertOnPage(MultiSaoFirstStartDatePage)
+      Then("the user lands on the 'What date did Jerry Hatrix become the SAO' page")
+      assertOnPage(MultiSaoFirstStartDatePage)
 
-    When("the 'Continue' button is clicked after no date is entered")
-    MultiSaoFirstStartDatePage.clickSubmissionButton()
+      When("the 'Continue' button is clicked after no date is entered")
+      MultiSaoFirstStartDatePage.clickSubmissionButton()
 
-    Then("an error message is displayed")
-    MultiSaoFirstStartDatePage.assertErrorShownOnPage()
+      Then("an error message is displayed")
+      MultiSaoFirstStartDatePage.assertErrorShownOnPage()
 
-    When("the 'Continue' button is clicked after adding a date 30 days in the past")
-    MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(30))
-    MultiSaoFirstStartDatePage.clickSubmissionButton()
+      When("the 'Continue' button is clicked after adding a date 30 days in the past")
+      MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(30))
+      MultiSaoFirstStartDatePage.clickSubmissionButton()
 
-    Then("the user lands on the 'Who was the SAO before Jerry Hatrix' question page")
-    assertOnPage(WhoWasTheSaoBeforePage)
+      Then("the user lands on the 'Who was the SAO before Jerry Hatrix' question page")
+      assertOnPage(WhoWasTheSaoBeforePage)
 
-    When("the 'Continue' button is clicked after no name is entered")
-    WhoWasTheSaoBeforePage.clickSubmissionButton()
+      When("the 'Continue' button is clicked after no name is entered")
+      WhoWasTheSaoBeforePage.clickSubmissionButton()
 
-    Then("an error message is displayed")
-    WhoWasTheSaoBeforePage.assertErrorShownOnPage()
+      Then("an error message is displayed")
+      WhoWasTheSaoBeforePage.assertErrorShownOnPage()
 
-    When("the 'Continue' button is clicked after entering a name for a preceding SAO of 'Jock B'")
-    WhoWasTheSaoBeforePage.addName("Jock B")
-    WhoWasTheSaoBeforePage.clickSubmissionButton()
+      When("the 'Continue' button is clicked after entering a name for a preceding SAO of 'Jock B'")
+      WhoWasTheSaoBeforePage.addName("Jock B")
+      WhoWasTheSaoBeforePage.clickSubmissionButton()
 
-    Then("the user lands on the 'When did Jock B’s responsibility as the SAO start' page")
-    assertOnPage(MultiSaoSecondStartDatePage)
+      Then("the user lands on the 'When did Jock B’s responsibility as the SAO start' page")
+      assertOnPage(MultiSaoSecondStartDatePage)
 
-    When("the 'Continue' button is clicked after no date is entered")
-    MultiSaoSecondStartDatePage.clickSubmissionButton()
+      When("the 'Continue' button is clicked after no date is entered")
+      MultiSaoSecondStartDatePage.clickSubmissionButton()
 
-    Then("an error message is displayed")
-    MultiSaoSecondStartDatePage.assertErrorShownOnPage()
+      Then("an error message is displayed")
+      MultiSaoSecondStartDatePage.assertErrorShownOnPage()
 
-    When("the 'Continue' button is clicked after adding a date 45 days in the past")
-    MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(45))
-    MultiSaoSecondStartDatePage.clickSubmissionButton()
+      When("the 'Continue' button is clicked after adding a date 45 days in the past")
+      MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(45))
+      MultiSaoSecondStartDatePage.clickSubmissionButton()
 
-    Then("the user lands on the 'When did Jock B stop being the SAO' page")
-    assertOnPage(MultiSaoSecondEndDatePage)
-    MultiSaoSecondEndDatePage.assertHeadingMatches("When did Jock B stop being the SAO?")
+      Then("the user lands on the 'When did Jock B stop being the SAO' page")
+      assertOnPage(MultiSaoSecondEndDatePage)
+      MultiSaoSecondEndDatePage.assertHeadingMatches("When did Jock B stop being the SAO?")
 
-    When("the 'Continue' button is clicked after no date is entered")
-    MultiSaoSecondEndDatePage.clickSubmissionButton()
+      When("the 'Continue' button is clicked after no date is entered")
+      MultiSaoSecondEndDatePage.clickSubmissionButton()
 
-    Then("an error message is displayed")
-    MultiSaoSecondEndDatePage.assertErrorShownOnPage()
+      Then("an error message is displayed")
+      MultiSaoSecondEndDatePage.assertErrorShownOnPage()
 
-    When("the 'Continue' button is clicked after adding a date 35 days in the past")
-    MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(35))
-    MultiSaoSecondEndDatePage.clickSubmissionButton()
+      When("the 'Continue' button is clicked after adding a date 35 days in the past")
+      MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(35))
+      MultiSaoSecondEndDatePage.clickSubmissionButton()
 
-    Then("the user lands on the 'Have you added all the SAO for the financial year this notification relates to' page")
-    assertOnPage(MultiSaoAreAllAddedPage)
+      Then(
+        "the user lands on the 'Have you added all the SAO for the financial year this notification relates to' page"
+      )
+      assertOnPage(MultiSaoAreAllAddedPage)
 
-    When("the 'Continue' button is clicked without a radio button being selected")
-    MultiSaoAreAllAddedPage.clickSubmissionButton()
+      When("the 'Continue' button is clicked without a radio button being selected")
+      MultiSaoAreAllAddedPage.clickSubmissionButton()
 
-    Then("an error appears on screen")
-    MultiSaoAreAllAddedPage.assertErrorShownOnPage()
+      Then("an error appears on screen")
+      MultiSaoAreAllAddedPage.assertErrorShownOnPage()
 
-    When("the 'Continue' button is clicked after selecting 'Yes'")
-    MultiSaoAreAllAddedPage.clickYesRadioButton()
-    MultiSaoAreAllAddedPage.clickSubmissionButton()
+      When("the 'Continue' button is clicked after selecting 'Yes'")
+      MultiSaoAreAllAddedPage.clickYesRadioButton()
+      MultiSaoAreAllAddedPage.clickSubmissionButton()
 
-    Then("the user lands on the 'Submit a notification' start page")
-    assertOnPage(SubmitNotificationStartPage)
-  }
+      Then("the user lands on the 'Submit a notification' start page")
+      assertOnPage(SubmitNotificationStartPage)
+    }
 
-  Scenario(
-    "Validate that 'dynamic' SAO details are retained on selecting the 'back link' during a notification submission",
-    SubmissionUITests,
-    ZapTests
-  ) {
-    Given("an authenticated user has added 'Shane Warne' as the last SAO")
-    goToMoreThanOneSaoPageFromHub()
-    MoreThanOneSaoPage.clickYesRadioButton()
-    MoreThanOneSaoPage.clickSubmissionButton()
-    assertOnPage(MultiSaoNamePage)
-    MultiSaoNamePage.addName("Shane Warne")
-    MultiSaoNamePage.clickSubmissionButton()
-    assertOnPage(MultiSaoFirstStartDatePage)
-    MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(20))
-    MultiSaoFirstStartDatePage.clickSubmissionButton()
-    assertOnPage(WhoWasTheSaoBeforePage)
+    Scenario(
+      "Validate that 'dynamic' SAO details are retained on selecting the 'back link' during a notification submission",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user has added 'Shane Warne' as the last SAO")
+      goToMoreThanOneSaoPageFromHub()
+      MoreThanOneSaoPage.clickYesRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
+      assertOnPage(MultiSaoNamePage)
+      MultiSaoNamePage.addName("Shane Warne")
+      MultiSaoNamePage.clickSubmissionButton()
+      assertOnPage(MultiSaoFirstStartDatePage)
+      MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(20))
+      MultiSaoFirstStartDatePage.clickSubmissionButton()
+      assertOnPage(WhoWasTheSaoBeforePage)
 
-    And("has added 'Jonty Rhodes' as a prior SAO")
-    WhoWasTheSaoBeforePage.addName("Jonty Rhodes")
-    WhoWasTheSaoBeforePage.clickSubmissionButton()
-    assertOnPage(MultiSaoSecondStartDatePage)
-    MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(65))
-    MultiSaoSecondStartDatePage.clickSubmissionButton()
+      And("has added 'Jonty Rhodes' as a prior SAO")
+      WhoWasTheSaoBeforePage.addName("Jonty Rhodes")
+      WhoWasTheSaoBeforePage.clickSubmissionButton()
+      assertOnPage(MultiSaoSecondStartDatePage)
+      MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(65))
+      MultiSaoSecondStartDatePage.clickSubmissionButton()
 
-    And("is on the page asking for the date 'Jonty Rhodes' ended their responsibility")
-    assertOnPage(MultiSaoSecondEndDatePage)
+      And("is on the page asking for the date 'Jonty Rhodes' ended their responsibility")
+      assertOnPage(MultiSaoSecondEndDatePage)
 
-    When("the 'Back' link is clicked")
-    MultiSaoSecondEndDatePage.clickBackLink()
+      When("the 'Back' link is clicked")
+      MultiSaoSecondEndDatePage.clickBackLink()
 
-    Then("the user lands on the 'When did Jonty Rhodes’s responsibility as the SAO start' page")
-    assertOnPage(MultiSaoSecondStartDatePage)
+      Then("the user lands on the 'When did Jonty Rhodes’s responsibility as the SAO start' page")
+      assertOnPage(MultiSaoSecondStartDatePage)
 
-    And("the page displays the correct content")
-    MultiSaoSecondStartDatePage.assertHeadingMatches("When did Jonty Rhodes’s responsibility as the SAO start?")
+      And("the page displays the correct content")
+      MultiSaoSecondStartDatePage.assertHeadingMatches("When did Jonty Rhodes’s responsibility as the SAO start?")
 
-    When("the 'Back' link is clicked")
-    MultiSaoSecondStartDatePage.clickBackLink()
+      When("the 'Back' link is clicked")
+      MultiSaoSecondStartDatePage.clickBackLink()
 
-    Then("the user lands on the 'Who was the SAO before Shane Warne' page")
-    assertOnPage(WhoWasTheSaoBeforePage)
+      Then("the user lands on the 'Who was the SAO before Shane Warne' page")
+      assertOnPage(WhoWasTheSaoBeforePage)
 
-    And("the page displays the correct content")
-    WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Shane Warne?")
-    WhoWasTheSaoBeforePage.assertHintMatches("This is the person who held the role before Shane Warne")
-    WhoWasTheSaoBeforePage.assertNameMatches("Jonty Rhodes")
+      And("the page displays the correct content")
+      WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Shane Warne?")
+      WhoWasTheSaoBeforePage.assertHintMatches("This is the person who held the role before Shane Warne")
+      WhoWasTheSaoBeforePage.assertNameMatches("Jonty Rhodes")
 
-    When("the 'Back' link is clicked")
-    WhoWasTheSaoBeforePage.clickBackLink()
+      When("the 'Back' link is clicked")
+      WhoWasTheSaoBeforePage.clickBackLink()
 
-    Then("the user lands on the 'What date did Shane Warne become the SAO' page")
-    assertOnPage(MultiSaoFirstStartDatePage)
+      Then("the user lands on the 'What date did Shane Warne become the SAO' page")
+      assertOnPage(MultiSaoFirstStartDatePage)
 
-    And("the page displays the correct content")
-    MultiSaoFirstStartDatePage.assertHeadingMatches("What date did Shane Warne become the SAO?")
+      And("the page displays the correct content")
+      MultiSaoFirstStartDatePage.assertHeadingMatches("What date did Shane Warne become the SAO?")
+    }
   }
 
   private def goToAdditionalInformationPageFromHomePage(): Unit = {
     assertOnPage(AccountHomePage)
     AccountHomePage.clickSubmitNotificationLink()
+    assertOnPage(SubmissionTypePage)
+    SubmissionTypePage.clickNotificationRadioButton()
+    SubmissionTypePage.clickSubmissionButton()
     assertOnPage(SubmitNotificationStartPage)
     provideSingleSaoDetailsFromStartPage()
     uploadSimpleSubmissionTemplateFromStartPage()
@@ -734,6 +743,9 @@ class NotificationSpec extends BaseSpec {
   private def goToMoreThanOneSaoPageFromHub(): Unit = {
     assertOnPage(AccountHomePage)
     AccountHomePage.clickSubmitNotificationLink()
+    assertOnPage(SubmissionTypePage)
+    SubmissionTypePage.clickNotificationRadioButton()
+    SubmissionTypePage.clickSubmissionButton()
     assertOnPage(SubmitNotificationStartPage)
     SubmitNotificationStartPage.clickTaskListSectionLink(ProvideSaoDetails)
     assertOnPage(MoreThanOneSaoPage)

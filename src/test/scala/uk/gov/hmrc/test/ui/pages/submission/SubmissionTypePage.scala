@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages.submission.certificate
+package uk.gov.hmrc.test.ui.pages.submission
 
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.sendKeys
+import uk.gov.hmrc.test.ui.support.PageSupport.clickRadioButton
 import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
 
-object SaoEmailPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
+object SubmissionTypePage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/sao-email"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/submission-type"
 
   override val pageTitle: String =
-    "Senior Accounting Officer contact details - Senior Accounting Officer notification and certificate - GOV.UK"
+    "What would you like to submit? - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/change-sao-email"
-  val saoEmailInput: By = By.cssSelector("#value")
+  val notification: By = By.cssSelector("""input[value="notification"]""")
+  val certificate: By  = By.cssSelector("""input[value="certificate"]""")
 
-  def addEmail(emailAddress: String): Unit = {
-    sendKeys(saoEmailInput, emailAddress)
-  }
+  def clickNotificationRadioButton(): Unit = clickRadioButton(notification)
+  def clickCertificateRadioButton(): Unit  = clickRadioButton(certificate)
 }

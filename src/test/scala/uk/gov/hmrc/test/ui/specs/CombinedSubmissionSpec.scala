@@ -1,0 +1,477 @@
+/*
+ * Copyright 2026 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package uk.gov.hmrc.test.ui.specs
+
+import org.scalatest.*
+import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
+import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
+import uk.gov.hmrc.test.ui.pages.submission.combinedSubmission.{
+  CheckYourAnswersPage as CertificateCheckYourAnswersPage,
+  *
+}
+import uk.gov.hmrc.test.ui.pages.submission.notification.{CheckYourAnswersPage as NotificationCheckYourAnswersPage, *}
+import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
+import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.support.PageSupport.*
+import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
+
+@Ignore
+class CombinedSubmissionSpec extends BaseSpec {
+
+  Feature("Submit Certificate") {
+
+    // this scenario to be used as part of the notification + certificate e2e journey; change no radio button to yes
+    Scenario(
+      "A user can submit a certificate successfully from the 'Hub' page",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user initiates a certificate submission from the 'Hub' page")
+      navigateToCertificateStartPage()
+
+      When("the user clicks 'Continue' on the 'Submit Certificate' start page")
+      SubmitCertificateStartPage.clickSubmissionButton()
+
+      Then("the user is taken to the 'Is the given person the named SAO on the Certificate' question page")
+      assertOnPage(IsThisTheSaoPage)
+
+      When("the user selects the 'No' radio button and clicks 'Continue'")
+      IsThisTheSaoPage.clickNoRadioButton()
+      IsThisTheSaoPage.clickSubmissionButton()
+
+      Then("the user is taken to the 'SAO Name' page")
+      assertOnPage(SaoNamePage)
+
+      When("the user enters a valid SAO name and clicks 'Continue'")
+      SaoNamePage.addName(TestData.firstPersonName)
+      SaoNamePage.clickSubmissionButton()
+
+      Then("the user is taken to the 'SAO Email' page")
+      assertOnPage(SaoEmailPage)
+
+      When("the user enters a valid email and clicks 'Continue'")
+      SaoEmailPage.addEmail(TestData.firstPersonEmail)
+      SaoEmailPage.clickSubmissionButton()
+
+      Then("the user is taken to the 'SAO Email Communication Choice' page")
+      assertOnPage(SaoEmailCommunicationChoicePage)
+
+      When("the user selects the 'No' radio button and clicks 'Continue'")
+      SaoEmailCommunicationChoicePage.clickNoRadioButton()
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
+
+      Then("the user is taken to the 'Check Your Answers' page")
+      assertOnPage(CertificateCheckYourAnswersPage)
+
+      When("the user clicks 'Continue'")
+      CertificateCheckYourAnswersPage.clickSubmissionButton()
+
+      Then("the user is taken to the 'Who is submitting the certificate' question page")
+      assertOnPage(SubmitCertificateSubmitterPage)
+
+      When("the user selects 'I am authorised to submit the certificate on behalf of the Senior Accounting Officer'")
+      SubmitCertificateSubmitterPage.clickSaoProxySubmitterRadioButton()
+
+      And("clicks 'Continue'")
+      SubmitCertificateSubmitterPage.clickSubmissionButton()
+
+      Then("the user is taken to the 'Companies with a qualified certificate' page")
+      assertOnPage(QualifiedCompaniesPage)
+
+      Then("the given certificate reference number is successfully returned")
+    }
+
+    // TODO: (MA - 28/01) Update test to click the 'upload another submission template' link when it's provided
+    Scenario(
+      "The 'upload another submission template' link is displayed on the 'Submit Certificate Guidance' page",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user initiates submitting a certificate from the hub page")
+      navigateToCertificateStartPage()
+
+      Then("the 'upload another submission template' link is displayed on the 'Submit Certificate' start page")
+      assertElementIsClickable(SubmitCertificateStartPage.uploadSubmissionTemplateLink)
+    }
+
+    Scenario(
+      "Selecting the provided SAO as the submitter hides the 'Full name' row on the 'Check Your Answers' page, and changing this selection via the 'Change' link causes the row to appear",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("a user has chosen 'Yes' to select the provided SAO as the named person on the certificate")
+      navigateToCertificateStartPage()
+      SubmitCertificateStartPage.clickSubmissionButton()
+      assertOnPage(IsThisTheSaoPage)
+      IsThisTheSaoPage.clickYesRadioButton()
+      IsThisTheSaoPage.clickSubmissionButton()
+      assertOnPage(SaoEmailPage)
+      SaoEmailPage.addEmail(TestData.generateNewEmail())
+      SaoEmailPage.clickSubmissionButton()
+      assertOnPage(SaoEmailCommunicationChoicePage)
+      SaoEmailCommunicationChoicePage.clickNoRadioButton()
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
+      assertOnPage(CertificateCheckYourAnswersPage)
+
+      And("the 'Full name' row is not shown on the 'Check Your Answers' page")
+      assertElementNotVisible(CertificateCheckYourAnswersPage.fullNameKey)
+
+      When("the user clicks the 'Change' link on the 'Is given person the named SAO on the certificate' row")
+      CertificateCheckYourAnswersPage.clickIsThisTheSaoChangeLink()
+      assertOnPage(IsThisTheSaoPage.changePageUrl)
+
+      And("a new name is provided after changing the radio option to 'No'")
+      IsThisTheSaoPage.clickNoRadioButton()
+      IsThisTheSaoPage.clickSubmissionButton()
+      assertOnPage(SaoNamePage.changePageUrl)
+      SaoNamePage.addName(TestData.firstPersonName)
+      SaoNamePage.clickSubmissionButton()
+
+      Then("the 'Check Your Answers' page is displayed with the 'Full name' row displayed with the newly added name")
+      assertOnPage(CertificateCheckYourAnswersPage)
+      assertTextOnPage(CertificateCheckYourAnswersPage.fullNameKey, "Full name")
+      assertTextOnPage(CertificateCheckYourAnswersPage.fullNameValue, TestData.firstPersonName)
+    }
+
+    Scenario(
+      "Selecting a new SAO name as the submitter reveals the 'Full name' row on the 'Check Your Answers' page, and changing this selection via the 'Change' link causes the row to be removed",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("a user has chosen 'No' and selects a new SAO as the named person on the certificate")
+      navigateToCertificateStartPage()
+      SubmitCertificateStartPage.clickSubmissionButton()
+      assertOnPage(IsThisTheSaoPage)
+      IsThisTheSaoPage.clickNoRadioButton()
+      IsThisTheSaoPage.clickSubmissionButton()
+      assertOnPage(SaoNamePage)
+      SaoNamePage.addName(TestData.firstPersonName)
+      SaoNamePage.clickSubmissionButton()
+      assertOnPage(SaoEmailPage)
+      SaoEmailPage.addEmail(TestData.firstPersonEmail)
+      SaoEmailPage.clickSubmissionButton()
+      assertOnPage(SaoEmailCommunicationChoicePage)
+      SaoEmailCommunicationChoicePage.clickNoRadioButton()
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
+      assertOnPage(CertificateCheckYourAnswersPage)
+
+      And("the 'Full name' row is shown on the 'Check Your Answers' page")
+      assertTextOnPage(CertificateCheckYourAnswersPage.fullNameKey, "Full name")
+      assertTextOnPage(CertificateCheckYourAnswersPage.fullNameValue, TestData.firstPersonName)
+
+      When("the user clicks the 'Change' link on the 'Is given person the named SAO on the certificate' row")
+      CertificateCheckYourAnswersPage.clickIsThisTheSaoChangeLink()
+      assertOnPage(IsThisTheSaoPage.changePageUrl)
+
+      And("changes the radio button to 'Yes'")
+      IsThisTheSaoPage.clickYesRadioButton()
+      IsThisTheSaoPage.clickSubmissionButton()
+
+      Then("the 'Check Your Answers' page is displayed with the 'Full name' row removed")
+      assertOnPage(CertificateCheckYourAnswersPage)
+      assertElementNotVisible(CertificateCheckYourAnswersPage.fullNameKey)
+    }
+
+    Scenario(
+      "Selecting the 'Change' link to update an Email Address is successful",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("a user has landed on the 'Check your answers' page")
+      navigateToCertificateStartPage()
+      SubmitCertificateStartPage.clickSubmissionButton()
+      assertOnPage(IsThisTheSaoPage)
+      IsThisTheSaoPage.clickYesRadioButton()
+      IsThisTheSaoPage.clickSubmissionButton()
+      assertOnPage(SaoEmailPage)
+      SaoEmailPage.addEmail(TestData.firstPersonEmail)
+      SaoEmailPage.clickSubmissionButton()
+      assertOnPage(SaoEmailCommunicationChoicePage)
+      SaoEmailCommunicationChoicePage.clickYesRadioButton()
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
+      assertOnPage(CertificateCheckYourAnswersPage)
+
+      When("the user clicks the 'Change' link on the 'Email address' row")
+      CertificateCheckYourAnswersPage.clickEmailAddressChangeLink()
+      assertOnPage(SaoEmailPage.changePageUrl)
+
+      And("changes the email address to another valid value")
+      SaoEmailPage.addEmail(TestData.secondPersonEmail)
+      SaoEmailPage.clickSubmissionButton()
+
+      Then("the 'Check Your Answers' page is displayed with the new email address")
+      assertOnPage(CertificateCheckYourAnswersPage)
+      assertTextOnPage(CertificateCheckYourAnswersPage.emailAddressValue, TestData.secondPersonEmail)
+    }
+
+    Scenario(
+      "When a user selects any 'Change' link and does not commit changes the resultant values on the 'Check Your Answers' page remain unchanged",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("a user has landed on the 'Check your answers' page")
+      navigateToCertificateStartPage()
+      SubmitCertificateStartPage.clickSubmissionButton()
+      assertOnPage(IsThisTheSaoPage)
+      IsThisTheSaoPage.clickNoRadioButton()
+      IsThisTheSaoPage.clickSubmissionButton()
+      assertOnPage(SaoNamePage)
+      SaoNamePage.addName(TestData.firstPersonName)
+      SaoNamePage.clickSubmissionButton()
+      assertOnPage(SaoEmailPage)
+      SaoEmailPage.addEmail(TestData.firstPersonEmail)
+      SaoEmailPage.clickSubmissionButton()
+      assertOnPage(SaoEmailCommunicationChoicePage)
+      SaoEmailCommunicationChoicePage.clickYesRadioButton()
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
+      assertOnPage(CertificateCheckYourAnswersPage)
+
+      When("the user clicks the 'Change' link on the 'Is given person the named SAO on the certificate' row")
+      CertificateCheckYourAnswersPage.clickIsThisTheSaoChangeLink()
+      assertOnPage(IsThisTheSaoPage.changePageUrl)
+
+      And("the user makes no changes and clicks 'Continue'")
+      IsThisTheSaoPage.clickSubmissionButton()
+
+      When("the user lands on the 'sao name' page, makes no changes and clicks 'Continue'")
+      assertOnPage(SaoNamePage.changePageUrl)
+      SaoNamePage.clickSubmissionButton()
+
+      Then(
+        "the 'Check Your Answers' page is displayed with the value in the 'Is given person the named SAO on the certificate' row unchanged"
+      )
+      assertOnPage(CertificateCheckYourAnswersPage)
+      assertTextOnPage(CertificateCheckYourAnswersPage.isThisTheSaoValue, "No")
+
+      When("the user clicks the 'Change' link on the 'Full name' row")
+      CertificateCheckYourAnswersPage.clickFullNameChangeLink()
+      assertOnPage(SaoNamePage.changePageUrl)
+
+      And("the user makes no changes and clicks 'Continue'")
+      SaoNamePage.clickSubmissionButton()
+
+      Then(
+        "the 'Check Your Answers' page is displayed with the value in the 'Full name' row unchanged"
+      )
+      assertOnPage(CertificateCheckYourAnswersPage)
+      assertTextOnPage(CertificateCheckYourAnswersPage.fullNameValue, TestData.firstPersonName)
+
+      When("the user clicks the 'Change' link on the 'Email address' row")
+      CertificateCheckYourAnswersPage.clickEmailAddressChangeLink()
+      assertOnPage(SaoEmailPage.changePageUrl)
+
+      And("the user makes no changes and clicks 'Continue'")
+      SaoEmailPage.clickSubmissionButton()
+
+      Then(
+        "the 'Check Your Answers' page is displayed with the value in the 'Email address' row unchanged"
+      )
+      assertOnPage(CertificateCheckYourAnswersPage)
+      assertTextOnPage(CertificateCheckYourAnswersPage.emailAddressValue, TestData.firstPersonEmail)
+
+      When("the user clicks the 'Change' link on the 'Email communications' row")
+      CertificateCheckYourAnswersPage.clickEmailCommunicationChoiceChangeLink()
+      assertOnPage(SaoEmailCommunicationChoicePage.changePageUrl)
+
+      And("the user makes no changes and clicks 'Continue'")
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
+
+      Then(
+        "the 'Check Your Answers' page is displayed with the value in the 'Email communications' row unchanged"
+      )
+      assertOnPage(CertificateCheckYourAnswersPage)
+      assertTextOnPage(CertificateCheckYourAnswersPage.emailCommunicationChoiceValue, "Yes")
+    }
+
+    // TODO: (MA - 28/01) This scenario will be absorbed into the notification and certificate happy path e-2-e journey
+    Scenario(
+      "On selecting 'Yes' when asked whether the given SAO is the correct SAO, the user is taken directly to the 'SAO Email' page",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'Is This The SAO' page")
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      addNotificationFromHub()
+      navigateToCertificateStartPage()
+      assertOnPage(SubmitCertificateStartPage)
+      SubmitCertificateStartPage.clickSubmissionButton()
+      assertOnPage(IsThisTheSaoPage)
+
+      When("the user selects the 'Yes' radio button and clicks 'Continue'")
+      IsThisTheSaoPage.clickYesRadioButton()
+      IsThisTheSaoPage.clickSubmissionButton()
+
+      Then("the user lands on the 'SAO Email' page")
+      assertOnPage(SaoEmailPage)
+    }
+
+    Scenario(
+      "During a certificate submission errors are displayed when the user attempts to progress with invalid input",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'Is the given person the named SAO on the Certificate' question page")
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      addNotificationFromHub()
+      navigateToCertificateStartPage()
+
+      assertOnPage(SubmitCertificateStartPage)
+      SubmitCertificateStartPage.clickSubmissionButton()
+      assertOnPage(IsThisTheSaoPage)
+
+      When("the user clicks 'Continue' without selecting a radio option")
+      IsThisTheSaoPage.clickSubmissionButton()
+
+      Then("an error is shown")
+      IsThisTheSaoPage.assertErrorShownOnPage()
+
+      When("the user selects the 'No' radio button and clicks 'Continue'")
+      IsThisTheSaoPage.clickNoRadioButton()
+      IsThisTheSaoPage.clickSubmissionButton()
+
+      Then("the user is taken to the 'SAO Name' page")
+      assertOnPage(SaoNamePage)
+
+      When("the user clicks 'Continue' without entering an SAO name")
+      SaoNamePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      SaoNamePage.assertErrorShownOnPage()
+
+      When("the user enters a valid name and clicks 'Continue'")
+      SaoNamePage.addName(TestData.firstPersonName)
+      SaoNamePage.clickSubmissionButton()
+
+      Then("the user is taken to the 'SAO Email' page")
+      assertOnPage(SaoEmailPage)
+
+      When("the user clicks 'Continue' without entering an SAO email")
+      SaoEmailPage.clickSubmissionButton()
+
+      Then("an error is shown")
+      SaoEmailPage.assertErrorShownOnPage()
+
+      When("the user enters a valid email and clicks 'Continue'")
+      SaoEmailPage.addEmail(TestData.firstPersonEmail)
+      SaoEmailPage.clickSubmissionButton()
+
+      Then("the user is taken to the 'SAO Email Communication Choice' page")
+      assertOnPage(SaoEmailCommunicationChoicePage)
+
+      When("the user clicks 'Continue' without selecting a radio option")
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      SaoEmailCommunicationChoicePage.assertErrorShownOnPage()
+
+      When("the user selects the 'No' radio button and clicks 'Continue'")
+      SaoEmailCommunicationChoicePage.clickNoRadioButton()
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
+
+      Then("the user is taken to the 'Check Your Answers' page")
+      assertOnPage(CertificateCheckYourAnswersPage)
+
+      When("the user clicks the 'Change' link on the 'Email address' row")
+      CertificateCheckYourAnswersPage.clickEmailAddressChangeLink()
+      assertOnPage(SaoEmailPage.changePageUrl)
+
+      Then("the user removes the existing email and clicks continue, an error is shown")
+      SaoEmailPage.addEmail("")
+      SaoEmailPage.clickSubmissionButton()
+      SaoEmailPage.assertErrorShownOnPage()
+
+      When("the user enters a valid email and clicks 'Continue'")
+      SaoEmailPage.addEmail("Phil@test.com")
+      SaoEmailPage.clickSubmissionButton()
+
+      Then("the user is taken to the 'Check Your Answers' page")
+      assertOnPage(CertificateCheckYourAnswersPage)
+
+      When("the user clicks 'Continue'")
+      CertificateCheckYourAnswersPage.clickSubmissionButton()
+
+      Then("the user is taken to the 'Who is submitting the certificate' question page")
+      assertOnPage(SubmitCertificateSubmitterPage)
+
+      When("the user clicks 'Continue' without selecting a radio option")
+      SubmitCertificateSubmitterPage.clickSubmissionButton()
+
+      Then("an error is shown")
+      SubmitCertificateSubmitterPage.assertErrorShownOnPage()
+
+      When("the user selects 'I am authorised to submit the certificate on behalf of the Senior Accounting Officer'")
+      SubmitCertificateSubmitterPage.clickSaoProxySubmitterRadioButton()
+
+      And("clicks 'Continue'")
+      SubmitCertificateSubmitterPage.clickSubmissionButton()
+
+      Then("the user is taken to the 'Companies with a qualified certificate' page")
+      assertOnPage(QualifiedCompaniesPage)
+    }
+  }
+
+  private def navigateToCertificateStartPage(): Unit = {
+    AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+    assertOnPage(AccountHomePage)
+
+    // TODO: (MA - 26/01) Temporary workaround until data is available at this point in the journey.
+    AccountHomePage.clickSubmitNotificationLink()
+    assertOnPage(SubmitNotificationStartPage)
+    driver.navigate().back()
+    assertOnPage(AccountHomePage)
+
+  }
+
+  private def addNotificationFromHub(): Unit = {
+    assertOnPage(AccountHomePage)
+    AccountHomePage.clickSubmitNotificationLink()
+    assertOnPage(SubmitNotificationStartPage)
+    provideSingleSaoDetailsFromStartPage()
+    uploadSubmissionTemplateFromStartPage()
+    SubmitNotificationStartPage.clickTaskListSectionLink(SubmitNotification)
+    assertOnPage(AdditionalInformationPage)
+    AdditionalInformationPage.clickSkipButton()
+    assertOnPage(ConfirmNotificationPage)
+    ConfirmNotificationPage.clickSubmissionButton()
+    assertOnPage(NotificationCheckYourAnswersPage)
+    NotificationCheckYourAnswersPage.clickSubmissionButton()
+    assertOnPage(ConfirmationPage)
+    ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
+    ConfirmationPage.clickSubmissionButton()
+  }
+
+  private def provideSingleSaoDetailsFromStartPage(): Unit = {
+    SubmitNotificationStartPage.clickTaskListSectionLink(ProvideSaoDetails)
+    assertOnPage(MoreThanOneSaoPage)
+    MoreThanOneSaoPage.clickNoRadioButton()
+    MoreThanOneSaoPage.clickSubmissionButton()
+    assertOnPage(SingleSaoNamePage)
+    SingleSaoNamePage.addName("Spyder Mann")
+    SingleSaoNamePage.clickSubmissionButton()
+    assertOnPage(SubmitNotificationStartPage)
+  }
+
+  private def uploadSubmissionTemplateFromStartPage(): Unit = {
+    SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+    assertOnPage(UploadSubmissionTemplatePage)
+    UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateEmptyFile)
+    UploadSubmissionTemplatePage.clickSubmissionButton()
+    assertOnPage(UploadTablePage)
+    UploadTablePage.clickSubmissionButton()
+    assertOnPage(SubmitNotificationStartPage)
+  }
+}
