@@ -37,7 +37,7 @@ class CertificateSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given("an authenticated user initiates a certificate submission from the 'Hub' page")
+      Given("an authenticated user initiates a certificate submission from the 'Account Homepage' page")
       navigateToCertificateStartPage()
     }
 
