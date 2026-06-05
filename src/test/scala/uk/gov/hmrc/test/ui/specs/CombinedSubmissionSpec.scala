@@ -25,7 +25,6 @@ import uk.gov.hmrc.test.ui.pages.submission.combinedSubmission.{
 }
 import uk.gov.hmrc.test.ui.pages.submission.notification.{CheckYourAnswersPage as NotificationCheckYourAnswersPage, *}
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
-import uk.gov.hmrc.test.ui.specs.tags.SoloTests
 import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
@@ -39,62 +38,61 @@ class CombinedSubmissionSpec extends BaseSpec {
     Scenario(
       "A user can submit a certificate successfully from the 'Hub' page",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user initiates a certificate submission from the 'Hub' page")
       navigateToCertificateStartPage()
 
-      // When("the user clicks 'Continue' on the 'Submit Certificate' start page")
+      When("the user clicks 'Continue' on the 'Submit Certificate' start page")
       SubmitCertificateStartPage.clickSubmissionButton()
 
-      // Then("the user is taken to the 'Is the given person the named SAO on the Certificate' question page")
-      // assertOnPage(IsThisTheSaoPage)
+      Then("the user is taken to the 'Is the given person the named SAO on the Certificate' question page")
+      assertOnPage(IsThisTheSaoPage)
 
-      // When("the user selects the 'No' radio button and clicks 'Continue'")
-      // IsThisTheSaoPage.clickNoRadioButton()
-      // IsThisTheSaoPage.clickSubmissionButton()
+      When("the user selects the 'No' radio button and clicks 'Continue'")
+      IsThisTheSaoPage.clickNoRadioButton()
+      IsThisTheSaoPage.clickSubmissionButton()
 
-      // Then("the user is taken to the 'SAO Name' page")
-      // assertOnPage(SaoNamePage)
+      Then("the user is taken to the 'SAO Name' page")
+      assertOnPage(SaoNamePage)
 
-      // When("the user enters a valid SAO name and clicks 'Continue'")
-      // SaoNamePage.addName(TestData.firstPersonName)
-      // SaoNamePage.clickSubmissionButton()
+      When("the user enters a valid SAO name and clicks 'Continue'")
+      SaoNamePage.addName(TestData.firstPersonName)
+      SaoNamePage.clickSubmissionButton()
 
-      // Then("the user is taken to the 'SAO Email' page")
-      // assertOnPage(SaoEmailPage)
+      Then("the user is taken to the 'SAO Email' page")
+      assertOnPage(SaoEmailPage)
 
-      // When("the user enters a valid email and clicks 'Continue'")
-      // SaoEmailPage.addEmail(TestData.firstPersonEmail)
-      // SaoEmailPage.clickSubmissionButton()
+      When("the user enters a valid email and clicks 'Continue'")
+      SaoEmailPage.addEmail(TestData.firstPersonEmail)
+      SaoEmailPage.clickSubmissionButton()
 
-      // Then("the user is taken to the 'SAO Email Communication Choice' page")
-      // assertOnPage(SaoEmailCommunicationChoicePage)
+      Then("the user is taken to the 'SAO Email Communication Choice' page")
+      assertOnPage(SaoEmailCommunicationChoicePage)
 
-      // When("the user selects the 'No' radio button and clicks 'Continue'")
-      // SaoEmailCommunicationChoicePage.clickNoRadioButton()
-      // SaoEmailCommunicationChoicePage.clickSubmissionButton()
+      When("the user selects the 'No' radio button and clicks 'Continue'")
+      SaoEmailCommunicationChoicePage.clickNoRadioButton()
+      SaoEmailCommunicationChoicePage.clickSubmissionButton()
 
-      // Then("the user is taken to the 'Check Your Answers' page")
-      // assertOnPage(CertificateCheckYourAnswersPage)
+      Then("the user is taken to the 'Check Your Answers' page")
+      assertOnPage(CertificateCheckYourAnswersPage)
 
-      // When("the user clicks 'Continue'")
-      // CertificateCheckYourAnswersPage.clickSubmissionButton()
+      When("the user clicks 'Continue'")
+      CertificateCheckYourAnswersPage.clickSubmissionButton()
 
-      // Then("the user is taken to the 'Who is submitting the certificate' question page")
-      // assertOnPage(SubmitCertificateSubmitterPage)
+      Then("the user is taken to the 'Who is submitting the certificate' question page")
+      assertOnPage(SubmitCertificateSubmitterPage)
 
-      // When("the user selects 'I am authorised to submit the certificate on behalf of the Senior Accounting Officer'")
-      // SubmitCertificateSubmitterPage.clickSaoProxySubmitterRadioButton()
+      When("the user selects 'I am authorised to submit the certificate on behalf of the Senior Accounting Officer'")
+      SubmitCertificateSubmitterPage.clickSaoProxySubmitterRadioButton()
 
-      // And("clicks 'Continue'")
-      // SubmitCertificateSubmitterPage.clickSubmissionButton()
+      And("clicks 'Continue'")
+      SubmitCertificateSubmitterPage.clickSubmissionButton()
 
-      // Then("the user is taken to the 'Companies with a qualified certificate' page")
-      // assertOnPage(QualifiedCompaniesPage)
+      Then("the user is taken to the 'Companies with a qualified certificate' page")
+      assertOnPage(QualifiedCompaniesPage)
 
-      // Then("the given certificate reference number is successfully returned")
+      Then("the given certificate reference number is successfully returned")
     }
 
     // TODO: (MA - 28/01) Update test to click the 'upload another submission template' link when it's provided
@@ -431,16 +429,11 @@ class CombinedSubmissionSpec extends BaseSpec {
     assertOnPage(AccountHomePage)
 
     // TODO: (MA - 26/01) Temporary workaround until data is available at this point in the journey.
-    // AccountHomePage.clickSubmitNotificationLink()
-    // assertOnPage(SubmitNotificationStartPage)
-    // driver.navigate().back()
-    // assertOnPage(AccountHomePage)
+    AccountHomePage.clickSubmitNotificationLink()
+    assertOnPage(SubmitNotificationStartPage)
+    driver.navigate().back()
+    assertOnPage(AccountHomePage)
 
-    AccountHomePage.clickSubmitCertificateLink()
-    assertOnPage(SubmissionTypePage)
-    // SubmissionTypePage.clickCertificateRadioButton()
-    SubmissionTypePage.clickSubmissionButton()
-    assertOnPage(SubmitCertificateStartPage)
   }
 
   private def addNotificationFromHub(): Unit = {

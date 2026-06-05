@@ -18,6 +18,7 @@ package uk.gov.hmrc.test.ui.specs
 
 import org.scalatest.*
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
+import uk.gov.hmrc.test.ui.pages.submission.*
 import uk.gov.hmrc.test.ui.pages.submission.combinedSubmission.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
 import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
