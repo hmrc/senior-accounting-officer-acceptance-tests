@@ -172,10 +172,67 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(AccountHomePage)
       AccountHomePage.clickSubmitCertificateLink()
       assertOnPage(SubmissionTypePage)
-      SubmissionTypePage.clickSubmissionButton()
 
       When("neither radio button is selected and the 'Continue' button is clicked")
+      SubmissionTypePage.clickSubmissionButton()
+
+      Then("an error message is displayed")
       SubmissionTypePage.assertErrorShownOnPage()
+
+      When("the 'Continue' button is clicked after the 'A certificate' radio button is selected")
+      SubmissionTypePage.clickCertificateRadioButton()
+      SubmissionTypePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Submit a certificate' page")
+      assertOnPage(SubmitCertificateStartPage)
+
+      When("the 'Provide the SAO's details' link is clicked")
+      SubmitCertificateStartPage.clickTask1()
+
+      Then("the user lands on the 'SAO full name' page")
+      assertOnPage(CertificateSaoFullNamePage)
+
+      // TODO validation assertion for 'SAO full name'
+
+      When("the user enters a valid SAO name and clicks 'Continue'")
+      CertificateSaoFullNamePage.addName(TestData.firstPersonName)
+      CertificateSaoFullNamePage.clickSubmissionButton()
+
+      Then("the user lands on the 'SAO email' page")
+      assertOnPage(CertificateSaoEmailPage)
+
+      // TODO validation assertion for 'SAO email'
+
+      When("the user enters a valid SAO email and clicks 'Continue'")
+      CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
+      CertificateSaoEmailPage.clickSubmissionButton()
+
+      Then("the user returns to the certificate task list")
+      assertOnPage(CertificateTaskListPage)
+
+      When("the 'Upload the submission template' link is clicked")
+      SubmitCertificateStartPage.clickTask2()
+
+      Then("the user lands on the 'Upload a submission template' page")
+      assertOnPage(UploadSubmissionTemplatePage)
+
+      When("the 'Continue' button is clicked after choosing a file for upload")
+      UploadSubmissionTemplatePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Review Qualified' page")
+      assertOnPage(UploadReviewQualifiedPage)
+
+      When("the 'Continue' button is clicked")
+      UploadReviewQualifiedPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Review Unqualified' page")
+      assertOnPage(UploadReviewUnqualifiedPage)
+
+      When("the 'Continue' button is clicked")
+      UploadReviewUnqualifiedPage.clickSubmissionButton()
+
+      Then("the user returns to the certificate task list")
+      assertOnPage(SubmitCertificateStartPage)
     }
   }
 
