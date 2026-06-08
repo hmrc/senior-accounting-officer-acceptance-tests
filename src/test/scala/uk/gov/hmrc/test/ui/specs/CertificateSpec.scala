@@ -19,9 +19,9 @@ package uk.gov.hmrc.test.ui.specs
 import org.scalatest.*
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.pages.submission.*
-import uk.gov.hmrc.test.ui.pages.submission.combinedSubmission.*
+import uk.gov.hmrc.test.ui.pages.submission.certificate.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
 class CertificateSpec extends BaseSpec {
@@ -33,12 +33,23 @@ class CertificateSpec extends BaseSpec {
   Feature("Submit Certificate") {
     // The  below scenario would be extended as in when the pages/features are ready
     Scenario(
-      "A user can submit a certificate successfully from the 'Account Homepage'",
+      "A user can submit a certificate successfully from the 'Account Homepage' and submit as themselves",
       SubmissionUITests,
       ZapTests
     ) {
       Given("an authenticated user initiates a certificate submission from the 'Account Homepage' page")
       navigateToCertificateStartPage()
+      SubmitCertificateStartPage.clickTask1()
+    }
+
+    Scenario(
+      "A user can submit a certificate successfully from the 'Account Homepage' and submit on behalf of their SAO",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user initiates a certificate submission from the 'Account Homepage' page")
+      navigateToCertificateStartPage()
+      SubmitCertificateStartPage.clickTask2()
     }
 
     Scenario(
