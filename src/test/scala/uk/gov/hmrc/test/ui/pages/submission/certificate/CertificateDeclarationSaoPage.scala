@@ -22,21 +22,21 @@ import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.sendKeys
 import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
 
-object AdditionalInformationPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
+object CertificateDeclarationSaoPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateAdditionalInformation"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateDeclarationSao"
 
   override val pageTitle: String =
-    "certificateAdditionalInformation - Senior Accounting Officer notification and certificate - GOV.UK"
+    "certificateDeclarationSao - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/changeCertificateAdditionalInformation"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/changeCertificateDeclarationSao"
 
   override protected def submissionButtonLocator: By = By.cssSelector(".govuk-button")
 
-  val additionalInformationInput: By = By.cssSelector("#value")
+  val declarationInput: By = By.cssSelector("#value")
 
-  def addInformation(text: String): Unit = {
-    sendKeys(additionalInformationInput, text)
+  def addDeclaration(text: String): Unit = {
+    sendKeys(declarationInput, text)
   }
 }

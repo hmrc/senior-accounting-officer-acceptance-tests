@@ -19,24 +19,24 @@ package uk.gov.hmrc.test.ui.pages.submission.certificate
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.sendKeys
+import uk.gov.hmrc.test.ui.support.PageSupport.clickRadioButton
 import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
 
-object AdditionalInformationPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
+object CertificateWhoIsSubmittingPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateAdditionalInformation"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateWhoIsSubmitting"
 
   override val pageTitle: String =
-    "certificateAdditionalInformation - Senior Accounting Officer notification and certificate - GOV.UK"
+    "certificateWhoIsSubmitting - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/changeCertificateAdditionalInformation"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/changeCertificateWhoIsSubmitting"
 
   override protected def submissionButtonLocator: By = By.cssSelector(".govuk-button")
 
-  val additionalInformationInput: By = By.cssSelector("#value")
+  val saoSubmitterRadio: By     = By.cssSelector("#value_0")
+  val standInSubmitterRadio: By = By.cssSelector("#value_1")
 
-  def addInformation(text: String): Unit = {
-    sendKeys(additionalInformationInput, text)
-  }
+  def clickSaoSubmitterRadioButton(): Unit     = clickRadioButton(saoSubmitterRadio)
+  def clickStandInSubmitterRadioButton(): Unit = clickRadioButton(standInSubmitterRadio)
 }
