@@ -19,8 +19,9 @@ package uk.gov.hmrc.test.ui.pages.submission.certificate
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.PageSupport.assertTextOnPage
 import uk.gov.hmrc.test.ui.support.PageSupport.sendKeys
-import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
+import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, PageSupport, SubmissionButtonSupport}
 
 object CertificateSaoEmailPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
   override val pageUrl: String =
@@ -32,11 +33,17 @@ object CertificateSaoEmailPage extends CommonPage with SubmissionButtonSupport w
   val changePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/changeCertificateSaoEmail"
 
+  val pageHeadingElement: By = By.cssSelector(".govuk-label-wrapper")
+
   override protected def submissionButtonLocator: By = By.cssSelector(".govuk-button")
 
   val saoEmailInput: By = By.cssSelector("#value")
 
   def addEmail(emailAddress: String): Unit = {
     sendKeys(saoEmailInput, emailAddress)
+  }
+
+  def assertHeadingMatches(text: String): Unit = {
+    assertTextOnPage(pageHeadingElement, text)
   }
 }

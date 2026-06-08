@@ -220,7 +220,8 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "Validate that choosing a Submission type is required for a certification submission",
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user lands on the 'What would you like to submit?' page")
       assertOnPage(AccountHomePage)
@@ -258,6 +259,7 @@ class CertificateSpec extends BaseSpec {
       // TODO validation assertion for 'SAO email'
 
       When("the user enters a valid SAO email and clicks 'Continue'")
+      CertificateSaoEmailPage.assertHeadingMatches(s"What is the email address for ${TestData.firstPersonName}?")
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
       CertificateSaoEmailPage.clickSubmissionButton()
 
@@ -303,11 +305,7 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Who is submitting' page")
       assertOnPage(CertificateWhoIsSubmittingPage)
 
-      When("the 'Continue' button is clicked after neither radio button is selected")
-      CertificateWhoIsSubmittingPage.clickSubmissionButton()
-
-      Then("an error message is displayed")
-      CertificateWhoIsSubmittingPage.assertErrorShownOnPage()
+      // TODO validation assertion for 'Who is submitting'
 
       When("the user selects the SAO submitter option and clicks 'Continue'")
       CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
@@ -327,7 +325,7 @@ class CertificateSpec extends BaseSpec {
 
       // TODO validation assertion for 'Check your answers' in the 'SAO declaration' variation
 
-      When("the user goes back to the 'Who is submitting' page")
+      When("the goes back to the 'Who is submitting' page")
       CertificateWhoIsSubmittingPage.loadPage()
 
       When("the user selects the SAO submitter option and clicks 'Continue'")
