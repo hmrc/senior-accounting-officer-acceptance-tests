@@ -671,9 +671,21 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(MultiSaoSecondStartDatePage)
       MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(65))
       MultiSaoSecondStartDatePage.clickSubmissionButton()
-
-      And("is on the page asking for the date 'Jonty Rhodes' ended their responsibility")
       assertOnPage(MultiSaoSecondEndDatePage)
+      MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(35))
+      MultiSaoSecondEndDatePage.clickSubmissionButton()
+
+      And("the user lands on the 'Have you added all the SAO for the financial year this notification relates to' page")
+      assertOnPage(MultiSaoAreAllAddedPage)
+
+      When("the 'Back' link is clicked")
+      MultiSaoAreAllAddedPage.clickBackLink()
+
+      Then("the user lands on the 'When did Jonty Rhodes stop being the SAO' page")
+      assertOnPage(MultiSaoSecondEndDatePage)
+
+      And("the page displays the correct content")
+      MultiSaoSecondEndDatePage.assertHeadingMatches("When did Jonty Rhodes stop being the SAO?")
 
       When("the 'Back' link is clicked")
       MultiSaoSecondEndDatePage.clickBackLink()
