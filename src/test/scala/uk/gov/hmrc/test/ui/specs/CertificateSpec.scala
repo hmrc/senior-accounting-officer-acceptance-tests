@@ -220,8 +220,7 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "Validate that choosing a Submission type is required for a certification submission",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user lands on the 'What would you like to submit?' page")
       assertOnPage(AccountHomePage)
