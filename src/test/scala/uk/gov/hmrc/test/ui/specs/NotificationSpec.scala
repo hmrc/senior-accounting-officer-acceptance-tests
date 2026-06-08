@@ -264,7 +264,7 @@ class NotificationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user lands on the 'More than one SAO' page")
-      goToMoreThanOneSaoPageFromHub()
+      goToMoreThanOneSaoPageFromHomePage()
 
       When("the 'Continue' button is clicked after the 'No' radio button is selected")
       MoreThanOneSaoPage.clickNoRadioButton()
@@ -373,12 +373,84 @@ class NotificationSpec extends BaseSpec {
     }
 
     Scenario(
+      "Review uploaded company details and upload an updated notification submission",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("a random example value of 'Emi A Ward' is chosen as the last SAO during a notification submission")
+      And("a random example value of 'Piet Van De Merwe' is chosen as the previous SAO")
+      When("the authenticated user chooses to upload an empty notification submission file")
+      goToMoreThanOneSaoPageFromHomePage()
+      MoreThanOneSaoPage.clickYesRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
+      assertOnPage(MultiSaoNamePage)
+      MultiSaoNamePage.addName("Emi A Ward")
+      MultiSaoNamePage.clickSubmissionButton()
+      assertOnPage(MultiSaoFirstStartDatePage)
+      MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(40))
+      MultiSaoFirstStartDatePage.clickSubmissionButton()
+      assertOnPage(WhoWasTheSaoBeforePage)
+      WhoWasTheSaoBeforePage.addName("Piet Van De Merwe")
+      WhoWasTheSaoBeforePage.clickSubmissionButton()
+      assertOnPage(MultiSaoSecondStartDatePage)
+      MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(100))
+      MultiSaoSecondStartDatePage.clickSubmissionButton()
+      assertOnPage(MultiSaoSecondEndDatePage)
+      MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(47))
+      MultiSaoSecondEndDatePage.clickSubmissionButton()
+      assertOnPage(MultiSaoAreAllAddedPage)
+      MultiSaoAreAllAddedPage.clickYesRadioButton()
+      MultiSaoAreAllAddedPage.clickSubmissionButton()
+      assertOnPage(SubmitNotificationStartPage)
+      SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+      assertOnPage(UploadSubmissionTemplatePage)
+      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateEmptyFile)
+      UploadSubmissionTemplatePage.clickSubmissionButton()
+
+      And("the user lands on the 'Review the companies in your notification' page")
+      assertOnPage(UploadTablePage)
+
+      Then("The page displays the correct company count of '0' as the upload file is empty")
+      And("'Emi A Ward' as the responsible SAO")
+      UploadTablePage.assertCompanyCountAndSaoMatch(companyCount = 0, expectedSao = "Emi A Ward")
+
+      And("The table contains no company details but only the text 'No parsed rows'")
+      UploadTablePage.assertCompanyTableEmpty()
+
+      When("the 'upload an updated submission template' link is clicked")
+      UploadTablePage.clickUploadUpdatedTemplateLink()
+
+      Then("the user lands on the 'Upload a submission template' page")
+      assertOnPage(UploadSubmissionTemplatePage)
+
+      When("the 'Continue' button is clicked after choosing a file with '4' companies in the upload file")
+      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
+      UploadSubmissionTemplatePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Review the companies in your notification' page")
+      assertOnPage(UploadTablePage)
+
+      Then("The page displays the correct company count of '4'")
+      And("'Emi A Ward' as the responsible SAO")
+      UploadTablePage.assertCompanyCountAndSaoMatch(companyCount = 4, expectedSao = "Emi A Ward")
+
+      And("The table contains '4' rows of company details")
+      UploadTablePage.assertCompanyCountInTableEquals(4)
+
+      When("the 'Continue' button is clicked")
+      ConfirmationPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Submit a notification' start page")
+      assertOnPage(SubmitNotificationStartPage)
+    }
+
+    Scenario(
       "Upload submission page template - Submit a notification journey with an invalid template file upload",
       SubmissionUITests,
       ZapTests
     ) {
       Given("an authenticated user lands on the 'More than one SAO' page")
-      goToMoreThanOneSaoPageFromHub()
+      goToMoreThanOneSaoPageFromHomePage()
 
       When("the 'Continue' button is clicked after the 'No' radio button is selected")
       MoreThanOneSaoPage.clickNoRadioButton()
@@ -420,7 +492,7 @@ class NotificationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user lands on the 'More than one SAO' page")
-      goToMoreThanOneSaoPageFromHub()
+      goToMoreThanOneSaoPageFromHomePage()
 
       When("the 'Continue' button is clicked after selecting 'Yes'")
       MoreThanOneSaoPage.clickYesRadioButton()
@@ -521,7 +593,7 @@ class NotificationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user lands on the 'More than one SAO' page")
-      goToMoreThanOneSaoPageFromHub()
+      goToMoreThanOneSaoPageFromHomePage()
 
       When("the 'Continue' button is clicked after selecting no radio options")
       MoreThanOneSaoPage.clickSubmissionButton()
@@ -557,7 +629,7 @@ class NotificationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user lands on the 'More than one SAO' page")
-      goToMoreThanOneSaoPageFromHub()
+      goToMoreThanOneSaoPageFromHomePage()
 
       When("the 'Continue' button is clicked after selecting 'Yes'")
       MoreThanOneSaoPage.clickYesRadioButton()
@@ -654,7 +726,7 @@ class NotificationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user has added 'Shane Warne' as the last SAO")
-      goToMoreThanOneSaoPageFromHub()
+      goToMoreThanOneSaoPageFromHomePage()
       MoreThanOneSaoPage.clickYesRadioButton()
       MoreThanOneSaoPage.clickSubmissionButton()
       assertOnPage(MultiSaoNamePage)
@@ -752,7 +824,7 @@ class NotificationSpec extends BaseSpec {
     assertOnPage(SubmitNotificationStartPage)
   }
 
-  private def goToMoreThanOneSaoPageFromHub(): Unit = {
+  private def goToMoreThanOneSaoPageFromHomePage(): Unit = {
     assertOnPage(AccountHomePage)
     AccountHomePage.clickSubmitNotificationLink()
     assertOnPage(SubmissionTypePage)

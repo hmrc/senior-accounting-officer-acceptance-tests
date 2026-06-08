@@ -66,6 +66,11 @@ object PageSupport extends BrowserDriver with Matchers with PageObject {
     new Select(driver.findElement(id: By))
   }
 
+  def extractRelativeUrl(url: String): String = {
+    val uri = java.net.URI.create(url)
+    uri.getPath
+  }
+
   def assertElementIsClickable(locator: By): Unit = {
     fluentWait.until(ExpectedConditions.elementToBeClickable(locator))
   }
