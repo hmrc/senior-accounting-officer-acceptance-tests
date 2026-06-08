@@ -108,6 +108,21 @@ class CertificateSpec extends BaseSpec {
       When("the user completes the SAO declaration and clicks 'Continue'")
       CertificateDeclarationSaoPage.addDeclaration(TestData.firstPersonName)
       CertificateDeclarationSaoPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Check your answers' page")
+      assertOnPage(CheckYourAnswersPage)
+
+      When("the user clicks 'Continue'")
+      CheckYourAnswersPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Confirmation' page")
+      assertOnPage(ConfirmationPage)
+
+      When("the user clicks 'Continue'")
+      ConfirmationPage.clickSubmissionButton()
+
+      Then("the user returns to the certificate task list")
+      assertOnPage(CertificateTaskListPage)
     }
 
     Scenario(
