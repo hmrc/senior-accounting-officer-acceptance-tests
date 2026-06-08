@@ -176,6 +176,45 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user returns to the certificate task list")
       assertOnPage(CertificateTaskListPage)
+
+      When("the user continues from the additional information task")
+      CertificateTaskListPage.clickTask3()
+
+      Then("the user lands on the 'Additional information' page")
+      assertOnPage(AdditionalInformationPage)
+
+      When("the user enters additional information and clicks 'Continue'")
+      AdditionalInformationPage.addInformation("No additional information for this certificate")
+      AdditionalInformationPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Who is submitting' page")
+      assertOnPage(CertificateWhoIsSubmittingPage)
+
+      When("the user selects the SAO submitter option and clicks 'Continue'")
+      CertificateWhoIsSubmittingPage.clickStandInSubmitterRadioButton()
+      CertificateWhoIsSubmittingPage.clickSubmissionButton()
+
+      Then("the user lands on the 'SAO stand-in declaration' page")
+      assertOnPage(CertificateDeclarationStandInPage)
+
+      When("the user completes the SAO stand-in declaration and clicks 'Continue'")
+      CertificateDeclarationStandInPage.addDeclaration(TestData.firstPersonName, TestData.secondPersonName)
+      CertificateDeclarationStandInPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Check your answers' page")
+      assertOnPage(CheckYourAnswersPage)
+
+      When("the user clicks 'Continue'")
+      CheckYourAnswersPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Confirmation' page")
+      assertOnPage(ConfirmationPage)
+
+      When("the user clicks 'Continue'")
+      ConfirmationPage.clickSubmissionButton()
+
+      Then("the user returns to the certificate task list")
+      assertOnPage(CertificateTaskListPage)
     }
 
     Scenario(
