@@ -42,7 +42,7 @@ class CertificateSpec extends BaseSpec {
       navigateToCertificateStartPage()
 
       When("the 'Provide the SAO's details' link is clicked")
-      SubmitCertificateStartPage.clickTask1()
+      CertificateTaskListPage.clickTask1()
 
       Then("the user lands on the 'SAO full name' page")
       assertOnPage(CertificateSaoFullNamePage)
@@ -62,7 +62,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateTaskListPage)
 
       When("the 'Upload the submission template' link is clicked")
-      SubmitCertificateStartPage.clickTask2()
+      CertificateTaskListPage.clickTask2()
 
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
@@ -83,10 +83,10 @@ class CertificateSpec extends BaseSpec {
       UploadReviewUnqualifiedPage.clickSubmissionButton()
 
       Then("the user returns to the certificate task list")
-      assertOnPage(SubmitCertificateStartPage)
+      assertOnPage(CertificateTaskListPage)
 
       When("the user continues from the additional information task")
-      SubmitCertificateStartPage.clickTask3()
+      CertificateTaskListPage.clickTask3()
 
       Then("the user lands on the 'Additional information' page")
       assertOnPage(AdditionalInformationPage)
@@ -119,7 +119,7 @@ class CertificateSpec extends BaseSpec {
       navigateToCertificateStartPage()
 
       When("the 'Provide the SAO's details' link is clicked")
-      SubmitCertificateStartPage.clickTask1()
+      CertificateTaskListPage.clickTask1()
 
       Then("the user lands on the 'SAO full name' page")
       assertOnPage(CertificateSaoFullNamePage)
@@ -139,7 +139,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateTaskListPage)
 
       When("the 'Upload the submission template' link is clicked")
-      SubmitCertificateStartPage.clickTask2()
+      CertificateTaskListPage.clickTask2()
 
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
@@ -160,7 +160,7 @@ class CertificateSpec extends BaseSpec {
       UploadReviewUnqualifiedPage.clickSubmissionButton()
 
       Then("the user returns to the certificate task list")
-      assertOnPage(SubmitCertificateStartPage)
+      assertOnPage(CertificateTaskListPage)
     }
 
     Scenario(
@@ -184,10 +184,10 @@ class CertificateSpec extends BaseSpec {
       SubmissionTypePage.clickSubmissionButton()
 
       Then("the user lands on the 'Submit a certificate' page")
-      assertOnPage(SubmitCertificateStartPage)
+      assertOnPage(CertificateTaskListPage)
 
       When("the 'Provide the SAO's details' link is clicked")
-      SubmitCertificateStartPage.clickTask1()
+      CertificateTaskListPage.clickTask1()
 
       Then("the user lands on the 'SAO full name' page")
       assertOnPage(CertificateSaoFullNamePage)
@@ -211,7 +211,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateTaskListPage)
 
       When("the 'Upload the submission template' link is clicked")
-      SubmitCertificateStartPage.clickTask2()
+      CertificateTaskListPage.clickTask2()
 
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
@@ -232,7 +232,7 @@ class CertificateSpec extends BaseSpec {
       UploadReviewUnqualifiedPage.clickSubmissionButton()
 
       Then("the user returns to the certificate task list")
-      assertOnPage(SubmitCertificateStartPage)
+      assertOnPage(CertificateTaskListPage)
     }
   }
 
@@ -243,6 +243,6 @@ class CertificateSpec extends BaseSpec {
     assertOnPage(SubmissionTypePage)
     SubmissionTypePage.clickCertificateRadioButton()
     SubmissionTypePage.clickSubmissionButton()
-    assertOnPage(SubmitCertificateStartPage)
+    assertOnPage(CertificateTaskListPage)
   }
 }

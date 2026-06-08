@@ -20,15 +20,24 @@ import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
+import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object CertificateTaskListPage extends CommonPage {
+object CertificateTaskListPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateTaskList"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/start"
 
   override val pageTitle: String =
     "certificateTaskList - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val task1Link: By = By.linkText("Task 1")
+  // TODO better selectors
+  private def task1Link =
+    By.cssSelector("""a[href="/senior-accounting-officer/submission/certificate/submit-certificate-sao-full-name"]""")
+  private def task2Link = By.cssSelector("""a[href="/senior-accounting-officer/submission/certificateUploadForm"]""")
+  private def task3Link =
+    By.cssSelector("""a[href="/senior-accounting-officer/submission/certificateAdditionalInformation"]""")
 
-  def clickTask1Link(): Unit = clickElement(task1Link)
+  def clickTask1(): Unit = clickElement(task1Link)
+  def clickTask2(): Unit = clickElement(task2Link)
+  def clickTask3(): Unit = clickElement(task3Link)
+
 }

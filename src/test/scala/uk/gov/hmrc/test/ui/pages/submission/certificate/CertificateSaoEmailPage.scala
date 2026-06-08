@@ -24,10 +24,10 @@ import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport
 
 object CertificateSaoEmailPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateSaoEmail"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate-only/sao-email"
 
   override val pageTitle: String =
-    "certificateSaoEmail - Senior Accounting Officer notification and certificate - GOV.UK"
+    "What is the email address for the SAO? - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/changeCertificateSaoEmail"
