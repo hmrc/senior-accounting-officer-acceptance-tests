@@ -675,7 +675,7 @@ class NotificationSpec extends BaseSpec {
       MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(35))
       MultiSaoSecondEndDatePage.clickSubmissionButton()
 
-      And("is on the page asking if they have added all the SAO's for this financial year")
+      And("the user lands on the 'Have you added all the SAO for the financial year this notification relates to' page")
       assertOnPage(MultiSaoAreAllAddedPage)
 
       When("the 'Back' link is clicked")
