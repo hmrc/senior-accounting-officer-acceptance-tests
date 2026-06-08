@@ -1,0 +1,13 @@
+"Senior Accounting Officer  Submission template. List all the companies in your group. Complete one row per company. You can add as many rows as needed.
+",,,,,,,,,,,,,,,,,
+How to complete this template ,,,,,,,,,,,,,,,,,
+"1. Notification columns (A to F): Enter company details in the correct format. For company type and status, use the drop down to select one",,,,,,,,,,,,,,,,,
+"2. Certificate columns (G to R): Mark tax regimes with an x where the company did not have appropriate tax accounting arrangements and leave all others blank. The certificate type will show as Qualified automatically if any regime is marked. If none are marked, enter Unqualified in the certificate type column.",,,,,,,,,,,,,,,,,
+3. Additional information (column R): You must add an explanation if the certificate is qualified and a tax regime is marked x. There is no character limit. You can write as much information as you would normally provide in an email to HMRC.,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,Notification,,,,,Certificate,,,,,,,,,,,
+Company name,Company UTR,Company CRN,Company type,Company status,Financial year end date,Corporation tax,Value added tax,PAYE,Insurance premium tax,Stamp duty land tax,Stamp duty reserve tax,Petroleum revenue tax,Customs Duties,Excise Duties,Bank Levy,Certificate type,Additional information 
+Z Moderately Complex A,1111111111,11111111,PLC,Active,31/12/2025,,,,,,,,,,,Unqualified,
+Z Moderately Complex E,2222222222,22222222,PLC,Active,31/12/2025,,,,,,,,,,,Unqualified,
+Z Moderately Complex F,3333333333,33333333,PLC,Active,31/12/2025,,,,,,,,,,,Unqualified,
+Z Moderately Complex G,4444444444,44444444,PLC,Active,31/12/2025,,,,,,,,,,,Unqualified,
