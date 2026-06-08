@@ -45,11 +45,19 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "A user can submit a certificate successfully from the 'Account Homepage' and submit on behalf of their SAO",
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user initiates a certificate submission from the 'Account Homepage' page")
       navigateToCertificateStartPage()
       SubmitCertificateStartPage.clickTask2()
+      assertOnPage(UploadSubmissionTemplatePage)
+      UploadSubmissionTemplatePage.clickSubmissionButton()
+      assertOnPage(UploadReviewQualifiedPage)
+      UploadReviewQualifiedPage.clickSubmissionButton()
+      assertOnPage(UploadReviewUnqualifiedPage)
+      UploadReviewUnqualifiedPage.clickSubmissionButton()
+      assertOnPage(SubmitCertificateStartPage)
     }
 
     Scenario(
