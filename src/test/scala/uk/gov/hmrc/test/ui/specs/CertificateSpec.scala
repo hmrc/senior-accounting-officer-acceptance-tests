@@ -23,6 +23,7 @@ import uk.gov.hmrc.test.ui.pages.submission.certificate.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.PageSupport.*
+import uk.gov.hmrc.test.ui.support.TestData
 
 class CertificateSpec extends BaseSpec {
   override def beforeEach(): Unit = {
@@ -40,6 +41,18 @@ class CertificateSpec extends BaseSpec {
       Given("an authenticated user initiates a certificate submission from the 'Account Homepage' page")
       navigateToCertificateStartPage()
       SubmitCertificateStartPage.clickTask1()
+      Then("the user lands on the 'SAO full name' page")
+      assertOnPage(CertificateSaoFullNamePage)
+      When("the user enters a valid SAO name and clicks 'Continue'")
+      CertificateSaoFullNamePage.addName(TestData.firstPersonName)
+      CertificateSaoFullNamePage.clickSubmissionButton()
+      Then("the user lands on the 'SAO email' page")
+      assertOnPage(CertificateSaoEmailPage)
+      When("the user enters a valid SAO email and clicks 'Continue'")
+      CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
+      CertificateSaoEmailPage.clickSubmissionButton()
+      Then("the user returns to the certificate task list")
+      assertOnPage(CertificateTaskListPage)
     }
 
     Scenario(
