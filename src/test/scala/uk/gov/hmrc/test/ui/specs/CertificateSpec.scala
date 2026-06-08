@@ -287,6 +287,62 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user returns to the certificate task list")
       assertOnPage(CertificateTaskListPage)
+
+      When("the user continues from the additional information task")
+      CertificateTaskListPage.clickTask3()
+
+      Then("the user lands on the 'Additional information' page")
+      assertOnPage(AdditionalInformationPage)
+
+      // TODO validation assertion for 'Additional information'
+
+      When("the user enters additional information and clicks 'Continue'")
+      AdditionalInformationPage.addInformation("No additional information for this certificate")
+      AdditionalInformationPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Who is submitting' page")
+      assertOnPage(CertificateWhoIsSubmittingPage)
+
+      // TODO validation assertion for 'Who is submitting'
+
+      When("the user selects the SAO submitter option and clicks 'Continue'")
+      CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
+      CertificateWhoIsSubmittingPage.clickSubmissionButton()
+
+      Then("the user lands on the 'SAO declaration' page")
+      assertOnPage(CertificateDeclarationSaoPage)
+
+      // TODO validation assertion for 'SAO declaration'
+
+      When("the user completes the SAO declaration and clicks 'Continue'")
+      CertificateDeclarationSaoPage.addDeclaration(TestData.firstPersonName)
+      CertificateDeclarationSaoPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Check your answers' page")
+      assertOnPage(CheckYourAnswersPage)
+
+      // TODO validation assertion for 'Check your answers' in the 'SAO declaration' variation
+
+
+      When("the goes back to the 'Who is submitting' page")
+      CertificateWhoIsSubmittingPage.loadPage()
+
+      When("the user selects the SAO submitter option and clicks 'Continue'")
+      CertificateWhoIsSubmittingPage.clickStandInSubmitterRadioButton()
+      CertificateWhoIsSubmittingPage.clickSubmissionButton()
+
+      Then("the user lands on the 'SAO stand-in declaration' page")
+      assertOnPage(CertificateDeclarationStandInPage)
+      // TODO validation assertion for 'Stand-in declaration'
+
+      When("the user completes the SAO stand-in declaration and clicks 'Continue'")
+      CertificateDeclarationStandInPage.addDeclaration(TestData.firstPersonName, TestData.secondPersonName)
+      CertificateDeclarationStandInPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Check your answers' page")
+      assertOnPage(CheckYourAnswersPage)
+
+      // TODO validation assertion for 'Check your answers' in the 'Stand-in declaration' variation
     }
   }
 
