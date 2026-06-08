@@ -40,19 +40,50 @@ class CertificateSpec extends BaseSpec {
     ) {
       Given("an authenticated user initiates a certificate submission from the 'Account Homepage' page")
       navigateToCertificateStartPage()
+
+      When("the 'Provide the SAO's details' link is clicked")
       SubmitCertificateStartPage.clickTask1()
+
       Then("the user lands on the 'SAO full name' page")
       assertOnPage(CertificateSaoFullNamePage)
+
       When("the user enters a valid SAO name and clicks 'Continue'")
       CertificateSaoFullNamePage.addName(TestData.firstPersonName)
       CertificateSaoFullNamePage.clickSubmissionButton()
+
       Then("the user lands on the 'SAO email' page")
       assertOnPage(CertificateSaoEmailPage)
+
       When("the user enters a valid SAO email and clicks 'Continue'")
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
       CertificateSaoEmailPage.clickSubmissionButton()
+
       Then("the user returns to the certificate task list")
       assertOnPage(CertificateTaskListPage)
+
+      When("the 'Upload the submission template' link is clicked")
+      SubmitCertificateStartPage.clickTask2()
+
+      Then("the user lands on the 'Upload a submission template' page")
+      assertOnPage(UploadSubmissionTemplatePage)
+
+      When("the 'Continue' button is clicked after choosing a file for upload")
+      UploadSubmissionTemplatePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Review Qualified' page")
+      assertOnPage(UploadReviewQualifiedPage)
+
+      When("the 'Continue' button is clicked")
+      UploadReviewQualifiedPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Review Unqualified' page")
+      assertOnPage(UploadReviewUnqualifiedPage)
+
+      When("the 'Continue' button is clicked")
+      UploadReviewUnqualifiedPage.clickSubmissionButton()
+
+      Then("the user returns to the certificate task list")
+      assertOnPage(SubmitCertificateStartPage)
     }
 
     Scenario(
@@ -62,13 +93,49 @@ class CertificateSpec extends BaseSpec {
     ) {
       Given("an authenticated user initiates a certificate submission from the 'Account Homepage' page")
       navigateToCertificateStartPage()
+
+      When("the 'Provide the SAO's details' link is clicked")
+      SubmitCertificateStartPage.clickTask1()
+
+      Then("the user lands on the 'SAO full name' page")
+      assertOnPage(CertificateSaoFullNamePage)
+
+      When("the user enters a valid SAO name and clicks 'Continue'")
+      CertificateSaoFullNamePage.addName(TestData.firstPersonName)
+      CertificateSaoFullNamePage.clickSubmissionButton()
+
+      Then("the user lands on the 'SAO email' page")
+      assertOnPage(CertificateSaoEmailPage)
+
+      When("the user enters a valid SAO email and clicks 'Continue'")
+      CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
+      CertificateSaoEmailPage.clickSubmissionButton()
+
+      Then("the user returns to the certificate task list")
+      assertOnPage(CertificateTaskListPage)
+
+      When("the 'Upload the submission template' link is clicked")
       SubmitCertificateStartPage.clickTask2()
+
+      Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
+
+      When("the 'Continue' button is clicked after choosing a file for upload")
       UploadSubmissionTemplatePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Review Qualified' page")
       assertOnPage(UploadReviewQualifiedPage)
+
+      When("the 'Continue' button is clicked")
       UploadReviewQualifiedPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Review Unqualified' page")
       assertOnPage(UploadReviewUnqualifiedPage)
+
+      When("the 'Continue' button is clicked")
       UploadReviewUnqualifiedPage.clickSubmissionButton()
+
+      Then("the user returns to the certificate task list")
       assertOnPage(SubmitCertificateStartPage)
     }
 
