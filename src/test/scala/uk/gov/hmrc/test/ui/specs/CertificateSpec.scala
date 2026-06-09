@@ -339,6 +339,8 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user lands on the SAO's 'Confirm the certificate' page showing the previous error")
       assertOnPage(CertificateDeclarationSaoPage)
+      When("the user goes back to the 'Who is submitting' page")
+      CertificateWhoIsSubmittingPage.loadPage()
 
       When("the 'Back' link is clicked")
       CertificateWhoIsSubmittingPage.clickBackLink()
