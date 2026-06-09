@@ -309,7 +309,7 @@ class CertificateSpec extends BaseSpec {
 
       Then("an error message is displayed")
       CertificateWhoIsSubmittingPage.assertErrorShownOnPage()
-      
+
       When("the user selects the SAO submitter option and clicks 'Continue'")
       CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
       CertificateWhoIsSubmittingPage.clickSubmissionButton()

@@ -24,10 +24,10 @@ import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport
 
 object CertificateWhoIsSubmittingPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate-who-is-submitting "
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate-who-is-submitting"
 
   override val pageTitle: String =
-    "Submit a notification - Who is submitting the certificate? - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Who is submitting the certificate? - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/change-certificate-who-is-submitting"
