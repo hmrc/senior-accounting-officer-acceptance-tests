@@ -38,13 +38,7 @@ object CertificateDeclarationSaoPage
 
   override protected def submissionButtonLocator: By = By.cssSelector(".govuk-button")
 
-<<<<<<< HEAD
-  val saoNameInput: By = By.cssSelector("#value")
-
-  def addSaoName(text: String): Unit = {
-    sendKeys(saoNameInput, text)
-=======
-  val heading: By          = By.cssSelector("h1")
+  val headingLocator: By          = By.cssSelector("h1")
   val declarationInput: By = By.cssSelector("#value")
 
   def assertCorePageContent(): Unit = {
@@ -55,6 +49,5 @@ object CertificateDeclarationSaoPage
 
   def addDeclaration(text: String): Unit = {
     sendKeys(declarationInput, text)
->>>>>>> 57d7d00 (confirm certificate updates)
   }
 }
