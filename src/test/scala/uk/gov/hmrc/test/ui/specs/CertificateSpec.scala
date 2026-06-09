@@ -23,7 +23,7 @@ import uk.gov.hmrc.test.ui.adt.PageSectionStatus.*
 import uk.gov.hmrc.test.ui.pages.submission.*
 import uk.gov.hmrc.test.ui.pages.submission.certificate.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
 
@@ -64,7 +64,7 @@ class CertificateSpec extends BaseSpec {
       navigateToCertificateStartPage()
 
       When("the 'Provide the SAO's details' link is clicked")
-      CertificateTaskListPage.clickTask1()
+      CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
 
       Then("the user lands on the 'SAO full name' page")
       assertOnPage(CertificateSaoFullNamePage)
@@ -95,7 +95,7 @@ class CertificateSpec extends BaseSpec {
       CertificateTaskListPage.assertTaskListSectionNameIsNotHyperlink(SubmitCertificate)
 
       When("the 'Upload the submission template' link is clicked")
-      CertificateTaskListPage.clickTask2()
+      CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
 
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
@@ -130,7 +130,7 @@ class CertificateSpec extends BaseSpec {
       CertificateTaskListPage.assertTaskListSectionNameIsHyperlink(SubmitCertificate)
 
       When("the user continues from the additional information task")
-      CertificateTaskListPage.clickTask3()
+      CertificateTaskListPage.clickTaskListSectionLink(SubmitCertificate)
 
       Then("the user lands on the 'Additional information' page")
       assertOnPage(AdditionalInformationPage)
@@ -195,7 +195,7 @@ class CertificateSpec extends BaseSpec {
       navigateToCertificateStartPage()
 
       When("the 'Provide the SAO's details' link is clicked")
-      CertificateTaskListPage.clickTask1()
+      CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
 
       Then("the user lands on the 'SAO full name' page")
       assertOnPage(CertificateSaoFullNamePage)
@@ -215,7 +215,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateTaskListPage.changeTask2PageUrl)
 
       When("the 'Upload the submission template' link is clicked")
-      CertificateTaskListPage.clickTask2()
+      CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
 
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
@@ -239,7 +239,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateTaskListPage.changeTask3PageUrl)
 
       When("the user continues from the additional information task")
-      CertificateTaskListPage.clickTask3()
+      CertificateTaskListPage.clickTaskListSectionLink(SubmitCertificate)
 
       Then("the user lands on the 'Additional information' page")
       assertOnPage(AdditionalInformationPage)
@@ -281,8 +281,7 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "Validate that choosing a Submission type is required for a certification submission",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user lands on the 'What would you like to submit?' page")
       assertOnPage(AccountHomePage)
@@ -303,7 +302,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateTaskListPage)
 
       When("the 'Provide the SAO's details' link is clicked")
-      CertificateTaskListPage.clickTask1()
+      CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
 
       Then("the user lands on the 'SAO full name' page")
       assertOnPage(CertificateSaoFullNamePage)
@@ -327,7 +326,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateTaskListPage.changeTask2PageUrl)
 
       When("the 'Upload the submission template' link is clicked")
-      CertificateTaskListPage.clickTask2()
+      CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
 
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
@@ -351,7 +350,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateTaskListPage.changeTask3PageUrl)
 
       When("the user continues from the additional information task")
-      CertificateTaskListPage.clickTask3()
+      CertificateTaskListPage.clickTaskListSectionLink(SubmitCertificate)
 
       Then("the user lands on the 'Additional information' page")
       assertOnPage(AdditionalInformationPage)

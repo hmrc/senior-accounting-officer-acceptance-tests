@@ -50,17 +50,6 @@ object CertificateTaskListPage extends CommonPage with SubmissionButtonSupport {
   val changeTaskCompletePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/complete"
 
-  // TODO better selectors
-  private def task1Link =
-    By.cssSelector("""a[href="/senior-accounting-officer/submission/certificate/submit-certificate-sao-full-name"]""")
-  private def task2Link = By.cssSelector("""a[href="/senior-accounting-officer/submission/certificateUploadForm"]""")
-  private def task3Link =
-    By.cssSelector("""a[href="/senior-accounting-officer/submission/certificateAdditionalInformation"]""")
-
-  def clickTask1(): Unit = clickElement(task1Link)
-  def clickTask2(): Unit = clickElement(task2Link)
-  def clickTask3(): Unit = clickElement(task3Link)
-
   private def statusLocator(id: String): By          = By.cssSelector(s"#$id-status")
   private def statusHighlightLocator(id: String): By = By.cssSelector(s"#$id-status .govuk-tag.govuk-tag--blue")
 
