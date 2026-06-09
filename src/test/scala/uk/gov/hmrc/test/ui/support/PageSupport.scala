@@ -19,7 +19,6 @@ package uk.gov.hmrc.test.ui.support
 import org.openqa.selenium.support.ui.*
 import org.openqa.selenium.{By, WebDriver, WebElement}
 import org.scalatest.matchers.must.Matchers
-import uk.gov.hmrc.selenium.component.PageObject
 import uk.gov.hmrc.test.ui.driver.BrowserDriver
 import uk.gov.hmrc.test.ui.pages.*
 
@@ -29,7 +28,7 @@ import scala.jdk.DurationConverters.*
 
 import java.lang
 
-object PageSupport extends BrowserDriver with Matchers with PageObject {
+object PageSupport extends BrowserDriver with Matchers {
 
   val backLink: By       = By.cssSelector(".govuk-back-link")
   val continueButton: By = By.id("continue")
@@ -56,10 +55,14 @@ object PageSupport extends BrowserDriver with Matchers with PageObject {
     getElementIfClickable(backLink).click()
   }
 
-  override def sendKeys(locator: By, value: String): Unit = {
+  def sendKeys(locator: By, value: String): Unit = {
     val element = getElementIfVisible(locator)
     element.clear()
     element.sendKeys(value)
+  }
+
+  def clearField(locator: By): Unit = {
+    getElementIfVisible(locator).clear()
   }
 
   def selectDropdownById(id: By): Select = {
@@ -109,11 +112,6 @@ object PageSupport extends BrowserDriver with Matchers with PageObject {
     getElementIfVisible(locator).getAttribute(attribute) mustBe expectedText
   }
 
-  private def assertOnPage(expectedPageUrl: String, expectedTitle: String): Unit = {
-    assertUrl(expectedPageUrl)
-    assertPageTitle(expectedTitle)
-  }
-
   def assertUrl(url: String): Unit = {
     fluentWait.until(ExpectedConditions.urlToBe(url))
   }
@@ -130,13 +128,18 @@ object PageSupport extends BrowserDriver with Matchers with PageObject {
     assertOnPage(page, Some(page.pageErrorTitle))
   }
 
+  def assertPageTitle(expectedTitle: String): Unit = {
+    fluentWait.until(ExpectedConditions.titleIs(expectedTitle))
+  }
+
+  private def assertOnPage(expectedPageUrl: String, expectedTitle: String): Unit = {
+    assertUrl(expectedPageUrl)
+    assertPageTitle(expectedTitle)
+  }
+
   private def assertOnPage(page: BasePage with StaticUrl with StaticTitle, titleOverride: Option[String]): Unit = {
     val expectedTitle = titleOverride.getOrElse(page.pageTitle)
     assertOnPage(page, expectedTitle)
-  }
-
-  def assertPageTitle(expectedTitle: String): Unit = {
-    fluentWait.until(ExpectedConditions.titleIs(expectedTitle))
   }
 
   private def getElementIfVisible(locator: By): WebElement = {

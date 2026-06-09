@@ -34,9 +34,9 @@ object CertificateDeclarationSaoPage extends CommonPage with SubmissionButtonSup
 
   override protected def submissionButtonLocator: By = By.cssSelector(".govuk-button")
 
-  val declarationInput: By = By.cssSelector("#value")
+  val saoNameInput: By = By.cssSelector("#value")
 
-  def addDeclaration(text: String): Unit = {
-    sendKeys(declarationInput, text)
+  def addSaoName(text: String): Unit = {
+    sendKeys(saoNameInput, text)
   }
 }

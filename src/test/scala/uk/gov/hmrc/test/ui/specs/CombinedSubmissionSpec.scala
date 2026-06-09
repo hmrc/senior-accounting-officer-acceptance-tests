@@ -304,7 +304,7 @@ class CombinedSubmissionSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user lands on the 'Is This The SAO' page")
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHomePage()
       addNotificationFromHub()
       navigateToCertificateStartPage()
       assertOnPage(SubmitCertificateStartPage)
@@ -325,7 +325,7 @@ class CombinedSubmissionSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user lands on the 'Is the given person the named SAO on the Certificate' question page")
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHomePage()
       addNotificationFromHub()
       navigateToCertificateStartPage()
 
@@ -425,7 +425,7 @@ class CombinedSubmissionSpec extends BaseSpec {
   }
 
   private def navigateToCertificateStartPage(): Unit = {
-    AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+    AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHomePage()
     assertOnPage(AccountHomePage)
 
     // TODO: (MA - 26/01) Temporary workaround until data is available at this point in the journey.
