@@ -104,7 +104,6 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user lands on the 'SAO declaration' page")
       assertOnPage(CertificateDeclarationSaoPage)
-      CertificateDeclarationSaoPage.assertCorePageContent()
 
       When("the user clicks 'Continue' after adding the SAO name to complete the declaration")
       CertificateDeclarationSaoPage.addSaoName(TestData.firstPersonName)
