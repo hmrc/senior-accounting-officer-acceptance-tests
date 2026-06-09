@@ -323,7 +323,6 @@ class CertificateSpec extends BaseSpec {
 
       // TODO validation assertion for 'Check your answers' in the 'SAO declaration' variation
 
-
       When("the goes back to the 'Who is submitting' page")
       CertificateWhoIsSubmittingPage.loadPage()
 
