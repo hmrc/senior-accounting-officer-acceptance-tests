@@ -364,7 +364,11 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Who is submitting' page")
       assertOnPage(CertificateWhoIsSubmittingPage)
 
-      // TODO validation assertion for 'Who is submitting'
+      When("the 'Continue' button is clicked after neither radio button is selected")
+      CertificateWhoIsSubmittingPage.clickSubmissionButton()
+
+      Then("an error message is displayed")
+      CertificateWhoIsSubmittingPage.assertErrorShownOnPage()
 
       When("the user selects the SAO submitter option and clicks 'Continue'")
       CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
@@ -384,7 +388,7 @@ class CertificateSpec extends BaseSpec {
 
       // TODO validation assertion for 'Check your answers' in the 'SAO declaration' variation
 
-      When("the goes back to the 'Who is submitting' page")
+      When("the user goes back to the 'Who is submitting' page")
       CertificateWhoIsSubmittingPage.loadPage()
 
       When("the user selects the SAO submitter option and clicks 'Continue'")
