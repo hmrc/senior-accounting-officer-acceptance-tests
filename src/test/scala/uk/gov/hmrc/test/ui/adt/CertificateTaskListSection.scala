@@ -16,10 +16,6 @@
 
 package uk.gov.hmrc.test.ui.adt
 
-sealed trait CertificateTaskListSection
-
-object CertificateTaskListSection {
-  case object ProvideSaoDetails        extends CertificateTaskListSection
-  case object UploadSubmissionTemplate extends CertificateTaskListSection
-  case object SubmitCertificate        extends CertificateTaskListSection
+enum CertificateTaskListSection {
+  case ProvideSaoDetails, UploadSubmissionTemplate, SubmitCertificate
 }

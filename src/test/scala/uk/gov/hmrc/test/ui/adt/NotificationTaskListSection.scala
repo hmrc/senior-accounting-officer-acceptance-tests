@@ -16,10 +16,6 @@
 
 package uk.gov.hmrc.test.ui.adt
 
-sealed trait NotificationTaskListSection
-
-object NotificationTaskListSection {
-  case object ProvideSaoDetails        extends NotificationTaskListSection
-  case object UploadSubmissionTemplate extends NotificationTaskListSection
-  case object SubmitNotification       extends NotificationTaskListSection
+enum NotificationTaskListSection {
+  case ProvideSaoDetails, UploadSubmissionTemplate, SubmitNotification
 }
