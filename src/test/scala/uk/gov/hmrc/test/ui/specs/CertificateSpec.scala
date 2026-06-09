@@ -259,7 +259,7 @@ class CertificateSpec extends BaseSpec {
 
       When("the user enters a invalid SAO email and clicks 'Continue'")
       CertificateSaoEmailPage.assertHeadingMatches(s"What is the email address for ${TestData.firstPersonName}?")
-      CertificateSaoEmailPage.addEmail("abcdefg123456")
+      CertificateSaoEmailPage.addEmail("abc123")
       CertificateSaoEmailPage.clickSubmissionButton()
 
       When("the user enters a valid SAO email and clicks 'Continue'")
