@@ -30,9 +30,6 @@ object CertificateSaoEmailPage extends CommonPage with SubmissionButtonSupport w
   override val pageTitle: String =
     "What is the email address for the SAO? - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/changeCertificateSaoEmail"
-
   val pageHeadingElement: By = By.cssSelector(".govuk-label-wrapper")
 
   override protected def submissionButtonLocator: By = By.cssSelector(".govuk-button")

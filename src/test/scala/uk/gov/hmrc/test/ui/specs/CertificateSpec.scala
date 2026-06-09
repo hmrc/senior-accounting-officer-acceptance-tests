@@ -257,8 +257,12 @@ class CertificateSpec extends BaseSpec {
 
       // TODO validation assertion for 'SAO email'
 
-      When("the user enters a valid SAO email and clicks 'Continue'")
+      When("the user enters a invalid SAO email and clicks 'Continue'")
       CertificateSaoEmailPage.assertHeadingMatches(s"What is the email address for ${TestData.firstPersonName}?")
+      CertificateSaoEmailPage.addEmail("abcdefg123456")
+      CertificateSaoEmailPage.clickSubmissionButton()
+
+      When("the user enters a valid SAO email and clicks 'Continue'")
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
       CertificateSaoEmailPage.clickSubmissionButton()
 
