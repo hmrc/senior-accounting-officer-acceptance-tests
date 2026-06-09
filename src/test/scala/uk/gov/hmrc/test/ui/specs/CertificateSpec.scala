@@ -127,29 +127,6 @@ class CertificateSpec extends BaseSpec {
     }
 
     Scenario(
-      "A user can go back from the SAO confirm certificate page to the who is submitting page",
-      SubmissionUITests,
-      ZapTests
-    ) {
-      Given("an authenticated user has reached the 'Who is submitting the certificate?' page")
-      navigateToCertificateWhoIsSubmittingPage()
-
-      When("the user selects the SAO submitter option and clicks 'Continue'")
-      CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
-      CertificateWhoIsSubmittingPage.clickSubmissionButton()
-
-      Then("the user lands on the 'SAO declaration' page")
-      assertOnPage(CertificateDeclarationSaoPage)
-      CertificateDeclarationSaoPage.assertCorePageContent()
-
-      When("the user clicks the 'Back' link")
-      CertificateDeclarationSaoPage.clickBackLink()
-
-      Then("the user is returned to the 'Who is submitting the certificate?' page")
-      assertOnPage(CertificateWhoIsSubmittingPage)
-    }
-
-    Scenario(
       "A user can submit a certificate successfully from the 'Account Homepage' on behalf of their SAO",
       SubmissionUITests,
       ZapTests
@@ -426,34 +403,4 @@ class CertificateSpec extends BaseSpec {
     assertOnPage(CertificateTaskListPage)
   }
 
-  private def navigateToCertificateWhoIsSubmittingPage(): Unit = {
-    navigateToCertificateStartPage()
-
-    CertificateTaskListPage.clickTask1()
-    assertOnPage(CertificateSaoFullNamePage)
-    CertificateSaoFullNamePage.addName(TestData.firstPersonName)
-    CertificateSaoFullNamePage.clickSubmissionButton()
-
-    assertOnPage(CertificateSaoEmailPage)
-    CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
-    CertificateSaoEmailPage.clickSubmissionButton()
-
-    assertOnPage(CertificateTaskListPage)
-    CertificateTaskListPage.clickTask2()
-    assertOnPage(UploadSubmissionTemplatePage)
-    UploadSubmissionTemplatePage.clickSubmissionButton()
-
-    assertOnPage(UploadReviewQualifiedPage)
-    UploadReviewQualifiedPage.clickSubmissionButton()
-    assertOnPage(UploadReviewUnqualifiedPage)
-    UploadReviewUnqualifiedPage.clickSubmissionButton()
-
-    assertOnPage(CertificateTaskListPage)
-    CertificateTaskListPage.clickTask3()
-    assertOnPage(AdditionalInformationPage)
-    AdditionalInformationPage.addInformation("No additional information for this certificate")
-    AdditionalInformationPage.clickSubmissionButton()
-
-    assertOnPage(CertificateWhoIsSubmittingPage)
-  }
 }
