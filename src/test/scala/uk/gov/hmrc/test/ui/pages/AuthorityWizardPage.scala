@@ -31,7 +31,7 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
   private val affinityGroupById: By        = By.id("affinityGroupSelect")
   override def submissionButtonLocator: By = By.id("submit-top")
 
-  private val redirectHubUrl: String = TestConfiguration.url("senior-accounting-officer-hub-frontend")
+  private val redirectHomePageUrl: String = TestConfiguration.url("senior-accounting-officer-hub-frontend")
 
   private def selectAffinityGroup(affinityGroup: AffinityGroup): Unit =
     selectDropdownById(affinityGroupById).selectByVisibleText(affinityGroup.toString)
@@ -41,8 +41,8 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
   def redirectToRegistration(config: AuthorityWizardConfig): Unit =
     redirectTo(config, RegistrationPage.pageUrl)
 
-  def redirectToHub(config: AuthorityWizardConfig): Unit =
-    redirectTo(config, redirectHubUrl)
+  def redirectToHomePage(config: AuthorityWizardConfig): Unit =
+    redirectTo(config, redirectHomePageUrl)
 
   private def redirectTo(config: AuthorityWizardConfig, url: String): Unit = {
     loadPage()
@@ -55,5 +55,5 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
 
 final case class AuthorityWizardConfig private[pages] (affinityGroup: AffinityGroup) {
   def redirectToRegistration(): Unit = AuthorityWizardPage.redirectToRegistration(this)
-  def redirectToHub(): Unit          = AuthorityWizardPage.redirectToHub(this)
+  def redirectToHomePage(): Unit     = AuthorityWizardPage.redirectToHomePage(this)
 }
