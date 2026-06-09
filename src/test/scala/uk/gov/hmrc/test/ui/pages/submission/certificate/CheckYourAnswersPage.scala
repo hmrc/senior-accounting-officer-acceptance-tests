@@ -18,9 +18,9 @@ package uk.gov.hmrc.test.ui.pages.submission.certificate
 
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
+import uk.gov.hmrc.test.ui.support.{BackLinkSupport, SubmissionButtonSupport}
 
-object CheckYourAnswersPage extends CommonPage with SubmissionButtonSupport {
+object CheckYourAnswersPage extends CommonPage with SubmissionButtonSupport with BackLinkSupport {
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateCheckYourAnswers"
 
