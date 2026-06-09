@@ -19,10 +19,14 @@ package uk.gov.hmrc.test.ui.pages.submission.certificate
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.sendKeys
-import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertElementIsClickable, assertTextOnPage, sendKeys}
+import uk.gov.hmrc.test.ui.support.{BackLinkSupport, ErrorMessageSupport, SubmissionButtonSupport}
 
-object CertificateDeclarationSaoPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
+object CertificateDeclarationSaoPage
+    extends CommonPage
+    with SubmissionButtonSupport
+    with BackLinkSupport
+    with ErrorMessageSupport {
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/submit-certificate-confirm-sao"
 
@@ -30,13 +34,27 @@ object CertificateDeclarationSaoPage extends CommonPage with SubmissionButtonSup
     "Confirm the certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/changeCertificateDeclarationSao"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/change-submit-certificate-confirm-sao"
 
   override protected def submissionButtonLocator: By = By.cssSelector(".govuk-button")
 
+<<<<<<< HEAD
   val saoNameInput: By = By.cssSelector("#value")
 
   def addSaoName(text: String): Unit = {
     sendKeys(saoNameInput, text)
+=======
+  val heading: By          = By.cssSelector("h1")
+  val declarationInput: By = By.cssSelector("#value")
+
+  def assertCorePageContent(): Unit = {
+    assertTextOnPage(heading, "Confirm the certificate")
+    assertElementIsClickable(declarationInput)
+    assertTextOnPage(submissionButtonLocator, "Confirm")
+  }
+
+  def addDeclaration(text: String): Unit = {
+    sendKeys(declarationInput, text)
+>>>>>>> 57d7d00 (confirm certificate updates)
   }
 }

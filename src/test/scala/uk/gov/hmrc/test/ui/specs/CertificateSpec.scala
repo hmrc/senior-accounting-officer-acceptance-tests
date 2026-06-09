@@ -104,6 +104,7 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user lands on the 'SAO declaration' page")
       assertOnPage(CertificateDeclarationSaoPage)
+      CertificateDeclarationSaoPage.assertCorePageContent()
 
       When("the user clicks 'Continue' after adding the SAO name to complete the declaration")
       CertificateDeclarationSaoPage.addSaoName(TestData.firstPersonName)
@@ -123,6 +124,29 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user returns to the certificate task list")
       assertOnPage(CertificateTaskListPage)
+    }
+
+    Scenario(
+      "A user can go back from the SAO confirm certificate page to the who is submitting page",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user has reached the 'Who is submitting the certificate?' page")
+      navigateToCertificateWhoIsSubmittingPage()
+
+      When("the user selects the SAO submitter option and clicks 'Continue'")
+      CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
+      CertificateWhoIsSubmittingPage.clickSubmissionButton()
+
+      Then("the user lands on the 'SAO declaration' page")
+      assertOnPage(CertificateDeclarationSaoPage)
+      CertificateDeclarationSaoPage.assertCorePageContent()
+
+      When("the user clicks the 'Back' link")
+      CertificateDeclarationSaoPage.clickBackLink()
+
+      Then("the user is returned to the 'Who is submitting the certificate?' page")
+      assertOnPage(CertificateWhoIsSubmittingPage)
     }
 
     Scenario(
@@ -319,6 +343,7 @@ class CertificateSpec extends BaseSpec {
 
       When("the 'Confirm' button is clicked after no name is added")
       CertificateDeclarationSaoPage.clickSubmissionButton()
+      CertificateDeclarationSaoPage.assertCorePageContent()
 
       Then("an error message is displayed")
       CertificateDeclarationSaoPage.assertErrorShownOnPage()
@@ -399,5 +424,36 @@ class CertificateSpec extends BaseSpec {
     SubmissionTypePage.clickCertificateRadioButton()
     SubmissionTypePage.clickSubmissionButton()
     assertOnPage(CertificateTaskListPage)
+  }
+
+  private def navigateToCertificateWhoIsSubmittingPage(): Unit = {
+    navigateToCertificateStartPage()
+
+    CertificateTaskListPage.clickTask1()
+    assertOnPage(CertificateSaoFullNamePage)
+    CertificateSaoFullNamePage.addName(TestData.firstPersonName)
+    CertificateSaoFullNamePage.clickSubmissionButton()
+
+    assertOnPage(CertificateSaoEmailPage)
+    CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
+    CertificateSaoEmailPage.clickSubmissionButton()
+
+    assertOnPage(CertificateTaskListPage)
+    CertificateTaskListPage.clickTask2()
+    assertOnPage(UploadSubmissionTemplatePage)
+    UploadSubmissionTemplatePage.clickSubmissionButton()
+
+    assertOnPage(UploadReviewQualifiedPage)
+    UploadReviewQualifiedPage.clickSubmissionButton()
+    assertOnPage(UploadReviewUnqualifiedPage)
+    UploadReviewUnqualifiedPage.clickSubmissionButton()
+
+    assertOnPage(CertificateTaskListPage)
+    CertificateTaskListPage.clickTask3()
+    assertOnPage(AdditionalInformationPage)
+    AdditionalInformationPage.addInformation("No additional information for this certificate")
+    AdditionalInformationPage.clickSubmissionButton()
+
+    assertOnPage(CertificateWhoIsSubmittingPage)
   }
 }
