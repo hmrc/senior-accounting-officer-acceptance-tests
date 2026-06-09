@@ -303,7 +303,6 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Who is submitting' page")
       assertOnPage(CertificateWhoIsSubmittingPage)
 
-      // TODO validation assertion for 'Who is submitting'
       When("the 'Continue' button is clicked after neither radio button is selected")
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
 
