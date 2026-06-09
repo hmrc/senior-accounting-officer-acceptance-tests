@@ -47,7 +47,7 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'SAO full name' page")
       assertOnPage(CertificateSaoFullNamePage)
 
-      When("the user enters a valid SAO name and clicks 'Continue'")
+      When("the continue button is clicked after a valid SAO name is added'")
       CertificateSaoFullNamePage.addName(TestData.firstPersonName)
       CertificateSaoFullNamePage.clickSubmissionButton()
 
@@ -246,9 +246,13 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'SAO full name' page")
       assertOnPage(CertificateSaoFullNamePage)
 
-      // TODO validation assertion for 'SAO full name'
+      When("the 'Continue' button is clicked after no name was added")
+      CertificateSaoFullNamePage.clickSubmissionButton()
 
-      When("the user enters a valid SAO name and clicks 'Continue'")
+      Then("an error message is displayed")
+      CertificateSaoFullNamePage.assertErrorShownOnPage()
+
+      When("the 'Continue' button is clicked after adding a valid SAO name")
       CertificateSaoFullNamePage.addName(TestData.firstPersonName)
       CertificateSaoFullNamePage.clickSubmissionButton()
 
@@ -322,7 +326,6 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CheckYourAnswersPage)
 
       // TODO validation assertion for 'Check your answers' in the 'SAO declaration' variation
-
 
       When("the goes back to the 'Who is submitting' page")
       CertificateWhoIsSubmittingPage.loadPage()
