@@ -20,9 +20,13 @@ import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.sendKeys
-import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
+import uk.gov.hmrc.test.ui.support.{BackLinkSupport, ErrorMessageSupport, SubmissionButtonSupport}
 
-object CertificateDeclarationSaoPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
+object CertificateDeclarationSaoPage
+    extends CommonPage
+    with SubmissionButtonSupport
+    with BackLinkSupport
+    with ErrorMessageSupport {
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/submit-certificate-confirm-sao"
 
@@ -30,13 +34,13 @@ object CertificateDeclarationSaoPage extends CommonPage with SubmissionButtonSup
     "Confirm the certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/changeCertificateDeclarationSao"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/change-submit-certificate-confirm-sao"
 
   override protected def submissionButtonLocator: By = By.cssSelector(".govuk-button")
 
-  val saoNameInput: By = By.cssSelector("#value")
+  val declarationInput: By = By.cssSelector("#value")
 
   def addSaoName(text: String): Unit = {
-    sendKeys(saoNameInput, text)
+    sendKeys(declarationInput, text)
   }
 }
