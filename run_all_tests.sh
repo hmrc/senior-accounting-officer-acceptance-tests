@@ -13,7 +13,12 @@ if [ "${NO_LINT}" = "true" ]; then
   echo "Skipping lint"
 else
   echo "Linting"
-  sbt lint
+  sbt -Dsbt.log.noformat=true lint
 fi
 
-sbt clean -Dbrowser="${BROWSER_TYPE:=$DEFAULT_BROWSER}" -Denvironment="${ENV:=local}" "test" -Dbrowser.usePreviousVersion=true testReport
+sbt -Dsbt.log.noformat=true clean \
+  -Dbrowser="${BROWSER_TYPE:=$DEFAULT_BROWSER}" \
+  -Denvironment="${ENV:=local}" \
+  -Dbrowser.usePreviousVersion=true \
+  test \
+  testReport
