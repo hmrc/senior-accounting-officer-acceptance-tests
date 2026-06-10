@@ -19,7 +19,7 @@ package uk.gov.hmrc.test.ui.pages.submission.certificate
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.{assertElementIsClickable, assertTextOnPage, sendKeys}
+import uk.gov.hmrc.test.ui.support.PageSupport.sendKeys
 import uk.gov.hmrc.test.ui.support.{BackLinkSupport, ErrorMessageSupport, SubmissionButtonSupport}
 
 object CertificateDeclarationSaoPage
@@ -39,7 +39,7 @@ object CertificateDeclarationSaoPage
   override protected def submissionButtonLocator: By = By.cssSelector(".govuk-button")
 
   val declarationInput: By = By.cssSelector("#value")
-  
+
   def addDeclaration(text: String): Unit = {
     sendKeys(declarationInput, text)
   }
