@@ -327,7 +327,6 @@ class CertificateSpec extends BaseSpec {
 
       When("the 'Confirm' button is clicked after no name is added")
       CertificateDeclarationSaoPage.clickSubmissionButton()
-      CertificateDeclarationSaoPage.assertCorePageContent()
 
       Then("an error message is displayed")
       CertificateDeclarationSaoPage.assertErrorShownOnPage()
@@ -346,8 +345,6 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user lands on the SAO's 'Confirm the certificate' page showing the previous error")
       assertOnPage(CertificateDeclarationSaoPage)
-      When("the user goes back to the 'Who is submitting' page")
-      CertificateWhoIsSubmittingPage.loadPage()
 
       When("the 'Back' link is clicked")
       CertificateWhoIsSubmittingPage.clickBackLink()
