@@ -47,7 +47,7 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'SAO full name' page")
       assertOnPage(CertificateSaoFullNamePage)
 
-      When("the continue button is clicked after a valid SAO name is added'")
+      When("the 'Continue' button is clicked after a valid SAO name is added")
       CertificateSaoFullNamePage.addName(TestData.firstPersonName)
       CertificateSaoFullNamePage.clickSubmissionButton()
 
