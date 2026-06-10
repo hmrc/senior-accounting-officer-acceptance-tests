@@ -23,9 +23,9 @@ import uk.gov.hmrc.test.ui.adt.PageSectionStatus.*
 import uk.gov.hmrc.test.ui.pages.submission.*
 import uk.gov.hmrc.test.ui.pages.submission.certificate.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
-import uk.gov.hmrc.test.ui.specs.tags.{CertificateUITests, SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.PageSupport.*
-import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
+import uk.gov.hmrc.test.ui.support.TestData
 
 class CertificateSpec extends BaseSpec {
   override def beforeEach(): Unit = {
