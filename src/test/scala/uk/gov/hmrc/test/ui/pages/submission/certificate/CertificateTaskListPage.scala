@@ -22,11 +22,12 @@ import org.scalatest.AppendedClues.convertToClueful
 import uk.gov.hmrc.test.ui.adt.CertificateTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.{CertificateTaskListSection, PageSectionStatus}
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.pages.BasePage
+import uk.gov.hmrc.test.ui.pages.StaticTitle
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object CertificateTaskListPage extends CommonPage with SubmissionButtonSupport {
+object CertificateTaskListPage extends BasePage with StaticTitle with SubmissionButtonSupport {
 
   case class TaskListSection(
       name: String,
@@ -35,19 +36,19 @@ object CertificateTaskListPage extends CommonPage with SubmissionButtonSupport {
       statusHighlightLocator: By
   )
 
-  override val pageUrl: String =
+  val taskListOnePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/1"
 
   override val pageTitle: String =
     "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val changeTask2PageUrl: String =
+  val taskListTwoPageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/2"
 
-  val changeTask3PageUrl: String =
+  val taskListThreePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/3"
 
-  val changeTaskCompletePageUrl: String =
+  val taskListCompletePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/complete"
 
   private def statusLocator(id: String): By          = By.cssSelector(s"#$id-status")
