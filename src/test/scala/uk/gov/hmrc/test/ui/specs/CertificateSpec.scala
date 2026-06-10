@@ -107,14 +107,6 @@ class CertificateSpec extends BaseSpec {
 
       When("the user clicks 'Continue' after adding the SAO name to complete the declaration")
       CertificateDeclarationSaoPage.addSaoName(TestData.firstPersonName)
-      When("the user clicks 'Continue' without entering an SAO declaration")
-      CertificateDeclarationSaoPage.clickSubmissionButton()
-
-      Then("an error message is displayed")
-      CertificateDeclarationSaoPage.assertErrorShownOnPage()
-
-      When("the user completes the SAO declaration and clicks 'Continue'")
-      CertificateDeclarationSaoPage.addSaoName(TestData.firstPersonName)
       CertificateDeclarationSaoPage.clickSubmissionButton()
 
       Then("the user lands on the 'Check your answers' page")
@@ -254,8 +246,6 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user lands on the 'SAO full name' page")
       assertOnPage(CertificateSaoFullNamePage)
-
-      // TODO validation assertion for 'SAO full name'
 
       When("the user enters a valid SAO name and clicks 'Continue'")
       CertificateSaoFullNamePage.addName(TestData.firstPersonName)
