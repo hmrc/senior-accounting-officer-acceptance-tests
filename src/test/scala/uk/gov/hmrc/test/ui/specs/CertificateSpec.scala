@@ -114,7 +114,7 @@ class CertificateSpec extends BaseSpec {
       CertificateDeclarationSaoPage.assertErrorShownOnPage()
 
       When("the user completes the SAO declaration and clicks 'Continue'")
-      CertificateDeclarationSaoPage.addDeclaration(TestData.firstPersonName)
+      CertificateDeclarationSaoPage.addSaoName(TestData.firstPersonName)
       CertificateDeclarationSaoPage.clickSubmissionButton()
 
       Then("the user lands on the 'Check your answers' page")

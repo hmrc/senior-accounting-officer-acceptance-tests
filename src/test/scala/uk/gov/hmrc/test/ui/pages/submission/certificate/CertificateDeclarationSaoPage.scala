@@ -40,7 +40,7 @@ object CertificateDeclarationSaoPage
 
   val declarationInput: By = By.cssSelector("#value")
 
-  def addDeclaration(text: String): Unit = {
+  def addSaoName(text: String): Unit = {
     sendKeys(declarationInput, text)
   }
 }
