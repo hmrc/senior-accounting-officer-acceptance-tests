@@ -16,6 +16,6 @@
 
 package uk.gov.hmrc.test.ui.adt
 
-enum NotificationTaskListSection {
-  case ProvideSaoDetails, UploadSubmissionTemplate, SubmitNotification
+enum CertificateTaskListSection {
+  case ProvideSaoDetails, UploadSubmissionTemplate, SubmitCertificate
 }
