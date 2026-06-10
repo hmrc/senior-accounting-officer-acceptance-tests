@@ -32,7 +32,7 @@ class NotificationSpec extends BaseSpec {
 
   override def beforeEach(): Unit = {
     super.beforeEach()
-    AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+    AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHomePage()
   }
 
   Feature("Submit Notification") {

@@ -19,7 +19,7 @@ package uk.gov.hmrc.test.ui.pages.submission.certificate
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.sendKeys
+import uk.gov.hmrc.test.ui.support.PageSupport.{clearField, sendKeys}
 import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
 
 object CertificateDeclarationStandInPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
@@ -31,11 +31,22 @@ object CertificateDeclarationStandInPage extends CommonPage with SubmissionButto
 
   override protected def submissionButtonLocator: By = By.cssSelector(".govuk-button")
 
-  val declarationStandInInput: By = By.cssSelector("#StandInName")
-  val declarationSaoInput: By     = By.cssSelector("#SaoName")
+  val saoNameInputElement: By     = By.cssSelector("#SaoName")
+  val standInNameInputElement: By = By.cssSelector("#StandInName")
 
-  def addDeclaration(standInName: String, saoName: String): Unit = {
-    sendKeys(declarationStandInInput, standInName)
-    sendKeys(declarationSaoInput, saoName)
+  def addSaoName(name: String): Unit = {
+    sendKeys(saoNameInputElement, name)
+  }
+
+  def addStandInSubmitterName(name: String): Unit = {
+    sendKeys(standInNameInputElement, name)
+  }
+
+  def clearSaoNameField(): Unit = {
+    clearField(saoNameInputElement)
+  }
+
+  def clearStandInNameField(): Unit = {
+    clearField(standInNameInputElement)
   }
 }

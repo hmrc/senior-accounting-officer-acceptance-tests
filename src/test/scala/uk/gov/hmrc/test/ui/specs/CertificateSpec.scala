@@ -28,13 +28,13 @@ import uk.gov.hmrc.test.ui.support.TestData
 class CertificateSpec extends BaseSpec {
   override def beforeEach(): Unit = {
     super.beforeEach()
-    AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+    AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHomePage()
   }
 
   Feature("Submit Certificate") {
     // The  below scenario would be extended as in when the pages/features are ready
     Scenario(
-      "A user can submit a certificate successfully from the 'Account Homepage' and submit as themselves",
+      "An authorised senior accounting officer can submit a certificate successfully from the 'Account Homepage'",
       SubmissionUITests,
       ZapTests
     ) {
@@ -54,7 +54,7 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'SAO email' page")
       assertOnPage(CertificateSaoEmailPage)
 
-      When("the user enters a valid SAO email and clicks 'Continue'")
+      When("the user clicks 'Continue' after adding a valid SAO email")
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
       CertificateSaoEmailPage.clickSubmissionButton()
 
@@ -67,7 +67,7 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
 
-      When("the 'Continue' button is clicked after choosing a file for upload")
+      When("the user clicks 'Continue' after choosing a file for upload")
       UploadSubmissionTemplatePage.clickSubmissionButton()
 
       Then("the user lands on the 'Review Qualified' page")
@@ -91,22 +91,22 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Additional information' page")
       assertOnPage(AdditionalInformationPage)
 
-      When("the user enters additional information and clicks 'Continue'")
+      When("the user clicks 'Continue' after adding additional information")
       AdditionalInformationPage.addInformation("No additional information for this certificate")
       AdditionalInformationPage.clickSubmissionButton()
 
       Then("the user lands on the 'Who is submitting' page")
       assertOnPage(CertificateWhoIsSubmittingPage)
 
-      When("the user selects the SAO submitter option and clicks 'Continue'")
+      When("the user clicks 'Continue' after selecting the SAO submitter radio option")
       CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
 
       Then("the user lands on the 'SAO declaration' page")
       assertOnPage(CertificateDeclarationSaoPage)
 
-      When("the user completes the SAO declaration and clicks 'Continue'")
-      CertificateDeclarationSaoPage.addDeclaration(TestData.firstPersonName)
+      When("the user clicks 'Continue' after adding the SAO name to complete the declaration")
+      CertificateDeclarationSaoPage.addSaoName(TestData.firstPersonName)
       CertificateDeclarationSaoPage.clickSubmissionButton()
 
       Then("the user lands on the 'Check your answers' page")
@@ -126,7 +126,7 @@ class CertificateSpec extends BaseSpec {
     }
 
     Scenario(
-      "A user can submit a certificate successfully from the 'Account Homepage' and submit on behalf of their SAO",
+      "A user can submit a certificate successfully from the 'Account Homepage' on behalf of their SAO",
       SubmissionUITests,
       ZapTests
     ) {
@@ -139,14 +139,14 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'SAO full name' page")
       assertOnPage(CertificateSaoFullNamePage)
 
-      When("the user enters a valid SAO name and clicks 'Continue'")
+      When("the user clicks 'Continue' after adding a valid SAO name")
       CertificateSaoFullNamePage.addName(TestData.firstPersonName)
       CertificateSaoFullNamePage.clickSubmissionButton()
 
       Then("the user lands on the 'SAO email' page")
       assertOnPage(CertificateSaoEmailPage)
 
-      When("the user enters a valid SAO email and clicks 'Continue'")
+      When("the user clicks 'Continue' after adding a valid SAO email")
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
       CertificateSaoEmailPage.clickSubmissionButton()
 
@@ -183,22 +183,23 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Additional information' page")
       assertOnPage(AdditionalInformationPage)
 
-      When("the user enters additional information and clicks 'Continue'")
+      When("the user clicks 'Continue' after adding additional information")
       AdditionalInformationPage.addInformation("No additional information for this certificate")
       AdditionalInformationPage.clickSubmissionButton()
 
       Then("the user lands on the 'Who is submitting' page")
       assertOnPage(CertificateWhoIsSubmittingPage)
 
-      When("the user selects the SAO submitter option and clicks 'Continue'")
+      When("the user clicks 'Continue' after selecting the SAO submitter radio option")
       CertificateWhoIsSubmittingPage.clickStandInSubmitterRadioButton()
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
 
       Then("the user lands on the 'SAO stand-in declaration' page")
       assertOnPage(CertificateDeclarationStandInPage)
 
-      When("the user completes the SAO stand-in declaration and clicks 'Continue'")
-      CertificateDeclarationStandInPage.addDeclaration(TestData.firstPersonName, TestData.secondPersonName)
+      When("the user clicks 'Continue' after adding the SAO and stand-in submitter names to complete the declaration")
+      CertificateDeclarationStandInPage.addSaoName(TestData.firstPersonName)
+      CertificateDeclarationStandInPage.addStandInSubmitterName(TestData.secondPersonName)
       CertificateDeclarationStandInPage.clickSubmissionButton()
 
       Then("the user lands on the 'Check your answers' page")
@@ -218,7 +219,7 @@ class CertificateSpec extends BaseSpec {
     }
 
     Scenario(
-      "Validate that choosing a Submission type is required for a certification submission",
+      "Validate that mandatory details are required for a certification submission",
       SubmissionUITests,
       ZapTests
     ) {
@@ -227,7 +228,7 @@ class CertificateSpec extends BaseSpec {
       AccountHomePage.clickSubmitCertificateLink()
       assertOnPage(SubmissionTypePage)
 
-      When("neither radio button is selected and the 'Continue' button is clicked")
+      When("the 'Continue' button is clicked after neither radio button is selected")
       SubmissionTypePage.clickSubmissionButton()
 
       Then("an error message is displayed")
@@ -304,7 +305,7 @@ class CertificateSpec extends BaseSpec {
 
       // TODO validation assertion for 'Additional information'
 
-      When("the user enters additional information and clicks 'Continue'")
+      When("the user clicks 'Continue' after adding additional information")
       AdditionalInformationPage.addInformation("No additional information for this certificate")
       AdditionalInformationPage.clickSubmissionButton()
 
@@ -317,17 +318,21 @@ class CertificateSpec extends BaseSpec {
       Then("an error message is displayed")
       CertificateWhoIsSubmittingPage.assertErrorShownOnPage()
 
-      When("the user selects the SAO submitter option and clicks 'Continue'")
+      When("the user clicks 'Continue' after selecting the SAO submitter radio option")
       CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
 
-      Then("the user lands on the 'SAO declaration' page")
+      Then("the user lands on the SAO's 'Confirm the certificate' page")
       assertOnPage(CertificateDeclarationSaoPage)
 
-      // TODO validation assertion for 'SAO declaration'
+      When("the 'Confirm' button is clicked after no name is added")
+      CertificateDeclarationSaoPage.clickSubmissionButton()
 
-      When("the user completes the SAO declaration and clicks 'Continue'")
-      CertificateDeclarationSaoPage.addDeclaration(TestData.firstPersonName)
+      Then("an error message is displayed")
+      CertificateDeclarationSaoPage.assertErrorShownOnPage()
+
+      When("the user clicks 'Continue' after adding the SAO name to complete the declaration")
+      CertificateDeclarationSaoPage.addSaoName(TestData.firstPersonName)
       CertificateDeclarationSaoPage.clickSubmissionButton()
 
       Then("the user lands on the 'Check your answers' page")
@@ -335,19 +340,56 @@ class CertificateSpec extends BaseSpec {
 
       // TODO validation assertion for 'Check your answers' in the 'SAO declaration' variation
 
-      When("the user goes back to the 'Who is submitting' page")
-      CertificateWhoIsSubmittingPage.loadPage()
+      When("the 'Back' link is clicked")
+      CheckYourAnswersPage.clickBackLink()
 
-      When("the user selects the SAO submitter option and clicks 'Continue'")
+      Then("the user lands on the SAO's 'Confirm the certificate' page showing the previous error")
+      assertOnPage(CertificateDeclarationSaoPage)
+
+      When("the 'Back' link is clicked")
+      CertificateWhoIsSubmittingPage.clickBackLink()
+
+      Then("the user lands on the SAO's 'Confirm the certificate' page with no error showing")
+      assertOnPage(CertificateDeclarationSaoPage)
+
+      When("the 'Back' link is clicked")
+      CertificateWhoIsSubmittingPage.clickBackLink()
+
+      Then("the user lands on the 'Who is submitting' page")
+      assertOnPage(CertificateWhoIsSubmittingPage)
+
+      When("the user clicks 'Continue' after selecting the stand-in submitter radio option")
       CertificateWhoIsSubmittingPage.clickStandInSubmitterRadioButton()
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
 
       Then("the user lands on the 'SAO stand-in declaration' page")
       assertOnPage(CertificateDeclarationStandInPage)
-      // TODO validation assertion for 'Stand-in declaration'
 
-      When("the user completes the SAO stand-in declaration and clicks 'Continue'")
-      CertificateDeclarationStandInPage.addDeclaration(TestData.firstPersonName, TestData.secondPersonName)
+      When("the 'Confirm' button is clicked after no names are entered")
+      CertificateDeclarationStandInPage.clickSubmissionButton()
+
+      Then("an error message is displayed")
+      CertificateDeclarationStandInPage.assertErrorShownOnPage()
+
+      When("the 'Confirm' button is clicked after an 'SAO' name is entered but not the 'stand in submitter' name")
+      CertificateDeclarationStandInPage.addSaoName(TestData.firstPersonName)
+      CertificateDeclarationStandInPage.clearStandInNameField()
+      CertificateDeclarationStandInPage.clickSubmissionButton()
+
+      Then("an error message is displayed")
+      CertificateDeclarationStandInPage.assertErrorShownOnPage()
+
+      When("the 'Confirm' button is clicked after an 'stand in submitter' name is entered but not the 'SAO' name")
+      CertificateDeclarationStandInPage.addStandInSubmitterName(TestData.secondPersonName)
+      CertificateDeclarationStandInPage.clearSaoNameField()
+      CertificateDeclarationStandInPage.clickSubmissionButton()
+
+      Then("an error message is displayed")
+      CertificateDeclarationStandInPage.assertErrorShownOnPage()
+
+      When("the 'Confirm' button is clicked after both names are entered")
+      CertificateDeclarationStandInPage.addSaoName(TestData.firstPersonName)
+      CertificateDeclarationStandInPage.addStandInSubmitterName(TestData.secondPersonName)
       CertificateDeclarationStandInPage.clickSubmissionButton()
 
       Then("the user lands on the 'Check your answers' page")
@@ -358,7 +400,7 @@ class CertificateSpec extends BaseSpec {
   }
 
   private def navigateToCertificateStartPage(): Unit = {
-    AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHub()
+    AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHomePage()
     assertOnPage(AccountHomePage)
     AccountHomePage.clickSubmitCertificateLink()
     assertOnPage(SubmissionTypePage)
