@@ -412,4 +412,5 @@ class CertificateSpec extends BaseSpec {
     SubmissionTypePage.clickSubmissionButton()
     assertOnPage(CertificateTaskListPage)
   }
+
 }
