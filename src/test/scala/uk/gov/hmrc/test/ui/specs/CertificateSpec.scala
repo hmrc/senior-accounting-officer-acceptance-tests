@@ -466,6 +466,60 @@ class CertificateSpec extends BaseSpec {
 
       // TODO validation assertion for 'Check your answers' in the 'Stand-in declaration' variation
     }
+
+    Scenario(
+      "A user can submit a certificate successfully by adding additional information",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user initiates adding a certificate from the Account page")
+      goToAdditionalInformationPageFromHomePage()
+
+      When("additional information is added")
+      AdditionalInformationPage.addInformation("Additional information added!")
+      AdditionalInformationPage.clickSubmissionButton()
+
+      Then("user lands on the 'Who is submitting the certificate?' page")
+      assertOnPage(CertificateWhoIsSubmittingPage)
+    }
+
+    Scenario(
+      "When continuing with no additional information an error is displayed and is cleared on populating additional information and pressing continue",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user arrives on the additional information page during a certificate submission")
+      goToAdditionalInformationPageFromHomePage()
+
+      When("pressing continue without providing additional information")
+      AdditionalInformationPage.clickSubmissionButton()
+
+      Then("an error appears on screen")
+      AdditionalInformationPage.assertErrorShownOnPage()
+
+      And(
+        "on continuing after adding additional information user lands on the 'Who is submitting the certificate?' page"
+      )
+      AdditionalInformationPage.addInformation("Test")
+      AdditionalInformationPage.clickSubmissionButton()
+      assertOnPage(CertificateWhoIsSubmittingPage)
+    }
+
+    Scenario(
+      "When continuing with no additional information and pressing 'Skip'",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user arrives on the additional information page during a certificate submission")
+      goToAdditionalInformationPageFromHomePage()
+
+      When("pressing 'skip' without providing additional information")
+      AdditionalInformationPage.clickSkipButton()
+
+      Then("user lands on the 'Who is submitting the certificate?'")
+      assertOnPage(CertificateWhoIsSubmittingPage)
+    }
+
   }
 
   private def navigateToCertificateStartPage(): Unit = {
@@ -478,4 +532,17 @@ class CertificateSpec extends BaseSpec {
     assertUrl(CertificateTaskListPage.taskListOnePageUrl)
   }
 
+  private def goToAdditionalInformationPageFromHomePage(): Unit = {
+    navigateToCertificateStartPage()
+    CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
+    CertificateSaoFullNamePage.addName(TestData.firstPersonName)
+    CertificateSaoFullNamePage.clickSubmissionButton()
+    CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
+    CertificateSaoEmailPage.clickSubmissionButton()
+    CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+    UploadSubmissionTemplatePage.clickSubmissionButton()
+    UploadReviewQualifiedPage.clickSubmissionButton()
+    UploadReviewUnqualifiedPage.clickSubmissionButton()
+    CertificateTaskListPage.clickTaskListSectionLink(SubmitCertificate)
+  }
 }
