@@ -27,9 +27,10 @@ object CheckYourAnswersPage extends CommonPage with SubmissionButtonSupport {
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/check-your-answers"
 
   override val pageTitle: String =
-    "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
+//    "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Check your answers - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val additionalInformationValueElement: By = By.cssSelector(".govuk-summary-list__value")
+  val additionalInformationValueElement: By = testId("additional-information-value")
   val additionalInformationChangeLink: By   = testId("change-additional-information-link")
 
   def clickAdditionalInformationChangeLink(): Unit = clickElement(additionalInformationChangeLink)

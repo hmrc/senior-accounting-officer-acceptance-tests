@@ -22,7 +22,7 @@ import uk.gov.hmrc.test.ui.adt.PageSectionStatus.*
 import uk.gov.hmrc.test.ui.pages.submission.*
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
 
@@ -140,13 +140,14 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(ConfirmNotificationPage)
       ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
-      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Not provided")
     }
 
     Scenario(
       "When pressing 'Skip' with no additional information, no text is displayed on the 'Check Your Answers' page",
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user arrives on the 'Additional Information' page during a notification submission")
       goToAdditionalInformationPageFromHomePage()
@@ -157,7 +158,7 @@ class NotificationSpec extends BaseSpec {
       Then("no text is displayed on the 'Check Your Answers' page")
       ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
-      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Not provided")
     }
 
     Scenario(
@@ -175,7 +176,7 @@ class NotificationSpec extends BaseSpec {
       Then("no text is displayed on the 'Check Your Answers' page")
       ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
-      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Not provided")
     }
 
     Scenario(
@@ -229,7 +230,7 @@ class NotificationSpec extends BaseSpec {
       Then("on pressing 'Skip' the updated text is not displayed on the 'Check Your Answers' page")
       AdditionalInformationPage.clickSkipButton()
       assertOnPage(CheckYourAnswersPage)
-      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Not provided")
     }
 
     Scenario(
