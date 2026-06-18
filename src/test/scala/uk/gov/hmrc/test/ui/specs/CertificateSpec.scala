@@ -372,7 +372,11 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Additional information' page")
       assertOnPage(AdditionalInformationPage)
 
-      // TODO validation assertion for 'Additional information'
+      When("pressing continue without providing additional information")
+      AdditionalInformationPage.clickSubmissionButton()
+
+      Then("an error appears on screen")
+      AdditionalInformationPage.assertErrorShownOnPage()
 
       When("the user clicks 'Continue' after adding additional information")
       AdditionalInformationPage.addInformation("No additional information for this certificate")
@@ -466,6 +470,36 @@ class CertificateSpec extends BaseSpec {
 
       // TODO validation assertion for 'Check your answers' in the 'Stand-in declaration' variation
     }
+
+    Scenario(
+      "Additional information can be skipped during a certificate submission",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the additional information page during a certificate submission")
+      goToAdditionalInformationPageFromHomePage()
+
+      When("clicking 'skip' without providing additional information")
+      AdditionalInformationPage.clickSkipButton()
+
+      Then("the user lands on the 'Who is submitting the certificate?' page")
+      assertOnPage(CertificateWhoIsSubmittingPage)
+
+      When("the user clicks the 'back' link")
+      CertificateWhoIsSubmittingPage.clickBackLink()
+
+      Then("the user lands on the 'Additional Information' page")
+      assertOnPage(AdditionalInformationPage)
+
+      When("clicking 'skip' after providing additional information")
+      AdditionalInformationPage.addInformation("Adding information again")
+      AdditionalInformationPage.clickSkipButton()
+
+      Then("the user lands on the 'Who is submitting the certificate?' page")
+      assertOnPage(CertificateWhoIsSubmittingPage)
+
+      // TODO: extend the test to check the additional information on the CYA page once development is complete
+    }
   }
 
   private def navigateToCertificateStartPage(): Unit = {
@@ -478,4 +512,33 @@ class CertificateSpec extends BaseSpec {
     assertUrl(CertificateTaskListPage.taskListOnePageUrl)
   }
 
+  private def goToAdditionalInformationPageFromHomePage(): Unit = {
+    navigateToCertificateStartPage()
+    completeProvideSaoDetailsTask()
+    completeUploadSubmissionTemplateTask()
+    CertificateTaskListPage.clickTaskListSectionLink(SubmitCertificate)
+    assertOnPage(AdditionalInformationPage)
+  }
+
+  private def completeProvideSaoDetailsTask(): Unit = {
+    CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
+    assertOnPage(CertificateSaoFullNamePage)
+    CertificateSaoFullNamePage.addName(TestData.firstPersonName)
+    CertificateSaoFullNamePage.clickSubmissionButton()
+    assertOnPage(CertificateSaoEmailPage)
+    CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
+    CertificateSaoEmailPage.clickSubmissionButton()
+    assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+  }
+
+  private def completeUploadSubmissionTemplateTask(): Unit = {
+    CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+    assertOnPage(UploadSubmissionTemplatePage)
+    UploadSubmissionTemplatePage.clickSubmissionButton()
+    assertOnPage(UploadReviewQualifiedPage)
+    UploadReviewQualifiedPage.clickSubmissionButton()
+    assertOnPage(UploadReviewUnqualifiedPage)
+    UploadReviewUnqualifiedPage.clickSubmissionButton()
+    assertUrl(CertificateTaskListPage.taskListThreePageUrl)
+  }
 }
