@@ -146,8 +146,7 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "When pressing 'Skip' with no additional information, no text is displayed on the 'Check Your Answers' page",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user arrives on the 'Additional Information' page during a notification submission")
       goToAdditionalInformationPageFromHomePage()
