@@ -259,6 +259,61 @@ class NotificationSpec extends BaseSpec {
     }
 
     Scenario(
+      "When selecting to change SAO name from the 'Check Your Answers' page during a notification submission",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user provides SAO name and arrives on the 'Check Your Answers' page during a notification submission"
+      )
+      goToAdditionalInformationPageFromHomePage()
+      AdditionalInformationPage.clickSkipButton()
+      assertOnPage(ConfirmNotificationPage)
+      ConfirmNotificationPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+      CheckYourAnswersPage.clickAdditionalInformationNameChangeLink()
+      assertUrl(SingleSaoNamePage.changePageUrl)
+      SingleSaoNamePage.addName("Jade Dancing")
+      SingleSaoNamePage.clickSubmissionButton()
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationNameValueElement, "Jade Dancing")
+
+      And("the user confirms their answers by clicking 'Continue'")
+      CheckYourAnswersPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Confirmation' page")
+      assertOnPage(ConfirmationPage)
+    }
+
+    Scenario(
+      "When selecting to change SAO name from the 'Check Your Answers' page during a notification submission, but doesn't change the name, ",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user provides SAO name and arrives on the 'Check Your Answers' page during a notification submission"
+      )
+      goToAdditionalInformationPageFromHomePage()
+      AdditionalInformationPage.clickSkipButton()
+      assertOnPage(ConfirmNotificationPage)
+      ConfirmNotificationPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+
+      When("the user returns to the 'Check Your Answers' page without saving any changes ")
+      CheckYourAnswersPage.clickAdditionalInformationNameChangeLink()
+      assertUrl(SingleSaoNamePage.changePageUrl)
+      SingleSaoNamePage.clickSubmissionButton()
+
+      Then("the original SAO name is displayed on the 'Check Your Answers' page")
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationNameValueElement, "Cat Noir")
+
+      When("the user confirms their answers by clicking 'Continue'")
+      CheckYourAnswersPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Confirmation' page")
+      assertOnPage(ConfirmationPage)
+    }
+
+    Scenario(
       "Complete a notification providing details for a single SAO in the financial year",
       SubmissionUITests,
       ZapTests

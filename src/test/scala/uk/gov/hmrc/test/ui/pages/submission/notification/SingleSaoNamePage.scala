@@ -30,4 +30,7 @@ object SingleSaoNamePage
 
   override val pageTitle: String =
     "Submit a notification - SAO full name - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  val changePageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/one-sao/change-submit-notification-full-name"
 }
