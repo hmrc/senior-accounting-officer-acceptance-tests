@@ -271,11 +271,11 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(ConfirmNotificationPage)
       ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
-      CheckYourAnswersPage.clickAdditionalInformationNameChangeLink()
+      CheckYourAnswersPage.clickSaoNameChangeLink()
       assertUrl(SingleSaoNamePage.changePageUrl)
       SingleSaoNamePage.addName("Jade Dancing")
       SingleSaoNamePage.clickSubmissionButton()
-      assertTextOnPage(CheckYourAnswersPage.additionalInformationNameValueElement, "Jade Dancing")
+      assertTextOnPage(CheckYourAnswersPage.saoNameValueElement, "Jade Dancing")
 
       And("the user confirms their answers by clicking 'Continue'")
       CheckYourAnswersPage.clickSubmissionButton()
@@ -299,12 +299,12 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(CheckYourAnswersPage)
 
       When("the user returns to the 'Check Your Answers' page without saving any changes ")
-      CheckYourAnswersPage.clickAdditionalInformationNameChangeLink()
+      CheckYourAnswersPage.clickSaoNameChangeLink()
       assertUrl(SingleSaoNamePage.changePageUrl)
       SingleSaoNamePage.clickSubmissionButton()
 
       Then("the original SAO name is displayed on the 'Check Your Answers' page")
-      assertTextOnPage(CheckYourAnswersPage.additionalInformationNameValueElement, "Cat Noir")
+      assertTextOnPage(CheckYourAnswersPage.saoNameValueElement, "Cat Noir")
 
       When("the user confirms their answers by clicking 'Continue'")
       CheckYourAnswersPage.clickSubmissionButton()
