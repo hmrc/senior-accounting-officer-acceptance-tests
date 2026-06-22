@@ -29,11 +29,11 @@ object CheckYourAnswersPage extends CommonPage with SubmissionButtonSupport {
   override val pageTitle: String =
     "Check your answers - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val additionalInformationValueElement: By     = testId("additional-information-value")
-  val saoNameValueElement: By = testId("sao-name-value")
-  val additionalInformationChangeLink: By       = testId("change-additional-information-link")
-  val saoNameChangeLink: By   = testId("change-sao-name-link")
+  val additionalInformationValueElement: By = testId("additional-information-value")
+  val saoNameValueElement: By               = testId("sao-name-value")
+  val additionalInformationChangeLink: By   = testId("change-additional-information-link")
+  val saoNameChangeLink: By                 = testId("change-sao-name-link")
 
-  def clickAdditionalInformationChangeLink(): Unit     = clickElement(additionalInformationChangeLink)
-  def clickSaoNameChangeLink(): Unit = clickElement(saoNameChangeLink)
+  def clickAdditionalInformationChangeLink(): Unit = clickElement(additionalInformationChangeLink)
+  def clickSaoNameChangeLink(): Unit               = clickElement(saoNameChangeLink)
 }

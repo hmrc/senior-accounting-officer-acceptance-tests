@@ -134,7 +134,7 @@ class NotificationSpec extends BaseSpec {
       AdditionalInformationPage.assertErrorShownOnPage()
 
       And(
-        "on pressing 'Skip', no text is displayed on the 'Check Your Answers' page"
+        "on pressing 'Skip', 'Not provided' value is displayed on the 'Check Your Answers' page"
       )
       AdditionalInformationPage.clickSkipButton()
       assertOnPage(ConfirmNotificationPage)
@@ -154,7 +154,8 @@ class NotificationSpec extends BaseSpec {
       When("pressing 'Skip' without providing additional information")
       AdditionalInformationPage.clickSkipButton()
       assertOnPage(ConfirmNotificationPage)
-      Then("no text is displayed on the 'Check Your Answers' page")
+
+      Then("'Not provided' value is displayed on the 'Check Your Answers' page")
       ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Not provided")
@@ -172,7 +173,8 @@ class NotificationSpec extends BaseSpec {
       AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSkipButton()
       assertOnPage(ConfirmNotificationPage)
-      Then("no text is displayed on the 'Check Your Answers' page")
+
+      Then("'Not provided' value is displayed on the 'Check Your Answers' page")
       ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Not provided")
@@ -226,14 +228,14 @@ class NotificationSpec extends BaseSpec {
       assertUrl(AdditionalInformationPage.changePageUrl)
       AdditionalInformationPage.addInformation("New Test For Changed Text")
 
-      Then("on pressing 'Skip' the updated text is not displayed on the 'Check Your Answers' page")
+      Then("on pressing 'Skip' the updated text is not displayed is on the 'Check Your Answers' page")
       AdditionalInformationPage.clickSkipButton()
       assertOnPage(CheckYourAnswersPage)
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Not provided")
     }
 
     Scenario(
-      "When selecting to change additional information from the 'Check Your Answers' page, if text is removed and continue is pressed an error is shown",
+      "When the existing additional information text is removed, post clicking the change link from 'CYA' page, then the error message is displayed",
       SubmissionUITests,
       ZapTests
     ) {
