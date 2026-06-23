@@ -273,6 +273,8 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(ConfirmNotificationPage)
       ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
+
+      When("user changes the SAO name by clicking on the change link")
       CheckYourAnswersPage.clickSaoNameChangeLink()
       assertUrl(SingleSaoNamePage.changePageUrl)
       SingleSaoNamePage.addName("Jade Dancing")
@@ -287,7 +289,7 @@ class NotificationSpec extends BaseSpec {
     }
 
     Scenario(
-      "When selecting to change SAO name from the 'Check Your Answers' page during a notification submission, but doesn't change the name, ",
+      "When changing the SAO name from the 'Check Your Answers' page during a notification submission, without making any changes to the name",
       SubmissionUITests,
       ZapTests
     ) {
