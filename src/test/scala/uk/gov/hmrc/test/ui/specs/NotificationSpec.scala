@@ -134,13 +134,13 @@ class NotificationSpec extends BaseSpec {
       AdditionalInformationPage.assertErrorShownOnPage()
 
       And(
-        "on pressing 'Skip', no text is displayed on the 'Check Your Answers' page"
+        "on pressing 'Skip', 'Not provided' value is displayed on the 'Check Your Answers' page"
       )
       AdditionalInformationPage.clickSkipButton()
       assertOnPage(ConfirmNotificationPage)
       ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
-      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Not provided")
     }
 
     Scenario(
@@ -154,10 +154,11 @@ class NotificationSpec extends BaseSpec {
       When("pressing 'Skip' without providing additional information")
       AdditionalInformationPage.clickSkipButton()
       assertOnPage(ConfirmNotificationPage)
-      Then("no text is displayed on the 'Check Your Answers' page")
+
+      Then("'Not provided' value is displayed on the 'Check Your Answers' page")
       ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
-      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Not provided")
     }
 
     Scenario(
@@ -172,10 +173,11 @@ class NotificationSpec extends BaseSpec {
       AdditionalInformationPage.addInformation("Test")
       AdditionalInformationPage.clickSkipButton()
       assertOnPage(ConfirmNotificationPage)
-      Then("no text is displayed on the 'Check Your Answers' page")
+
+      Then("'Not provided' value is displayed on the 'Check Your Answers' page")
       ConfirmNotificationPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
-      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Not provided")
     }
 
     Scenario(
@@ -226,14 +228,14 @@ class NotificationSpec extends BaseSpec {
       assertUrl(AdditionalInformationPage.changePageUrl)
       AdditionalInformationPage.addInformation("New Test For Changed Text")
 
-      Then("on pressing 'Skip' the updated text is not displayed on the 'Check Your Answers' page")
+      Then("on pressing 'Skip' the updated text is not displayed is on the 'Check Your Answers' page")
       AdditionalInformationPage.clickSkipButton()
       assertOnPage(CheckYourAnswersPage)
-      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "")
+      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Not provided")
     }
 
     Scenario(
-      "When selecting to change additional information from the 'Check Your Answers' page, if text is removed and continue is pressed an error is shown",
+      "When the existing additional information text is removed, post clicking the change link from 'CYA' page, then the error message is displayed",
       SubmissionUITests,
       ZapTests
     ) {
@@ -256,6 +258,63 @@ class NotificationSpec extends BaseSpec {
       Then("on pressing 'Continue' an error appears on screen")
       AdditionalInformationPage.clickSubmissionButton()
       AdditionalInformationPage.assertErrorShownOnPage()
+    }
+
+    Scenario(
+      "When selecting to change SAO name from the 'Check Your Answers' page during a notification submission",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user provides SAO name and arrives on the 'Check Your Answers' page during a notification submission"
+      )
+      goToAdditionalInformationPageFromHomePage()
+      AdditionalInformationPage.clickSkipButton()
+      assertOnPage(ConfirmNotificationPage)
+      ConfirmNotificationPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+
+      When("user changes the SAO name by clicking on the change link")
+      CheckYourAnswersPage.clickSaoNameChangeLink()
+      assertUrl(SingleSaoNamePage.changePageUrl)
+      SingleSaoNamePage.addName("Jade Dancing")
+      SingleSaoNamePage.clickSubmissionButton()
+      assertTextOnPage(CheckYourAnswersPage.saoNameValueElement, "Jade Dancing")
+
+      And("the user confirms their answers by clicking 'Continue'")
+      CheckYourAnswersPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Confirmation' page")
+      assertOnPage(ConfirmationPage)
+    }
+
+    Scenario(
+      "When changing the SAO name from the 'Check Your Answers' page during a notification submission, without making any changes to the name",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user provides SAO name and arrives on the 'Check Your Answers' page during a notification submission"
+      )
+      goToAdditionalInformationPageFromHomePage()
+      AdditionalInformationPage.clickSkipButton()
+      assertOnPage(ConfirmNotificationPage)
+      ConfirmNotificationPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+
+      When("the user returns to the 'Check Your Answers' page without saving any changes ")
+      CheckYourAnswersPage.clickSaoNameChangeLink()
+      assertUrl(SingleSaoNamePage.changePageUrl)
+      SingleSaoNamePage.clickSubmissionButton()
+
+      Then("the original SAO name is displayed on the 'Check Your Answers' page")
+      assertTextOnPage(CheckYourAnswersPage.saoNameValueElement, "Cat Noir")
+
+      When("the user confirms their answers by clicking 'Continue'")
+      CheckYourAnswersPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Confirmation' page")
+      assertOnPage(ConfirmationPage)
     }
 
     Scenario(
