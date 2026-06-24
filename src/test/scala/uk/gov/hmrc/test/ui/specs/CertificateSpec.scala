@@ -285,8 +285,7 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "Re-upload the same company details with 'unqualified' certificates in a certificate submission",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
       navigateToCertificateStartPage()
