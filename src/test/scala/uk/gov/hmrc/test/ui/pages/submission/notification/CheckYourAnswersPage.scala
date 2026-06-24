@@ -28,7 +28,6 @@ object CheckYourAnswersPage extends CommonPage with SubmissionButtonSupport {
 
   override val pageTitle: String =
     "Check your answers - Senior Accounting Officer notification and certificate - GOV.UK"
-//    "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val additionalInformationValueElement: By = testId("additional-information-value")
   val saoNameValueElement: By               = testId("sao-name-value")
