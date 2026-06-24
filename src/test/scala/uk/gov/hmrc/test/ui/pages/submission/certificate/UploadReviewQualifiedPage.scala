@@ -16,6 +16,8 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.certificate
 
+import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
@@ -27,10 +29,46 @@ object UploadReviewQualifiedPage extends CommonPage with SubmissionButtonSupport
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateReviewQualified"
 
   override val pageTitle: String = {
-    "certificateReviewQualified - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Review the companies with a qualified certificate - Senior Accounting Officer notification and certificate - GOV.UK"
   }
+
+  val pageContentElement: By        = By.cssSelector(".govuk-grid-column-two-thirds")
+  val paragraph: By                 = By.cssSelector(".govuk-body")
+  val uploadUpdatedTemplateLink: By = By.cssSelector(".govuk-body a")
 
   override def clickSubmissionButton(): Unit = {
     clickElement(submissionButtonLocator)
   }
+
+  def clickUploadUpdatedTemplateLink(): Unit = {
+    clickElement(uploadUpdatedTemplateLink)
+  }
+
+  def assertFirstParagraphMatches(totalCompanyCount: Int): Unit = {
+    val expectedText = s"This list is taken from the certificate details in the submission template you uploaded. " +
+      s"There were $totalCompanyCount companies the SAO was responsible for during the financial year."
+
+    getParagraph(paragraphIndex = 0) mustBe expectedText
+  }
+
+  def assertDeclarationParagraphMatches(
+      qualifiedCompanyCount: Int,
+      expectedSao: String,
+      financialYearEndDate: String
+  ): Unit = {
+    val expectedText = s"In accordance with paragraph 2 of Schedule 46 to the Finance Act 2009, I $expectedSao, " +
+      s"the Senior Accounting Officer, hereby certify that throughout the company’s financial year ended " +
+      s"$financialYearEndDate, $qualifiedCompanyCount companies did not have appropriate tax accounting arrangements."
+
+    getParagraph(paragraphIndex = 2) mustBe expectedText
+  }
+
+  private def getParagraph(paragraphIndex: Int): String = {
+    fluentWait
+      .until(ExpectedConditions.visibilityOfElementLocated(pageContentElement))
+      .findElements(paragraph)
+      .get(paragraphIndex)
+      .getText
+  }
+
 }
