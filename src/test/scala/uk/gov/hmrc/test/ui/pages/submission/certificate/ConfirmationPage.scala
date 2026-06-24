@@ -22,9 +22,8 @@ import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object ConfirmationPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateConfirmation"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate-confirmation?certificateIdReferenceNumber=SAOCRT0123456789"
 
   override val pageTitle: String =
-    "certificateConfirmation - Senior Accounting Officer notification and certificate - GOV.UK"
-
+    "Certificate submitted - Senior Accounting Officer notification and certificate - GOV.UK"
 }
