@@ -62,7 +62,7 @@ class CertificateSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given("an authenticated user initiates a certificate submission from the 'Account Homepage' page")
+      Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
       navigateToCertificateStartPage()
 
       When("the 'Provide the SAO's details' link is clicked")
@@ -82,7 +82,7 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
       CertificateSaoEmailPage.clickSubmissionButton()
 
-      Then("the user returns to the certificate task list")
+      Then("the user returns to the 'Certificate Task List'")
       assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
 
       And("the task list displays each element in the correct state with the correct status")
@@ -117,7 +117,7 @@ class CertificateSpec extends BaseSpec {
       When("the 'Continue' button is clicked")
       UploadReviewUnqualifiedPage.clickSubmissionButton()
 
-      Then("the user returns to the certificate task list")
+      Then("the user returns to the 'Certificate Task List'")
       assertUrl(CertificateTaskListPage.taskListThreePageUrl)
 
       And("the task list displays each element in the correct state with the correct status")
@@ -167,7 +167,7 @@ class CertificateSpec extends BaseSpec {
       When("the user clicks 'Continue'")
       ConfirmationPage.clickSubmissionButton()
 
-      Then("the user returns to the certificate task list")
+      Then("the user returns to the 'Certificate Task List'")
       assertUrl(CertificateTaskListPage.taskListCompletePageUrl)
 
       And("the task list displays each element in the correct state with the correct status")
@@ -194,7 +194,7 @@ class CertificateSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given("an authenticated user initiates a certificate submission from the 'Account Homepage' page")
+      Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
       navigateToCertificateStartPage()
 
       When("the 'Provide the SAO's details' link is clicked")
@@ -214,7 +214,7 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
       CertificateSaoEmailPage.clickSubmissionButton()
 
-      Then("the user returns to the certificate task list")
+      Then("the user returns to the 'Certificate Task List'")
       assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
 
       When("the 'Upload the submission template' link is clicked")
@@ -238,7 +238,7 @@ class CertificateSpec extends BaseSpec {
       When("the 'Continue' button is clicked")
       UploadReviewUnqualifiedPage.clickSubmissionButton()
 
-      Then("the user returns to the certificate task list")
+      Then("the user returns to the 'Certificate Task List'")
       assertUrl(CertificateTaskListPage.taskListThreePageUrl)
 
       When("the user continues from the additional information task")
@@ -278,8 +278,84 @@ class CertificateSpec extends BaseSpec {
       When("the user clicks 'Continue'")
       ConfirmationPage.clickSubmissionButton()
 
-      Then("the user returns to the certificate task list")
+      Then("the user returns to the 'Certificate Task List'")
       assertUrl(CertificateTaskListPage.taskListCompletePageUrl)
+    }
+
+    Scenario(
+      "Re-upload the same company details with 'unqualified' certificates in a certificate submission",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
+      navigateToCertificateStartPage()
+
+      And("SAO details are provided to complete the first task in the task list")
+      CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
+      assertOnPage(CertificateSaoFullNamePage)
+      CertificateSaoFullNamePage.addName(TestData.firstPersonName)
+      CertificateSaoFullNamePage.clickSubmissionButton()
+      assertOnPage(CertificateSaoEmailPage)
+      CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
+      CertificateSaoEmailPage.clickSubmissionButton()
+      assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+
+      When("a submission template is successfully uploaded")
+      CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+      assertOnPage(UploadSubmissionTemplatePage)
+      UploadSubmissionTemplatePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Review the companies with a qualified certificate' page")
+      assertOnPage(UploadReviewQualifiedPage)
+
+      When("the 'Continue' button is clicked")
+      UploadReviewQualifiedPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Review the companies with an unqualified certificate' page")
+      assertOnPage(UploadReviewUnqualifiedPage)
+
+      And("the paragraph content shows the expected text including the dynamic values derived from the upload file")
+      UploadReviewUnqualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 3)
+      UploadReviewUnqualifiedPage.assertDeclarationParagraphMatches(
+        unqualifiedCompanyCount = 3,
+        expectedSao = TestData.firstPersonName,
+        financialYearEndDate = "31 December 2020"
+      )
+
+      When("the 'upload an updated submission template' link is clicked")
+      UploadReviewUnqualifiedPage.clickUploadUpdatedTemplateLink()
+
+      Then("the user is redirected back to the 'Upload a submission template' page")
+      assertOnPage(UploadSubmissionTemplatePage)
+
+      When("the 'Continue' button is clicked having the original upload file still chosen")
+      UploadSubmissionTemplatePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Review the companies with a qualified certificate' page")
+      assertOnPage(UploadReviewQualifiedPage)
+
+      When("the 'Continue' button is clicked")
+      UploadReviewQualifiedPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Review the companies with an unqualified certificate' page")
+      assertOnPage(UploadReviewUnqualifiedPage)
+
+      And("The paragraph content has not changed")
+      UploadReviewUnqualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 3)
+      UploadReviewUnqualifiedPage.assertDeclarationParagraphMatches(
+        unqualifiedCompanyCount = 3,
+        expectedSao = TestData.firstPersonName,
+        financialYearEndDate = "31 December 2020"
+      )
+
+      When("the 'Continue' button is clicked")
+      UploadReviewQualifiedPage.clickSubmissionButton()
+
+      Then("the user returns to the 'Certificate Task List'")
+      assertUrl(CertificateTaskListPage.taskListThreePageUrl)
+
+      And("the 'Upload the submission template' task is shown as completed")
+      CertificateTaskListPage.assertTaskListSectionStatus(UploadSubmissionTemplate, Completed)
     }
 
     Scenario(
@@ -339,7 +415,7 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
       CertificateSaoEmailPage.clickSubmissionButton()
 
-      Then("the user returns to the certificate task list")
+      Then("the user returns to the 'Certificate Task List'")
       assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
 
       When("the 'Upload the submission template' link is clicked")
@@ -363,7 +439,7 @@ class CertificateSpec extends BaseSpec {
       When("the 'Continue' button is clicked")
       UploadReviewUnqualifiedPage.clickSubmissionButton()
 
-      Then("the user returns to the certificate task list")
+      Then("the user returns to the 'Certificate Task List'")
       assertUrl(CertificateTaskListPage.taskListThreePageUrl)
 
       When("the user continues from the additional information task")
