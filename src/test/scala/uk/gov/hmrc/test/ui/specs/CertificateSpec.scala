@@ -547,18 +547,14 @@ class CertificateSpec extends BaseSpec {
       // TODO validation assertion for 'Check your answers' in the 'Stand-in declaration' variation
     }
 
-    Scenario(
-      "Review uploaded companies details with a qualified certificate and upload an updated certificate submission template",
+    Scenario("Qualified certificate review page displays correct company details with qualified certificate from uploaded submission",
+      CertificateUITests,
       SubmissionUITests,
       ZapTests
     ) {
-      Given("an authenticated user choose to submit a certificate")
-      assertOnPage(AccountHomePage)
-      AccountHomePage.clickSubmitCertificateLink()
-      assertOnPage(SubmissionTypePage)
-      SubmissionTypePage.clickCertificateRadioButton()
-      SubmissionTypePage.clickSubmissionButton()
-      assertUrl(CertificateTaskListPage.taskListOnePageUrl)
+      Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
+      navigateToCertificateStartPage()
+      And("SAO details are provided to complete the first task in the task list")
       CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
       assertOnPage(CertificateSaoFullNamePage)
       CertificateSaoFullNamePage.addName(TestData.firstPersonName)
@@ -568,6 +564,8 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
       CertificateSaoEmailPage.clickSubmissionButton()
       assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+
+      When("a submission template is successfully uploaded")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
       assertOnPage(UploadSubmissionTemplatePage)
       UploadSubmissionTemplatePage.clickSubmissionButton()
