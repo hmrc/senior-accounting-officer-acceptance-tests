@@ -547,13 +547,14 @@ class CertificateSpec extends BaseSpec {
       // TODO validation assertion for 'Check your answers' in the 'Stand-in declaration' variation
     }
 
-    Scenario("Qualified certificate review page displays correct company details with qualified certificate from uploaded submission",
+    Scenario("Re-upload the same company details with 'qualified' certificates in a certificate submission",
       CertificateUITests,
       SubmissionUITests,
       ZapTests
     ) {
       Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
       navigateToCertificateStartPage()
+
       And("SAO details are provided to complete the first task in the task list")
       CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
       assertOnPage(CertificateSaoFullNamePage)
@@ -570,10 +571,10 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
       UploadSubmissionTemplatePage.clickSubmissionButton()
 
-      When("the user navigates to 'Review the companies with a qualified certificate' page")
+      Then("the user lands on 'Review the companies with a qualified certificate' page")
       assertOnPage(UploadReviewQualifiedPage)
 
-      Then("the paragraph content shows the expected text including the dynamic values derived from the upload file")
+      And("the paragraph content shows the expected text including the dynamic values derived from the upload file")
       UploadReviewQualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 3)
       UploadReviewQualifiedPage.assertDeclarationParagraphMatches(
         qualifiedCompanyCount = 2,
@@ -604,7 +605,7 @@ class CertificateSpec extends BaseSpec {
       When("the 'Continue' button is clicked")
       UploadReviewQualifiedPage.clickSubmissionButton()
 
-      Then("the user navigates to the 'Review the companies with an unqualified certificate' page")
+      Then("the user lands on 'Review the companies with an unqualified certificate' page")
       assertOnPage(UploadReviewUnqualifiedPage)
     }
 
