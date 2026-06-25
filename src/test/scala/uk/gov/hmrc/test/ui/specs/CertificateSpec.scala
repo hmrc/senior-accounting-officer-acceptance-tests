@@ -547,7 +547,8 @@ class CertificateSpec extends BaseSpec {
       // TODO validation assertion for 'Check your answers' in the 'Stand-in declaration' variation
     }
 
-    Scenario("Re-upload the same company details with 'qualified' certificates in a certificate submission",
+    Scenario(
+      "Re-upload the same company details with 'qualified' certificates in a certificate submission",
       CertificateUITests,
       SubmissionUITests,
       ZapTests
