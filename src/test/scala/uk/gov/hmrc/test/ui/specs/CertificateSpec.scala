@@ -547,6 +547,68 @@ class CertificateSpec extends BaseSpec {
       // TODO validation assertion for 'Check your answers' in the 'Stand-in declaration' variation
     }
 
+    Scenario("Re-upload the same company details with 'qualified' certificates in a certificate submission",
+      CertificateUITests,
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
+      navigateToCertificateStartPage()
+
+      And("SAO details are provided to complete the first task in the task list")
+      CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
+      assertOnPage(CertificateSaoFullNamePage)
+      CertificateSaoFullNamePage.addName(TestData.firstPersonName)
+      CertificateSaoFullNamePage.clickSubmissionButton()
+      assertOnPage(CertificateSaoEmailPage)
+      CertificateSaoEmailPage.assertHeadingMatches(s"What is the email address for ${TestData.firstPersonName}?")
+      CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
+      CertificateSaoEmailPage.clickSubmissionButton()
+      assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+
+      When("a submission template is successfully uploaded")
+      CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+      assertOnPage(UploadSubmissionTemplatePage)
+      UploadSubmissionTemplatePage.clickSubmissionButton()
+
+      Then("the user lands on 'Review the companies with a qualified certificate' page")
+      assertOnPage(UploadReviewQualifiedPage)
+
+      And("the paragraph content shows the expected text including the dynamic values derived from the upload file")
+      UploadReviewQualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 3)
+      UploadReviewQualifiedPage.assertDeclarationParagraphMatches(
+        qualifiedCompanyCount = 2,
+        expectedSao = TestData.firstPersonName,
+        financialYearEndDate = "31 December 2024"
+      )
+
+      When("the 'upload an updated submission template' link is clicked")
+      UploadReviewQualifiedPage.clickUploadUpdatedTemplateLink()
+
+      Then("the user is redirected back to the 'Upload a submission template' page")
+      assertOnPage(UploadSubmissionTemplatePage)
+
+      When("the 'Continue' button is clicked having the original upload file still chosen")
+      UploadSubmissionTemplatePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Review the companies with a qualified certificate' page")
+      assertOnPage(UploadReviewQualifiedPage)
+
+      And("The paragraph content has not changed")
+      UploadReviewQualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 3)
+      UploadReviewQualifiedPage.assertDeclarationParagraphMatches(
+        qualifiedCompanyCount = 2,
+        expectedSao = TestData.firstPersonName,
+        financialYearEndDate = "31 December 2024"
+      )
+
+      When("the 'Continue' button is clicked")
+      UploadReviewQualifiedPage.clickSubmissionButton()
+
+      Then("the user lands on 'Review the companies with an unqualified certificate' page")
+      assertOnPage(UploadReviewUnqualifiedPage)
+    }
+
     Scenario(
       "Additional information can be skipped during a certificate submission",
       SubmissionUITests,
