@@ -1,0 +1,7 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Certificate UI Tests" type="SbtRunConfiguration" factoryName="SBT Task">
+    <option name="tasks" value="clean -Dbrowser=&quot;chrome&quot; -Denvironment=&quot;local&quot; &quot;testOnly uk.gov.hmrc.test.ui.specs.* -- -n CertificateUITests&quot; -Dbrowser.usePreviousVersion=true testReport" />
+    <option name="workingDir" value="$PROJECT_DIR$" />
+    <method v="2" />
+  </configuration>
+</component>

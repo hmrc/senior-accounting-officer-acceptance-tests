@@ -1,0 +1,8 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="All UI Tests" type="SbtRunConfiguration" factoryName="SBT Task">
+    <option name="tasks" value="clean -Dbrowser=&quot;chrome&quot; -Denvironment=&quot;local&quot; -Dbrowser.usePreviousVersion=true test testReport" />
+    <option name="vmparams" value="-Dsbt.log.noformat=true" />
+    <option name="workingDir" value="$PROJECT_DIR$" />
+    <method v="2" />
+  </configuration>
+</component>
