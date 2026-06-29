@@ -1,7 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Solo Tests" type="SbtRunConfiguration" factoryName="SBT Task">
-    <option name="tasks" value="clean -Dbrowser=&quot;chrome&quot; -Denvironment=&quot;local&quot; -Dbrowser.option.headless=false -Daccessibility.assessment=false -Dsecurity.assessment=false -Dbrowser.usePreviousVersion=true &quot;testOnly uk.gov.hmrc.test.ui.specs.* -- -n SoloTests&quot;" />
+  <configuration default="false" name="Solo Tests" type="SbtRunConfiguration" factoryName="sbt Task" folderName="Suites">
+    <option name="tasks" value=";clean;testOnly uk.gov.hmrc.test.ui.specs.* -- -n SoloTests" />
+    <option name="vmparams" value="-Dbrowser=&quot;chrome&quot; -Denvironment=&quot;local&quot; -Dbrowser.option.headless=false -Daccessibility.assessment=false -Dsecurity.assessment=false -Dbrowser.usePreviousVersion=true" />
     <option name="workingDir" value="$PROJECT_DIR$" />
+    <option name="useSbtShell" value="false" />
     <method v="2" />
   </configuration>
 </component>
