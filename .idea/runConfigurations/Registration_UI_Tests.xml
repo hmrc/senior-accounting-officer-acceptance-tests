@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Registration UI Tests" type="SbtRunConfiguration" factoryName="sbt Task" folderName="Suites">
+    <option name="tasks" value=";clean;testOnly uk.gov.hmrc.test.ui.specs.* -- -n RegistrationUITests;testReport" />
+    <option name="vmparams" value="-Dbrowser=&quot;chrome&quot; -Denvironment=&quot;local&quot; -Dbrowser.usePreviousVersion=true" />
+    <option name="workingDir" value="$PROJECT_DIR$" />
+    <option name="useSbtShell" value="false" />
+    <method v="2" />
+  </configuration>
+</component>

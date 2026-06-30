@@ -8,6 +8,10 @@ tmp
 dist
 /.bsp
 /.idea
+!/.idea/
+/.idea/*
+!/.idea/runConfigurations/
+!/.idea/runConfigurations/*.xml
 /*.iml
 /*.ipr
 /out
