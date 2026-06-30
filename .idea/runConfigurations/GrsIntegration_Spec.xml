@@ -1,6 +1,6 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="GrsIntegration Spec" type="SbtRunConfiguration" factoryName="sbt Task" folderName="Specs">
-    <option name="tasks" value=";clean;testOnly uk.gov.hmrc.test.ui.specs.GrsIntegrationSpec" />
+    <option name="tasks" value="&quot;testOnly uk.gov.hmrc.test.ui.specs.GrsIntegrationSpec&quot;" />
     <option name="vmparams" value="-Dbrowser=&quot;chrome&quot; -Denvironment=&quot;local&quot; -Dbrowser.usePreviousVersion=true" />
     <option name="workingDir" value="$PROJECT_DIR$" />
     <option name="useSbtShell" value="false" />
