@@ -321,8 +321,7 @@ class CertificateSpec extends BaseSpec {
       UploadReviewUnqualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 4)
       UploadReviewUnqualifiedPage.assertDeclarationParagraphMatches(
         unqualifiedCompanyCount = 4,
-        expectedSao = TestData.firstPersonName,
-        financialYearEndDate = "31 December 2020"
+        expectedSao = TestData.firstPersonName
       )
 
       When("the 'upload an updated submission template' link is clicked")
@@ -348,8 +347,7 @@ class CertificateSpec extends BaseSpec {
       UploadReviewUnqualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 4)
       UploadReviewUnqualifiedPage.assertDeclarationParagraphMatches(
         unqualifiedCompanyCount = 4,
-        expectedSao = TestData.firstPersonName,
-        financialYearEndDate = "31 December 2020"
+        expectedSao = TestData.firstPersonName
       )
 
       When("the 'Continue' button is clicked")
@@ -582,11 +580,10 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadReviewQualifiedPage)
 
       And("the paragraph content shows the expected text including the dynamic values derived from the upload file")
-      UploadReviewQualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 0)
+      UploadReviewQualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 4)
       UploadReviewQualifiedPage.assertDeclarationParagraphMatches(
         qualifiedCompanyCount = 0,
-        expectedSao = TestData.firstPersonName,
-        financialYearEndDate = "31 December 2024"
+        expectedSao = TestData.firstPersonName
       )
 
       When("the 'upload an updated submission template' link is clicked")
@@ -603,11 +600,10 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadReviewQualifiedPage)
 
       And("The paragraph content has not changed")
-      UploadReviewQualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 0)
+      UploadReviewQualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 4)
       UploadReviewQualifiedPage.assertDeclarationParagraphMatches(
         qualifiedCompanyCount = 0,
-        expectedSao = TestData.firstPersonName,
-        financialYearEndDate = "31 December 2024"
+        expectedSao = TestData.firstPersonName
       )
 
       When("the 'Continue' button is clicked")

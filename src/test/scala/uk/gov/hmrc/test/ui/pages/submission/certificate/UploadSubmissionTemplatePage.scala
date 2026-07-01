@@ -23,8 +23,9 @@ import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-import java.nio.file.Paths
 import scala.concurrent.duration.*
+
+import java.nio.file.Paths
 
 object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupport {
 
