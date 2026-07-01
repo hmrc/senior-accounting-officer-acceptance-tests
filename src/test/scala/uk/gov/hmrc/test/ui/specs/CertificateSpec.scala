@@ -103,6 +103,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
 
       When("the user clicks 'Continue' after choosing a file for upload")
+      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
       UploadSubmissionTemplatePage.clickSubmissionButton()
 
       Then("the user lands on the 'Review Qualified' page")
@@ -224,6 +225,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
 
       When("the 'Continue' button is clicked after choosing a file for upload")
+      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
       UploadSubmissionTemplatePage.clickSubmissionButton()
 
       Then("the user lands on the 'Review Qualified' page")
@@ -303,6 +305,7 @@ class CertificateSpec extends BaseSpec {
       When("a submission template is successfully uploaded")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
       assertOnPage(UploadSubmissionTemplatePage)
+      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
       UploadSubmissionTemplatePage.clickSubmissionButton()
 
       Then("the user lands on the 'Review the companies with a qualified certificate' page")
@@ -315,9 +318,9 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadReviewUnqualifiedPage)
 
       And("the paragraph content shows the expected text including the dynamic values derived from the upload file")
-      UploadReviewUnqualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 3)
+      UploadReviewUnqualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 4)
       UploadReviewUnqualifiedPage.assertDeclarationParagraphMatches(
-        unqualifiedCompanyCount = 3,
+        unqualifiedCompanyCount = 4,
         expectedSao = TestData.firstPersonName,
         financialYearEndDate = "31 December 2020"
       )
@@ -329,6 +332,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
 
       When("the 'Continue' button is clicked having the original upload file still chosen")
+      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
       UploadSubmissionTemplatePage.clickSubmissionButton()
 
       Then("the user lands on the 'Review the companies with a qualified certificate' page")
@@ -341,9 +345,9 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadReviewUnqualifiedPage)
 
       And("The paragraph content has not changed")
-      UploadReviewUnqualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 3)
+      UploadReviewUnqualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 4)
       UploadReviewUnqualifiedPage.assertDeclarationParagraphMatches(
-        unqualifiedCompanyCount = 3,
+        unqualifiedCompanyCount = 4,
         expectedSao = TestData.firstPersonName,
         financialYearEndDate = "31 December 2020"
       )
@@ -423,6 +427,7 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
+      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
 
       When("the 'Continue' button is clicked after choosing a file for upload")
       UploadSubmissionTemplatePage.clickSubmissionButton()
@@ -570,15 +575,16 @@ class CertificateSpec extends BaseSpec {
       When("a submission template is successfully uploaded")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
       assertOnPage(UploadSubmissionTemplatePage)
+      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
       UploadSubmissionTemplatePage.clickSubmissionButton()
 
       Then("the user lands on 'Review the companies with a qualified certificate' page")
       assertOnPage(UploadReviewQualifiedPage)
 
       And("the paragraph content shows the expected text including the dynamic values derived from the upload file")
-      UploadReviewQualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 3)
+      UploadReviewQualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 0)
       UploadReviewQualifiedPage.assertDeclarationParagraphMatches(
-        qualifiedCompanyCount = 2,
+        qualifiedCompanyCount = 0,
         expectedSao = TestData.firstPersonName,
         financialYearEndDate = "31 December 2024"
       )
@@ -588,6 +594,7 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user is redirected back to the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
+      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
 
       When("the 'Continue' button is clicked having the original upload file still chosen")
       UploadSubmissionTemplatePage.clickSubmissionButton()
@@ -596,9 +603,9 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadReviewQualifiedPage)
 
       And("The paragraph content has not changed")
-      UploadReviewQualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 3)
+      UploadReviewQualifiedPage.assertFirstParagraphMatches(totalCompanyCount = 0)
       UploadReviewQualifiedPage.assertDeclarationParagraphMatches(
-        qualifiedCompanyCount = 2,
+        qualifiedCompanyCount = 0,
         expectedSao = TestData.firstPersonName,
         financialYearEndDate = "31 December 2024"
       )
@@ -673,6 +680,7 @@ class CertificateSpec extends BaseSpec {
   private def completeUploadSubmissionTemplateTask(): Unit = {
     CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
     assertOnPage(UploadSubmissionTemplatePage)
+    UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
     UploadSubmissionTemplatePage.clickSubmissionButton()
     assertOnPage(UploadReviewQualifiedPage)
     UploadReviewQualifiedPage.clickSubmissionButton()
