@@ -69,5 +69,4 @@ object UploadReviewQualifiedPage extends CommonPage with SubmissionButtonSupport
       .get(paragraphIndex)
       .getText
   }
-
 }

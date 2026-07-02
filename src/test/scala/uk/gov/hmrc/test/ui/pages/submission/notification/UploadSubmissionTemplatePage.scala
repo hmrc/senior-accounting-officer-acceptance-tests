@@ -21,14 +21,14 @@ import org.openqa.selenium.{By, WebDriver}
 import org.scalatest.matchers.should.Matchers.*
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.{clickElement, extractRelativeUrl}
-import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
+import uk.gov.hmrc.test.ui.support.PageSupport.extractRelativeUrl
+import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
 
 import scala.concurrent.duration.*
 
 import java.nio.file.Paths
 
-object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupport {
+object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
 
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/upload"
@@ -39,27 +39,33 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
   private val hiddenFileInputLocator: By = By.cssSelector(".govuk-file-upload")
   val pageHeadingElement: By             = By.cssSelector("h1")
 
-  def verifyTemplateGuidanceLink(): Unit = {
+  def assertTemplateGuidanceLinkFoundWithCorrectAttributes(): Unit = {
     val expectedTemplateGuidanceLinkHrefValue = "/senior-accounting-officer/submission/template-guidance"
     val guidanceLink                          = driver.findElement(By.id("template-guidance"))
     guidanceLink.getAttribute("target") mustBe "_blank"
     extractRelativeUrl(guidanceLink.getAttribute("href")) mustBe expectedTemplateGuidanceLinkHrefValue
   }
 
-  override def clickSubmissionButton(): Unit = {
-    clickElement(submissionButtonLocator)
-    waitForTextInHeading("Review the companies in your notification")
-  }
-
-  def clickSubmissionButtonExpectingTemplateError(): Unit = {
-    clickElement(submissionButtonLocator)
-    waitForTextInHeading("There is a problem with your submission template file")
+  def uploadFile(filename: String): Unit = {
+    chooseFile(filename)
+    val expectedHeading = filename match {
+      case "Submission-template-invalid-qualification.csv" => "There is a problem with your submission template file"
+      case "invalid.REASON.csv"                            => "Upload a submission template"
+      case "infected.VIRUS_NAME.csv"                       => "Upload a submission template"
+      case "unknown.REASON.csv"                            => "Upload a submission template"
+      case _                                               => "Review the companies in your notification"
+    }
+    clickSubmissionButton()
+    waitForTextInHeading(expectedHeading)
   }
 
   def chooseFile(resourceName: String): Unit = {
-    val fileUrl      = getClass.getClassLoader.getResource(resourceName)
+    val fileUrl = Option(getClass.getClassLoader.getResource(resourceName)).getOrElse {
+      throw new IllegalArgumentException(
+        s"Resource '$resourceName' was not found! Ensure the file exists in 'src/test/resources'."
+      )
+    }
     val absolutePath = Paths.get(fileUrl.toURI).toString
-
     driver.findElement(hiddenFileInputLocator).sendKeys(absolutePath)
   }
 

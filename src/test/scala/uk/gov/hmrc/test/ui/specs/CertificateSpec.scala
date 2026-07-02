@@ -256,7 +256,7 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Who is submitting' page")
       assertOnPage(CertificateWhoIsSubmittingPage)
 
-      When("the user clicks 'Continue' after selecting the SAO submitter radio option")
+      When("the user clicks 'Continue' after selecting the stand-in submitter radio option")
       CertificateWhoIsSubmittingPage.clickStandInSubmitterRadioButton()
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
 

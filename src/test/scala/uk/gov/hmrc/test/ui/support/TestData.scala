@@ -29,6 +29,10 @@ object TestData {
   val submissionTemplateEmptyFile: String                = "Submission-template-empty-v15.csv"
   val submissionTemplateFourCompaniesFile: String        = "Submission-template-4-companies-moderately-complex.csv"
   val submissionTemplateInvalidQualificationFile: String = "Submission-template-invalid-qualification.csv"
+  val rejectFileError: String                            = "reject.UnexpectedContent.csv"
+  val invalidFileError: String                           = "invalid.REASON.csv"
+  val infectedFileError: String                          = "infected.VIRUS_NAME.csv"
+  val unknownFileError: String                           = "unknown.REASON.csv"
 
   def generateNewEmail(): String = {
     emailForUser(firstPersonName)
