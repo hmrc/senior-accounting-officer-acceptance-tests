@@ -166,7 +166,7 @@ class ContactDetailsSpec extends BaseSpec {
       FirstContactNamePage.clickSubmissionButton()
 
       Then("an error is shown")
-      FirstContactNamePage.assertErrorShownOnPage()
+      FirstContactNamePage.assertErrorSummaryDisplayed()
 
       When("the user enters a valid name and clicks 'Continue'")
       FirstContactNamePage.addName(TestData.firstPersonName)
@@ -179,7 +179,7 @@ class ContactDetailsSpec extends BaseSpec {
       FirstContactEmailPage.clickSubmissionButton()
 
       Then("an error is shown")
-      FirstContactEmailPage.assertErrorShownOnPage()
+      FirstContactEmailPage.assertErrorSummaryDisplayed()
 
       When("the user enters a valid email and clicks 'Continue'")
       FirstContactEmailPage.addEmail(TestData.firstPersonEmail)
@@ -207,7 +207,7 @@ class ContactDetailsSpec extends BaseSpec {
       SecondContactNamePage.clickSubmissionButton()
 
       Then("an error is shown")
-      SecondContactNamePage.assertErrorShownOnPage()
+      SecondContactNamePage.assertErrorSummaryDisplayed()
 
       When("the user enters a valid name and clicks 'Continue'")
       SecondContactNamePage.addName(TestData.secondPersonName)
@@ -220,7 +220,7 @@ class ContactDetailsSpec extends BaseSpec {
       SecondContactEmailPage.clickSubmissionButton()
 
       Then("an error is shown")
-      SecondContactEmailPage.assertErrorShownOnPage()
+      SecondContactEmailPage.assertErrorSummaryDisplayed()
 
       When("the user enters a valid email and clicks 'Continue'")
       SecondContactEmailPage.addEmail(TestData.secondPersonEmail)

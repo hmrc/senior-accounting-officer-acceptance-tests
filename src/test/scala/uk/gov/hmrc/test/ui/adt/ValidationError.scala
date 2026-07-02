@@ -14,23 +14,11 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.support
+package uk.gov.hmrc.test.ui.adt
 
-import com.github.javafaker.Faker
+enum ValidationError(val errorMessage: String) {
+  case InvalidFileTypeError extends ValidationError("The selected file must be a CSV")
+  case InfectedFileError    extends ValidationError("The selected file contains a virus")
+  case UnknownUploadError   extends ValidationError("The selected file could not be uploaded – try again")
 
-object TestData {
-  private val faker = new Faker(new java.util.Locale("en-GB"))
-
-  val firstPersonName: String   = s"${faker.name().fullName()}-Test"
-  val secondPersonName: String  = s"${faker.name().fullName()}-Test"
-  val firstPersonEmail: String  = emailForUser(firstPersonName)
-  val secondPersonEmail: String = emailForUser(secondPersonName)
-
-  def generateNewEmail(): String = {
-    emailForUser(firstPersonName)
-  }
-
-  def emailForUser(name: String): String = {
-    s"${name.toLowerCase.replace(" ", ".")}@example.com"
-  }
 }

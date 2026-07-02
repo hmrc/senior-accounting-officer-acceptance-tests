@@ -17,13 +17,22 @@
 package uk.gov.hmrc.test.ui.support
 
 import org.openqa.selenium.By
+import uk.gov.hmrc.test.ui.adt.ValidationError
 import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.support.PageSupport.assertTextOnPage
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertTextIsHyperlink, assertTextOnPage}
 
 trait ErrorMessageSupport {
 
   this: BasePage =>
-  protected def errorTitleLocator: By = By.cssSelector(".govuk-error-summary__title")
+  def errorTitleLocator: By   = By.cssSelector(".govuk-error-summary__title")
+  def errorSummaryLocator: By = By.cssSelector(".govuk-error-summary__list")
 
-  def assertErrorShownOnPage(): Unit = assertTextOnPage(errorTitleLocator, "There is a problem")
+  def assertErrorSummaryDisplayed(): Unit = {
+    assertTextOnPage(errorTitleLocator, "There is a problem")
+  }
+
+  def assertValidationErrorDisplayed(error: ValidationError): Unit = {
+    assertErrorSummaryDisplayed()
+    assertTextIsHyperlink(errorSummaryLocator, error.errorMessage)
+  }
 }

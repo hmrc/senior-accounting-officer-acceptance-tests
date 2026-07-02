@@ -29,8 +29,9 @@ object UploadTableErrorPage extends CommonPage with SubmissionButtonSupport {
   override val pageTitle: String =
     "There is a problem with your submission template file - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val pageContentElement: By = By.cssSelector(".govuk-grid-column-two-thirds")
-  val paragraph: By          = By.cssSelector(".govuk-body")
+  val pageHeadingText: String = "There is a problem with your submission template file"
+  val pageContentElement: By  = By.cssSelector(".govuk-grid-column-two-thirds")
+  val paragraph: By           = By.cssSelector(".govuk-body")
 
   def assertParagraphWithErrorCountMatches(errorCount: Int): Unit = {
     val expectedText =
