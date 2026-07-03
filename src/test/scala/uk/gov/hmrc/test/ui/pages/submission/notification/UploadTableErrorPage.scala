@@ -16,19 +16,33 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.notification
 
+import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport
-import uk.gov.hmrc.test.ui.support.PageSupport.clickContinueButton
+import uk.gov.hmrc.test.ui.support.{PageSupport, SubmissionButtonSupport}
 
-object UploadFileErrorPage extends CommonPage {
+object UploadTableErrorPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/upload/table/error"
 
   override val pageTitle: String =
     "There is a problem with your submission template file - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  def ReturnToFileUploadPage(): Unit = {
-    clickContinueButton()
+  val pageContentElement: By = By.cssSelector(".govuk-grid-column-two-thirds")
+  val paragraph: By          = By.cssSelector(".govuk-body")
+
+  def assertParagraphWithErrorCountMatches(errorCount: Int): Unit = {
+    val expectedText =
+      s"Your file has $errorCount errors. At least one company has missing information or is not in the correct format."
+    getParagraph(paragraphIndex = 1) mustBe expectedText
+  }
+
+  private def getParagraph(paragraphIndex: Int): String = {
+    fluentWait
+      .until(ExpectedConditions.visibilityOfElementLocated(pageContentElement))
+      .findElements(paragraph)
+      .get(paragraphIndex)
+      .getText
   }
 }

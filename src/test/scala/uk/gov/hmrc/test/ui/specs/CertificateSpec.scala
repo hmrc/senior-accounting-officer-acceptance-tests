@@ -256,7 +256,7 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Who is submitting' page")
       assertOnPage(CertificateWhoIsSubmittingPage)
 
-      When("the user clicks 'Continue' after selecting the SAO submitter radio option")
+      When("the user clicks 'Continue' after selecting the stand-in submitter radio option")
       CertificateWhoIsSubmittingPage.clickStandInSubmitterRadioButton()
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
 
@@ -286,6 +286,7 @@ class CertificateSpec extends BaseSpec {
 
     Scenario(
       "Re-upload the same company details with 'unqualified' certificates in a certificate submission",
+      CertificateUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -615,6 +616,7 @@ class CertificateSpec extends BaseSpec {
 
     Scenario(
       "Additional information can be skipped during a certificate submission",
+      CertificateUITests,
       SubmissionUITests,
       ZapTests
     ) {

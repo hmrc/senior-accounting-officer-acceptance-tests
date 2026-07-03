@@ -22,7 +22,7 @@ import uk.gov.hmrc.test.ui.adt.PageSectionStatus.*
 import uk.gov.hmrc.test.ui.pages.submission.*
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
 
@@ -133,9 +133,7 @@ class NotificationSpec extends BaseSpec {
       Then("an error appears on screen")
       AdditionalInformationPage.assertErrorShownOnPage()
 
-      And(
-        "on pressing 'Skip', 'Not provided' value is displayed on the 'Check Your Answers' page"
-      )
+      And("on pressing 'Skip', 'Not provided' value is displayed on the 'Check Your Answers' page")
       AdditionalInformationPage.clickSkipButton()
       assertOnPage(ConfirmNotificationPage)
       ConfirmNotificationPage.clickSubmissionButton()
@@ -357,11 +355,10 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
 
       And("the guidance link is present and correct")
-      UploadSubmissionTemplatePage.verifyTemplateGuidanceLink()
+      UploadSubmissionTemplatePage.assertTemplateGuidanceLinkFoundWithCorrectAttributes()
 
       When("the 'Continue' button is clicked after choosing a file for upload")
-      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateEmptyFile)
-      UploadSubmissionTemplatePage.clickSubmissionButton()
+      UploadSubmissionTemplatePage.uploadFile(TestData.submissionTemplateEmptyFile)
 
       Then("the user lands on the 'Review the companies in your notification' page")
       assertOnPage(UploadTablePage)
@@ -463,8 +460,7 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(SubmitNotificationStartPage)
       SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
       assertOnPage(UploadSubmissionTemplatePage)
-      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateEmptyFile)
-      UploadSubmissionTemplatePage.clickSubmissionButton()
+      UploadSubmissionTemplatePage.uploadFile(TestData.submissionTemplateEmptyFile)
 
       And("the user lands on the 'Review the companies in your notification' page")
       assertOnPage(UploadTablePage)
@@ -483,8 +479,7 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
 
       When("the 'Continue' button is clicked after choosing a file with '4' companies in the upload file")
-      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
-      UploadSubmissionTemplatePage.clickSubmissionButton()
+      UploadSubmissionTemplatePage.uploadFile(TestData.submissionTemplateFourCompaniesFile)
 
       Then("the user lands on the 'Review the companies in your notification' page")
       assertOnPage(UploadTablePage)
@@ -504,45 +499,51 @@ class NotificationSpec extends BaseSpec {
     }
 
     Scenario(
-      "Upload submission page template - Submit a notification journey with an invalid template file upload",
+      "Attempting to upload unacceptable submission template files to Upscan returns the appropriate error",
       SubmissionUITests,
       ZapTests
     ) {
-      Given("an authenticated user lands on the 'More than one SAO' page")
-      goToMoreThanOneSaoPageFromHomePage()
-
-      When("the 'Continue' button is clicked after the 'No' radio button is selected")
-      MoreThanOneSaoPage.clickNoRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
-
-      Then("the user lands on the 'What is the name of the SAO' page")
-      assertOnPage(SingleSaoNamePage)
-
-      When("the 'Continue' button is clicked after an SAO name is entered")
-      SingleSaoNamePage.addName("Jane Doe")
-      SingleSaoNamePage.clickSubmissionButton()
-
-      Then("the user lands on the 'Submit a notification' start page")
+      Given("an authenticated user provides details for a single SAO in a notification submission")
+      assertOnPage(AccountHomePage)
+      AccountHomePage.clickSubmitNotificationLink()
+      assertOnPage(SubmissionTypePage)
+      SubmissionTypePage.clickNotificationRadioButton()
+      SubmissionTypePage.clickSubmissionButton()
       assertOnPage(SubmitNotificationStartPage)
+      provideSingleSaoDetailsFromStartPage(TestData.firstPersonName)
 
-      When("the 'Upload the submission template' link is clicked")
+      When("attempting to upload a submission template which has 1 invalid qualification set for a company")
       SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+      assertOnPage(UploadSubmissionTemplatePage)
+      UploadSubmissionTemplatePage.uploadFile(TestData.submissionTemplateInvalidQualificationFile)
 
-      Then("the user lands on the 'Upload a submission template' page")
+      Then("the expected error page displays with a count of 1 error")
+      assertOnPage(UploadTableErrorPage)
+      UploadTableErrorPage.assertParagraphWithErrorCountMatches(errorCount = 1)
+
+      When("the 'Return to file upload' button is clicked")
+      UploadTableErrorPage.clickSubmissionButton()
+
+      Then("the user is returned to the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
 
-      When("the 'Continue' button is clicked after choosing an Invalid qualification csv file for upload")
-      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateInvalidQualificationFile)
-      UploadSubmissionTemplatePage.clickSubmissionButtonExpectingTemplateError()
+      When("attempting to upload a submission template which is named 'invalid.REASON.csv'")
+      UploadSubmissionTemplatePage.uploadFile(TestData.invalidFileError)
 
-      Then("the user lands on the 'There is a problem with your submission template file' page")
-      assertOnPage(UploadFileErrorPage)
+      Then("an error is shown")
+      UploadSubmissionTemplatePage.assertErrorShownOnPage()
 
-      When("the 'Return to file upload' button is clicked to upload a new file again")
-      UploadFileErrorPage.ReturnToFileUploadPage()
+      When("attempting to upload a submission template which is named 'infected.VIRUS_NAME.csv'")
+      UploadSubmissionTemplatePage.uploadFile(TestData.infectedFileError)
 
-      Then("the user lands back on the 'Upload a submission template' page")
-      assertOnPage(UploadSubmissionTemplatePage)
+      Then("an error is shown")
+      UploadSubmissionTemplatePage.assertErrorShownOnPage()
+
+      When("attempting to upload a submission template which is named 'unknown.REASON.csv'")
+      UploadSubmissionTemplatePage.uploadFile(TestData.unknownFileError)
+
+      Then("an error is shown")
+      UploadSubmissionTemplatePage.assertErrorShownOnPage()
     }
 
     Scenario(
@@ -862,13 +863,13 @@ class NotificationSpec extends BaseSpec {
     assertOnPage(AdditionalInformationPage)
   }
 
-  private def provideSingleSaoDetailsFromStartPage(): Unit = {
+  private def provideSingleSaoDetailsFromStartPage(name: String = "Cat Noir"): Unit = {
     SubmitNotificationStartPage.clickTaskListSectionLink(ProvideSaoDetails)
     assertOnPage(MoreThanOneSaoPage)
     MoreThanOneSaoPage.clickNoRadioButton()
     MoreThanOneSaoPage.clickSubmissionButton()
     assertOnPage(SingleSaoNamePage)
-    SingleSaoNamePage.addName("Cat Noir")
+    SingleSaoNamePage.addName(name)
     SingleSaoNamePage.clickSubmissionButton()
     assertOnPage(SubmitNotificationStartPage)
   }
@@ -876,8 +877,7 @@ class NotificationSpec extends BaseSpec {
   private def uploadSimpleSubmissionTemplateFromStartPage(): Unit = {
     SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
     assertOnPage(UploadSubmissionTemplatePage)
-    UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateEmptyFile)
-    UploadSubmissionTemplatePage.clickSubmissionButton()
+    UploadSubmissionTemplatePage.uploadFile(TestData.submissionTemplateEmptyFile)
     assertOnPage(UploadTablePage)
     UploadTablePage.clickSubmissionButton()
     assertOnPage(SubmitNotificationStartPage)
