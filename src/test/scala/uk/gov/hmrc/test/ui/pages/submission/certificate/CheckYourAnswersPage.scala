@@ -25,6 +25,6 @@ object CheckYourAnswersPage extends CommonPage with SubmissionButtonSupport with
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateCheckYourAnswers"
 
   override val pageTitle: String =
-    "certificateCheckYourAnswers - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Check your answers - Senior Accounting Officer notification and certificate - GOV.UK"
 
 }
