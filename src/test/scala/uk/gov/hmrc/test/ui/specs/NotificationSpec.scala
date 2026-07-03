@@ -22,7 +22,7 @@ import uk.gov.hmrc.test.ui.adt.PageSectionStatus.*
 import uk.gov.hmrc.test.ui.pages.submission.*
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
-import uk.gov.hmrc.test.ui.specs.tags.{SoloTests, SubmissionUITests, ZapTests}
+import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
 
@@ -501,8 +501,7 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "Attempting to upload unacceptable submission template files to Upscan returns the appropriate error",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user provides details for a single SAO in a notification submission")
       assertOnPage(AccountHomePage)

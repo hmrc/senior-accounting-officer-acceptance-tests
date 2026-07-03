@@ -286,6 +286,7 @@ class CertificateSpec extends BaseSpec {
 
     Scenario(
       "Re-upload the same company details with 'unqualified' certificates in a certificate submission",
+      CertificateUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -615,6 +616,7 @@ class CertificateSpec extends BaseSpec {
 
     Scenario(
       "Additional information can be skipped during a certificate submission",
+      CertificateUITests,
       SubmissionUITests,
       ZapTests
     ) {

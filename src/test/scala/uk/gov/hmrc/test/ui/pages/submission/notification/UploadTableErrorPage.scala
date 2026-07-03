@@ -33,8 +33,8 @@ object UploadTableErrorPage extends CommonPage with SubmissionButtonSupport {
   val paragraph: By          = By.cssSelector(".govuk-body")
 
   def assertParagraphWithErrorCountMatches(errorCount: Int): Unit = {
-    val expectedText = s"Your file has $errorCount errors. At least one company has missing information or is not in " +
-      s"the correct format."
+    val expectedText =
+      s"Your file has $errorCount errors. At least one company has missing information or is not in the correct format."
     getParagraph(paragraphIndex = 1) mustBe expectedText
   }
 
