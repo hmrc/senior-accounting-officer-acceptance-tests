@@ -45,20 +45,19 @@ object UploadReviewQualifiedPage extends CommonPage with SubmissionButtonSupport
   }
 
   def assertFirstParagraphMatches(totalCompanyCount: Int): Unit = {
-    val expectedText = s"This list is taken from the certificate details in the submission template you uploaded. " +
-      s"There were $totalCompanyCount companies the SAO was responsible for during the financial year."
+    val expectedText = s"This list is from the certificate details in your submission template. " +
+      s"There were $totalCompanyCount companies your SAO was responsible for in a previous financial year."
 
     getParagraph(paragraphIndex = 0) mustBe expectedText
   }
 
   def assertDeclarationParagraphMatches(
       qualifiedCompanyCount: Int,
-      expectedSao: String,
-      financialYearEndDate: String
+      expectedSao: String
   ): Unit = {
-    val expectedText = s"In accordance with paragraph 2 of Schedule 46 to the Finance Act 2009, I $expectedSao, " +
-      s"the Senior Accounting Officer, hereby certify that throughout the company’s financial year ended " +
-      s"$financialYearEndDate, $qualifiedCompanyCount companies did not have appropriate tax accounting arrangements."
+    val expectedText = s"In accordance with paragraph 2, Schedule 46 of the Finance Act 2009, I $expectedSao, " +
+      s"the Senior Accounting Officer, hereby certify that " +
+      s"$qualifiedCompanyCount companies did not have appropriate tax accounting arrangements."
 
     getParagraph(paragraphIndex = 2) mustBe expectedText
   }

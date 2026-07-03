@@ -16,23 +16,46 @@
 
 package uk.gov.hmrc.test.ui.pages.submission.certificate
 
-import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait}
+import org.openqa.selenium.{By, WebDriver}
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
+import scala.concurrent.duration.*
+
+import java.nio.file.Paths
+
 object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupport {
 
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateUploadForm"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/upload"
 
   override val pageTitle: String =
-    "certificateUploadForm - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Upload a submission template for your certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  override def clickSubmissionButton(): Unit = {
-    // TODO click the actual button once it's implemented
-    clickElement(By.cssSelector("""a[href="/senior-accounting-officer/submission/certificateReviewQualified"]"""))
+  private val hiddenFileInputLocator: By = By.cssSelector(".govuk-file-upload")
+  val pageHeadingElement: By             = By.cssSelector("h1")
+
+  def chooseFile(resourceName: String): Unit = {
+    val fileUrl      = getClass.getClassLoader.getResource(resourceName)
+    val absolutePath = Paths.get(fileUrl.toURI).toString
+
+    driver.findElement(hiddenFileInputLocator).sendKeys(absolutePath)
   }
 
+  override def clickSubmissionButton(): Unit = {
+    clickElement(submissionButtonLocator)
+    waitForTextInHeading("Review the companies with a qualified certificate")
+  }
+
+  private def fluentWaitWithLongDelay: FluentWait[WebDriver] =
+    fluentWait(timeout = 7.seconds, polling = 250.milliseconds)
+
+  private def waitForTextInHeading(text: String): Unit = {
+    fluentWaitWithLongDelay.until(
+      ExpectedConditions.textToBePresentInElementLocated(pageHeadingElement, text)
+    )
+  }
 }
