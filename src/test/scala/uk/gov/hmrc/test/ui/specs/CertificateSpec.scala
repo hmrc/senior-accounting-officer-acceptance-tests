@@ -20,6 +20,7 @@ import org.scalatest.*
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.CertificateTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.*
+import uk.gov.hmrc.test.ui.adt.UploadFile.FourCompaniesFile
 import uk.gov.hmrc.test.ui.pages.submission.*
 import uk.gov.hmrc.test.ui.pages.submission.certificate.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
@@ -103,8 +104,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
 
       When("the user clicks 'Continue' after choosing a file for upload")
-      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
-      UploadSubmissionTemplatePage.clickSubmissionButton()
+      UploadSubmissionTemplatePage.upload(FourCompaniesFile)
 
       Then("the user lands on the 'Review Qualified' page")
       assertOnPage(UploadReviewQualifiedPage)
@@ -225,8 +225,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
 
       When("the 'Continue' button is clicked after choosing a file for upload")
-      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
-      UploadSubmissionTemplatePage.clickSubmissionButton()
+      UploadSubmissionTemplatePage.upload(FourCompaniesFile)
 
       Then("the user lands on the 'Review Qualified' page")
       assertOnPage(UploadReviewQualifiedPage)
@@ -306,8 +305,7 @@ class CertificateSpec extends BaseSpec {
       When("a submission template is successfully uploaded")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
       assertOnPage(UploadSubmissionTemplatePage)
-      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
-      UploadSubmissionTemplatePage.clickSubmissionButton()
+      UploadSubmissionTemplatePage.upload(FourCompaniesFile)
 
       Then("the user lands on the 'Review the companies with a qualified certificate' page")
       assertOnPage(UploadReviewQualifiedPage)
@@ -332,8 +330,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
 
       When("the 'Continue' button is clicked having the original upload file still chosen")
-      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
-      UploadSubmissionTemplatePage.clickSubmissionButton()
+      UploadSubmissionTemplatePage.upload(FourCompaniesFile)
 
       Then("the user lands on the 'Review the companies with a qualified certificate' page")
       assertOnPage(UploadReviewQualifiedPage)
@@ -376,7 +373,7 @@ class CertificateSpec extends BaseSpec {
       SubmissionTypePage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      SubmissionTypePage.assertErrorShownOnPage()
+      SubmissionTypePage.assertErrorSummaryDisplayed()
 
       When("the 'Continue' button is clicked after the 'A certificate' radio button is selected")
       SubmissionTypePage.clickCertificateRadioButton()
@@ -395,7 +392,7 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoFullNamePage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      CertificateSaoFullNamePage.assertErrorShownOnPage()
+      CertificateSaoFullNamePage.assertErrorSummaryDisplayed()
 
       When("the 'Continue' button is clicked after adding a valid SAO name")
       CertificateSaoFullNamePage.addName(TestData.firstPersonName)
@@ -412,7 +409,7 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoEmailPage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      CertificateSaoEmailPage.assertErrorShownOnPage()
+      CertificateSaoEmailPage.assertErrorSummaryDisplayed()
 
       When("the user enters a valid SAO email and clicks 'Continue'")
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
@@ -426,10 +423,9 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
-      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
 
       When("the 'Continue' button is clicked after choosing a file for upload")
-      UploadSubmissionTemplatePage.clickSubmissionButton()
+      UploadSubmissionTemplatePage.upload(FourCompaniesFile)
 
       Then("the user lands on the 'Review Qualified' page")
       assertOnPage(UploadReviewQualifiedPage)
@@ -456,7 +452,7 @@ class CertificateSpec extends BaseSpec {
       AdditionalInformationPage.clickSubmissionButton()
 
       Then("an error appears on screen")
-      AdditionalInformationPage.assertErrorShownOnPage()
+      AdditionalInformationPage.assertErrorSummaryDisplayed()
 
       When("the user clicks 'Continue' after adding additional information")
       AdditionalInformationPage.addInformation("No additional information for this certificate")
@@ -469,7 +465,7 @@ class CertificateSpec extends BaseSpec {
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      CertificateWhoIsSubmittingPage.assertErrorShownOnPage()
+      CertificateWhoIsSubmittingPage.assertErrorSummaryDisplayed()
 
       When("the user clicks 'Continue' after selecting the SAO submitter radio option")
       CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
@@ -482,7 +478,7 @@ class CertificateSpec extends BaseSpec {
       CertificateDeclarationSaoPage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      CertificateDeclarationSaoPage.assertErrorShownOnPage()
+      CertificateDeclarationSaoPage.assertErrorSummaryDisplayed()
 
       When("the user clicks 'Continue' after adding the SAO name to complete the declaration")
       CertificateDeclarationSaoPage.addSaoName(TestData.firstPersonName)
@@ -522,7 +518,7 @@ class CertificateSpec extends BaseSpec {
       CertificateDeclarationStandInPage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      CertificateDeclarationStandInPage.assertErrorShownOnPage()
+      CertificateDeclarationStandInPage.assertErrorSummaryDisplayed()
 
       When("the 'Confirm' button is clicked after an 'SAO' name is entered but not the 'stand in submitter' name")
       CertificateDeclarationStandInPage.addSaoName(TestData.firstPersonName)
@@ -530,7 +526,7 @@ class CertificateSpec extends BaseSpec {
       CertificateDeclarationStandInPage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      CertificateDeclarationStandInPage.assertErrorShownOnPage()
+      CertificateDeclarationStandInPage.assertErrorSummaryDisplayed()
 
       When("the 'Confirm' button is clicked after an 'stand in submitter' name is entered but not the 'SAO' name")
       CertificateDeclarationStandInPage.addStandInSubmitterName(TestData.secondPersonName)
@@ -538,7 +534,7 @@ class CertificateSpec extends BaseSpec {
       CertificateDeclarationStandInPage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      CertificateDeclarationStandInPage.assertErrorShownOnPage()
+      CertificateDeclarationStandInPage.assertErrorSummaryDisplayed()
 
       When("the 'Confirm' button is clicked after both names are entered")
       CertificateDeclarationStandInPage.addSaoName(TestData.firstPersonName)
@@ -574,8 +570,7 @@ class CertificateSpec extends BaseSpec {
       When("a submission template is successfully uploaded")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
       assertOnPage(UploadSubmissionTemplatePage)
-      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
-      UploadSubmissionTemplatePage.clickSubmissionButton()
+      UploadSubmissionTemplatePage.upload(FourCompaniesFile)
 
       Then("the user lands on 'Review the companies with a qualified certificate' page")
       assertOnPage(UploadReviewQualifiedPage)
@@ -592,10 +587,9 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user is redirected back to the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
-      UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
 
-      When("the 'Continue' button is clicked having the original upload file still chosen")
-      UploadSubmissionTemplatePage.clickSubmissionButton()
+      When("the 'Continue' button is clicked after re-selecting the original upload file")
+      UploadSubmissionTemplatePage.upload(FourCompaniesFile)
 
       Then("the user lands on the 'Review the companies with a qualified certificate' page")
       assertOnPage(UploadReviewQualifiedPage)
@@ -678,8 +672,7 @@ class CertificateSpec extends BaseSpec {
   private def completeUploadSubmissionTemplateTask(): Unit = {
     CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
     assertOnPage(UploadSubmissionTemplatePage)
-    UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateFourCompaniesFile)
-    UploadSubmissionTemplatePage.clickSubmissionButton()
+    UploadSubmissionTemplatePage.upload(FourCompaniesFile)
     assertOnPage(UploadReviewQualifiedPage)
     UploadReviewQualifiedPage.clickSubmissionButton()
     assertOnPage(UploadReviewUnqualifiedPage)

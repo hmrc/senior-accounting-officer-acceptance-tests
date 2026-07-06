@@ -35,6 +35,7 @@ object UploadReviewQualifiedPage extends CommonPage with SubmissionButtonSupport
   val pageContentElement: By        = By.cssSelector(".govuk-grid-column-two-thirds")
   val paragraph: By                 = By.cssSelector(".govuk-body")
   val uploadUpdatedTemplateLink: By = By.cssSelector(".govuk-body a")
+  val pageHeadingText: String       = "Review the companies with a qualified certificate"
 
   override def clickSubmissionButton(): Unit = {
     clickElement(submissionButtonLocator)

@@ -18,9 +18,10 @@ package uk.gov.hmrc.test.ui.pages.submission.certificate
 
 import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait}
 import org.openqa.selenium.{By, WebDriver}
+import uk.gov.hmrc.test.ui.adt.UploadFile
+import uk.gov.hmrc.test.ui.adt.UploadFile.*
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 import scala.concurrent.duration.*
@@ -37,25 +38,39 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
 
   private val hiddenFileInputLocator: By = By.cssSelector(".govuk-file-upload")
   val pageHeadingElement: By             = By.cssSelector("h1")
+  val pageHeadingText: String            = "Upload a submission template"
 
-  def chooseFile(resourceName: String): Unit = {
-    val fileUrl      = getClass.getClassLoader.getResource(resourceName)
+  def upload(file: UploadFile): Unit = {
+    chooseFile(file.filename)
+    clickSubmissionButton()
+    waitForTextInHeading(getExpectedLandingPageHeading(file))
+  }
+
+  private def chooseFile(resourceName: String): Unit = {
+    val fileUrl = Option(getClass.getClassLoader.getResource(resourceName)).getOrElse {
+      throw new IllegalArgumentException(
+        s"Resource '$resourceName' was not found! Ensure the file exists in 'src/test/resources'."
+      )
+    }
     val absolutePath = Paths.get(fileUrl.toURI).toString
-
     driver.findElement(hiddenFileInputLocator).sendKeys(absolutePath)
   }
 
-  override def clickSubmissionButton(): Unit = {
-    clickElement(submissionButtonLocator)
-    waitForTextInHeading("Review the companies with a qualified certificate")
+  private def getExpectedLandingPageHeading(file: UploadFile): String = file match {
+    case InvalidTypeFile  => pageHeadingText
+    case InfectedFile     => pageHeadingText
+    case UnknownErrorFile => pageHeadingText
+    case RejectedFile     => pageHeadingText
+    case _                => UploadReviewQualifiedPage.pageHeadingText
   }
-
-  private def fluentWaitWithLongDelay: FluentWait[WebDriver] =
-    fluentWait(timeout = 7.seconds, polling = 250.milliseconds)
 
   private def waitForTextInHeading(text: String): Unit = {
     fluentWaitWithLongDelay.until(
       ExpectedConditions.textToBePresentInElementLocated(pageHeadingElement, text)
     )
+  }
+
+  private def fluentWaitWithLongDelay: FluentWait[WebDriver] = {
+    fluentWait(timeout = 7.seconds, polling = 250.milliseconds)
   }
 }

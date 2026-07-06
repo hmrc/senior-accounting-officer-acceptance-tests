@@ -19,6 +19,8 @@ package uk.gov.hmrc.test.ui.specs
 import org.scalatest.*
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
+import uk.gov.hmrc.test.ui.adt.UploadFile
+import uk.gov.hmrc.test.ui.adt.UploadFile.EmptyFile
 import uk.gov.hmrc.test.ui.pages.submission.combinedSubmission.{
   CheckYourAnswersPage as CertificateCheckYourAnswersPage,
   *
@@ -337,7 +339,7 @@ class CombinedSubmissionSpec extends BaseSpec {
       IsThisTheSaoPage.clickSubmissionButton()
 
       Then("an error is shown")
-      IsThisTheSaoPage.assertErrorShownOnPage()
+      IsThisTheSaoPage.assertErrorSummaryDisplayed()
 
       When("the user selects the 'No' radio button and clicks 'Continue'")
       IsThisTheSaoPage.clickNoRadioButton()
@@ -350,7 +352,7 @@ class CombinedSubmissionSpec extends BaseSpec {
       SaoNamePage.clickSubmissionButton()
 
       Then("an error is shown")
-      SaoNamePage.assertErrorShownOnPage()
+      SaoNamePage.assertErrorSummaryDisplayed()
 
       When("the user enters a valid name and clicks 'Continue'")
       SaoNamePage.addName(TestData.firstPersonName)
@@ -363,7 +365,7 @@ class CombinedSubmissionSpec extends BaseSpec {
       SaoEmailPage.clickSubmissionButton()
 
       Then("an error is shown")
-      SaoEmailPage.assertErrorShownOnPage()
+      SaoEmailPage.assertErrorSummaryDisplayed()
 
       When("the user enters a valid email and clicks 'Continue'")
       SaoEmailPage.addEmail(TestData.firstPersonEmail)
@@ -376,7 +378,7 @@ class CombinedSubmissionSpec extends BaseSpec {
       SaoEmailCommunicationChoicePage.clickSubmissionButton()
 
       Then("an error is shown")
-      SaoEmailCommunicationChoicePage.assertErrorShownOnPage()
+      SaoEmailCommunicationChoicePage.assertErrorSummaryDisplayed()
 
       When("the user selects the 'No' radio button and clicks 'Continue'")
       SaoEmailCommunicationChoicePage.clickNoRadioButton()
@@ -392,7 +394,7 @@ class CombinedSubmissionSpec extends BaseSpec {
       Then("the user removes the existing email and clicks continue, an error is shown")
       SaoEmailPage.addEmail("")
       SaoEmailPage.clickSubmissionButton()
-      SaoEmailPage.assertErrorShownOnPage()
+      SaoEmailPage.assertErrorSummaryDisplayed()
 
       When("the user enters a valid email and clicks 'Continue'")
       SaoEmailPage.addEmail("Phil@test.com")
@@ -411,7 +413,7 @@ class CombinedSubmissionSpec extends BaseSpec {
       SubmitCertificateSubmitterPage.clickSubmissionButton()
 
       Then("an error is shown")
-      SubmitCertificateSubmitterPage.assertErrorShownOnPage()
+      SubmitCertificateSubmitterPage.assertErrorSummaryDisplayed()
 
       When("the user selects 'I am authorised to submit the certificate on behalf of the Senior Accounting Officer'")
       SubmitCertificateSubmitterPage.clickSaoProxySubmitterRadioButton()
@@ -468,7 +470,7 @@ class CombinedSubmissionSpec extends BaseSpec {
   private def uploadSubmissionTemplateFromStartPage(): Unit = {
     SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
     assertOnPage(UploadSubmissionTemplatePage)
-    UploadSubmissionTemplatePage.chooseFile(TestData.submissionTemplateEmptyFile)
+    UploadSubmissionTemplatePage.upload(EmptyFile)
     UploadSubmissionTemplatePage.clickSubmissionButton()
     assertOnPage(UploadTablePage)
     UploadTablePage.clickSubmissionButton()

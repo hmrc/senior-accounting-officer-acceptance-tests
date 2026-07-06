@@ -19,6 +19,8 @@ package uk.gov.hmrc.test.ui.specs
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.*
+import uk.gov.hmrc.test.ui.adt.UploadFile.*
+import uk.gov.hmrc.test.ui.adt.ValidationError.*
 import uk.gov.hmrc.test.ui.pages.submission.*
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
@@ -105,7 +107,7 @@ class NotificationSpec extends BaseSpec {
       assertPageWithError(AdditionalInformationPage)
 
       Then("an error appears on screen")
-      AdditionalInformationPage.assertErrorShownOnPage()
+      AdditionalInformationPage.assertErrorSummaryDisplayed()
 
       And(
         "on continuing after adding additional information the text added is displayed on the 'Check Your Answers' page"
@@ -131,7 +133,7 @@ class NotificationSpec extends BaseSpec {
       assertPageWithError(AdditionalInformationPage)
 
       Then("an error appears on screen")
-      AdditionalInformationPage.assertErrorShownOnPage()
+      AdditionalInformationPage.assertErrorSummaryDisplayed()
 
       And("on pressing 'Skip', 'Not provided' value is displayed on the 'Check Your Answers' page")
       AdditionalInformationPage.clickSkipButton()
@@ -255,7 +257,7 @@ class NotificationSpec extends BaseSpec {
 
       Then("on pressing 'Continue' an error appears on screen")
       AdditionalInformationPage.clickSubmissionButton()
-      AdditionalInformationPage.assertErrorShownOnPage()
+      AdditionalInformationPage.assertErrorSummaryDisplayed()
     }
 
     Scenario(
@@ -358,7 +360,7 @@ class NotificationSpec extends BaseSpec {
       UploadSubmissionTemplatePage.assertTemplateGuidanceLinkFoundWithCorrectAttributes()
 
       When("the 'Continue' button is clicked after choosing a file for upload")
-      UploadSubmissionTemplatePage.uploadFile(TestData.submissionTemplateEmptyFile)
+      UploadSubmissionTemplatePage.upload(EmptyFile)
 
       Then("the user lands on the 'Review the companies in your notification' page")
       assertOnPage(UploadTablePage)
@@ -460,7 +462,7 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(SubmitNotificationStartPage)
       SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
       assertOnPage(UploadSubmissionTemplatePage)
-      UploadSubmissionTemplatePage.uploadFile(TestData.submissionTemplateEmptyFile)
+      UploadSubmissionTemplatePage.upload(EmptyFile)
 
       And("the user lands on the 'Review the companies in your notification' page")
       assertOnPage(UploadTablePage)
@@ -479,7 +481,7 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
 
       When("the 'Continue' button is clicked after choosing a file with '4' companies in the upload file")
-      UploadSubmissionTemplatePage.uploadFile(TestData.submissionTemplateFourCompaniesFile)
+      UploadSubmissionTemplatePage.upload(FourCompaniesFile)
 
       Then("the user lands on the 'Review the companies in your notification' page")
       assertOnPage(UploadTablePage)
@@ -515,7 +517,7 @@ class NotificationSpec extends BaseSpec {
       When("attempting to upload a submission template which has 1 invalid qualification set for a company")
       SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
       assertOnPage(UploadSubmissionTemplatePage)
-      UploadSubmissionTemplatePage.uploadFile(TestData.submissionTemplateInvalidQualificationFile)
+      UploadSubmissionTemplatePage.upload(InvalidQualificationFile)
 
       Then("the expected error page displays with a count of 1 error")
       assertOnPage(UploadTableErrorPage)
@@ -528,22 +530,22 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
 
       When("attempting to upload a submission template which is named 'invalid.REASON.csv'")
-      UploadSubmissionTemplatePage.uploadFile(TestData.invalidFileError)
+      UploadSubmissionTemplatePage.upload(InvalidTypeFile)
 
-      Then("an error is shown")
-      UploadSubmissionTemplatePage.assertErrorShownOnPage()
+      Then("the appropriate error is shown on screen")
+      UploadSubmissionTemplatePage.assertValidationErrorDisplayed(InvalidFileTypeError)
 
       When("attempting to upload a submission template which is named 'infected.VIRUS_NAME.csv'")
-      UploadSubmissionTemplatePage.uploadFile(TestData.infectedFileError)
+      UploadSubmissionTemplatePage.upload(InfectedFile)
 
-      Then("an error is shown")
-      UploadSubmissionTemplatePage.assertErrorShownOnPage()
+      Then("the appropriate error is shown on screen")
+      UploadSubmissionTemplatePage.assertValidationErrorDisplayed(InfectedFileError)
 
       When("attempting to upload a submission template which is named 'unknown.REASON.csv'")
-      UploadSubmissionTemplatePage.uploadFile(TestData.unknownFileError)
+      UploadSubmissionTemplatePage.upload(UnknownErrorFile)
 
-      Then("an error is shown")
-      UploadSubmissionTemplatePage.assertErrorShownOnPage()
+      Then("the appropriate error is shown on screen")
+      UploadSubmissionTemplatePage.assertValidationErrorDisplayed(UnknownUploadError)
     }
 
     Scenario(
@@ -659,7 +661,7 @@ class NotificationSpec extends BaseSpec {
       MoreThanOneSaoPage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      MoreThanOneSaoPage.assertErrorShownOnPage()
+      MoreThanOneSaoPage.assertErrorSummaryDisplayed()
 
       When("the 'Continue' button is clicked after the 'No' radio button is selected")
       MoreThanOneSaoPage.clickNoRadioButton()
@@ -672,7 +674,7 @@ class NotificationSpec extends BaseSpec {
       SingleSaoNamePage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      SingleSaoNamePage.assertErrorShownOnPage()
+      SingleSaoNamePage.assertErrorSummaryDisplayed()
 
       When("the 'Continue' button is clicked after a name is entered")
       SingleSaoNamePage.addName("Jane Doe")
@@ -702,7 +704,7 @@ class NotificationSpec extends BaseSpec {
       MultiSaoNamePage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      MultiSaoNamePage.assertErrorShownOnPage()
+      MultiSaoNamePage.assertErrorSummaryDisplayed()
 
       When("the 'Continue' button is clicked after entering a name of 'Jerry Hatrix'")
       MultiSaoNamePage.addName("Jerry Hatrix")
@@ -715,7 +717,7 @@ class NotificationSpec extends BaseSpec {
       MultiSaoFirstStartDatePage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      MultiSaoFirstStartDatePage.assertErrorShownOnPage()
+      MultiSaoFirstStartDatePage.assertErrorSummaryDisplayed()
 
       When("the 'Continue' button is clicked after adding a date 30 days in the past")
       MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(30))
@@ -728,7 +730,7 @@ class NotificationSpec extends BaseSpec {
       WhoWasTheSaoBeforePage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      WhoWasTheSaoBeforePage.assertErrorShownOnPage()
+      WhoWasTheSaoBeforePage.assertErrorSummaryDisplayed()
 
       When("the 'Continue' button is clicked after entering a name for a preceding SAO of 'Jock B'")
       WhoWasTheSaoBeforePage.addName("Jock B")
@@ -741,7 +743,7 @@ class NotificationSpec extends BaseSpec {
       MultiSaoSecondStartDatePage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      MultiSaoSecondStartDatePage.assertErrorShownOnPage()
+      MultiSaoSecondStartDatePage.assertErrorSummaryDisplayed()
 
       When("the 'Continue' button is clicked after adding a date 45 days in the past")
       MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(45))
@@ -755,7 +757,7 @@ class NotificationSpec extends BaseSpec {
       MultiSaoSecondEndDatePage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      MultiSaoSecondEndDatePage.assertErrorShownOnPage()
+      MultiSaoSecondEndDatePage.assertErrorSummaryDisplayed()
 
       When("the 'Continue' button is clicked after adding a date 35 days in the past")
       MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(35))
@@ -770,7 +772,7 @@ class NotificationSpec extends BaseSpec {
       MultiSaoAreAllAddedPage.clickSubmissionButton()
 
       Then("an error appears on screen")
-      MultiSaoAreAllAddedPage.assertErrorShownOnPage()
+      MultiSaoAreAllAddedPage.assertErrorSummaryDisplayed()
 
       When("the 'Continue' button is clicked after selecting 'Yes'")
       MultiSaoAreAllAddedPage.clickYesRadioButton()
@@ -877,7 +879,7 @@ class NotificationSpec extends BaseSpec {
   private def uploadSimpleSubmissionTemplateFromStartPage(): Unit = {
     SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
     assertOnPage(UploadSubmissionTemplatePage)
-    UploadSubmissionTemplatePage.uploadFile(TestData.submissionTemplateEmptyFile)
+    UploadSubmissionTemplatePage.upload(EmptyFile)
     assertOnPage(UploadTablePage)
     UploadTablePage.clickSubmissionButton()
     assertOnPage(SubmitNotificationStartPage)

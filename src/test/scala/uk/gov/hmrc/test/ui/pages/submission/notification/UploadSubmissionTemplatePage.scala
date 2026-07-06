@@ -18,7 +18,8 @@ package uk.gov.hmrc.test.ui.pages.submission.notification
 
 import org.openqa.selenium.support.ui.{ExpectedConditions, FluentWait}
 import org.openqa.selenium.{By, WebDriver}
-import org.scalatest.matchers.should.Matchers.*
+import uk.gov.hmrc.test.ui.adt.UploadFile
+import uk.gov.hmrc.test.ui.adt.UploadFile.*
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.extractRelativeUrl
@@ -36,6 +37,8 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
   override val pageTitle: String =
     "Upload a submission template for your notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
+  val pageHeadingText: String = "Upload a submission template"
+
   private val hiddenFileInputLocator: By = By.cssSelector(".govuk-file-upload")
   val pageHeadingElement: By             = By.cssSelector("h1")
 
@@ -46,20 +49,13 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
     extractRelativeUrl(guidanceLink.getAttribute("href")) mustBe expectedTemplateGuidanceLinkHrefValue
   }
 
-  def uploadFile(filename: String): Unit = {
-    chooseFile(filename)
-    val expectedHeading = filename match {
-      case "Submission-template-invalid-qualification.csv" => "There is a problem with your submission template file"
-      case "invalid.REASON.csv"                            => "Upload a submission template"
-      case "infected.VIRUS_NAME.csv"                       => "Upload a submission template"
-      case "unknown.REASON.csv"                            => "Upload a submission template"
-      case _                                               => "Review the companies in your notification"
-    }
+  def upload(file: UploadFile): Unit = {
+    chooseFile(file.filename)
     clickSubmissionButton()
-    waitForTextInHeading(expectedHeading)
+    waitForTextInHeading(getExpectedLandingPageHeading(file))
   }
 
-  def chooseFile(resourceName: String): Unit = {
+  private def chooseFile(resourceName: String): Unit = {
     val fileUrl = Option(getClass.getClassLoader.getResource(resourceName)).getOrElse {
       throw new IllegalArgumentException(
         s"Resource '$resourceName' was not found! Ensure the file exists in 'src/test/resources'."
@@ -69,12 +65,22 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
     driver.findElement(hiddenFileInputLocator).sendKeys(absolutePath)
   }
 
-  private def fluentWaitWithLongDelay: FluentWait[WebDriver] =
-    fluentWait(timeout = 7.seconds, polling = 250.milliseconds)
+  private def getExpectedLandingPageHeading(file: UploadFile): String = file match {
+    case InvalidQualificationFile => UploadTableErrorPage.pageHeadingText
+    case InvalidTypeFile          => pageHeadingText
+    case InfectedFile             => pageHeadingText
+    case UnknownErrorFile         => pageHeadingText
+    case RejectedFile             => pageHeadingText
+    case _                        => UploadTablePage.pageHeadingText
+  }
 
   private def waitForTextInHeading(text: String): Unit = {
     fluentWaitWithLongDelay.until(
       ExpectedConditions.textToBePresentInElementLocated(pageHeadingElement, text)
     )
+  }
+
+  private def fluentWaitWithLongDelay: FluentWait[WebDriver] = {
+    fluentWait(timeout = 7.seconds, polling = 250.milliseconds)
   }
 }
