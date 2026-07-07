@@ -87,7 +87,7 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(ConfirmationPage)
 
       And("a unique reference number is displayed on screen")
-      ConfirmationPage.assertReferenceNumberEquals(ConfirmationPage.getNotificationReferenceNumber)
+      ConfirmationPage.assertReferenceNumberEquals(ConfirmationPage.notificationReference)
 
       And("the expected 'download a pdf' and 'print this page' links are present")
       ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "Download a PDF")

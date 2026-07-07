@@ -25,7 +25,7 @@ import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object ConfirmationPage extends CommonPage with SubmissionButtonSupport {
   override def pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/confirmation?notificationIdReferenceNumber=${getNotificationReferenceNumber}"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/confirmation?notificationIdReferenceNumber=$notificationReference"
 
   override val pageTitle: String =
     "Submit a notification - Notification submitted - Senior Accounting Officer notification and certificate - GOV.UK"
@@ -36,16 +36,14 @@ object ConfirmationPage extends CommonPage with SubmissionButtonSupport {
   val printPageLink: By =
     By.cssSelector("""#print-page-link[href="#"]""")
 
-  def getNotificationReferenceNumber: String = {
+  def notificationReference: String = {
     val notificationReference: By = testId("notification-reference-number")
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(notificationReference))
     driver.findElement(notificationReference).getText
   }
 
   def assertReferenceNumberEquals(number: String): Unit = {
-    val referenceNumberElement: By = testId("notification-reference-number")
-    fluentWait.until(ExpectedConditions.visibilityOfElementLocated(referenceNumberElement))
-    driver.findElement(referenceNumberElement).getText mustBe number
+    notificationReference mustBe number
   }
 
   def assertTextInLink(link: By, text: String): Unit = {
