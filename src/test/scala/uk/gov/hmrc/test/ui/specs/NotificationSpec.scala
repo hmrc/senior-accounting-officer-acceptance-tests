@@ -87,7 +87,7 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(ConfirmationPage)
 
       And("a unique reference number is displayed on screen")
-      ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
+      ConfirmationPage.assertReferenceNumberEquals(ConfirmationPage.getNotificationReferenceNumber)
 
       And("the expected 'download a pdf' and 'print this page' links are present")
       ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "Download a PDF")
@@ -360,7 +360,7 @@ class NotificationSpec extends BaseSpec {
       UploadSubmissionTemplatePage.assertTemplateGuidanceLinkFoundWithCorrectAttributes()
 
       When("the 'Continue' button is clicked after choosing a file for upload")
-      UploadSubmissionTemplatePage.upload(EmptyFile)
+      UploadSubmissionTemplatePage.upload(FourCompaniesFile)
 
       Then("the user lands on the 'Review the companies in your notification' page")
       assertOnPage(UploadTablePage)
@@ -879,7 +879,7 @@ class NotificationSpec extends BaseSpec {
   private def uploadSimpleSubmissionTemplateFromStartPage(): Unit = {
     SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
     assertOnPage(UploadSubmissionTemplatePage)
-    UploadSubmissionTemplatePage.upload(EmptyFile)
+    UploadSubmissionTemplatePage.upload(FourCompaniesFile)
     assertOnPage(UploadTablePage)
     UploadTablePage.clickSubmissionButton()
     assertOnPage(SubmitNotificationStartPage)
