@@ -452,7 +452,7 @@ class CombinedSubmissionSpec extends BaseSpec {
     assertOnPage(NotificationCheckYourAnswersPage)
     NotificationCheckYourAnswersPage.clickSubmissionButton()
     assertOnPage(ConfirmationPage)
-    ConfirmationPage.assertReferenceNumberEquals("SAONOT0123456789")
+    ConfirmationPage.assertReferenceNumberEquals(ConfirmationPage.notificationReference)
     ConfirmationPage.clickSubmissionButton()
   }
 
