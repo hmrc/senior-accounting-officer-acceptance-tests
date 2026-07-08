@@ -41,12 +41,13 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
 
   private val hiddenFileInputLocator: By = By.cssSelector(".govuk-file-upload")
   val pageHeadingElement: By             = By.cssSelector("h1")
+  val guidanceLinkLocator: By            = By.id("template-guidance")
 
   def assertTemplateGuidanceLinkFoundWithCorrectAttributes(): Unit = {
-    val expectedTemplateGuidanceLinkHrefValue = "/senior-accounting-officer/submission/template-guidance"
-    val guidanceLink                          = driver.findElement(By.id("template-guidance"))
+    val expectedGuidanceLinkHrefValue = "/senior-accounting-officer/submission/template-guidance"
+    val guidanceLink                  = driver.findElement(guidanceLinkLocator)
     guidanceLink.getAttribute("target") mustBe "_blank"
-    extractRelativeUrl(guidanceLink.getAttribute("href")) mustBe expectedTemplateGuidanceLinkHrefValue
+    extractRelativeUrl(guidanceLink.getAttribute("href")) mustBe expectedGuidanceLinkHrefValue
   }
 
   def upload(file: UploadFile): Unit = {
