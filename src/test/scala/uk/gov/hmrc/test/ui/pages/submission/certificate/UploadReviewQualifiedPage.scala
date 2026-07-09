@@ -57,8 +57,8 @@ object UploadReviewQualifiedPage extends CommonPage with SubmissionButtonSupport
       expectedSao: String
   ): Unit = {
     val expectedText = s"In accordance with paragraph 2, Schedule 46 of the Finance Act 2009, I $expectedSao, " +
-      s"the Senior Accounting Officer, hereby certify that " +
-      s"$qualifiedCompanyCount companies did not have appropriate tax accounting arrangements."
+      s"the Senior Accounting Officer, hereby certify that $qualifiedCompanyCount companies did not have appropriate " +
+      "tax accounting arrangements."
 
     getParagraph(paragraphIndex = 2) mustBe expectedText
   }

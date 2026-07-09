@@ -22,6 +22,7 @@ import uk.gov.hmrc.test.ui.adt.UploadFile
 import uk.gov.hmrc.test.ui.adt.UploadFile.*
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.PageSupport.extractRelativeUrl
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 import scala.concurrent.duration.*
@@ -39,11 +40,19 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
   private val hiddenFileInputLocator: By = By.cssSelector(".govuk-file-upload")
   val pageHeadingElement: By             = By.cssSelector("h1")
   val pageHeadingText: String            = "Upload a submission template"
+  val guidanceLinkLocator: By            = By.id("template-guidance")
 
   def upload(file: UploadFile): Unit = {
     chooseFile(file.filename)
     clickSubmissionButton()
     waitForTextInHeading(getExpectedLandingPageHeading(file))
+  }
+
+  def assertTemplateGuidanceLinkFoundWithCorrectAttributes(): Unit = {
+    val expectedGuidanceLinkHrefValue = "/senior-accounting-officer/submission/template-guidance"
+    val guidanceLink                  = driver.findElement(guidanceLinkLocator)
+    guidanceLink.getAttribute("target") mustBe "_blank"
+    extractRelativeUrl(guidanceLink.getAttribute("href")) mustBe expectedGuidanceLinkHrefValue
   }
 
   private def chooseFile(resourceName: String): Unit = {

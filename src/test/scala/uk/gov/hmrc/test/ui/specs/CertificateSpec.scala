@@ -103,10 +103,13 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
 
+      And("the guidance link is present and correct")
+      UploadSubmissionTemplatePage.assertTemplateGuidanceLinkFoundWithCorrectAttributes()
+
       When("the user clicks 'Continue' after choosing a file for upload")
       UploadSubmissionTemplatePage.upload(FourCompaniesFile)
 
-      Then("the user lands on the 'Review Qualified' page")
+      Then("the user lands on the 'Review the companies with a qualifying certificate' page")
       assertOnPage(UploadReviewQualifiedPage)
 
       When("the 'Continue' button is clicked")
@@ -227,7 +230,7 @@ class CertificateSpec extends BaseSpec {
       When("the 'Continue' button is clicked after choosing a file for upload")
       UploadSubmissionTemplatePage.upload(FourCompaniesFile)
 
-      Then("the user lands on the 'Review Qualified' page")
+      Then("the user lands on the 'Review the companies with a qualifying certificate' page")
       assertOnPage(UploadReviewQualifiedPage)
 
       When("the 'Continue' button is clicked")
@@ -427,7 +430,7 @@ class CertificateSpec extends BaseSpec {
       When("the 'Continue' button is clicked after choosing a file for upload")
       UploadSubmissionTemplatePage.upload(FourCompaniesFile)
 
-      Then("the user lands on the 'Review Qualified' page")
+      Then("the user lands on the 'Review the companies with a qualifying certificate' page")
       assertOnPage(UploadReviewQualifiedPage)
 
       When("the 'Continue' button is clicked")
