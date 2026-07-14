@@ -27,12 +27,12 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String   = TestConfiguration.url("auth-login-stub")
   override val pageTitle: String = ""
 
-  private val redirectionUrlById: By           = By.id("redirectionUrl")
-  private val affinityGroupById: By            = By.id("affinityGroupSelect")
-  private val enrolment0EnrollmentNameById: By = By.id("enrolment[0].name")
-  private val enrolment0IdNameById: By         = By.id("input-0-0-name")
-  private val enrolment0IdValueById: By        = By.id("input-0-0-value")
-  override def submissionButtonLocator: By     = By.id("submit-top")
+  private val redirectionUrlById: By                 = By.id("redirectionUrl")
+  private val affinityGroupById: By                  = By.id("affinityGroupSelect")
+  private val firstEnrolmentKeyInput: By             = By.id("enrolment[0].name")
+  private val firstEnrolmentIdentifierNameInput: By  = By.id("input-0-0-name")
+  private val firstEnrolmentIdentifierValueInput: By = By.id("input-0-0-value")
+  override def submissionButtonLocator: By           = By.id("submit-top")
 
   private val redirectHomePageUrl: String = TestConfiguration.url("senior-accounting-officer-hub-frontend")
 
@@ -52,16 +52,18 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
     sendKeys(redirectionUrlById, url)
     selectAffinityGroup(config.affinityGroup)
     config.enrolment.foreach { enrolment =>
-      sendKeys(enrolment0EnrollmentNameById, enrolment.enrolmentName)
-      sendKeys(enrolment0IdNameById, enrolment.idName)
-      sendKeys(enrolment0IdValueById, enrolment.idValue)
+      sendKeys(firstEnrolmentKeyInput, enrolment.enrolmentKey)
+      sendKeys(firstEnrolmentIdentifierNameInput, enrolment.identifierName)
+      sendKeys(firstEnrolmentIdentifierValueInput, enrolment.identifierValue)
     }
     clickSubmissionButton()
     assertUrl(url)
   }
 
-  def withDsaoEnrollment(config: AuthorityWizardConfig)(subscriptionId: String): AuthorityWizardConfig = {
-    config.copy(enrolment = Some(Enrolment(enrolmentName = "HMRC-DSAO-ORG", idName = "", idValue = subscriptionId)))
+  def withDsaoEnrolment(config: AuthorityWizardConfig)(subscriptionId: String): AuthorityWizardConfig = {
+    config.copy(enrolment =
+      Some(Enrolment(enrolmentKey = "HMRC-DSAO-ORG", identifierName = "", identifierValue = subscriptionId))
+    )
   }
 
 }
@@ -72,6 +74,6 @@ final case class AuthorityWizardConfig private[pages] (
 ) {
   def redirectToRegistration(): Unit = AuthorityWizardPage.redirectToRegistration(this)
   def redirectToHomePage(): Unit     = AuthorityWizardPage.redirectToHomePage(this)
-  def withDsaoEnrollment(subscriptionId: String): AuthorityWizardConfig =
-    AuthorityWizardPage.withDsaoEnrollment(this)(subscriptionId)
+  def withDsaoEnrolment(subscriptionId: String): AuthorityWizardConfig =
+    AuthorityWizardPage.withDsaoEnrolment(this)(subscriptionId)
 }

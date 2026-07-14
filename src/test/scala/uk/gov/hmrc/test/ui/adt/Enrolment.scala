@@ -16,4 +16,4 @@
 
 package uk.gov.hmrc.test.ui.adt
 
-final case class Enrolment(enrolmentName: String, idName: String, idValue: String)
+final case class Enrolment(enrolmentKey: String, identifierName: String, identifierValue: String)
