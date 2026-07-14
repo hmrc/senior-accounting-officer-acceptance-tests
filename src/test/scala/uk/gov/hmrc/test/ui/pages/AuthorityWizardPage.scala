@@ -17,7 +17,7 @@
 package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
-import uk.gov.hmrc.test.ui.adt.AffinityGroup
+import uk.gov.hmrc.test.ui.adt.*
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.registration.RegistrationPage
 import uk.gov.hmrc.test.ui.support.PageSupport.{assertUrl, selectDropdownById, sendKeys}
@@ -27,9 +27,12 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String   = TestConfiguration.url("auth-login-stub")
   override val pageTitle: String = ""
 
-  private val redirectionUrlById: By       = By.id("redirectionUrl")
-  private val affinityGroupById: By        = By.id("affinityGroupSelect")
-  override def submissionButtonLocator: By = By.id("submit-top")
+  private val redirectionUrlById: By                 = By.id("redirectionUrl")
+  private val affinityGroupById: By                  = By.id("affinityGroupSelect")
+  private val firstEnrolmentKeyInput: By             = By.id("enrolment[0].name")
+  private val firstEnrolmentIdentifierNameInput: By  = By.id("input-0-0-name")
+  private val firstEnrolmentIdentifierValueInput: By = By.id("input-0-0-value")
+  override def submissionButtonLocator: By           = By.id("submit-top")
 
   private val redirectHomePageUrl: String = TestConfiguration.url("senior-accounting-officer-hub-frontend")
 
@@ -48,12 +51,29 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
     loadPage()
     sendKeys(redirectionUrlById, url)
     selectAffinityGroup(config.affinityGroup)
+    config.enrolment.foreach { enrolment =>
+      sendKeys(firstEnrolmentKeyInput, enrolment.enrolmentKey)
+      sendKeys(firstEnrolmentIdentifierNameInput, enrolment.identifierName)
+      sendKeys(firstEnrolmentIdentifierValueInput, enrolment.identifierValue)
+    }
     clickSubmissionButton()
     assertUrl(url)
   }
+
+  def withDsaoEnrolment(config: AuthorityWizardConfig)(subscriptionId: String): AuthorityWizardConfig = {
+    config.copy(enrolment =
+      Some(Enrolment(enrolmentKey = "HMRC-DSAO-ORG", identifierName = "", identifierValue = subscriptionId))
+    )
+  }
+
 }
 
-final case class AuthorityWizardConfig private[pages] (affinityGroup: AffinityGroup) {
+final case class AuthorityWizardConfig private[pages] (
+    affinityGroup: AffinityGroup,
+    enrolment: Option[Enrolment] = None
+) {
   def redirectToRegistration(): Unit = AuthorityWizardPage.redirectToRegistration(this)
   def redirectToHomePage(): Unit     = AuthorityWizardPage.redirectToHomePage(this)
+  def withDsaoEnrolment(subscriptionId: String): AuthorityWizardConfig =
+    AuthorityWizardPage.withDsaoEnrolment(this)(subscriptionId)
 }
