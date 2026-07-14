@@ -21,6 +21,7 @@ import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.UploadFile
 import uk.gov.hmrc.test.ui.adt.UploadFile.EmptyFile
+import uk.gov.hmrc.test.ui.pages.submission.SubmissionTypePage
 import uk.gov.hmrc.test.ui.pages.submission.combinedSubmission.{
   CheckYourAnswersPage as CertificateCheckYourAnswersPage,
   *
@@ -431,7 +432,11 @@ class CombinedSubmissionSpec extends BaseSpec {
     assertOnPage(AccountHomePage)
 
     // TODO: (MA - 26/01) Temporary workaround until data is available at this point in the journey.
-    AccountHomePage.clickSubmitNotificationLink()
+    AccountHomePage.clickMakeSubmissionLink()
+    assertOnPage(SubmissionTypePage)
+    SubmissionTypePage.clickNotificationRadioButton()
+    SubmissionTypePage.clickSubmissionButton()
+
     assertOnPage(SubmitNotificationStartPage)
     driver.navigate().back()
     assertOnPage(AccountHomePage)
@@ -440,7 +445,10 @@ class CombinedSubmissionSpec extends BaseSpec {
 
   private def addNotificationFromHub(): Unit = {
     assertOnPage(AccountHomePage)
-    AccountHomePage.clickSubmitNotificationLink()
+    AccountHomePage.clickMakeSubmissionLink()
+    assertOnPage(SubmissionTypePage)
+    SubmissionTypePage.clickNotificationRadioButton()
+    SubmissionTypePage.clickSubmissionButton()
     assertOnPage(SubmitNotificationStartPage)
     provideSingleSaoDetailsFromStartPage()
     uploadSubmissionTemplateFromStartPage()
