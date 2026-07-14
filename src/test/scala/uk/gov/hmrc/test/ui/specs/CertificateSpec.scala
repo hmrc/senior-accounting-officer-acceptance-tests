@@ -31,7 +31,7 @@ import uk.gov.hmrc.test.ui.support.TestData
 class CertificateSpec extends BaseSpec {
   override def beforeEach(): Unit = {
     super.beforeEach()
-    AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHomePage()
+    AuthorityWizardPage.withAffinityGroup(Organisation).withDsaoEnrollment("123").redirectToHomePage()
   }
 
   Feature("Submit Certificate") {
