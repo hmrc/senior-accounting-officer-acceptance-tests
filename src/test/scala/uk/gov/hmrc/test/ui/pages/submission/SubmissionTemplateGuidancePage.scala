@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.support
+package uk.gov.hmrc.test.ui.pages.submission
 
-import org.openqa.selenium.By
-import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.support.PageSupport.clickRadioButton
+import uk.gov.hmrc.test.ui.conf.TestConfiguration
+import uk.gov.hmrc.test.ui.pages.CommonPage
 
-trait YesNoRadioButtonSupport {
+object SubmissionTemplateGuidancePage extends CommonPage {
+  override val pageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/template-guidance"
 
-  this: BasePage =>
-  def yesRadioButton: By = By.id("value")
-  def noRadioButton: By  = By.id("value-no")
+  override val pageTitle: String =
+    "Notification and certificate submission template guidance - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  def clickYesRadioButton(): Unit = clickRadioButton(yesRadioButton)
-  def clickNoRadioButton(): Unit  = clickRadioButton(noRadioButton)
 }

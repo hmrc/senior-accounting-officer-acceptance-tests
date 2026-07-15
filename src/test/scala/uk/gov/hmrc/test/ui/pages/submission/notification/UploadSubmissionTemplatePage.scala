@@ -22,6 +22,7 @@ import uk.gov.hmrc.test.ui.adt.UploadFile
 import uk.gov.hmrc.test.ui.adt.UploadFile.*
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.pages.submission.SubmissionTemplateGuidancePage
 import uk.gov.hmrc.test.ui.support.PageSupport.extractRelativeUrl
 import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
 
@@ -39,12 +40,12 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
 
   val pageHeadingText: String = "Upload a submission template"
 
-  private val hiddenFileInputLocator: By = By.cssSelector(".govuk-file-upload")
-  val pageHeadingElement: By             = By.cssSelector("h1")
+  private val hiddenFileInputLocator: By = By.className("govuk-file-upload")
+  val pageHeadingElement: By             = By.tagName("h1")
   val guidanceLinkLocator: By            = By.id("template-guidance")
 
   def assertTemplateGuidanceLinkFoundWithCorrectAttributes(): Unit = {
-    val expectedGuidanceLinkHrefValue = "/senior-accounting-officer/submission/template-guidance"
+    val expectedGuidanceLinkHrefValue = extractRelativeUrl(SubmissionTemplateGuidancePage.pageUrl)
     val guidanceLink                  = driver.findElement(guidanceLinkLocator)
     guidanceLink.getAttribute("target") mustBe "_blank"
     extractRelativeUrl(guidanceLink.getAttribute("href")) mustBe expectedGuidanceLinkHrefValue

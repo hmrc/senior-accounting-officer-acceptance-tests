@@ -29,8 +29,8 @@ object SubmitCertificateSubmitterPage extends CommonPage with SubmissionButtonSu
   override val pageTitle: String =
     "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val saoSubmitterRadio: By      = By.cssSelector("#value_0")
-  val saoProxySubmitterRadio: By = By.cssSelector("#value_1")
+  val saoSubmitterRadio: By      = By.id("value_0")
+  val saoProxySubmitterRadio: By = By.id("value_1")
 
   def clickSaoSubmitterRadioButton(): Unit      = clickRadioButton(saoSubmitterRadio)
   def clickSaoProxySubmitterRadioButton(): Unit = clickRadioButton(saoProxySubmitterRadio)

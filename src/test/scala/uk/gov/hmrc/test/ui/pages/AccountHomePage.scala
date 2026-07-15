@@ -27,8 +27,8 @@ object AccountHomePage extends CommonPage {
   override val pageTitle: String =
     "Senior Accounting Officer notification and certificate - Senior Accounting Officer notification and certificate - site.govuk"
 
-  val pageCaptionLocator: By   = By.cssSelector(".govuk-caption-l")
-  val referenceIdLocator: By   = By.cssSelector(".govuk-body-l")
+  val pageCaptionLocator: By   = By.className("govuk-caption-l")
+  val referenceIdLocator: By   = By.className("govuk-body-l")
   val downloadTemplateLink: By = testId("download-template-link")
   val makeSubmissionLink: By   = testId("make-submission-link")
 

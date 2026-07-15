@@ -31,7 +31,7 @@ object AdditionalInformationPage extends CommonPage with SubmissionButtonSupport
 
   val changePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/change-additional-information"
-  val additionalInformationTextBox: By = By.cssSelector(".govuk-textarea")
+  val additionalInformationTextBox: By = By.className("govuk-textarea")
   val skipButton: By                   = By.id("skip")
 
   def clickSkipButton(): Unit = clickElement(skipButton)

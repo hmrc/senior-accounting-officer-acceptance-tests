@@ -24,8 +24,8 @@ import uk.gov.hmrc.test.ui.support.PageSupport.{assertTextIsHyperlink, assertTex
 trait ErrorMessageSupport {
 
   this: BasePage =>
-  def errorTitleLocator: By   = By.cssSelector(".govuk-error-summary__title")
-  def errorSummaryLocator: By = By.cssSelector(".govuk-error-summary__list")
+  def errorTitleLocator: By   = By.className("govuk-error-summary__title")
+  def errorSummaryLocator: By = By.className("govuk-error-summary__list")
 
   def assertErrorSummaryDisplayed(): Unit = {
     assertTextOnPage(errorTitleLocator, "There is a problem")

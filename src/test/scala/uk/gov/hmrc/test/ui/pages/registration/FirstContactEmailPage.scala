@@ -28,7 +28,7 @@ object FirstContactEmailPage extends CommonPage with SubmissionButtonSupport wit
     "First contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/first/change-email"
-  val emailInput: By        = By.cssSelector("#value")
+  val emailInput: By        = By.id("value")
 
   def addEmail(emailAddress: String): Unit = {
     sendKeys(emailInput, emailAddress)

@@ -23,7 +23,7 @@ import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 trait BackLinkSupport {
 
   this: BasePage =>
-  protected def backLinkLocator: By = By.cssSelector(".govuk-back-link")
+  protected def backLinkLocator: By = By.className("govuk-back-link")
 
   def clickBackLink(): Unit = {
     clickElement(backLinkLocator)

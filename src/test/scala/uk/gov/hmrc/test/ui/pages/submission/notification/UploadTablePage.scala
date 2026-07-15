@@ -33,8 +33,8 @@ object UploadTablePage extends CommonPage with SubmissionButtonSupport {
   }
 
   val pageHeadingText: String       = "Review the companies in your notification"
-  val pageContentElement: By        = By.cssSelector(".govuk-grid-column-two-thirds")
-  val paragraph: By                 = By.cssSelector(".govuk-body")
+  val pageContentElement: By        = By.className("govuk-grid-column-two-thirds")
+  val paragraph: By                 = By.className("govuk-body")
   val uploadUpdatedTemplateLink: By = By.cssSelector(".govuk-body a")
   val tableLocator: By              = By.cssSelector("table")
   val tableEmptyMessageLocator: By  = By.cssSelector("tbody tr td")

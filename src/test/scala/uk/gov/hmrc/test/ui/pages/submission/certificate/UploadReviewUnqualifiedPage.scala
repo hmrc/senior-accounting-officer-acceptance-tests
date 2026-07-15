@@ -32,8 +32,8 @@ object UploadReviewUnqualifiedPage extends CommonPage with SubmissionButtonSuppo
     "Review the companies with an unqualified certificate - Senior Accounting Officer notification and certificate - GOV.UK"
   }
 
-  val pageContentElement: By        = By.cssSelector(".govuk-grid-column-two-thirds")
-  val paragraph: By                 = By.cssSelector(".govuk-body")
+  val pageContentElement: By        = By.className("govuk-grid-column-two-thirds")
+  val paragraph: By                 = By.className("govuk-body")
   val uploadUpdatedTemplateLink: By = By.cssSelector(".govuk-body a")
 
   override def clickSubmissionButton(): Unit = {

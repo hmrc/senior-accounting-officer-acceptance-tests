@@ -32,8 +32,8 @@ object UploadReviewQualifiedPage extends CommonPage with SubmissionButtonSupport
     "Review the companies with a qualified certificate - Senior Accounting Officer notification and certificate - GOV.UK"
   }
 
-  val pageContentElement: By        = By.cssSelector(".govuk-grid-column-two-thirds")
-  val paragraph: By                 = By.cssSelector(".govuk-body")
+  val pageContentElement: By        = By.className("govuk-grid-column-two-thirds")
+  val paragraph: By                 = By.className("govuk-body")
   val uploadUpdatedTemplateLink: By = By.cssSelector(".govuk-body a")
   val pageHeadingText: String       = "Review the companies with a qualified certificate"
 
