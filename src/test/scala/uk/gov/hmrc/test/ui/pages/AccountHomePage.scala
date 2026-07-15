@@ -30,7 +30,7 @@ object AccountHomePage extends CommonPage {
   val pageCaptionLocator: By   = By.cssSelector(".govuk-caption-l")
   val referenceIdLocator: By   = By.cssSelector(".govuk-body-l")
   val downloadTemplateLink: By = testId("download-template-link")
-  val makeSubmissionLink: By = testId("make-submission-link")
+  val makeSubmissionLink: By   = testId("make-submission-link")
 
   def clickGetSubmissionTemplateLink(): Unit = {
     clickElement(downloadTemplateLink)
