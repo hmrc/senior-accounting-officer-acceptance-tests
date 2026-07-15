@@ -17,6 +17,7 @@
 package uk.gov.hmrc.test.ui.support
 
 import com.github.javafaker.Faker
+import uk.gov.hmrc.test.ui.adt.CompanyDetails
 
 object TestData {
   private val faker = new Faker(new java.util.Locale("en-GB"))
@@ -33,4 +34,11 @@ object TestData {
   def emailForUser(name: String): String = {
     s"${name.toLowerCase.replace(" ", ".")}@example.com"
   }
+
+  val Companies: Map[String, CompanyDetails] = Map(
+    "DummyCompany" -> CompanyDetails(
+      companyName = "Fake Company Ltd",
+      referenceId = "fakexxx1234"
+    )
+  )
 }

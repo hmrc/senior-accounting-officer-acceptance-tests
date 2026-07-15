@@ -17,8 +17,9 @@
 package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
+import uk.gov.hmrc.test.ui.adt.CompanyDetails
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertTextOnPage, clickElement}
 
 object AccountHomePage extends CommonPage {
   override val pageUrl: String = TestConfiguration.url("senior-accounting-officer-hub-frontend")
@@ -26,14 +27,21 @@ object AccountHomePage extends CommonPage {
   override val pageTitle: String =
     "Senior Accounting Officer notification and certificate - Senior Accounting Officer notification and certificate - site.govuk"
 
-  val submitNotificationLink: By = By.cssSelector("#section-submit-notification-link a")
-  val submitCertificateLink: By  = By.cssSelector("#section-submit-certificate-link a")
+  val pageCaptionLocator: By   = By.cssSelector(".govuk-caption-l")
+  val referenceIdLocator: By   = By.cssSelector(".govuk-body-l")
+  val downloadTemplateLink: By = testId("download-template-link")
+  val makeSubmissionLink: By = testId("make-submission-link")
 
-  def clickSubmitNotificationLink(): Unit = {
-    clickElement(submitNotificationLink)
+  def clickGetSubmissionTemplateLink(): Unit = {
+    clickElement(downloadTemplateLink)
   }
 
-  def clickSubmitCertificateLink(): Unit = {
-    clickElement(submitCertificateLink)
+  def clickMakeSubmissionLink(): Unit = {
+    clickElement(makeSubmissionLink)
+  }
+
+  def assertCompanyDetailsCorrect(companies: CompanyDetails): Unit = {
+    assertTextOnPage(pageCaptionLocator, companies.companyName)
+    assertTextOnPage(referenceIdLocator, s"Reference ID: ${companies.referenceId}")
   }
 }

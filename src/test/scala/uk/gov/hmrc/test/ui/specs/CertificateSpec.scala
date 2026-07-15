@@ -369,7 +369,7 @@ class CertificateSpec extends BaseSpec {
     ) {
       Given("an authenticated user lands on the 'What would you like to submit?' page")
       assertOnPage(AccountHomePage)
-      AccountHomePage.clickSubmitCertificateLink()
+      AccountHomePage.clickMakeSubmissionLink()
       assertOnPage(SubmissionTypePage)
 
       When("the 'Continue' button is clicked after neither radio button is selected")
@@ -646,7 +646,7 @@ class CertificateSpec extends BaseSpec {
   private def navigateToCertificateStartPage(): Unit = {
     AuthorityWizardPage.withAffinityGroup(Organisation).redirectToHomePage()
     assertOnPage(AccountHomePage)
-    AccountHomePage.clickSubmitCertificateLink()
+    AccountHomePage.clickMakeSubmissionLink()
     assertOnPage(SubmissionTypePage)
     SubmissionTypePage.clickCertificateRadioButton()
     SubmissionTypePage.clickSubmissionButton()

@@ -26,6 +26,7 @@ import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.PageSupport.*
+import uk.gov.hmrc.test.ui.support.TestData.Companies
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
 
 import java.time.LocalDate
@@ -46,7 +47,8 @@ class NotificationSpec extends BaseSpec {
     ) {
       Given("an authenticated user lands on the notification start page at the start of a new submission")
       assertOnPage(AccountHomePage)
-      AccountHomePage.clickSubmitNotificationLink()
+      AccountHomePage.assertCompanyDetailsCorrect(Companies("DummyCompany"))
+      AccountHomePage.clickMakeSubmissionLink()
       assertOnPage(SubmissionTypePage)
       SubmissionTypePage.clickNotificationRadioButton()
       SubmissionTypePage.clickSubmissionButton()
@@ -507,7 +509,7 @@ class NotificationSpec extends BaseSpec {
     ) {
       Given("an authenticated user provides details for a single SAO in a notification submission")
       assertOnPage(AccountHomePage)
-      AccountHomePage.clickSubmitNotificationLink()
+      AccountHomePage.clickMakeSubmissionLink()
       assertOnPage(SubmissionTypePage)
       SubmissionTypePage.clickNotificationRadioButton()
       SubmissionTypePage.clickSubmissionButton()
@@ -854,7 +856,7 @@ class NotificationSpec extends BaseSpec {
 
   private def goToAdditionalInformationPageFromHomePage(): Unit = {
     assertOnPage(AccountHomePage)
-    AccountHomePage.clickSubmitNotificationLink()
+    AccountHomePage.clickMakeSubmissionLink()
     assertOnPage(SubmissionTypePage)
     SubmissionTypePage.clickNotificationRadioButton()
     SubmissionTypePage.clickSubmissionButton()
@@ -887,7 +889,7 @@ class NotificationSpec extends BaseSpec {
 
   private def goToMoreThanOneSaoPageFromHomePage(): Unit = {
     assertOnPage(AccountHomePage)
-    AccountHomePage.clickSubmitNotificationLink()
+    AccountHomePage.clickMakeSubmissionLink()
     assertOnPage(SubmissionTypePage)
     SubmissionTypePage.clickNotificationRadioButton()
     SubmissionTypePage.clickSubmissionButton()
