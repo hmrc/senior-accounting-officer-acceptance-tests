@@ -33,7 +33,7 @@ object RegistrationPage extends CommonPage with SubmissionButtonSupport {
   override val pageTitle: String =
     "Register your nominated company - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  private val submitButton: By        = By.cssSelector("#submit")
+  private val submitButton: By        = By.id("submit")
   private val companyDetailsField: By = actionListItem(1)
   private val contactDetailsField: By = actionListItem(2)
 
@@ -45,8 +45,8 @@ object RegistrationPage extends CommonPage with SubmissionButtonSupport {
   )
 
   private val sectionLocators: Map[RegistrationPageSection, By] = Map(
-    RegistrationPageSection.CompanyDetails -> By.cssSelector("#company-details-status"),
-    RegistrationPageSection.ContactDetails -> By.cssSelector("#contacts-details-status")
+    RegistrationPageSection.CompanyDetails -> By.id("company-details-status"),
+    RegistrationPageSection.ContactDetails -> By.id("contacts-details-status")
   )
 
   private def actionListItem(index: Int): By =

@@ -30,7 +30,7 @@ import java.lang
 
 object PageSupport extends BrowserDriver with Matchers {
 
-  val backLink: By       = By.cssSelector(".govuk-back-link")
+  val backLink: By       = By.className("govuk-back-link")
   val continueButton: By = By.id("continue")
 
   inline final def fluentWait: Wait[WebDriver] = fluentWait(3.seconds, 200.milliseconds)

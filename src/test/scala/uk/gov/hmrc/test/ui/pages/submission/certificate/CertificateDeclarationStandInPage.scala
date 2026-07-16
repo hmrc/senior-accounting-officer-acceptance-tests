@@ -29,10 +29,10 @@ object CertificateDeclarationStandInPage extends CommonPage with SubmissionButto
   override val pageTitle: String =
     "Confirm the certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  override protected def submissionButtonLocator: By = By.cssSelector(".govuk-button")
+  override protected def submissionButtonLocator: By = By.className("govuk-button")
 
-  val saoNameInputElement: By     = By.cssSelector("#SaoName")
-  val standInNameInputElement: By = By.cssSelector("#StandInName")
+  val saoNameInputElement: By     = By.id("SaoName")
+  val standInNameInputElement: By = By.id("StandInName")
 
   def addSaoName(name: String): Unit = {
     sendKeys(saoNameInputElement, name)

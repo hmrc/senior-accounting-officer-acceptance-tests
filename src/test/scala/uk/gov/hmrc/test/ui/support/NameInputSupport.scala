@@ -23,7 +23,7 @@ import uk.gov.hmrc.test.ui.support.PageSupport.{assertAttributeMatches, sendKeys
 trait NameInputSupport {
 
   this: BasePage =>
-  val nameInputElement: By = By.cssSelector("#value")
+  val nameInputElement: By = By.id("value")
 
   def addName(name: String): Unit = {
     sendKeys(nameInputElement, name)

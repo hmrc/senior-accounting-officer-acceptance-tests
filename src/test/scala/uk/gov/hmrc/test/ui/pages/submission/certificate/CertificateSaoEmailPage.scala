@@ -31,9 +31,9 @@ object CertificateSaoEmailPage extends CommonPage with SubmissionButtonSupport w
 
   val pageHeadingElement: By = By.cssSelector(".govuk-label-wrapper")
 
-  override protected def submissionButtonLocator: By = By.cssSelector(".govuk-button")
+  override protected def submissionButtonLocator: By = By.className("govuk-button")
 
-  val saoEmailInput: By = By.cssSelector("#value")
+  val saoEmailInput: By = By.id("value")
 
   def addEmail(emailAddress: String): Unit = {
     sendKeys(saoEmailInput, emailAddress)

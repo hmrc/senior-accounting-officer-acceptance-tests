@@ -25,7 +25,7 @@ object HaveYouAddedAllContactsPage extends CommonPage with SubmissionButtonSuppo
   override val pageTitle: String =
     "First contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  override val yesRadioButton: By = By.cssSelector("#value_0")
+  override val yesRadioButton: By = By.id("value_0")
 
-  override val noRadioButton: By = By.cssSelector("#value_1")
+  override val noRadioButton: By = By.id("value_1")
 }

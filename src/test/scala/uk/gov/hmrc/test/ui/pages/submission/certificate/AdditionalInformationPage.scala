@@ -33,9 +33,9 @@ object AdditionalInformationPage extends CommonPage with SubmissionButtonSupport
   val changePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/changeCertificateAdditionalInformation"
 
-  override protected def submissionButtonLocator: By = By.cssSelector(".govuk-button")
+  override protected def submissionButtonLocator: By = By.className("govuk-button")
 
-  val additionalInformationInput: By = By.cssSelector("#value")
+  val additionalInformationInput: By = By.id("value")
 
   def clickSkipButton(): Unit = clickElement(skipButton)
 

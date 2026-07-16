@@ -31,7 +31,7 @@ object SaoEmailPage extends CommonPage with SubmissionButtonSupport with ErrorMe
 
   val changePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/change-sao-email"
-  val saoEmailInput: By = By.cssSelector("#value")
+  val saoEmailInput: By = By.id("value")
 
   def addEmail(emailAddress: String): Unit = {
     sendKeys(saoEmailInput, emailAddress)

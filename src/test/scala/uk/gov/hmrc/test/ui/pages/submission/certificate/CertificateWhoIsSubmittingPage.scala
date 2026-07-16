@@ -37,10 +37,10 @@ object CertificateWhoIsSubmittingPage
   val changePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/change-certificate-who-is-submitting"
 
-  override protected def submissionButtonLocator: By = By.cssSelector(".govuk-button")
+  override protected def submissionButtonLocator: By = By.className("govuk-button")
 
-  val saoSubmitterRadio: By     = By.cssSelector("#value_0")
-  val standInSubmitterRadio: By = By.cssSelector("#value_1")
+  val saoSubmitterRadio: By     = By.id("value_0")
+  val standInSubmitterRadio: By = By.id("value_1")
 
   def clickSaoSubmitterRadioButton(): Unit     = clickRadioButton(saoSubmitterRadio)
   def clickStandInSubmitterRadioButton(): Unit = clickRadioButton(standInSubmitterRadio)

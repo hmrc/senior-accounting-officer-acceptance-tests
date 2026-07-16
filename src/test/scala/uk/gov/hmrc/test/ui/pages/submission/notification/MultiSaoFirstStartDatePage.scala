@@ -34,7 +34,7 @@ object MultiSaoFirstStartDatePage
   override val pageTitle: String =
     "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val pageHeadingElement: By = By.cssSelector(".govuk-fieldset__heading")
+  val pageHeadingElement: By = By.className("govuk-fieldset__heading")
 
   def assertHeadingMatches(text: String): Unit = {
     assertTextOnPage(pageHeadingElement, text)

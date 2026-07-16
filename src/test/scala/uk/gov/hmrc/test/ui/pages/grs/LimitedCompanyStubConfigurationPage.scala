@@ -27,7 +27,7 @@ object LimitedCompanyStubConfigurationPage extends CommonPage {
   override val pageTitle: String = "Choose which features to enable."
 
   private val companiesHouseStubCheckbox: By = By.id("feature-switch.companies-house-stub")
-  private val submitButton: By               = By.cssSelector(".govuk-button")
+  private val submitButton: By               = By.className("govuk-button")
 
   def setStubbedDependencies(): Unit = {
     loadPage()
