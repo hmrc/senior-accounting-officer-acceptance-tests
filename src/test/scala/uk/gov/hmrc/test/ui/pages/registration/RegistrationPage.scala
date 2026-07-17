@@ -30,6 +30,7 @@ import scala.jdk.CollectionConverters.*
 
 object RegistrationPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String   = TestConfiguration.url("senior-accounting-officer-registration-frontend")
+  val stubEnrolmentUrl: String   = s"$pageUrl/test-only/stub-enrolment"
   override val pageTitle: String =
     "Register your nominated company - Senior Accounting Officer notification and certificate - GOV.UK"
 

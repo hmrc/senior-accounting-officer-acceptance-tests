@@ -22,6 +22,8 @@ import uk.gov.hmrc.test.ui.adt.CompanyDetails
 object TestData {
   private val faker = new Faker(new java.util.Locale("en-GB"))
 
+  val subscriptionId = "123"
+
   val firstPersonName: String   = s"${faker.name().fullName()}-Test"
   val secondPersonName: String  = s"${faker.name().fullName()}-Test"
   val firstPersonEmail: String  = emailForUser(firstPersonName)
@@ -38,7 +40,7 @@ object TestData {
   val Companies: Map[String, CompanyDetails] = Map(
     "DummyCompany" -> CompanyDetails(
       companyName = "Fake Company Ltd",
-      referenceId = "fakexxx1234"
+      referenceId = subscriptionId
     )
   )
 }
