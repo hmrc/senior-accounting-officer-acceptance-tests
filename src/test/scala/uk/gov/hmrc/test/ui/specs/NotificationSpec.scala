@@ -29,12 +29,14 @@ import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
 
 import java.time.LocalDate
+import uk.gov.hmrc.test.ui.helpers.InternalAuthHelper.setupInternalAuth
 
 class NotificationSpec extends BaseSpec {
 
   override def beforeEach(): Unit = {
     super.beforeEach()
     AuthorityWizardPage.withAffinityGroup(Organisation).withDsaoEnrolment(TestData.subscriptionId).redirectToHomePage()
+    setupInternalAuth
   }
 
   Feature("Submit Notification") {

@@ -27,11 +27,13 @@ import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.TestData
+import uk.gov.hmrc.test.ui.helpers.InternalAuthHelper.setupInternalAuth
 
 class CertificateSpec extends BaseSpec {
   override def beforeEach(): Unit = {
     super.beforeEach()
     AuthorityWizardPage.withAffinityGroup(Organisation).withDsaoEnrolment(TestData.subscriptionId).redirectToHomePage()
+    setupInternalAuth
   }
 
   Feature("Submit Certificate") {
