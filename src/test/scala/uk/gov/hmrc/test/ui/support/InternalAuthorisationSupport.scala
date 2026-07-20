@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.helpers
+package uk.gov.hmrc.test.ui.support
 
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 
@@ -22,21 +22,22 @@ import java.net.URI
 import java.net.http.HttpRequest.BodyPublishers
 import java.net.http.{HttpClient, HttpRequest, HttpResponse}
 
-object InternalAuthHelper {
+object InternalAuthorisationSupport {
 
   val httpClient: HttpClient = HttpClient.newHttpClient()
 
-  def setupInternalAuth: Unit = {
-    val request = HttpRequest
-      .newBuilder()
-      .uri(
-        URI.create(
-          s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/test-only/internal-auth/object-store"
-        )
-      )
-      .POST(BodyPublishers.noBody)
-      .build()
+  private val internalAuthorisationProxyPath: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/test-only/internal-auth/object-store"
 
-    httpClient.send(request, HttpResponse.BodyHandlers.discarding)
+  private def internalAuthorisationRequest: HttpRequest = {
+    HttpRequest
+      .newBuilder()
+      .uri(URI.create(internalAuthorisationProxyPath))
+      .POST(BodyPublishers.noBody())
+      .build()
+  }
+
+  def setupInternalAuthorisation: Unit = {
+    httpClient.send(internalAuthorisationRequest, HttpResponse.BodyHandlers.discarding())
   }
 }
