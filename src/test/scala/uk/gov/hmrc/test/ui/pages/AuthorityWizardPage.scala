@@ -42,12 +42,12 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
   def withAffinityGroup(affinityGroup: AffinityGroup): AuthorityWizardConfig = AuthorityWizardConfig(affinityGroup)
 
   def redirectToRegistration(config: AuthorityWizardConfig): Unit =
-    redirectTo(config, RegistrationPage.pageUrl)
+    redirectTo(config, url = RegistrationPage.stubEnrolmentUrl, urlToAssert = RegistrationPage.pageUrl)
 
   def redirectToHomePage(config: AuthorityWizardConfig): Unit =
-    redirectTo(config, redirectHomePageUrl)
+    redirectTo(config, url = redirectHomePageUrl, urlToAssert = redirectHomePageUrl)
 
-  private def redirectTo(config: AuthorityWizardConfig, url: String): Unit = {
+  private def redirectTo(config: AuthorityWizardConfig, url: String, urlToAssert: String): Unit = {
     loadPage()
     sendKeys(redirectionUrlById, url)
     selectAffinityGroup(config.affinityGroup)
@@ -57,7 +57,7 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
       sendKeys(firstEnrolmentIdentifierValueInput, enrolment.identifierValue)
     }
     clickSubmissionButton()
-    assertUrl(url)
+    assertUrl(urlToAssert)
   }
 
   def withDsaoEnrolment(config: AuthorityWizardConfig)(subscriptionId: String): AuthorityWizardConfig = {
