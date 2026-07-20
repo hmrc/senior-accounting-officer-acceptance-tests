@@ -16,12 +16,16 @@
 
 package uk.gov.hmrc.test.ui.helpers
 
-import java.net.http.{HttpClient, HttpResponse, HttpRequest}
-import java.net.URI
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
+
+import java.net.URI
 import java.net.http.HttpRequest.BodyPublishers
+import java.net.http.{HttpClient, HttpRequest, HttpResponse}
 
 object InternalAuthHelper {
+
+  val httpClient: HttpClient = HttpClient.newHttpClient()
+
   def setupInternalAuth: Unit = {
     val request = HttpRequest
       .newBuilder()
@@ -33,6 +37,6 @@ object InternalAuthHelper {
       .POST(BodyPublishers.noBody)
       .build()
 
-    HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.discarding())
+    httpClient.send(request, HttpResponse.BodyHandlers.discarding())
   }
 }

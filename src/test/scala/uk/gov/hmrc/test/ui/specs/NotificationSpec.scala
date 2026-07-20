@@ -21,6 +21,7 @@ import uk.gov.hmrc.test.ui.adt.NotificationTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.*
 import uk.gov.hmrc.test.ui.adt.UploadFile.*
 import uk.gov.hmrc.test.ui.adt.ValidationError.*
+import uk.gov.hmrc.test.ui.helpers.InternalAuthHelper.setupInternalAuth
 import uk.gov.hmrc.test.ui.pages.submission.*
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
@@ -29,7 +30,6 @@ import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
 
 import java.time.LocalDate
-import uk.gov.hmrc.test.ui.helpers.InternalAuthHelper.setupInternalAuth
 
 class NotificationSpec extends BaseSpec {
 
