@@ -37,6 +37,6 @@ object InternalAuthHelper {
       .POST(BodyPublishers.noBody)
       .build()
 
-    httpClient.send(request, HttpResponse.BodyHandlers.discarding())
+    httpClient.send(request, HttpResponse.BodyHandlers.discarding)
   }
 }
