@@ -322,8 +322,7 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "Complete a notification providing details for a single SAO in the financial year",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user lands on the 'More than one SAO' page")
       goToMoreThanOneSaoPageFromHomePage()
