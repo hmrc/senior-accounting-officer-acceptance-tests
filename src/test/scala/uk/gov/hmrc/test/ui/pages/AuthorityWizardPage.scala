@@ -62,7 +62,13 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
 
   def withDsaoEnrolment(config: AuthorityWizardConfig)(subscriptionId: String): AuthorityWizardConfig = {
     config.copy(enrolment =
-      Some(Enrolment(enrolmentKey = "HMRC-DSAO-ORG", identifierName = "", identifierValue = subscriptionId))
+      Some(
+        Enrolment(
+          enrolmentKey = "HMRC-DSAO-ORG",
+          identifierName = "EtmpSubscriptionId",
+          identifierValue = subscriptionId
+        )
+      )
     )
   }
 
