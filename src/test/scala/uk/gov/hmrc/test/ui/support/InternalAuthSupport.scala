@@ -29,7 +29,7 @@ object InternalAuthSupport {
   val httpClient: HttpClient = HttpClient.newHttpClient()
 
   private val internalAuthUrl: String =
-    s"${TestConfiguration.url("internal-auth")}/test-only/token"
+    s"${TestConfiguration.url("internal-auth")}"
 
   val internalAuthTokenRequest: JsObject = Json.obj(
     "token"       -> "1234",
