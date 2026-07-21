@@ -25,7 +25,7 @@ import uk.gov.hmrc.test.ui.pages.submission.*
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
-import uk.gov.hmrc.test.ui.support.InternalAuthorisationSupport.setupInternalAuthorisation
+import uk.gov.hmrc.test.ui.support.InternalAuthSupport.setupInternalAuth
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
 
@@ -36,7 +36,7 @@ class NotificationSpec extends BaseSpec {
   override def beforeEach(): Unit = {
     super.beforeEach()
     AuthorityWizardPage.withAffinityGroup(Organisation).withDsaoEnrolment(TestData.subscriptionId).redirectToHomePage()
-    setupInternalAuthorisation
+    setupInternalAuth
   }
 
   Feature("Submit Notification") {
@@ -322,7 +322,8 @@ class NotificationSpec extends BaseSpec {
     Scenario(
       "Complete a notification providing details for a single SAO in the financial year",
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user lands on the 'More than one SAO' page")
       goToMoreThanOneSaoPageFromHomePage()

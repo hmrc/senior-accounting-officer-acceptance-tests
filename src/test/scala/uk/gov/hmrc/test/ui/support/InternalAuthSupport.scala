@@ -16,28 +16,43 @@
 
 package uk.gov.hmrc.test.ui.support
 
+import play.api.libs.json.JsObject
+import play.api.libs.json.Json
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 
 import java.net.URI
 import java.net.http.HttpRequest.BodyPublishers
 import java.net.http.{HttpClient, HttpRequest, HttpResponse}
 
-object InternalAuthorisationSupport {
+object InternalAuthSupport {
 
   val httpClient: HttpClient = HttpClient.newHttpClient()
 
-  private val internalAuthorisationProxyPath: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/test-only/internal-auth/object-store"
+  private val internalAuthUrl: String =
+    s"${TestConfiguration.url("internal-auth")}/test-only/token"
 
-  private def internalAuthorisationRequest: HttpRequest = {
+  val internalAuthTokenRequest: JsObject = Json.obj(
+    "token"       -> "1234",
+    "principal"   -> "senior-accounting-officer-submission-frontend",
+    "permissions" -> Json.arr(
+      Json.obj(
+        "resourceType"     -> "object-store",
+        "resourceLocation" -> "senior-accounting-officer",
+        "actions"          -> Json.arr("READ", "WRITE")
+      )
+    )
+  )
+
+  private def internalAuthRequest: HttpRequest = {
     HttpRequest
       .newBuilder()
-      .uri(URI.create(internalAuthorisationProxyPath))
-      .POST(BodyPublishers.noBody())
+      .uri(URI.create(internalAuthUrl))
+      .header("Content-Type", "application/json")
+      .POST(BodyPublishers.ofString(internalAuthTokenRequest.toString))
       .build()
   }
 
-  def setupInternalAuthorisation: Unit = {
-    httpClient.send(internalAuthorisationRequest, HttpResponse.BodyHandlers.discarding())
+  def setupInternalAuth: Unit = {
+    httpClient.send(internalAuthRequest, HttpResponse.BodyHandlers.discarding())
   }
 }
