@@ -24,8 +24,8 @@ object TestData {
 
   val subscriptionId = "123"
 
-  val firstPersonName: String   = s"${faker.name().fullName()}-Test"
-  val secondPersonName: String  = s"${faker.name().fullName()}-Test"
+  val firstPersonName: String   = s"${faker.name().firstName()} ${faker.name().lastName()}-Test"
+  val secondPersonName: String  = s"${faker.name().firstName()} ${faker.name().lastName()}-Test"
   val firstPersonEmail: String  = emailForUser(firstPersonName)
   val secondPersonEmail: String = emailForUser(secondPersonName)
 
