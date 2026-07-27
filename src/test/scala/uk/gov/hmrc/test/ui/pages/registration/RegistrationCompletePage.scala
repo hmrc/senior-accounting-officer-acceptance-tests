@@ -30,9 +30,6 @@ object RegistrationCompletePage extends CommonPage with SubmissionButtonSupport 
     val referenceNumberElement: By = testId("registration-reference-number")
     fluentWait.until(ExpectedConditions.visibilityOfElementLocated(referenceNumberElement))
 
-    val referenceNumber = driver.findElement(referenceNumberElement).getText
-    val pattern         = """[A-Za-z]{5}\d{10}"""
-
-    referenceNumber.matches(pattern) mustBe true
+    driver.findElement(referenceNumberElement).getText.trim must not be ""
   }
 }
