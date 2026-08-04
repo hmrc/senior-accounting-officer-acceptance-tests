@@ -164,7 +164,7 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Check your answers' page")
       assertOnPage(CheckYourAnswersPage)
 
-      When("the user clicks 'Continue'")
+      When("the user clicks 'Confirm and submit'")
       CheckYourAnswersPage.clickSubmissionButton()
 
       Then("the user lands on the 'Confirmation' page")
@@ -277,7 +277,7 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Check your answers' page")
       assertOnPage(CheckYourAnswersPage)
 
-      When("the user clicks 'Continue'")
+      When("the user clicks 'Confirm and submit'")
       CheckYourAnswersPage.clickSubmissionButton()
 
       Then("the user lands on the 'Confirmation' page")
