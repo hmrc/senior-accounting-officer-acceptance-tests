@@ -20,6 +20,7 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.{BasePage, DynamicUrlWithUnknownParam, StaticTitle}
+import uk.gov.hmrc.test.ui.support.PageSupport.assertLinkHasText
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 import java.util.regex.Pattern
@@ -34,6 +35,12 @@ object ConfirmationPage
 
   override val pageTitle: String =
     "Certificate submitted - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  val downloadPdfLink: By =
+    By.cssSelector("""#download-pdf-link[href="#"]""")
+
+  val printPageLink: By =
+    By.cssSelector("""#print-page-link[href="#"]""")
 
   override protected val urlRegex: String =
     s"^${Pattern.quote(host)}/certificate-confirmation\\?certificateIdReferenceNumber=(CRT[0-9]{10})$$"
@@ -53,5 +60,9 @@ object ConfirmationPage
 
   def assertReferenceNumberMatchesUrl(): Unit = {
     certificateReference mustBe extractParams
+  }
+
+  def assertLinkHasTextOnPage(link: By, expectedText: String): Unit = {
+    assertLinkHasText(link, expectedText)
   }
 }
