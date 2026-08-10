@@ -20,7 +20,7 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.{BasePage, DynamicUrlWithUnknownParam, StaticTitle}
-import uk.gov.hmrc.test.ui.support.PageSupport.assertLinkHasText
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertAttributeMatches, assertLinkHasText}
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 import java.util.regex.Pattern
@@ -60,6 +60,13 @@ object ConfirmationPage
 
   def assertReferenceNumberMatchesUrl(): Unit = {
     certificateReference mustBe extractParams
+  }
+
+  def downloadPdfUrl(reference: String): String =
+    s"$host/certificate/download?certificateReference=$reference"
+
+  def assertDownloadPdfLinkTargetsPdf(): Unit = {
+    assertAttributeMatches(downloadPdfLink, "href", downloadPdfUrl(certificateReference))
   }
 
   def assertLinkHasTextOnPage(link: By, expectedText: String): Unit = {
