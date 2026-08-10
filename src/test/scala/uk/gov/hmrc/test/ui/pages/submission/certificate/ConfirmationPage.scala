@@ -37,10 +37,10 @@ object ConfirmationPage
     "Certificate submitted - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val downloadPdfLink: By =
-    By.cssSelector("""#download-pdf-link[href="#"]""")
+    By.id("download-pdf-link")
 
   val printPageLink: By =
-    By.cssSelector("""#print-page-link[href="#"]""")
+    By.id("print-page-link")
 
   override protected val urlRegex: String =
     s"^${Pattern.quote(host)}/certificate-confirmation\\?certificateIdReferenceNumber=(CRT[0-9]{10})$$"
