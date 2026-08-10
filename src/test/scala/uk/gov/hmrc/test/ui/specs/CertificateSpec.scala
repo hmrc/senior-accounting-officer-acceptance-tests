@@ -172,7 +172,11 @@ class CertificateSpec extends BaseSpec {
       assertPageTitle(ConfirmationPage.pageTitle)
       ConfirmationPage.assertReferenceNumberMatchesUrl()
 
-      When("the user clicks 'Continue'")
+      And("the expected 'download a pdf' and 'print this page' links are present")
+      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "Download a PDF")
+      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "Print this page")
+
+      When("the 'Confirm and submit' button is clicked")
       ConfirmationPage.clickSubmissionButton()
 
       Then("the user returns to the 'Certificate Task List'")
@@ -285,7 +289,11 @@ class CertificateSpec extends BaseSpec {
       assertPageTitle(ConfirmationPage.pageTitle)
       ConfirmationPage.assertReferenceNumberMatchesUrl()
 
-      When("the user clicks 'Continue'")
+      And("the expected 'download a pdf' and 'print this page' links are present")
+      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "Download a PDF")
+      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "Print this page")
+
+      When("the user clicks 'Confirm and submit'")
       ConfirmationPage.clickSubmissionButton()
 
       Then("the user returns to the 'Certificate Task List'")
