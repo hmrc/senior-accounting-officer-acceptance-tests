@@ -20,21 +20,27 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.{assertElementIsClickable, assertLinkHasText, assertTextOnPage}
+import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object ConfirmationPage extends CommonPage with SubmissionButtonSupport {
+
+  private val host: String = TestConfiguration.url("senior-accounting-officer-submission-frontend")
+
   override def pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/confirmation?notificationIdReferenceNumber=$notificationReference"
+    s"$host/notification/confirmation?notificationIdReferenceNumber=$notificationReference"
 
   override val pageTitle: String =
     "Submit a notification - Notification submitted - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val downloadPdfLink: By =
-    By.cssSelector("""#download-pdf-link[href="#"]""")
+    By.cssSelector("""#download-pdf-link""")
 
   val printPageLink: By =
     By.cssSelector("""#print-page-link[href="#"]""")
+
+  def downloadPdfUrl(reference: String): String =
+    s"$host/notification/download?notificationReference=$reference"
 
   def notificationReference: String = {
     val notificationReference: By = testId("notification-reference-number")
@@ -53,6 +59,10 @@ object ConfirmationPage extends CommonPage with SubmissionButtonSupport {
 
   def assertLinkHasTextOnPage(link: By, expectedText: String): Unit = {
     assertLinkHasText(link, expectedText)
+  }
+
+  def assertDownloadPdfLinkTargetsPdf(): Unit = {
+    assertAttributeMatches(downloadPdfLink, "href", downloadPdfUrl(notificationReference))
   }
 
 }

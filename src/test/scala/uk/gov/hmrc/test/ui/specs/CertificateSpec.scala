@@ -176,6 +176,9 @@ class CertificateSpec extends BaseSpec {
       ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "Download a PDF")
       ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "Print this page")
 
+      And("the 'download a pdf' link targets the certificate pdf download route")
+      ConfirmationPage.assertDownloadPdfLinkTargetsPdf()
+
       When("the 'Confirm and submit' button is clicked")
       ConfirmationPage.clickSubmissionButton()
 
