@@ -1,0 +1,21 @@
+﻿"SAO submission template. Use this template to submit your notification, certificate, or both. List all the companies in your group. Complete one row per company. You can add as many rows as needed.
+",,,,,,,,,,,,,,,,,
+How to complete this template ,,,,,,,,,,,,,,,,,
+"1. Notification columns (A to F): Start by entering your company details. For company type and status, use the dropdown to select one.",,,,,,,,,,,,,,,,,
+2. Certificate columns (G to P): Mark tax regimes with an 'x' where the company did not have the appropriate tax accounting arrangements. Leave all other tax regime columns blank. ,,,,,,,,,,,,,,,,,
+"3. Certificate column (Q): The certificate type will show as qualified automatically if any regime is marked. If no regimes are marked, the certificate type will show as unqualified.",,,,,,,,,,,,,,,,,
+4. Certificate column (R):You must add an explanation if the certificate is qualified and a tax regime is marked with an 'x'. Include as much detail as possible. ,,,,,,,,,,,,,,,,,
+5. Unqualified certificate: You can add additional information about your unqualified certificate in the service after uploading the template.,,,,,,,,,,,,,,,,,
+"6. Important: Before you upload the template, you must save the template as a CSV (comma delimited) (.csv) file. When saving, choose the option to export the entire workbook to CSV. ",,,,,,,,,,,,,,,,,
+"7. Important: Do not change the column headings or structure of the template. If you do, it will fail to upload.",,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,Notification,,,,,Certificate,,,,,,,,,,,
+,,,,,,Mark tax regimes with an 'x' where the company did not have the appropriate tax accounting arrangements.,,,,,,,,,,,Explain why the certificate is qualified
+Company name,CRN,UTR,Company type (select one),Company status (select one),Financial year end (DD/MM/YYYY),Corporation tax,"VAT
+(Value added tax)","PAYE
+(Pay As You Earn)",Insurance premium tax,Stamp duty land tax,Stamp duty reserve tax,Petroleum revenue tax,Customs Duties,Excise Duties,Bank Levy,Certificate type,"
+
+Your explanation should include:
+- why the SAO provided a qualified certificate
+- what went wrong with the tax accounting arrangements and why, not just a list of errors "
+,,,,,,,,,,,,,,,,,

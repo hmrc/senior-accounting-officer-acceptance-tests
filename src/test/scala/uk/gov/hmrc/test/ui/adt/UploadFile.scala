@@ -17,7 +17,7 @@
 package uk.gov.hmrc.test.ui.adt
 
 enum UploadFile(val filename: String) {
-  case EmptyFile                extends UploadFile("Submission-template-empty-v15.csv")
+  case EmptyFile                extends UploadFile("Submission-template-empty-v20.csv")
   case FourCompaniesFile        extends UploadFile("Submission-template-4-companies-moderately-complex.csv")
   case InvalidQualificationFile extends UploadFile("Submission-template-invalid-qualification.csv")
   case InvalidTypeFile          extends UploadFile("invalid.REASON.csv")

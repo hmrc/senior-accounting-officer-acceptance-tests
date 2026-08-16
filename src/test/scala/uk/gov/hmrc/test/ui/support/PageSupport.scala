@@ -132,6 +132,19 @@ object PageSupport extends BrowserDriver with Matchers {
     fluentWait.until(ExpectedConditions.titleIs(expectedTitle))
   }
 
+  def switchTab(number: Int): WebDriver = {
+    val tabHandle = driver.getWindowHandles.asScala.toSeq(number)
+    driver.switchTo.window(tabHandle)
+  }
+
+  def closeCurrentTab(): Unit = {
+    val windowHandles = driver.getWindowHandles.asScala
+    val currentTab    = windowHandles.head
+    driver.close()
+    driver.switchTo.window(currentTab)
+    fluentWait.until(ExpectedConditions.numberOfWindowsToBe(windowHandles.size - 1))
+  }
+
   private def assertOnPage(expectedPageUrl: String, expectedTitle: String): Unit = {
     assertUrl(expectedPageUrl)
     assertPageTitle(expectedTitle)

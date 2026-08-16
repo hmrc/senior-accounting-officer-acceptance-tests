@@ -24,13 +24,13 @@ import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.pages.submission.SubmissionTemplateGuidancePage
 import uk.gov.hmrc.test.ui.support.PageSupport.extractRelativeUrl
-import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
+import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
 
 import scala.concurrent.duration.*
 
 import java.nio.file.Paths
 
-object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupport {
+object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
 
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/upload"
