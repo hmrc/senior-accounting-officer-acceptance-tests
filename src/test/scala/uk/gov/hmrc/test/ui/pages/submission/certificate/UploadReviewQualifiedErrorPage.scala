@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package uk.gov.hmrc.test.ui.pages.submission.notification
+package uk.gov.hmrc.test.ui.pages.submission.certificate
 
 import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.{PageSupport, SubmissionButtonSupport}
+import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object UploadTableErrorPage extends CommonPage with SubmissionButtonSupport {
+object UploadReviewQualifiedErrorPage extends CommonPage with SubmissionButtonSupport {
+
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/upload/table"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateReviewQualified"
 
   override val pageTitle: String =
     "There is a problem with your submission template file - Senior Accounting Officer notification and certificate - GOV.UK"
