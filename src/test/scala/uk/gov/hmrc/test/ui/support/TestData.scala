@@ -24,18 +24,13 @@ object TestData {
 
   val subscriptionId = "123"
 
-  val firstPersonName: String   = s"${faker.name().firstName()} ${faker.name().lastName()}-Test"
-  val secondPersonName: String  = s"${faker.name().firstName()} ${faker.name().lastName()}-Test"
-  val firstPersonEmail: String  = emailForUser(firstPersonName)
-  val secondPersonEmail: String = emailForUser(secondPersonName)
-
-  def generateNewEmail(): String = {
-    emailForUser(firstPersonName)
-  }
-
-  def emailForUser(name: String): String = {
-    s"${name.toLowerCase.replace(" ", ".")}@example.com"
-  }
+  val firstPersonName: String                 = s"${faker.name().firstName()} ${faker.name().lastName()}-Test"
+  val secondPersonName: String                = s"${faker.name().firstName()} ${faker.name().lastName()}-Test"
+  val firstPersonEmail: String                = "9.!#$%&’'*+/=?^_`{|}~-x!Q8r$*L9z+H=^s@example.com"
+  val secondPersonEmail: String               = "valid.email+test@example.com"
+  val invalidEmailEndingWithDot: String       = "test@example."
+  val invalidEmailStartingWithDot: String     = "test@.example.com"
+  val invalidEmailWithConsecutiveDots: String = "test@example..com"
 
   val Companies: Map[String, CompanyDetails] = Map(
     "DummyCompany" -> CompanyDetails(
