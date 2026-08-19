@@ -19,6 +19,7 @@ package uk.gov.hmrc.test.ui.specs
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.Completed
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.ContactDetails
+import uk.gov.hmrc.test.ui.adt.ValidationError
 import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.pages.grs.NominatedCompanyDetailsGuidancePage
 import uk.gov.hmrc.test.ui.pages.registration.*
@@ -182,7 +183,21 @@ class ContactDetailsSpec extends BaseSpec {
       Then("an error is shown")
       FirstContactEmailPage.assertErrorSummaryDisplayed()
 
-      When("the user enters a valid email and clicks 'Continue'")
+      When("the user enters an invalid email address ending with a dot and clicks 'Continue'")
+      FirstContactEmailPage.addEmail(TestData.invalidEmailEndingWithDot)
+      FirstContactEmailPage.clickSubmissionButton()
+
+      Then("the invalid email address validation error is shown")
+      FirstContactEmailPage.assertValidationErrorDisplayed(ValidationError.InvalidEmailError)
+
+      When("the user enters an invalid email address with a dot immediately after the @ and clicks 'Continue'")
+      FirstContactEmailPage.addEmail(TestData.invalidEmailStartingWithDot)
+      FirstContactEmailPage.clickSubmissionButton()
+
+      Then("the invalid email address validation error is shown")
+      FirstContactEmailPage.assertValidationErrorDisplayed(ValidationError.InvalidEmailError)
+
+      When("the user enters a valid email with allowed special characters and clicks 'Continue'")
       FirstContactEmailPage.addEmail(TestData.firstPersonEmail)
       FirstContactEmailPage.clickSubmissionButton()
 
@@ -222,6 +237,13 @@ class ContactDetailsSpec extends BaseSpec {
 
       Then("an error is shown")
       SecondContactEmailPage.assertErrorSummaryDisplayed()
+
+      When("the user enters an invalid email address with consecutive dots in the domain and clicks 'Continue'")
+      FirstContactEmailPage.addEmail(TestData.invalidEmailWithConsecutiveDots)
+      FirstContactEmailPage.clickSubmissionButton()
+
+      Then("the invalid email address validation error is shown")
+      FirstContactEmailPage.assertValidationErrorDisplayed(ValidationError.InvalidEmailError)
 
       When("the user enters a valid email and clicks 'Continue'")
       SecondContactEmailPage.addEmail(TestData.secondPersonEmail)
