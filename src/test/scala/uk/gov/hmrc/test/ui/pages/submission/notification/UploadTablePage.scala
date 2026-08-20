@@ -20,7 +20,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.{By, WebDriver}
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object UploadTablePage extends CommonPage with SubmissionButtonSupport {
@@ -66,23 +65,5 @@ object UploadTablePage extends CommonPage with SubmissionButtonSupport {
       .size()
 
     rowCount mustBe expectedCount
-  }
-
-  def assertTextIsUploadedFileIsNotTemplate(): Unit = {
-    val expectedText =
-      """The file you uploaded is not the Senior Accounting Officer notification and certificate submission template.
-        |Download a submission template and read guidance on how to complete it (opens in new tab)""".stripMargin
-    fluentWait
-      .until(
-        ExpectedConditions.visibilityOfElementLocated(pageContentElement)
-      )
-      .findElements(paragraph)
-      .get(0)
-      .getText mustBe expectedText
-  }
-
-  def clickUploadUpdatedTemplateLink(): Unit = {
-    clickElement(uploadUpdatedTemplateLink)
-    fluentWait.until(ExpectedConditions.numberOfWindowsToBe(2))
   }
 }

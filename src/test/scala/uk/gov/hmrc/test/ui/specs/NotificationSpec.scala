@@ -470,23 +470,23 @@ class NotificationSpec extends BaseSpec {
       UploadSubmissionTemplatePage.upload(EmptyFile)
 
       And("the user lands on the 'There is a problem with your submission template file' page")
-      assertOnPage(UploadTableErrorPage)
-
-      Then("The page displays the correct company count of '0' as the upload file is empty")
-      UploadTablePage.assertTextIsUploadedFileIsNotTemplate()
+      assertOnPage(UploadTemplateErrorPage)
+      UploadTemplateErrorPage.assertTextIsUploadedFileIsNotTemplate()
 
       When("the 'upload an updated submission template' link is clicked")
-      UploadTablePage.clickUploadUpdatedTemplateLink()
+      UploadTemplateErrorPage.clickUploadUpdatedTemplateLink()
 
-      Then("the user lands on the 'Upload a submission template' page on a new tab")
+      Then("the 'Upload a submission template' page opens on a new tab which the user navigates to")
       switchTab(1)
       assertOnPage(SubmissionTemplateGuidancePage)
 
-      When("user closes the 'Upload a submission template' tab")
+      When("user closes the 'Upload a submission template' tab and returns to the main tab")
       closeCurrentTab()
+      assertOnPage(UploadTemplateErrorPage)
+      UploadTemplateErrorPage.assertTextIsUploadedFileIsNotTemplate()
 
-      Then("then click 'Upload a submission template' button")
-      UploadTablePage.clickSubmissionButton()
+      And("the 'Upload a submission template' button is clicked")
+      UploadTemplateErrorPage.clickSubmissionButton()
 
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
