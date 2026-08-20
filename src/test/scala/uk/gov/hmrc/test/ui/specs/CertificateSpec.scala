@@ -20,7 +20,7 @@ import org.scalatest.*
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.CertificateTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.*
-import uk.gov.hmrc.test.ui.adt.UploadFile.FourCompaniesFile
+import uk.gov.hmrc.test.ui.adt.UploadFile.{FourCompaniesFile, InvalidQualificationFile}
 import uk.gov.hmrc.test.ui.pages.submission.*
 import uk.gov.hmrc.test.ui.pages.submission.certificate.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
@@ -565,6 +565,41 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CheckYourAnswersPage)
 
       // TODO validation assertion for 'Check your answers' in the 'Stand-in declaration' variation
+    }
+
+    Scenario(
+      "Attempting to upload an invalid certificate submission template shows the shared error state",
+      CertificateUITests,
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
+      navigateToCertificateStartPage()
+
+      And("SAO details are provided to complete the first task in the task list")
+      CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
+      assertOnPage(CertificateSaoFullNamePage)
+      CertificateSaoFullNamePage.addName(TestData.firstPersonName)
+      CertificateSaoFullNamePage.clickSubmissionButton()
+      assertOnPage(CertificateSaoEmailPage)
+      CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
+      CertificateSaoEmailPage.clickSubmissionButton()
+      assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+
+      When("attempting to upload a certificate submission template which has 1 invalid qualification set for a company")
+      CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+      assertOnPage(UploadSubmissionTemplatePage)
+      UploadSubmissionTemplatePage.upload(InvalidQualificationFile)
+
+      Then("the expected certificate upload error page displays with a count of 1 error")
+      assertOnPage(UploadReviewQualifiedErrorPage)
+      UploadReviewQualifiedErrorPage.assertParagraphWithErrorCountMatches(errorCount = 1)
+
+      When("the 'Return to file upload' button is clicked")
+      UploadReviewQualifiedErrorPage.clickSubmissionButton()
+
+      Then("the user is returned to the 'Upload a submission template' page")
+      assertOnPage(UploadSubmissionTemplatePage)
     }
 
     Scenario(
