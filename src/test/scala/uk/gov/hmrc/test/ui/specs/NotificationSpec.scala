@@ -469,18 +469,24 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
       UploadSubmissionTemplatePage.upload(EmptyFile)
 
-      And("the user lands on the 'Review the companies in your notification' page")
-      assertOnPage(UploadTablePage)
-
-      Then("The page displays the correct company count of '0' as the upload file is empty")
-      And("'Emi A Ward' as the responsible SAO")
-      UploadTablePage.assertCompanyCountAndSaoMatch(companyCount = 0, expectedSao = "Emi A Ward")
-
-      And("The table contains no company details but only the text 'No parsed rows'")
-      UploadTablePage.assertCompanyTableEmpty()
+      And("the user lands on the 'There is a problem with your submission template file' page")
+      assertOnPage(UploadTemplateErrorPage)
+      UploadTemplateErrorPage.assertTextIsUploadedFileIsNotTemplate()
 
       When("the 'upload an updated submission template' link is clicked")
-      UploadTablePage.clickUploadUpdatedTemplateLink()
+      UploadTemplateErrorPage.clickUploadUpdatedTemplateLink()
+
+      Then("the 'Upload a submission template' page opens on a new tab which the user navigates to")
+      switchTab(1)
+      assertOnPage(SubmissionTemplateGuidancePage)
+
+      When("user closes the 'Upload a submission template' tab and returns to the main tab")
+      closeCurrentTab()
+      assertOnPage(UploadTemplateErrorPage)
+      UploadTemplateErrorPage.assertTextIsUploadedFileIsNotTemplate()
+
+      And("the 'Upload a submission template' button is clicked")
+      UploadTemplateErrorPage.clickSubmissionButton()
 
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
@@ -519,14 +525,14 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(SubmitNotificationStartPage)
       provideSingleSaoDetailsFromStartPage(TestData.firstPersonName)
 
-      When("attempting to upload a submission template which has 1 invalid qualification set for a company")
+      When("attempting to upload a submission template which has invalid data for a company")
       SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
       assertOnPage(UploadSubmissionTemplatePage)
       UploadSubmissionTemplatePage.upload(InvalidQualificationFile)
 
-      Then("the expected error page displays with a count of 1 error")
+      Then("the expected error page displays with a count of only the 2 errors associated with notification")
       assertOnPage(UploadTableErrorPage)
-      UploadTableErrorPage.assertParagraphWithErrorCountMatches(errorCount = 1)
+      UploadTableErrorPage.assertParagraphWithErrorCountMatches(errorCount = 2)
 
       When("the 'Return to file upload' button is clicked")
       UploadTableErrorPage.clickSubmissionButton()

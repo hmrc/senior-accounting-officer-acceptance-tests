@@ -1,0 +1,56 @@
+/*
+ * Copyright 2026 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package uk.gov.hmrc.test.ui.pages.submission.certificate
+
+import org.openqa.selenium.By
+import org.openqa.selenium.support.ui.ExpectedConditions
+import uk.gov.hmrc.test.ui.conf.TestConfiguration
+import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
+import uk.gov.hmrc.test.ui.support.{PageSupport, SubmissionButtonSupport}
+
+object UploadTemplateErrorPage extends CommonPage with SubmissionButtonSupport {
+  override val pageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateReviewQualified"
+
+  override val pageTitle: String =
+    "There is a problem with your submission template file - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  val pageHeadingText: String       = "There is a problem with your submission template file"
+  val pageContentElement: By        = By.className("govuk-grid-column-two-thirds")
+  val paragraph: By                 = By.className("govuk-body")
+  val uploadUpdatedTemplateLink: By = By.cssSelector(".govuk-body a")
+
+  def assertTextIsUploadedFileIsNotTemplate(): Unit = {
+    val expectedText =
+      """The file you uploaded is not the Senior Accounting Officer notification and certificate submission template.
+        |Download a submission template and read guidance on how to complete it (opens in new tab)""".stripMargin
+    fluentWait
+      .until(
+        ExpectedConditions.visibilityOfElementLocated(pageContentElement)
+      )
+      .findElements(paragraph)
+      .get(0)
+      .getText mustBe expectedText
+  }
+
+  def clickUploadUpdatedTemplateLink(): Unit = {
+    clickElement(uploadUpdatedTemplateLink)
+    fluentWait.until(ExpectedConditions.numberOfWindowsToBe(2))
+  }
+
+}

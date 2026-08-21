@@ -20,7 +20,8 @@ import org.scalatest.*
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.CertificateTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.*
-import uk.gov.hmrc.test.ui.adt.UploadFile.{FourCompaniesFile, InvalidQualificationFile}
+import uk.gov.hmrc.test.ui.adt.UploadFile.*
+import uk.gov.hmrc.test.ui.adt.ValidationError.{InfectedFileError, InvalidFileTypeError, UnknownUploadError}
 import uk.gov.hmrc.test.ui.pages.submission.*
 import uk.gov.hmrc.test.ui.pages.submission.certificate.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
@@ -379,6 +380,58 @@ class CertificateSpec extends BaseSpec {
     }
 
     Scenario(
+      "Attempting to upload unacceptable submission template files to Upscan returns the appropriate error",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
+      navigateToCertificateStartPage()
+
+      And("SAO details are provided to complete the first task in the task list")
+      CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
+      assertOnPage(CertificateSaoFullNamePage)
+      CertificateSaoFullNamePage.addName(TestData.firstPersonName)
+      CertificateSaoFullNamePage.clickSubmissionButton()
+      assertOnPage(CertificateSaoEmailPage)
+      CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
+      CertificateSaoEmailPage.clickSubmissionButton()
+      assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+
+      When("attempting to upload a submission template which has invalid data for a company")
+      CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+      assertOnPage(UploadSubmissionTemplatePage)
+      UploadSubmissionTemplatePage.upload(InvalidQualificationFile)
+
+      Then("the expected error page displays with a count of 4 errors")
+      assertOnPage(UploadTableErrorPage)
+      UploadTableErrorPage.assertParagraphWithErrorCountMatches(errorCount = 4)
+
+      When("the 'Return to file upload' button is clicked")
+      UploadTableErrorPage.clickSubmissionButton()
+
+      Then("the user is returned to the 'Upload a submission template' page")
+      assertOnPage(UploadSubmissionTemplatePage)
+
+      When("attempting to upload a submission template which is named 'invalid.REASON.csv'")
+      UploadSubmissionTemplatePage.upload(InvalidTypeFile)
+
+      Then("the appropriate error is shown on screen")
+      UploadSubmissionTemplatePage.assertValidationErrorDisplayed(InvalidFileTypeError)
+
+      When("attempting to upload a submission template which is named 'infected.VIRUS_NAME.csv'")
+      UploadSubmissionTemplatePage.upload(InfectedFile)
+
+      Then("the appropriate error is shown on screen")
+      UploadSubmissionTemplatePage.assertValidationErrorDisplayed(InfectedFileError)
+
+      When("attempting to upload a submission template which is named 'unknown.REASON.csv'")
+      UploadSubmissionTemplatePage.upload(UnknownErrorFile)
+
+      Then("the appropriate error is shown on screen")
+      UploadSubmissionTemplatePage.assertValidationErrorDisplayed(UnknownUploadError)
+    }
+
+    Scenario(
       "Validate that mandatory details are required for a certification submission",
       CertificateUITests,
       SubmissionUITests,
@@ -591,12 +644,12 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
       UploadSubmissionTemplatePage.upload(InvalidQualificationFile)
 
-      Then("the expected certificate upload error page displays with a count of 1 error")
-      assertOnPage(UploadReviewQualifiedErrorPage)
-      UploadReviewQualifiedErrorPage.assertParagraphWithErrorCountMatches(errorCount = 1)
+      Then("the expected certificate upload error page displays with a count of 4 errors")
+      assertOnPage(UploadTableErrorPage)
+      UploadTableErrorPage.assertParagraphWithErrorCountMatches(errorCount = 4)
 
       When("the 'Return to file upload' button is clicked")
-      UploadReviewQualifiedErrorPage.clickSubmissionButton()
+      UploadTableErrorPage.clickSubmissionButton()
 
       Then("the user is returned to the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)

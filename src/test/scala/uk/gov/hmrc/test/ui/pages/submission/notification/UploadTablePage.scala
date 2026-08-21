@@ -20,7 +20,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.{By, WebDriver}
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.PageSupport.clickElement
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object UploadTablePage extends CommonPage with SubmissionButtonSupport {
@@ -66,9 +65,5 @@ object UploadTablePage extends CommonPage with SubmissionButtonSupport {
       .size()
 
     rowCount mustBe expectedCount
-  }
-
-  def clickUploadUpdatedTemplateLink(): Unit = {
-    clickElement(uploadUpdatedTemplateLink)
   }
 }
