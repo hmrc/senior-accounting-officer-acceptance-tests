@@ -20,5 +20,5 @@ enum ValidationError(val errorMessage: String) {
   case InvalidFileTypeError extends ValidationError("The selected file must be a CSV")
   case InfectedFileError    extends ValidationError("The selected file contains a virus")
   case UnknownUploadError   extends ValidationError("The selected file could not be uploaded – try again")
-  case InvalidEmailError extends ValidationError("Enter an email address in the correct format, like name@example.com")
+  case InvalidEmailError extends ValidationError("Email address must be in the correct format, like name@example.com")
 }
