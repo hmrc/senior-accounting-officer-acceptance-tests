@@ -31,7 +31,7 @@ object ConfirmationPage extends CommonPage with SubmissionButtonSupport {
     s"$host/notification/confirmation?notificationIdReferenceNumber=$notificationReference"
 
   override val pageTitle: String =
-    "Submit a notification - Notification submitted - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Notification submitted - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val downloadPdfLink: By =
     By.cssSelector("""#download-pdf-link""")

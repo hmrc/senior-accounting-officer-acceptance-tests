@@ -92,8 +92,8 @@ class NotificationSpec extends BaseSpec {
       ConfirmationPage.assertReferenceNumberEquals(ConfirmationPage.notificationReference)
 
       And("the expected 'download a pdf' and 'print this page' links are present")
-      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "Download a PDF")
-      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "Print this page")
+      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "download a PDF") // TODO: update text
+      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "print this page")  // TODO: update text
 
       And("the 'download a pdf' link targets the notification pdf download route")
       ConfirmationPage.assertDownloadPdfLinkTargetsPdf()
@@ -591,7 +591,6 @@ class NotificationSpec extends BaseSpec {
 
       And("the page displays the correct content")
       WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Jack Sparrow?")
-      WhoWasTheSaoBeforePage.assertHintMatches("This is the person who held the role before Jack Sparrow")
 
       When("the 'Continue' button is clicked after entering a name of 'Gert Bo'")
       WhoWasTheSaoBeforePage.addName("Gert Bo")
@@ -599,7 +598,7 @@ class NotificationSpec extends BaseSpec {
 
       Then("the user lands on the 'When did Gert Bo’s responsibility as the SAO start' page")
       assertOnPage(MultiSaoSecondStartDatePage)
-      MultiSaoSecondStartDatePage.assertHeadingMatches("When did Gert Bo’s responsibility as the SAO start?")
+      MultiSaoSecondStartDatePage.assertHeadingMatches("When did Gert Bo become the SAO?")
 
       When("the 'Continue' button is clicked after adding a date 90 days in the past")
       MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(90))
@@ -839,7 +838,9 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(MultiSaoSecondStartDatePage)
 
       And("the page displays the correct content")
-      MultiSaoSecondStartDatePage.assertHeadingMatches("When did Jonty Rhodes’s responsibility as the SAO start?")
+      MultiSaoSecondStartDatePage.assertHeadingMatches(
+        "When did Jonty Rhodes become the SAO?"
+      )
 
       When("the 'Back' link is clicked")
       MultiSaoSecondStartDatePage.clickBackLink()
@@ -849,7 +850,6 @@ class NotificationSpec extends BaseSpec {
 
       And("the page displays the correct content")
       WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Shane Warne?")
-      WhoWasTheSaoBeforePage.assertHintMatches("This is the person who held the role before Shane Warne")
       WhoWasTheSaoBeforePage.assertNameMatches("Jonty Rhodes")
 
       When("the 'Back' link is clicked")

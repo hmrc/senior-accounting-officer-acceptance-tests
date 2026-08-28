@@ -28,7 +28,7 @@ object UploadTablePage extends CommonPage with SubmissionButtonSupport {
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/upload/table"
 
   override val pageTitle: String = {
-    "Review the companies in your notification - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Review the companies in your notification - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
   }
 
   val pageHeadingText: String       = "Review the companies in your notification"
@@ -39,15 +39,16 @@ object UploadTablePage extends CommonPage with SubmissionButtonSupport {
   val tableEmptyMessageLocator: By  = By.cssSelector("tbody tr td")
   val tableRowLocator: By           = By.cssSelector("tbody tr")
 
-  private def textInParagraphTwo: String = fluentWait
+  private def textInParagraphOne: String = fluentWait
     .until(ExpectedConditions.visibilityOfElementLocated(pageContentElement))
     .findElements(paragraph)
-    .get(1)
+    .get(0)
     .getText
 
   def assertCompanyCountAndSaoMatch(companyCount: Int, expectedSao: String): Unit = {
-    val expectedText = s"There were $companyCount companies $expectedSao was responsible for during the financial year."
-    textInParagraphTwo mustBe expectedText
+    val expectedText =
+      s"This list is from your submission template. It shows $companyCount companies $expectedSao was responsible for in the financial year."
+    textInParagraphOne mustBe expectedText
   }
 
   def assertCompanyTableEmpty(): Unit = {

@@ -29,7 +29,7 @@ object MultiSaoAreAllAddedPage
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/more-sao/are-all-added"
   override val pageTitle: String =
-    "Submit a notification - Have you added all the SAO for the financial year this notification relates to? - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Have you added all the SAOs for this notification? - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/more-sao/are-all-added?saoIndex=1"

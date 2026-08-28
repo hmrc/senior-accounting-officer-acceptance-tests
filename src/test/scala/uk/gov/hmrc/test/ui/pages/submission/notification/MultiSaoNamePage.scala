@@ -25,5 +25,5 @@ object MultiSaoNamePage extends CommonPage with SubmissionButtonSupport with Err
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/more-sao/submit-notification-full-name"
 
   override val pageTitle: String =
-    "Submit a notification - SAO full name - Senior Accounting Officer notification and certificate - GOV.UK"
+    "What is the name of the SAO at the end of the financial year? - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 }
