@@ -47,7 +47,7 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
   def redirectToCompanyAlreadyRegistered(config: AuthorityWizardConfig): Unit =
     redirectTo(
       config,
-      url = CompanyAlreadyRegisteredPage.pageUrl,
+      url = RegistrationPage.pageUrl,
       urlToAssert = CompanyAlreadyRegisteredPage.companyAlreadyRegisteredUrl
     )
 
