@@ -92,8 +92,8 @@ class NotificationSpec extends BaseSpec {
       ConfirmationPage.assertReferenceNumberEquals(ConfirmationPage.notificationReference)
 
       And("the expected 'download a pdf' and 'print this page' links are present")
-      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "download a PDF") // TODO: update text
-      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "print this page")  // TODO: update text
+      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "download a PDF")
+      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "print this page")
 
       And("the 'download a pdf' link targets the notification pdf download route")
       ConfirmationPage.assertDownloadPdfLinkTargetsPdf()
