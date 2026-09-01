@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.test.ui.specs
 
-import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
+import uk.gov.hmrc.test.ui.adt.AffinityGroup.{Agent, Organisation}
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, NotStarted}
 import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourNominatedCompanyDetailsLink
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.{CompanyDetails, ContactDetails}
@@ -25,7 +25,7 @@ import uk.gov.hmrc.test.ui.pages.grs.NominatedCompanyDetailsGuidancePage
 import uk.gov.hmrc.test.ui.pages.registration.*
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
 import uk.gov.hmrc.test.ui.specs.tags.*
-import uk.gov.hmrc.test.ui.support.PageSupport.assertOnPage
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, assertUrl}
 import uk.gov.hmrc.test.ui.support.TestData
 
 class RegistrationSpec extends BaseSpec {
@@ -80,6 +80,22 @@ class RegistrationSpec extends BaseSpec {
       CompanyAlreadyRegisteredPage.assertLinkHasTextOnPage(
         CompanyAlreadyRegisteredPage.businessTaxAccountLink,
         "business tax account (opens in new tab)"
+      )
+    }
+
+    Scenario(
+      "Agent user sees 'You cannot access this service' page",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given("an Agent user lands on the 'You cannot access this service' page")
+      AuthorityWizardPage
+        .withAffinityGroup(Agent)
+        .redirectToAgentCannotAccessThisService()
+      assertUrl(AgentCannotAccessThisServicePage.agentCannotAccessThisServiceUrl)
+      AgentCannotAccessThisServicePage.assertLinkHasTextOnPage(
+        AgentCannotAccessThisServicePage.findOutMoreAboutWhoCanUseThisServiceLink,
+        "Find out more about who can use this service"
       )
     }
   }
