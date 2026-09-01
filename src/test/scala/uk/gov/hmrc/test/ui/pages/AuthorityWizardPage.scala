@@ -19,7 +19,7 @@ package uk.gov.hmrc.test.ui.pages
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.adt.*
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.registration.{CompanyAlreadyRegisteredPage, RegistrationPage}
+import uk.gov.hmrc.test.ui.pages.registration.*
 import uk.gov.hmrc.test.ui.support.PageSupport.{assertUrl, selectDropdownById, sendKeys}
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
@@ -49,6 +49,13 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
       config,
       url = RegistrationPage.pageUrl,
       urlToAssert = CompanyAlreadyRegisteredPage.companyAlreadyRegisteredUrl
+    )
+
+  def redirectToAgentCannotAccessThisService(config: AuthorityWizardConfig): Unit =
+    redirectTo(
+      config,
+      url = RegistrationPage.pageUrl,
+      urlToAssert = AgentCannotAccessThisServicePage.pageUrl
     )
 
   def redirectToHomePage(config: AuthorityWizardConfig): Unit =
@@ -84,9 +91,10 @@ final case class AuthorityWizardConfig private[pages] (
     affinityGroup: AffinityGroup,
     enrolment: Option[Enrolment] = None
 ) {
-  def redirectToRegistration(): Unit             = AuthorityWizardPage.redirectToRegistration(this)
-  def redirectToCompanyAlreadyRegistered(): Unit = AuthorityWizardPage.redirectToCompanyAlreadyRegistered(this)
-  def redirectToHomePage(): Unit                 = AuthorityWizardPage.redirectToHomePage(this)
+  def redirectToRegistration(): Unit                 = AuthorityWizardPage.redirectToRegistration(this)
+  def redirectToCompanyAlreadyRegistered(): Unit     = AuthorityWizardPage.redirectToCompanyAlreadyRegistered(this)
+  def redirectToAgentCannotAccessThisService(): Unit = AuthorityWizardPage.redirectToAgentCannotAccessThisService(this)
+  def redirectToHomePage(): Unit                     = AuthorityWizardPage.redirectToHomePage(this)
   def withDsaoEnrolment(subscriptionId: String): AuthorityWizardConfig =
     AuthorityWizardPage.withDsaoEnrolment(this)(subscriptionId)
 }
