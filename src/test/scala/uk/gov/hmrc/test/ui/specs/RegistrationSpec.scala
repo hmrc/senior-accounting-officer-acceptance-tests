@@ -22,10 +22,11 @@ import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourNominatedCompanyDet
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.{CompanyDetails, ContactDetails}
 import uk.gov.hmrc.test.ui.pages.AuthorityWizardPage
 import uk.gov.hmrc.test.ui.pages.grs.NominatedCompanyDetailsGuidancePage
+import uk.gov.hmrc.test.ui.pages.registration.*
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
-import uk.gov.hmrc.test.ui.pages.registration.{FeatureTogglePage, GrsStubPage, RegistrationPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.PageSupport.assertOnPage
+import uk.gov.hmrc.test.ui.support.TestData
 
 class RegistrationSpec extends BaseSpec {
 
@@ -64,6 +65,22 @@ class RegistrationSpec extends BaseSpec {
       Then("the action states displayed on the registration page are updated correctly")
       RegistrationPage.assertEnterYourContactDetailsLinkFound()
       RegistrationPage.assertRegistrationPageSectionStatus(ContactDetails, NotStarted)
+    }
+
+    Scenario(
+      "Already enrolled user is prevented from registering",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given("an enrolled user lands on the 'Your company has already registered' page")
+      AuthorityWizardPage
+        .withAffinityGroup(Organisation)
+        .withDsaoEnrolment(TestData.subscriptionId)
+        .redirectToCompanyAlreadyRegistered()
+      CompanyAlreadyRegisteredPage.assertLinkHasTextOnPage(
+        CompanyAlreadyRegisteredPage.businessTaxAccountLink,
+        "business tax account (opens in new tab)"
+      )
     }
   }
 }

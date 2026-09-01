@@ -22,7 +22,7 @@ import uk.gov.hmrc.test.ui.adt.CompanyDetails
 object TestData {
   private val faker = new Faker(new java.util.Locale("en-GB"))
 
-  val subscriptionId = "123"
+  val subscriptionId = "XMPLR0123456789"
 
   val firstPersonName: String                 = s"${faker.name().firstName()} ${faker.name().lastName()}-Test"
   val secondPersonName: String                = s"${faker.name().firstName()} ${faker.name().lastName()}-Test"
