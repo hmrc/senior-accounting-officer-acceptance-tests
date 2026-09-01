@@ -25,7 +25,7 @@ import uk.gov.hmrc.test.ui.pages.grs.NominatedCompanyDetailsGuidancePage
 import uk.gov.hmrc.test.ui.pages.registration.*
 import uk.gov.hmrc.test.ui.pages.registration.GrsHost.GrsStubOnRegistrationFrontEnd
 import uk.gov.hmrc.test.ui.specs.tags.*
-import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, assertUrl}
+import uk.gov.hmrc.test.ui.support.PageSupport.assertOnPage
 import uk.gov.hmrc.test.ui.support.TestData
 
 class RegistrationSpec extends BaseSpec {
@@ -92,9 +92,9 @@ class RegistrationSpec extends BaseSpec {
       AuthorityWizardPage
         .withAffinityGroup(Agent)
         .redirectToAgentCannotAccessThisService()
-      assertUrl(AgentCannotAccessThisServicePage.agentCannotAccessThisServiceUrl)
+      assertOnPage(AgentCannotAccessThisServicePage)
       AgentCannotAccessThisServicePage.assertLinkHasTextOnPage(
-        AgentCannotAccessThisServicePage.findOutMoreAboutWhoCanUseThisServiceLink,
+        AgentCannotAccessThisServicePage.whoCanUseThisServiceLink,
         "Find out more about who can use this service"
       )
     }

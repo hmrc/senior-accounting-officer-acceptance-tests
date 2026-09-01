@@ -22,13 +22,13 @@ import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 
 object AgentCannotAccessThisServicePage extends CommonPage {
-  override val pageUrl: String                = TestConfiguration.url("senior-accounting-officer-registration-frontend")
-  val agentCannotAccessThisServiceUrl: String = s"$pageUrl/agent-cannot-access-service"
+  val pageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-registration-frontend")}/agent-cannot-access-service"
 
-  override val pageTitle: String =
+  val pageTitle: String =
     "You cannot access this service - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val findOutMoreAboutWhoCanUseThisServiceLink: By = By.linkText("Find out more about who can use this service")
+  val whoCanUseThisServiceLink: By = By.linkText("Find out more about who can use this service")
 
   def assertLinkHasTextOnPage(link: By, expectedText: String): Unit = {
     assertLinkHasText(link, expectedText)

@@ -55,7 +55,7 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
     redirectTo(
       config,
       url = RegistrationPage.pageUrl,
-      urlToAssert = AgentCannotAccessThisServicePage.agentCannotAccessThisServiceUrl
+      urlToAssert = AgentCannotAccessThisServicePage.pageUrl
     )
 
   def redirectToHomePage(config: AuthorityWizardConfig): Unit =
