@@ -32,6 +32,7 @@ class GrsIntegrationSpec extends BaseSpec {
     Scenario(
       "Integrate successfully with GRS",
       RegistrationUITests,
+      SoloTests,
       ZapTests
     ) {
       Given("an authenticated user accesses the Generic Registration Service")

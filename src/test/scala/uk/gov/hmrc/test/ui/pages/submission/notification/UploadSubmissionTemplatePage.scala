@@ -45,7 +45,7 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
   val guidanceLinkLocator: By            = By.id("template-guidance")
 
   def assertTemplateGuidanceLinkFoundWithCorrectAttributes(): Unit = {
-    val expectedGuidanceLinkHrefValue = extractRelativeUrl(SubmissionTemplateGuidancePage.pageUrl)
+    val expectedGuidanceLinkHrefValue = extractRelativeUrl(SubmissionTemplateGuidancePage.withinNewTabPageUrl)
     val guidanceLink                  = driver.findElement(guidanceLinkLocator)
     guidanceLink.getAttribute("target") mustBe "_blank"
     extractRelativeUrl(guidanceLink.getAttribute("href")) mustBe expectedGuidanceLinkHrefValue
