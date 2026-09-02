@@ -100,19 +100,25 @@ class RegistrationSpec extends BaseSpec {
     }
 
     Scenario(
-      "Individual user sees 'You cannot access this service' page",
+      "A user categorised with an affinity group of 'Individual' attempts to sign-in",
       RegistrationUITests,
       ZapTests
     ) {
-      Given("an Individual user lands on the 'You cannot access this service' page")
+      Given(
+        "a user categorised with an affinity group of 'Individual' lands on the 'You cannot access this service' page"
+      )
       AuthorityWizardPage
         .withAffinityGroup(Individual)
         .redirectToIndividualCannotAccessThisService()
       assertOnPage(IndividualCannotAccessThisServicePage)
+
+      Then("the 'sign in to Government Gateway with an organisation account' link is present")
       IndividualCannotAccessThisServicePage.assertLinkHasTextOnPage(
         IndividualCannotAccessThisServicePage.whoCanUseThisServiceLink,
         "Find out more about who can use this service"
       )
+
+      And("the 'Find out more about who can use this service' link is present")
       IndividualCannotAccessThisServicePage.assertLinkHasTextOnPage(
         IndividualCannotAccessThisServicePage.governmentGatewayOrganisationSignIn,
         "sign in to Government Gateway with an organisation account"
