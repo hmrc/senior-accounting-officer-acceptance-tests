@@ -16,7 +16,7 @@
 
 package uk.gov.hmrc.test.ui.specs
 
-import uk.gov.hmrc.test.ui.adt.AffinityGroup.{Agent, Organisation}
+import uk.gov.hmrc.test.ui.adt.AffinityGroup.{Agent, Individual, Organisation}
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, NotStarted}
 import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourNominatedCompanyDetailsLink
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.{CompanyDetails, ContactDetails}
@@ -96,6 +96,32 @@ class RegistrationSpec extends BaseSpec {
       AgentCannotAccessThisServicePage.assertLinkHasTextOnPage(
         AgentCannotAccessThisServicePage.whoCanUseThisServiceLink,
         "Find out more about who can use this service"
+      )
+    }
+
+    Scenario(
+      "A user categorised with an affinity group of 'Individual' attempts to sign-in",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "a user categorised with an affinity group of 'Individual' lands on the 'You cannot access this service' page"
+      )
+      AuthorityWizardPage
+        .withAffinityGroup(Individual)
+        .redirectToIndividualCannotAccessThisService()
+      assertOnPage(IndividualCannotAccessThisServicePage)
+
+      Then("the 'sign in to Government Gateway with an organisation account' link is present")
+      IndividualCannotAccessThisServicePage.assertLinkHasTextOnPage(
+        IndividualCannotAccessThisServicePage.whoCanUseThisServiceLink,
+        "Find out more about who can use this service"
+      )
+
+      And("the 'Find out more about who can use this service' link is present")
+      IndividualCannotAccessThisServicePage.assertLinkHasTextOnPage(
+        IndividualCannotAccessThisServicePage.governmentGatewayOrganisationSignIn,
+        "sign in to Government Gateway with an organisation account"
       )
     }
   }
