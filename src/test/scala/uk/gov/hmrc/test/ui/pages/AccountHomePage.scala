@@ -25,7 +25,7 @@ object AccountHomePage extends CommonPage {
   override val pageUrl: String = TestConfiguration.url("senior-accounting-officer-hub-frontend")
 
   override val pageTitle: String =
-    "Senior Accounting Officer notification and certificate - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Homepage - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val pageCaptionLocator: By   = By.className("govuk-caption-l")
   val referenceIdLocator: By   = By.className("govuk-body-l")

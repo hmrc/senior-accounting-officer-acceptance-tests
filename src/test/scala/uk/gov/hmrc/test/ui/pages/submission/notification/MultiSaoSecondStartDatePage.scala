@@ -33,7 +33,7 @@ object MultiSaoSecondStartDatePage
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/multi-sao-second-start-date"
 
   override val pageTitle: String =
-    "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
+    "What date did the previous SAO responsibility start? - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val pageHeadingElement: By = By.className("govuk-fieldset__heading")
 

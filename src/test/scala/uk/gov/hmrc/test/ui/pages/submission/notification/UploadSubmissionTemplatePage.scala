@@ -36,7 +36,7 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/upload"
 
   override val pageTitle: String =
-    "Upload a submission template for your notification - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Upload a submission template - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val pageHeadingText: String = "Upload a submission template"
 

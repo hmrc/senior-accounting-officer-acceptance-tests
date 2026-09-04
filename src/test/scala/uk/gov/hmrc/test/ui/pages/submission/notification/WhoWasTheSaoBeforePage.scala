@@ -33,7 +33,7 @@ object WhoWasTheSaoBeforePage
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/who-was-the-sao-before"
 
   override val pageTitle: String =
-    "Senior Accounting Officer full name - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Who was the SAO before the last SAO? - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val pageHeadingElement: By = By.cssSelector(".govuk-label.govuk-label--l")
   val pageHintElement: By    = By.id("value-hint")
@@ -43,9 +43,5 @@ object WhoWasTheSaoBeforePage
 
   def assertHeadingMatches(text: String): Unit = {
     assertTextOnPage(pageHeadingElement, text)
-  }
-
-  def assertHintMatches(text: String): Unit = {
-    assertTextOnPage(pageHintElement, text)
   }
 }

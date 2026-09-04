@@ -33,7 +33,7 @@ object MultiSaoSecondEndDatePage
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notificationMoreSaoSecondEndDate"
 
   override val pageTitle: String =
-    "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
+    "What date did the previous SAO responsibility stop? - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val pageUrlWithSaoIndexOne: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notificationMoreSaoSecondEndDate?saoIndex=1"

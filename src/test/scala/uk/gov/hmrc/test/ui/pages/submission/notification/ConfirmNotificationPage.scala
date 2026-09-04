@@ -24,5 +24,5 @@ object ConfirmNotificationPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/confirm-your-notification"
   override val pageTitle: String =
-    "Confirm notification and submit - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Confirm your notification - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 }
