@@ -23,6 +23,8 @@ object TestData {
   private val faker = new Faker(new java.util.Locale("en-GB"))
 
   val subscriptionId = "XMPLR0123456789"
+  val name: String   = ".!#$%&’'*+/=?^_`{|}~-x!Q8r$*L9z+H=^" +
+    "aaaaaaaaaABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 
   val firstPersonName: String                 = s"${faker.name().firstName()} ${faker.name().lastName()}-Test"
   val secondPersonName: String                = s"${faker.name().firstName()} ${faker.name().lastName()}-Test"
@@ -31,6 +33,11 @@ object TestData {
   val invalidEmailEndingWithDot: String       = "test@example."
   val invalidEmailStartingWithDot: String     = "test@.example.com"
   val invalidEmailWithConsecutiveDots: String = "test@example..com"
+
+  val minName: String                   = "N"
+  val maxName: String                   = name.take(105)
+  val exceedingNameLimit: String        = name.take(106)
+  val nameWithInvalidCharacters: String = "Test <>\""
 
   val Companies: Map[String, CompanyDetails] = Map(
     "DummyCompany" -> CompanyDetails(

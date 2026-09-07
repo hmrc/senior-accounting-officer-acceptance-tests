@@ -20,6 +20,7 @@ import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.Completed
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.ContactDetails
 import uk.gov.hmrc.test.ui.adt.ValidationError
+import uk.gov.hmrc.test.ui.adt.ValidationError.*
 import uk.gov.hmrc.test.ui.pages.*
 import uk.gov.hmrc.test.ui.pages.grs.NominatedCompanyDetailsGuidancePage
 import uk.gov.hmrc.test.ui.pages.registration.*
@@ -149,7 +150,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       // TODO re-enable after we wire the RegistrationPage CTA to call registration sign up (SAOD-870)
       Then("the user lands on the 'Account Homepage'")
-//      assertOnPage(AccountHomePage)
+      //      assertOnPage(AccountHomePage)
     }
 
     Scenario(
@@ -313,6 +314,97 @@ class ContactDetailsSpec extends BaseSpec {
       Then("the original second contact email address is correctly displayed on the 'Check Your Answers' page")
       assertTextOnPage(SecondContactCheckYourAnswersPage.secondContactEmailValue, TestData.secondPersonEmail)
     }
+
+    Scenario(
+      "Validate error when first contact name is empty",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user lands on the first contact details page"
+      )
+      goToFirstContactNamePage()
+
+      When("the user clicks 'Continue' without entering a first contact name")
+      FirstContactNamePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      FirstContactNamePage.assertValidationErrorDisplayed(MissingNameError)
+    }
+
+    Scenario(
+      "Accept first contact name containing 1 character",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user lands on the first contact details page"
+      )
+      goToFirstContactNamePage()
+
+      When("the user enter a first contact name containing 1 character")
+      FirstContactNamePage.addName(TestData.minName)
+      FirstContactNamePage.clickSubmissionButton()
+      assertOnPage(FirstContactEmailPage)
+    }
+
+    Scenario(
+      "Accept first contact name containing 105 characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user lands on the first contact details page"
+      )
+      goToFirstContactNamePage()
+
+      When("the user enter a first contact name containing 105 characters")
+      FirstContactNamePage.addName(TestData.maxName)
+      FirstContactNamePage.clickSubmissionButton()
+      assertOnPage(FirstContactEmailPage)
+    }
+
+    Scenario(
+      "Validate error when first contact name exceeds 105 characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user lands on the first contact details page"
+      )
+      goToFirstContactNamePage()
+
+      When("the user enter a first contact name containing more than 105 characters")
+      FirstContactNamePage.addName(TestData.exceedingNameLimit)
+      FirstContactNamePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      FirstContactNamePage.assertValidationErrorDisplayed(NameTooLongError)
+    }
+
+    Scenario(
+      "Validate error when first contact name with invalid characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user lands on the first contact details page"
+      )
+      goToFirstContactNamePage()
+
+      When("the user enter a first contact name with invalid characters")
+      FirstContactNamePage.addName(TestData.nameWithInvalidCharacters)
+      FirstContactNamePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      FirstContactNamePage.assertValidationErrorDisplayed(InvalidNameCharactersError)
+    }
+  }
+
+  private def goToFirstContactNamePage(): Unit = {
+    RegistrationPage.clickEnterYourContactDetailsLink()
+    ContactDetailsPage.clickSubmissionButton()
+    assertOnPage(FirstContactNamePage)
   }
 
   private def AddFirstContactDetails(): Unit = {
