@@ -750,8 +750,8 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "not enrolled user is redirected to the 'not-enrolled' page in the hub",
       CertificateUITests,
-      ZapTests,
-      SoloTests
+      SubmissionUITests,
+      ZapTests
     ) {
       Given("a user is in any page within the certificate submission journey")
       navigateToCertificateStartPage()

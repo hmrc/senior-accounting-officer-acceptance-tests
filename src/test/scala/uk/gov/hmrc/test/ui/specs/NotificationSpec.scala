@@ -23,7 +23,7 @@ import uk.gov.hmrc.test.ui.adt.UploadFile.*
 import uk.gov.hmrc.test.ui.adt.ValidationError.*
 import uk.gov.hmrc.test.ui.pages.submission.*
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
-import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
+import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage, NotEnrolledPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.InternalAuthorisationSupport.setupInternalAuthorisation
 import uk.gov.hmrc.test.ui.support.PageSupport.*
@@ -860,6 +860,21 @@ class NotificationSpec extends BaseSpec {
 
       And("the page displays the correct content")
       MultiSaoFirstStartDatePage.assertHeadingMatches("What date did Shane Warne become the SAO?")
+    }
+
+    Scenario("not enrolled user is redirected to the 'not-enrolled' page in the hub",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("a user is in any page within the notification submission journey")
+      provideSingleSaoDetailsFromStartPage()
+
+      Then("the user is redirected to the 'not-enrolled' page in the hub")
+
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToNotEnrolledPage()
+      NotEnrolledPage.assertLinkHasTextOnPage(NotEnrolledPage.registerLink,
+        "register to submit a Senior Accounting Officer notification and certificate service"
+      )
     }
   }
 
