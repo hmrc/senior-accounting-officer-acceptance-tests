@@ -35,7 +35,6 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
   override def submissionButtonLocator: By           = By.id("submit-top")
 
   private val redirectHomePageUrl: String = TestConfiguration.url("senior-accounting-officer-hub-frontend")
-//  private val redirectHomePageUrl: String = TestConfiguration.url("senior-accounting-officer-hub-frontend")
 
   private def selectAffinityGroup(affinityGroup: AffinityGroup): Unit =
     selectDropdownById(affinityGroupById).selectByVisibleText(affinityGroup.toString)
