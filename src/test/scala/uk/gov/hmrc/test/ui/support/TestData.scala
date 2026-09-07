@@ -32,6 +32,11 @@ object TestData {
   val invalidEmailStartingWithDot: String     = "test@.example.com"
   val invalidEmailWithConsecutiveDots: String = "test@example..com"
 
+  val minName: String                   = "N"
+  val maxName: String                   = "A".repeat(105)
+  val exceedingNameLimit: String        = "A".repeat(106)
+  val nameWithInvalidCharacters: String = "Test <>\""
+
   val Companies: Map[String, CompanyDetails] = Map(
     "DummyCompany" -> CompanyDetails(
       companyName = "Fake Company Ltd",
