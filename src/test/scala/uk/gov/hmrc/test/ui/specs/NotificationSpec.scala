@@ -867,7 +867,7 @@ class NotificationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("a user is in any page within the notification submission journey")
-      provideSingleSaoDetailsFromStartPage()
+      goToMoreThanOneSaoPageFromHomePage()
 
       Then("the user is redirected to the 'not-enrolled' page in the hub")
 
