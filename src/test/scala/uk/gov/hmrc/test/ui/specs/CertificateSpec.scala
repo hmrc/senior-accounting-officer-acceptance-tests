@@ -24,7 +24,7 @@ import uk.gov.hmrc.test.ui.adt.UploadFile.*
 import uk.gov.hmrc.test.ui.adt.ValidationError.{InfectedFileError, InvalidFileTypeError, UnknownUploadError}
 import uk.gov.hmrc.test.ui.pages.submission.*
 import uk.gov.hmrc.test.ui.pages.submission.certificate.*
-import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
+import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage, NotEnrolledPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.InternalAuthorisationSupport.setupInternalAuthorisation
 import uk.gov.hmrc.test.ui.support.PageSupport.*
@@ -745,6 +745,24 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateWhoIsSubmittingPage)
 
       // TODO: extend the test to check the additional information on the CYA page once development is complete
+    }
+
+    Scenario(
+      "not enrolled user is redirected to the 'not-enrolled' page in the hub",
+      CertificateUITests,
+      ZapTests,
+      SoloTests
+    ) {
+      Given("a user is in any page within the certificate submission journey")
+      navigateToCertificateStartPage()
+
+      Then("the user is redirected to the 'not-enrolled' page in the hub")
+
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToNotEnrolledPage()
+      NotEnrolledPage.assertLinkHasTextOnPage(
+        NotEnrolledPage.registerLink,
+        "register to submit a Senior Accounting Officer notification and certificate service"
+      )
     }
   }
 

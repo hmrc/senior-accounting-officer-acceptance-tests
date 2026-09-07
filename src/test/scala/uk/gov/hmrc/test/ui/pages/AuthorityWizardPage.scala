@@ -35,6 +35,7 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
   override def submissionButtonLocator: By           = By.id("submit-top")
 
   private val redirectHomePageUrl: String = TestConfiguration.url("senior-accounting-officer-hub-frontend")
+//  private val redirectHomePageUrl: String = TestConfiguration.url("senior-accounting-officer-hub-frontend")
 
   private def selectAffinityGroup(affinityGroup: AffinityGroup): Unit =
     selectDropdownById(affinityGroupById).selectByVisibleText(affinityGroup.toString)
@@ -67,6 +68,11 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
 
   def redirectToHomePage(config: AuthorityWizardConfig): Unit =
     redirectTo(config, url = redirectHomePageUrl, urlToAssert = redirectHomePageUrl)
+
+  def redirectToNotEnrolledPage(config: AuthorityWizardConfig): Unit = {
+    val notEnrolledUrl = redirectHomePageUrl + "/not-enrolled"
+    redirectTo(config = config, url = notEnrolledUrl, urlToAssert = notEnrolledUrl)
+  }
 
   private def redirectTo(config: AuthorityWizardConfig, url: String, urlToAssert: String): Unit = {
     loadPage()
@@ -103,7 +109,8 @@ final case class AuthorityWizardConfig private[pages] (
   def redirectToAgentCannotAccessThisService(): Unit = AuthorityWizardPage.redirectToAgentCannotAccessThisService(this)
   def redirectToIndividualCannotAccessThisService(): Unit =
     AuthorityWizardPage.redirectToIndividualCannotAccessThisService(this)
-  def redirectToHomePage(): Unit                                       = AuthorityWizardPage.redirectToHomePage(this)
+  def redirectToHomePage(): Unit        = AuthorityWizardPage.redirectToHomePage(this)
+  def redirectToNotEnrolledPage(): Unit = AuthorityWizardPage.redirectToNotEnrolledPage(this)
   def withDsaoEnrolment(subscriptionId: String): AuthorityWizardConfig =
     AuthorityWizardPage.withDsaoEnrolment(this)(subscriptionId)
 }
