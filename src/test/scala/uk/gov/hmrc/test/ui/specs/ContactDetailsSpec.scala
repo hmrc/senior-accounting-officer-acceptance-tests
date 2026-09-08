@@ -399,12 +399,104 @@ class ContactDetailsSpec extends BaseSpec {
       Then("an error is shown")
       FirstContactNamePage.assertValidationErrorDisplayed(InvalidNameCharactersError)
     }
+
+    Scenario(
+      "Validate error when second contact name is empty",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user lands on the second contact details page"
+      )
+      goToSecondContactNamePage()
+
+      When("the user clicks 'Continue' without entering a second contact name")
+      SecondContactNamePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      SecondContactNamePage.assertValidationErrorDisplayed(MissingNameError)
+    }
+
+    Scenario(
+      "Accept second contact name containing 1 character",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user lands on the second contact details page"
+      )
+      goToSecondContactNamePage()
+
+      When("the user enter a second contact name containing 1 character")
+      SecondContactNamePage.addName(TestData.minName)
+      SecondContactNamePage.clickSubmissionButton()
+      assertOnPage(SecondContactEmailPage)
+    }
+
+    Scenario(
+      "Accept second contact name containing 105 characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user lands on the second contact details page"
+      )
+      goToSecondContactNamePage()
+
+      When("the user enter a second contact name containing 105 characters")
+      SecondContactNamePage.addName(TestData.maxName)
+      SecondContactNamePage.clickSubmissionButton()
+      assertOnPage(SecondContactEmailPage)
+    }
+
+    Scenario(
+      "Validate error when second contact name exceeds 105 characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user lands on the second contact details page"
+      )
+      goToSecondContactNamePage()
+
+      When("the user enter a second contact name containing more than 105 characters")
+      SecondContactNamePage.addName(TestData.exceedingNameLimit)
+      SecondContactNamePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      SecondContactNamePage.assertValidationErrorDisplayed(NameTooLongError)
+    }
+
+    Scenario(
+      "Validate error when second contact name with invalid characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user lands on the second contact details page"
+      )
+      goToSecondContactNamePage()
+
+      When("the user enter a second contact name with invalid characters")
+      SecondContactNamePage.addName(TestData.nameWithInvalidCharacters)
+      SecondContactNamePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      SecondContactNamePage.assertValidationErrorDisplayed(InvalidNameCharactersError)
+    }
   }
 
   private def goToFirstContactNamePage(): Unit = {
     RegistrationPage.clickEnterYourContactDetailsLink()
     ContactDetailsPage.clickSubmissionButton()
     assertOnPage(FirstContactNamePage)
+  }
+
+  private def goToSecondContactNamePage(): Unit = {
+    AddFirstContactDetails()
+    FirstContactCheckYourAnswersPage.clickSubmissionButton()
+    HaveYouAddedAllContactsPage.clickNoRadioButton()
+    HaveYouAddedAllContactsPage.clickSubmissionButton()
   }
 
   private def AddFirstContactDetails(): Unit = {
