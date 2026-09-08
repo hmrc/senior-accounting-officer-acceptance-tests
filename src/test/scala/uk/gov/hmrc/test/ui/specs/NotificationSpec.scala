@@ -478,7 +478,8 @@ class NotificationSpec extends BaseSpec {
 
       Then("the 'Upload a submission template' page opens on a new tab which the user navigates to")
       switchTab(1)
-      assertOnPage(SubmissionTemplateGuidancePage)
+      assertUrl(SubmissionTemplateGuidancePage.withinNewTabPageUrl)
+      assertPageTitle(SubmissionTemplateGuidancePage.pageTitle)
 
       When("user closes the 'Upload a submission template' tab and returns to the main tab")
       closeCurrentTab()
