@@ -862,13 +862,11 @@ class NotificationSpec extends BaseSpec {
       MultiSaoFirstStartDatePage.assertHeadingMatches("What date did Shane Warne become the SAO?")
     }
 
-    Scenario("not enrolled user is redirected to the 'not-enrolled' page in the hub", SubmissionUITests, ZapTests) {
-      Given("a user is in any page within the notification submission journey")
-      goToMoreThanOneSaoPageFromHomePage()
+    Scenario("Not enrolled user is redirected to the 'not-enrolled' page in the hub", SubmissionUITests, ZapTests) {
+      Given("a user without an active DSAO enrollment")
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToNotEnrolledPage()
 
       Then("the user is redirected to the 'not-enrolled' page in the hub")
-
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToNotEnrolledPage()
       NotEnrolledPage.assertLinkHasTextOnPage(
         NotEnrolledPage.registerLink,
         "register to submit a Senior Accounting Officer notification and certificate service"

@@ -69,8 +69,7 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
     redirectTo(config, url = redirectHomePageUrl, urlToAssert = redirectHomePageUrl)
 
   def redirectToNotEnrolledPage(config: AuthorityWizardConfig): Unit = {
-    val notEnrolledUrl = redirectHomePageUrl + "/not-enrolled"
-    redirectTo(config = config, url = notEnrolledUrl, urlToAssert = notEnrolledUrl)
+    redirectTo(config = config, url = NotEnrolledPage.notEnrolledUrl, urlToAssert = NotEnrolledPage.notEnrolledUrl)
   }
 
   private def redirectTo(config: AuthorityWizardConfig, url: String, urlToAssert: String): Unit = {

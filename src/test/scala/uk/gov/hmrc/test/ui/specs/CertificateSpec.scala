@@ -748,17 +748,15 @@ class CertificateSpec extends BaseSpec {
     }
 
     Scenario(
-      "not enrolled user is redirected to the 'not-enrolled' page in the hub",
+      "Not enrolled user is redirected to the 'not-enrolled' page in the hub",
       CertificateUITests,
       SubmissionUITests,
       ZapTests
     ) {
-      Given("a user is in any page within the certificate submission journey")
-      navigateToCertificateStartPage()
+      Given("a user without an active DSAO enrollment")
+      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToNotEnrolledPage()
 
       Then("the user is redirected to the 'not-enrolled' page in the hub")
-
-      AuthorityWizardPage.withAffinityGroup(Organisation).redirectToNotEnrolledPage()
       NotEnrolledPage.assertLinkHasTextOnPage(
         NotEnrolledPage.registerLink,
         "register to submit a Senior Accounting Officer notification and certificate service"
