@@ -21,8 +21,7 @@ import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.support.PageSupport.assertLinkHasText
 
 object NotEnrolledPage extends CommonPage {
-  override val pageUrl: String = TestConfiguration.url("senior-accounting-officer-hub-frontend")
-  val notEnrolledUrl: String   = s"$pageUrl/not-enrolled"
+  override val pageUrl: String = s"${TestConfiguration.url("senior-accounting-officer-hub-frontend")}/not-enrolled"
 
   override val pageTitle =
     "You do not have access to this service - Senior Accounting Officer notification and certificate - GOV.UK"

@@ -69,7 +69,7 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
     redirectTo(config, url = redirectHomePageUrl, urlToAssert = redirectHomePageUrl)
 
   def redirectToNotEnrolledPage(config: AuthorityWizardConfig): Unit = {
-    redirectTo(config = config, url = NotEnrolledPage.notEnrolledUrl, urlToAssert = NotEnrolledPage.notEnrolledUrl)
+    redirectTo(config = config, url = NotEnrolledPage.pageUrl, urlToAssert = NotEnrolledPage.pageUrl)
   }
 
   private def redirectTo(config: AuthorityWizardConfig, url: String, urlToAssert: String): Unit = {

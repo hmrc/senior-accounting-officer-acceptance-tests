@@ -867,6 +867,7 @@ class NotificationSpec extends BaseSpec {
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToNotEnrolledPage()
 
       Then("the user is redirected to the 'not-enrolled' page in the hub")
+      assertOnPage(NotEnrolledPage)
       NotEnrolledPage.assertLinkHasTextOnPage(
         NotEnrolledPage.registerLink,
         "register to submit a Senior Accounting Officer notification and certificate service"
