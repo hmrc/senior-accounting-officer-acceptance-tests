@@ -68,6 +68,10 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
   def redirectToHomePage(config: AuthorityWizardConfig): Unit =
     redirectTo(config, url = redirectHomePageUrl, urlToAssert = redirectHomePageUrl)
 
+  def redirectToNotEnrolledPage(config: AuthorityWizardConfig): Unit = {
+    redirectTo(config = config, url = NotEnrolledPage.pageUrl, urlToAssert = NotEnrolledPage.pageUrl)
+  }
+
   private def redirectTo(config: AuthorityWizardConfig, url: String, urlToAssert: String): Unit = {
     loadPage()
     sendKeys(redirectionUrlById, url)
@@ -103,7 +107,8 @@ final case class AuthorityWizardConfig private[pages] (
   def redirectToAgentCannotAccessThisService(): Unit = AuthorityWizardPage.redirectToAgentCannotAccessThisService(this)
   def redirectToIndividualCannotAccessThisService(): Unit =
     AuthorityWizardPage.redirectToIndividualCannotAccessThisService(this)
-  def redirectToHomePage(): Unit                                       = AuthorityWizardPage.redirectToHomePage(this)
+  def redirectToHomePage(): Unit        = AuthorityWizardPage.redirectToHomePage(this)
+  def redirectToNotEnrolledPage(): Unit = AuthorityWizardPage.redirectToNotEnrolledPage(this)
   def withDsaoEnrolment(subscriptionId: String): AuthorityWizardConfig =
     AuthorityWizardPage.withDsaoEnrolment(this)(subscriptionId)
 }
