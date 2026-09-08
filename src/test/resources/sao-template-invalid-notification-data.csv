@@ -1,0 +1,33 @@
+﻿"SAO submission template. Use this template to submit your notification, certificate, or both. List all the companies in your group. Complete one row per company. You can add as many rows as needed.
+",,,,,,,,,,,,,,,,,
+How to complete this template ,,,,,,,,,,,,,,,,,
+"1. Notification columns (A to F): Start by entering your company details. For company type and status, use the dropdown to select one.",,,,,,,,,,,,,,,,,
+2. Certificate columns (G to P): Mark tax regimes with an 'x' where the company did not have the appropriate tax accounting arrangements. Leave all other tax regime columns blank. ,,,,,,,,,,,,,,,,,
+"3. Certificate column (Q): The certificate type will show as qualified automatically if any regime is marked. If no regimes are marked, the certificate type will show as unqualified.",,,,,,,,,,,,,,,,,
+4. Certificate column (R):You must add an explanation if the certificate is qualified and a tax regime is marked with an 'x'. Include as much detail as possible. ,,,,,,,,,,,,,,,,,
+5. Unqualified certificate: You can add additional information about your unqualified certificate in the service after uploading the template.,,,,,,,,,,,,,,,,,
+"6. Important: Before you upload the template, you must save the template as a CSV (comma delimited) (.csv) file. When saving, choose the option to export the entire workbook to CSV. ",,,,,,,,,,,,,,,,,
+"7. Important: Do not change the column headings or structure of the template. If you do, it will fail to upload.",,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,Notification,,,,,Certificate,,,,,,,,,,,
+,,,,,,Mark tax regimes with an 'x' where the company did not have the appropriate tax accounting arrangements.,,,,,,,,,,,Explain why the certificate is qualified
+Company name,CRN,UTR,Company type (select one),Company status (select one),Financial year end (DD/MM/YYYY),Corporation tax,"VAT
+(Value added tax)","PAYE
+(Pay As You Earn)",Insurance premium tax,Stamp duty land tax,Stamp duty reserve tax,Petroleum revenue tax,Customs Duties,Excise Duties,Bank Levy,Certificate type,"
+
+Your explanation should include:
+- why the SAO provided a qualified certificate
+- what went wrong with the tax accounting arrangements and why, not just a list of errors "
+SomeCompanyNameMadeUpOfRandomRubbishWhichHappensToAlsoBeOfARidiculousLengthNoPersonsOnThisBeautifulEarthWouldEverComeToBelieveItWasEvenSlightlyPlausibleInReality,ABC12345,1234566541,PLC,Active,01/04/2026,,,,,,,,,x,x,qualified,Random text detailing qualifications!!!!
+Test B,ABC123459,1234566542,PLC,Active,01/05/2026,,,,,,,,,,,unqualified,
+Test C,ABC1237,1234566543,PLC,Active,11/10/2025,,,,,,,,,,,unqualified,
+Test D,ABC|~+*!,1234566544,PLC,Active,01/01/2026,,,,,,,,,,,unqualified,
+Test F,A B 812345,1234566546,PLC,Active,28/02/2026,,,,,,,,,,,unqualified,
+Test L,AB3123459,1234766522,LTD,Active,30/03/2026,,,,,,,,,,,,
+Test M,AB81237,1234766522,LTD,Active,30/03/2026,,,,,,,,,,,,
+Test G,AB12341*,1234566547,PLC,Active,30/13/2026,,,,,,,,,,,unqualified,
+Test H,AB-12342,1234566548,PLC,Active,00/13/2026,,,,,,,,,,,unqualified,
+Test I,412343AB,1234566549,PLC,Active,00//20,,,,,,,,,,,unqualified,
+Test J,ac412344,1234566522,PLC,Active,30/02/2026,,,,,,,,,,,unqualified,
+Test K,AB312345,1234766522,LTD,Active,30/03/2026,,,,,,,,,,,,
+Test E,       AB812345 ,1234566545,PLC,Active,01/11/2025,,,,,,,,,,,unqualified,

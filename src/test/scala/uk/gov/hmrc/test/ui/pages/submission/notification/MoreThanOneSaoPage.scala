@@ -29,6 +29,7 @@ object MoreThanOneSaoPage
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/more-than-one-sao"
 
-  override val pageTitle: String =
+  override val pageTitle: String = {
     "Did the SAO change during the financial year you are submitting for? - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
+  }
 }

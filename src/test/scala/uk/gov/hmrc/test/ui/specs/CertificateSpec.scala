@@ -432,6 +432,105 @@ class CertificateSpec extends BaseSpec {
     }
 
     Scenario(
+      "Access template guidance and the 'Download a submission template' link in the certificate submission journey",
+      CertificateUITests,
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user initiates a certificate submission")
+      navigateToCertificateStartPage()
+
+      And("SAO details are provided to complete the first task in the task list")
+      CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
+      assertOnPage(CertificateSaoFullNamePage)
+      CertificateSaoFullNamePage.addName(TestData.firstPersonName)
+      CertificateSaoFullNamePage.clickSubmissionButton()
+      assertOnPage(CertificateSaoEmailPage)
+      CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
+      CertificateSaoEmailPage.clickSubmissionButton()
+      assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+
+      When("attempting to upload a submission template which has invalid data for a company")
+      CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+      assertOnPage(UploadSubmissionTemplatePage)
+      UploadSubmissionTemplatePage.assertTemplateGuidanceLinkFoundWithCorrectAttributes()
+
+      When("the 'Read guidance on how to complete the submission template (opens in new tab)' link is clicked")
+      UploadSubmissionTemplatePage.clickReadGuidanceLink()
+
+      Then(
+        "the 'How to complete and submit your submission template' page opens on a new tab which the user navigates to"
+      )
+      switchTab(1)
+      assertUrl(SubmissionTemplateGuidancePage.pageUrlForNewTab)
+      assertPageTitle(SubmissionTemplateGuidancePage.pageTitle)
+
+      And("the 'Download a submission template' link is present with the correct path")
+      SubmissionTemplateGuidancePage.assertDownloadSubmissionTemplateLinkFound()
+
+      When("the user closes the active tab and returns to the 'Upload a submission template' page tab")
+      closeCurrentTab()
+      assertOnPage(UploadSubmissionTemplatePage)
+
+      And("the 'Continue' button is clicked after choosing a submission template file with an 'invalid structure'")
+      UploadSubmissionTemplatePage.upload(InvalidFormatFile)
+
+      Then("the user lands on the 'There is a problem with your submission template file' error page")
+      assertOnPage(UploadTemplateErrorPage)
+      UploadTemplateErrorPage.assertParagraphDescribesInvalidTemplateError()
+
+      When(
+        "the 'Download a submission template and read guidance on how to complete it (opens in new tab)' link is clicked"
+      )
+      UploadTemplateErrorPage.clickDownloadTemplateAndReadGuidanceLink()
+
+      Then(
+        "the 'How to complete and submit your submission template' page opens on a new tab which the user navigates to"
+      )
+      switchTab(1)
+      assertUrl(SubmissionTemplateGuidancePage.pageUrl)
+      assertPageTitle(SubmissionTemplateGuidancePage.pageTitle)
+
+      And("the 'Download a submission template' link is present with the correct path")
+      SubmissionTemplateGuidancePage.assertDownloadSubmissionTemplateLinkFound()
+
+      When(
+        "the user closes the active tab and returns to the 'There is a problem with your submission template file' page tab"
+      )
+      closeCurrentTab()
+      assertOnPage(UploadTemplateErrorPage)
+      UploadTemplateErrorPage.assertParagraphDescribesInvalidTemplateError()
+
+      And("the 'Upload a submission template' button is clicked")
+      UploadTemplateErrorPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Upload a submission template' page")
+      assertOnPage(UploadSubmissionTemplatePage)
+
+      When("the 'Continue' button is clicked after choosing a file with 'invalid certificate data' in the upload file")
+      UploadSubmissionTemplatePage.upload(ValidNotificationDataWithInvalidCertificateDataFile)
+
+      And("the user lands on the 'There is a problem with your submission template file' page")
+      assertOnPage(UploadTemplateErrorPage)
+      UploadTemplateErrorPage.assertParagraphDescribesTemplateDataErrors()
+
+      And(
+        "the 'Download a submission template and read guidance on how to complete it (opens in new tab)' link is clicked"
+      )
+      UploadTemplateErrorPage.clickDownloadTemplateAndReadGuidanceLink()
+
+      Then(
+        "the 'How to complete and submit your submission template' page opens on a new tab which the user navigates to"
+      )
+      switchTab(1)
+      assertUrl(SubmissionTemplateGuidancePage.pageUrl)
+      assertPageTitle(SubmissionTemplateGuidancePage.pageTitle)
+
+      And("the 'Download a submission template' link is present with the correct path")
+      SubmissionTemplateGuidancePage.assertDownloadSubmissionTemplateLinkFound()
+    }
+
+    Scenario(
       "Validate that mandatory details are required for a certification submission",
       CertificateUITests,
       SubmissionUITests,
