@@ -156,8 +156,7 @@ class ContactDetailsSpec extends BaseSpec {
     Scenario(
       "Validate that contact details are required during registration",
       RegistrationUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given(
         "an authenticated user lands on the first contact details page showing question 'What is the name of the person or team to keep on record?'"
