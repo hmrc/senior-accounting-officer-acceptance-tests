@@ -156,7 +156,8 @@ class ContactDetailsSpec extends BaseSpec {
     Scenario(
       "Validate that contact details are required during registration",
       RegistrationUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given(
         "an authenticated user lands on the first contact details page showing question 'What is the name of the person or team to keep on record?'"
@@ -206,10 +207,18 @@ class ContactDetailsSpec extends BaseSpec {
       assertOnPage(FirstContactCheckYourAnswersPage)
       assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactNameValue, TestData.firstPersonName)
       assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactEmailValue, TestData.firstPersonEmail)
+
+      When("the user clicks 'Continue'")
       FirstContactCheckYourAnswersPage.clickSubmissionButton()
 
       Then("the user is taken to the 'Have you added all the contacts you need?' question page")
       assertOnPage(HaveYouAddedAllContactsPage)
+
+      When("the user doesn't select an option and clicks 'Continue'")
+      HaveYouAddedAllContactsPage.clickSubmissionButton()
+
+      Then("the no element selected validation error is shown")
+      HaveYouAddedAllContactsPage.assertValidationErrorDisplayed(ValidationError.NoElementChosenContactError)
 
       When("the selects the 'No' radio button and clicks 'Continue'")
       HaveYouAddedAllContactsPage.clickNoRadioButton()
