@@ -18,7 +18,7 @@ package uk.gov.hmrc.test.ui.pages
 
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.support.PageSupport.assertLinkHasText
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertLinkHasText, clickElement}
 
 object NotEnrolledPage extends CommonPage {
   override val pageUrl: String = s"${TestConfiguration.url("senior-accounting-officer-hub-frontend")}/not-enrolled"
@@ -31,5 +31,9 @@ object NotEnrolledPage extends CommonPage {
 
   def assertLinkHasTextOnPage(link: By, expectedText: String): Unit = {
     assertLinkHasText(link = link, expectedText = expectedText)
+  }
+
+  def clickRegisterForServiceLink(): Unit = {
+    clickElement(registerLink)
   }
 }
