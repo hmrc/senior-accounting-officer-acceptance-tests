@@ -495,7 +495,7 @@ class NotificationSpec extends BaseSpec {
         "the 'How to complete and submit your submission template' page opens on a new tab which the user navigates to"
       )
       switchTab(1)
-      assertUrl(SubmissionTemplateGuidancePage.pageUrl)
+      assertUrl(SubmissionTemplateGuidancePage.pageUrlForNewTab)
       assertPageTitle(SubmissionTemplateGuidancePage.pageTitle)
 
       And("the 'Download a submission template' link is present with the correct path")
@@ -530,7 +530,7 @@ class NotificationSpec extends BaseSpec {
         "the 'How to complete and submit your submission template' page opens on a new tab which the user navigates to"
       )
       switchTab(1)
-      assertUrl(SubmissionTemplateGuidancePage.pageUrl)
+      assertUrl(SubmissionTemplateGuidancePage.pageUrlForNewTab)
       assertPageTitle(SubmissionTemplateGuidancePage.pageTitle)
 
       And("the 'Download a submission template' link is present with the correct path")
