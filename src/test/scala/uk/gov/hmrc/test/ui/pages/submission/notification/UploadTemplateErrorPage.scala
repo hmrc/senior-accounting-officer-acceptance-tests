@@ -35,22 +35,31 @@ object UploadTemplateErrorPage extends CommonPage with SubmissionButtonSupport {
   val paragraph: By                 = By.className("govuk-body")
   val uploadUpdatedTemplateLink: By = By.cssSelector(".govuk-body a")
 
-  def assertTextIsUploadedFileIsNotTemplate(): Unit = {
+  def assertParagraphDescribesInvalidTemplateError(): Unit = {
     val expectedText =
       """The file you uploaded is not the Senior Accounting Officer notification and certificate submission template.
         |Download a submission template and read guidance on how to complete it (opens in new tab)""".stripMargin
-    fluentWait
-      .until(
-        ExpectedConditions.visibilityOfElementLocated(pageContentElement)
-      )
-      .findElements(paragraph)
-      .get(0)
-      .getText mustBe expectedText
+
+    getParagraph(0) mustBe expectedText
   }
 
-  def clickUploadUpdatedTemplateLink(): Unit = {
+  def assertParagraphDescribesTemplateDataErrors(): Unit = {
+    val expectedText =
+      """Review and correct the errors in your template before you upload another file. We only display the first 50 rows where there is an error. Read guidance on how to complete the submission template (opens in new tab)""".stripMargin
+
+    getParagraph(0) mustBe expectedText
+  }
+
+  def clickDownloadTemplateAndReadGuidanceLink(): Unit = {
     clickElement(uploadUpdatedTemplateLink)
     fluentWait.until(ExpectedConditions.numberOfWindowsToBe(2))
   }
 
+  private def getParagraph(paragraphIndex: Int): String = {
+    fluentWait
+      .until(ExpectedConditions.visibilityOfElementLocated(pageContentElement))
+      .findElements(paragraph)
+      .get(paragraphIndex)
+      .getText
+  }
 }

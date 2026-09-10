@@ -17,11 +17,19 @@
 package uk.gov.hmrc.test.ui.adt
 
 enum UploadFile(val filename: String) {
-  case EmptyFile                extends UploadFile("Submission-template-empty-v20.csv")
-  case FourCompaniesFile        extends UploadFile("Submission-template-4-companies-moderately-complex.csv")
-  case InvalidQualificationFile extends UploadFile("Submission-template-invalid-qualification.csv")
+  case FourCompaniesFile        extends UploadFile("sao-template-4-companies.csv")
+  case InvalidQualificationFile extends UploadFile("sao-template-invalid-qualification.csv")
   case InvalidTypeFile          extends UploadFile("invalid.REASON.csv")
   case InfectedFile             extends UploadFile("infected.VIRUS_NAME.csv")
   case UnknownErrorFile         extends UploadFile("unknown.REASON.csv")
   case RejectedFile             extends UploadFile("reject.UnexpectedContent.csv")
+  case NoCompanyDataFile        extends UploadFile("sao-template-no-data.csv")
+  case ZeroBytesFile            extends UploadFile("sao-template-zero-bytes.csv")
+  case NoNotificationDataWithCertificateDataFile
+      extends UploadFile("sao-template-empty-notification-valid-cert-data.csv")
+  case InvalidFormatFile           extends UploadFile("sao-template-invalid-heading-and-structure.csv")
+  case InvalidNotificationDataFile extends UploadFile("sao-template-invalid-notification-data.csv")
+  case ValidNotificationDataWithInvalidCertificateDataFile
+      extends UploadFile("sao-template-valid-notification-invalid-cert-data.csv")
+  case ValidNotificationAndCertificateDataFile extends UploadFile("sao-template-valid-notification-valid-cert-data.csv")
 }

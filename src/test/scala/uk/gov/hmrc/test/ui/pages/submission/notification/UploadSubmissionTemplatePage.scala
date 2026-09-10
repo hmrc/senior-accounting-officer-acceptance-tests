@@ -23,8 +23,8 @@ import uk.gov.hmrc.test.ui.adt.UploadFile.*
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.pages.submission.SubmissionTemplateGuidancePage
-import uk.gov.hmrc.test.ui.support.PageSupport.extractRelativeUrl
-import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport}
+import uk.gov.hmrc.test.ui.support.PageSupport.{clickElement, extractRelativeUrl}
+import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, PageSupport, SubmissionButtonSupport}
 
 import scala.concurrent.duration.*
 
@@ -45,7 +45,7 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
   val guidanceLinkLocator: By            = By.id("template-guidance")
 
   def assertTemplateGuidanceLinkFoundWithCorrectAttributes(): Unit = {
-    val expectedGuidanceLinkHrefValue = extractRelativeUrl(SubmissionTemplateGuidancePage.withinNewTabPageUrl)
+    val expectedGuidanceLinkHrefValue = extractRelativeUrl(SubmissionTemplateGuidancePage.pageUrlForNewTab)
     val guidanceLink                  = driver.findElement(guidanceLinkLocator)
     guidanceLink.getAttribute("target") mustBe "_blank"
     extractRelativeUrl(guidanceLink.getAttribute("href")) mustBe expectedGuidanceLinkHrefValue
@@ -55,6 +55,10 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
     chooseFile(file.filename)
     clickSubmissionButton()
     waitForTextInHeading(getExpectedLandingPageHeading(file))
+  }
+
+  def clickReadGuidanceLink(): Unit = {
+    clickElement(guidanceLinkLocator)
   }
 
   private def chooseFile(resourceName: String): Unit = {
@@ -68,13 +72,19 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
   }
 
   private def getExpectedLandingPageHeading(file: UploadFile): String = file match {
-    case EmptyFile                => UploadTableErrorPage.pageHeadingText
-    case InvalidQualificationFile => UploadTableErrorPage.pageHeadingText
-    case InvalidTypeFile          => pageHeadingText
-    case InfectedFile             => pageHeadingText
-    case UnknownErrorFile         => pageHeadingText
-    case RejectedFile             => pageHeadingText
-    case _                        => UploadTablePage.pageHeadingText
+    case InvalidQualificationFile                            => UploadTemplateErrorPage.pageHeadingText
+    case InvalidTypeFile                                     => pageHeadingText
+    case InfectedFile                                        => pageHeadingText
+    case UnknownErrorFile                                    => pageHeadingText
+    case RejectedFile                                        => pageHeadingText
+    case NoCompanyDataFile                                   => UploadTemplateErrorPage.pageHeadingText
+    case ZeroBytesFile                                       => UploadTemplateErrorPage.pageHeadingText
+    case NoNotificationDataWithCertificateDataFile           => UploadTemplateErrorPage.pageHeadingText
+    case InvalidFormatFile                                   => UploadTemplateErrorPage.pageHeadingText
+    case InvalidNotificationDataFile                         => UploadTemplateErrorPage.pageHeadingText
+    case ValidNotificationAndCertificateDataFile             => UploadTemplateErrorPage.pageHeadingText
+    case ValidNotificationDataWithInvalidCertificateDataFile => UploadTablePage.pageHeadingText
+    case _                                                   => UploadTablePage.pageHeadingText
   }
 
   private def waitForTextInHeading(text: String): Unit = {

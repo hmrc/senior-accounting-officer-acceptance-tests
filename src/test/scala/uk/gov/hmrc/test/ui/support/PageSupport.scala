@@ -100,6 +100,12 @@ object PageSupport extends BrowserDriver with Matchers {
     assertTextOnPage(link, expectedText)
   }
 
+  def assertLinkHasTextWithHrefValue(locator: By, text: String, path: String): Unit = {
+    val element = fluentWait.until(ExpectedConditions.elementToBeClickable(locator))
+    element.getText mustBe text
+    extractRelativeUrl(element.getAttribute("href")) mustBe path
+  }
+
   def assertTextOnPage(locator: By, text: String): Unit = {
     getElementIfVisible(locator).getText mustBe text
   }

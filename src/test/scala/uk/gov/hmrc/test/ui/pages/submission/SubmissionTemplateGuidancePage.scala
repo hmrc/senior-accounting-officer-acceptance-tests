@@ -16,17 +16,27 @@
 
 package uk.gov.hmrc.test.ui.pages.submission
 
+import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.PageSupport.assertLinkHasTextWithHrefValue
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object SubmissionTemplateGuidancePage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/template-guidance"
 
-  val withinNewTabPageUrl: String =
+  val pageUrlForNewTab: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/template-guidance/new-tab"
 
   override val pageTitle: String =
     "Submission template guidance - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  val downloadLinkText        = "Download a submission template"
+  val downloadLinkLocator: By = By.cssSelector(".govuk-body .govuk-link")
+  val downloadLinkHrefValue   = "/senior-accounting-officer/submission/notification/template/download"
+
+  def assertDownloadSubmissionTemplateLinkFound(): Unit = {
+    assertLinkHasTextWithHrefValue(downloadLinkLocator, downloadLinkText, downloadLinkHrefValue)
+  }
 }

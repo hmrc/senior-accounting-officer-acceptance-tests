@@ -67,6 +67,45 @@ class NotificationSpec extends BaseSpec {
     }
 
     Scenario(
+      "Invalid certificate data in an upload file will not prevent a successful notification submission",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user provides details for a single SAO in a notification submission")
+      assertOnPage(AccountHomePage)
+      AccountHomePage.clickMakeSubmissionLink()
+      assertOnPage(SubmissionTypePage)
+      SubmissionTypePage.clickNotificationRadioButton()
+      SubmissionTypePage.clickSubmissionButton()
+      assertOnPage(SubmitNotificationStartPage)
+      provideSingleSaoDetailsFromStartPage(TestData.firstPersonName)
+
+      When("A submission template which has valid notification data but invalid certificate data is uploaded")
+      SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+      assertOnPage(UploadSubmissionTemplatePage)
+      UploadSubmissionTemplatePage.upload(ValidNotificationDataWithInvalidCertificateDataFile)
+
+      Then("the user lands on the 'Review the companies in your notification' page")
+      assertOnPage(UploadTablePage)
+
+      When("the 'Continue' button is clicked")
+      UploadTablePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Submit a notification' start page")
+      assertOnPage(SubmitNotificationStartPage)
+
+      When("the 'submit a notification' task is completed with default selections")
+      And("the user lands on the 'Submit a notification' complete page")
+      completeSubmitANotificationFromTaskListWithDefaultSelections()
+
+      And("the 'Go back to the homepage' button is clicked")
+      SubmitNotificationCompletePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Account Homepage'")
+      assertOnPage(AccountHomePage)
+    }
+
+    Scenario(
       "A user can submit a notification successfully when additional information is added and not changed",
       SubmissionUITests,
       ZapTests
@@ -361,10 +400,7 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
 
-      And("the guidance link is present and correct")
-      UploadSubmissionTemplatePage.assertTemplateGuidanceLinkFoundWithCorrectAttributes()
-
-      When("the 'Continue' button is clicked after choosing a file for upload")
+      When("the 'Continue' button is clicked after choosing a valid file for upload")
       UploadSubmissionTemplatePage.upload(FourCompaniesFile)
 
       Then("the user lands on the 'Review the companies in your notification' page")
@@ -387,35 +423,9 @@ class NotificationSpec extends BaseSpec {
       SubmitNotificationStartPage.assertStatusHighlightedBlue(SubmitNotification)
       SubmitNotificationStartPage.assertTaskListSectionNameIsHyperlink(SubmitNotification)
 
-      When("the 'Submit the notification' link is clicked")
-      SubmitNotificationStartPage.clickTaskListSectionLink(SubmitNotification)
-
-      Then("the user lands on the 'Additional information' page")
-      assertOnPage(AdditionalInformationPage)
-
-      When("the 'Skip' button is clicked")
-      AdditionalInformationPage.clickSkipButton()
-
-      Then("the user lands on the 'Confirm your notification' page")
-      assertOnPage(ConfirmNotificationPage)
-
-      When("the 'Continue' button is clicked")
-      ConfirmNotificationPage.clickSubmissionButton()
-
-      Then("the user lands on the 'Check your answers' page")
-      assertOnPage(CheckYourAnswersPage)
-
-      When("the 'Continue' button is clicked")
-      CheckYourAnswersPage.clickSubmissionButton()
-
-      Then("the user lands on the 'Confirmation' page")
-      assertOnPage(ConfirmationPage)
-
-      When("the 'Continue' button is clicked")
-      ConfirmationPage.clickSubmissionButton()
-
-      Then("the user lands on the 'Submit a notification' complete page")
-      assertOnPage(SubmitNotificationCompletePage)
+      When("the 'submit a notification' task is completed with default selections")
+      And("the user lands on the 'Submit a notification' complete page")
+      completeSubmitANotificationFromTaskListWithDefaultSelections()
 
       And("the task list displays each element in the correct state with the correct status")
       SubmitNotificationCompletePage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
@@ -433,6 +443,98 @@ class NotificationSpec extends BaseSpec {
 
       Then("the user lands on the 'Account Homepage'")
       assertOnPage(AccountHomePage)
+    }
+
+    Scenario(
+      "Access template guidance and the 'Download a submission template' link in the notification submission journey",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'Upload a submission template' page during a notification submission")
+      goToMoreThanOneSaoPageFromHomePage()
+      MoreThanOneSaoPage.clickNoRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
+      assertOnPage(SingleSaoNamePage)
+      SingleSaoNamePage.addName(TestData.firstPersonName)
+      SingleSaoNamePage.clickSubmissionButton()
+      assertOnPage(SubmitNotificationStartPage)
+      SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+      assertOnPage(UploadSubmissionTemplatePage)
+      UploadSubmissionTemplatePage.assertTemplateGuidanceLinkFoundWithCorrectAttributes()
+
+      When("the 'Read guidance on how to complete the submission template (opens in new tab)' link is clicked")
+      UploadSubmissionTemplatePage.clickReadGuidanceLink()
+
+      Then(
+        "the 'How to complete and submit your submission template' page opens on a new tab which the user navigates to"
+      )
+      switchTab(1)
+      assertUrl(SubmissionTemplateGuidancePage.pageUrlForNewTab)
+      assertPageTitle(SubmissionTemplateGuidancePage.pageTitle)
+
+      And("the 'Download a submission template' link is present with the correct path")
+      SubmissionTemplateGuidancePage.assertDownloadSubmissionTemplateLinkFound()
+
+      When("the user closes the active tab and returns to the 'Upload a submission template' page tab")
+      closeCurrentTab()
+      assertOnPage(UploadSubmissionTemplatePage)
+
+      And("the 'Continue' button is clicked after choosing a file with 'no company data' in the upload file")
+      UploadSubmissionTemplatePage.upload(NoCompanyDataFile)
+
+      Then("the user lands on the 'There is a problem with your submission template file' error page")
+      assertOnPage(UploadTemplateErrorPage)
+      UploadTemplateErrorPage.assertParagraphDescribesInvalidTemplateError()
+
+      When(
+        "the 'Download a submission template and read guidance on how to complete it (opens in new tab)' link is clicked"
+      )
+      UploadTemplateErrorPage.clickDownloadTemplateAndReadGuidanceLink()
+
+      Then(
+        "the 'How to complete and submit your submission template' page opens on a new tab which the user navigates to"
+      )
+      switchTab(1)
+      assertUrl(SubmissionTemplateGuidancePage.pageUrlForNewTab)
+      assertPageTitle(SubmissionTemplateGuidancePage.pageTitle)
+
+      And("the 'Download a submission template' link is present with the correct path")
+      SubmissionTemplateGuidancePage.assertDownloadSubmissionTemplateLinkFound()
+
+      When(
+        "the user closes the active tab and returns to the 'There is a problem with your submission template file' page tab"
+      )
+      closeCurrentTab()
+      assertOnPage(UploadTemplateErrorPage)
+      UploadTemplateErrorPage.assertParagraphDescribesInvalidTemplateError()
+
+      And("the 'Upload a submission template' button is clicked")
+      UploadTemplateErrorPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Upload a submission template' page")
+      assertOnPage(UploadSubmissionTemplatePage)
+
+      When("the 'Continue' button is clicked after choosing a file with 'invalid notification data' in the upload file")
+      UploadSubmissionTemplatePage.upload(InvalidNotificationDataFile)
+
+      And("the user lands on the 'There is a problem with your submission template file' page")
+      assertOnPage(UploadTemplateErrorPage)
+      UploadTemplateErrorPage.assertParagraphDescribesTemplateDataErrors()
+
+      And(
+        "the 'Download a submission template and read guidance on how to complete it (opens in new tab)' link is clicked"
+      )
+      UploadTemplateErrorPage.clickDownloadTemplateAndReadGuidanceLink()
+
+      Then(
+        "the 'How to complete and submit your submission template' page opens on a new tab which the user navigates to"
+      )
+      switchTab(1)
+      assertUrl(SubmissionTemplateGuidancePage.pageUrlForNewTab)
+      assertPageTitle(SubmissionTemplateGuidancePage.pageTitle)
+
+      And("the 'Download a submission template' link is present with the correct path")
+      SubmissionTemplateGuidancePage.assertDownloadSubmissionTemplateLinkFound()
     }
 
     Scenario(
@@ -467,24 +569,11 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(SubmitNotificationStartPage)
       SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
       assertOnPage(UploadSubmissionTemplatePage)
-      UploadSubmissionTemplatePage.upload(EmptyFile)
+      UploadSubmissionTemplatePage.upload(NoCompanyDataFile)
 
       And("the user lands on the 'There is a problem with your submission template file' page")
       assertOnPage(UploadTemplateErrorPage)
-      UploadTemplateErrorPage.assertTextIsUploadedFileIsNotTemplate()
-
-      When("the 'upload an updated submission template' link is clicked")
-      UploadTemplateErrorPage.clickUploadUpdatedTemplateLink()
-
-      Then("the 'Upload a submission template' page opens on a new tab which the user navigates to")
-      switchTab(1)
-      assertUrl(SubmissionTemplateGuidancePage.withinNewTabPageUrl)
-      assertPageTitle(SubmissionTemplateGuidancePage.pageTitle)
-
-      When("user closes the 'Upload a submission template' tab and returns to the main tab")
-      closeCurrentTab()
-      assertOnPage(UploadTemplateErrorPage)
-      UploadTemplateErrorPage.assertTextIsUploadedFileIsNotTemplate()
+      UploadTemplateErrorPage.assertParagraphDescribesInvalidTemplateError()
 
       And("the 'Upload a submission template' button is clicked")
       UploadTemplateErrorPage.clickSubmissionButton()
@@ -906,5 +995,18 @@ class NotificationSpec extends BaseSpec {
     assertOnPage(SubmitNotificationStartPage)
     SubmitNotificationStartPage.clickTaskListSectionLink(ProvideSaoDetails)
     assertOnPage(MoreThanOneSaoPage)
+  }
+
+  private def completeSubmitANotificationFromTaskListWithDefaultSelections(): Unit = {
+    SubmitNotificationStartPage.clickTaskListSectionLink(SubmitNotification)
+    assertOnPage(AdditionalInformationPage)
+    AdditionalInformationPage.clickSkipButton()
+    assertOnPage(ConfirmNotificationPage)
+    ConfirmNotificationPage.clickSubmissionButton()
+    assertOnPage(CheckYourAnswersPage)
+    CheckYourAnswersPage.clickSubmissionButton()
+    assertOnPage(ConfirmationPage)
+    ConfirmationPage.clickSubmissionButton()
+    assertOnPage(SubmitNotificationCompletePage)
   }
 }

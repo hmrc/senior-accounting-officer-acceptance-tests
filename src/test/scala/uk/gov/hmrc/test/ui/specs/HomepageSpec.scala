@@ -59,6 +59,9 @@ class HomepageSpec extends BaseSpec {
 
       Then("the user is taken to the 'Submission Template Guidance 'page")
       assertOnPage(SubmissionTemplateGuidancePage)
+
+      And("the 'Download a submission template' link is present with the correct path")
+      SubmissionTemplateGuidancePage.assertDownloadSubmissionTemplateLinkFound()
     }
 
     Scenario(
@@ -77,6 +80,5 @@ class HomepageSpec extends BaseSpec {
       Then("the user is taken to the 'submission-type' page")
       assertOnPage(SubmissionTypePage)
     }
-
   }
 }
