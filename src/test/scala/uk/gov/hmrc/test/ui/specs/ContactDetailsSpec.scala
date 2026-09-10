@@ -153,109 +153,115 @@ class ContactDetailsSpec extends BaseSpec {
     }
 
     Scenario(
-      "Validate that contact details are required during registration",
+      "Validate that valid contact details are required during registration",
       RegistrationUITests,
       ZapTests
     ) {
-      Given(
-        "an authenticated user lands on the first contact details page showing question 'What is the name of the person or team to keep on record?'"
-      )
-      RegistrationPage.clickEnterYourContactDetailsLink()
-      ContactDetailsPage.clickSubmissionButton()
-      assertOnPage(FirstContactNamePage)
+      Given("an authenticated user lands on the first contact name page")
+      goToFirstContactNamePage()
 
       When("the user clicks 'Continue' without entering a name")
       FirstContactNamePage.clickSubmissionButton()
 
-      Then("an error is shown")
-      FirstContactNamePage.assertErrorSummaryDisplayed()
+      Then("the validation error for 'missing name' is shown")
+      FirstContactNamePage.assertValidationErrorDisplayed(MissingNameError)
 
       When("the user enters a valid name and clicks 'Continue'")
       FirstContactNamePage.addName(TestData.firstPersonName)
       FirstContactNamePage.clickSubmissionButton()
 
-      Then("the user is taken to the first contact details page showing question 'What is their email address?'")
+      Then("the user is taken to the first contact email page")
       assertOnPage(FirstContactEmailPage)
 
       When("the user clicks 'Continue' without entering an email address")
       FirstContactEmailPage.clickSubmissionButton()
 
-      Then("an error is shown")
-      FirstContactEmailPage.assertErrorSummaryDisplayed()
+      Then("the validation error for 'missing email' is shown")
+      FirstContactEmailPage.assertValidationErrorDisplayed(ValidationError.MissingEmailError)
 
-      When("the user enters an invalid email address ending with a dot and clicks 'Continue'")
-      FirstContactEmailPage.addEmail(TestData.invalidEmailEndingWithDot)
+      When("the user enters an invalid email address and clicks 'Continue'")
+      FirstContactEmailPage.addEmail(TestData.invalidEmail)
       FirstContactEmailPage.clickSubmissionButton()
 
-      Then("the invalid email address validation error is shown")
+      Then("the validation error for 'invalid email' is shown")
       FirstContactEmailPage.assertValidationErrorDisplayed(ValidationError.InvalidEmailError)
 
-      When("the user enters an invalid email address with a dot immediately after the @ and clicks 'Continue'")
-      FirstContactEmailPage.addEmail(TestData.invalidEmailStartingWithDot)
+      When("the user enters an email address exceeding the maximum allowed '254' character limit and clicks 'Continue'")
+      FirstContactEmailPage.addEmail(TestData.maximumEmailCharacterLimitExceeded)
       FirstContactEmailPage.clickSubmissionButton()
 
-      Then("the invalid email address validation error is shown")
-      FirstContactEmailPage.assertValidationErrorDisplayed(ValidationError.InvalidEmailError)
+      Then("the validation error for 'invalid email' is shown")
+      FirstContactEmailPage.assertValidationErrorDisplayed(ValidationError.MaximumEmailCharacterLimitExceededError)
 
-      When("the user enters a valid email with allowed special characters and clicks 'Continue'")
+      When("the user enters a valid email with 'allowed special characters' and clicks 'Continue'")
       FirstContactEmailPage.addEmail(TestData.firstPersonEmail)
       FirstContactEmailPage.clickSubmissionButton()
 
-      Then("the user is taken to the first contact 'Check Your Answers' page")
+      Then("the user lands on the first contact 'Check Your Answers' page showing the correct details")
       assertOnPage(FirstContactCheckYourAnswersPage)
       assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactNameValue, TestData.firstPersonName)
       assertTextOnPage(FirstContactCheckYourAnswersPage.firstContactEmailValue, TestData.firstPersonEmail)
 
-      When("the user clicks 'Continue'")
+      When("the 'Continue' button is clicked")
       FirstContactCheckYourAnswersPage.clickSubmissionButton()
 
-      Then("the user is taken to the 'Have you added all the contacts you need?' question page")
+      Then("the user lands on the 'Have you added all the contacts you need?' question page")
       assertOnPage(HaveYouAddedAllContactsPage)
 
       When("the user doesn't select an option and clicks 'Continue'")
       HaveYouAddedAllContactsPage.clickSubmissionButton()
 
-      Then("the no element selected validation error is shown")
+      Then("the 'no element selected validation error' is shown")
       HaveYouAddedAllContactsPage.assertValidationErrorDisplayed(ValidationError.NoElementChosenContactError)
 
       When("the selects the 'No' radio button and clicks 'Continue'")
       HaveYouAddedAllContactsPage.clickNoRadioButton()
       HaveYouAddedAllContactsPage.clickSubmissionButton()
 
-      And(
-        "the user lands on the second contact details page showing question 'What is the name of the person or team to keep on record?'"
-      )
+      Then("the user lands on the second contact name page")
       assertOnPage(SecondContactNamePage)
 
       When("the user clicks 'Continue' without entering a name")
       SecondContactNamePage.clickSubmissionButton()
 
-      Then("an error is shown")
-      SecondContactNamePage.assertErrorSummaryDisplayed()
+      Then("the validation error for 'missing name' is shown")
+      SecondContactNamePage.assertValidationErrorDisplayed(ValidationError.MissingNameError)
 
       When("the user enters a valid name and clicks 'Continue'")
       SecondContactNamePage.addName(TestData.secondPersonName)
       SecondContactNamePage.clickSubmissionButton()
 
-      Then("the user is taken to the second contact details page showing question 'What is their email address?'")
+      Then("the user is taken to the second contact email page")
       assertOnPage(SecondContactEmailPage)
 
       When("the user clicks 'Continue' without entering an email address")
       SecondContactEmailPage.clickSubmissionButton()
 
-      Then("an error is shown")
-      SecondContactEmailPage.assertErrorSummaryDisplayed()
+      Then("the validation error for 'invalid email' is shown")
+      SecondContactEmailPage.assertValidationErrorDisplayed(ValidationError.MissingEmailError)
 
       When("the user enters an invalid email address with consecutive dots in the domain and clicks 'Continue'")
-      FirstContactEmailPage.addEmail(TestData.invalidEmailWithConsecutiveDots)
-      FirstContactEmailPage.clickSubmissionButton()
+      SecondContactEmailPage.addEmail(TestData.invalidEmail)
+      SecondContactEmailPage.clickSubmissionButton()
 
       Then("the invalid email address validation error is shown")
-      FirstContactEmailPage.assertValidationErrorDisplayed(ValidationError.InvalidEmailError)
+      SecondContactEmailPage.assertValidationErrorDisplayed(ValidationError.InvalidEmailError)
+
+      When("the user enters an email address exceeding the maximum allowed '254' character limit and clicks 'Continue'")
+      SecondContactEmailPage.addEmail(TestData.maximumEmailCharacterLimitExceeded)
+      SecondContactEmailPage.clickSubmissionButton()
+
+      Then("the validation error for 'invalid email' is shown")
+      SecondContactEmailPage.assertValidationErrorDisplayed(ValidationError.MaximumEmailCharacterLimitExceededError)
 
       When("the user enters a valid email and clicks 'Continue'")
       SecondContactEmailPage.addEmail(TestData.secondPersonEmail)
       SecondContactEmailPage.clickSubmissionButton()
+
+      Then("the user lands on the second contact 'Check Your Answers' page showing the correct details")
+      assertOnPage(SecondContactCheckYourAnswersPage)
+      assertTextOnPage(SecondContactCheckYourAnswersPage.secondContactNameValue, TestData.secondPersonName)
+      assertTextOnPage(SecondContactCheckYourAnswersPage.secondContactEmailValue, TestData.secondPersonEmail)
     }
 
     Scenario(
@@ -323,23 +329,6 @@ class ContactDetailsSpec extends BaseSpec {
     }
 
     Scenario(
-      "Validate error when first contact name is empty",
-      RegistrationUITests,
-      ZapTests
-    ) {
-      Given(
-        "an authenticated user lands on the first contact details page"
-      )
-      goToFirstContactNamePage()
-
-      When("the user clicks 'Continue' without entering a first contact name")
-      FirstContactNamePage.clickSubmissionButton()
-
-      Then("an error is shown")
-      FirstContactNamePage.assertValidationErrorDisplayed(MissingNameError)
-    }
-
-    Scenario(
       "Accept first contact name containing 1 character",
       RegistrationUITests,
       ZapTests
@@ -350,7 +339,7 @@ class ContactDetailsSpec extends BaseSpec {
       goToFirstContactNamePage()
 
       When("the user enter a first contact name containing 1 character")
-      FirstContactNamePage.addName(TestData.minName)
+      FirstContactNamePage.addName(TestData.minimumNameCharacterLimit)
       FirstContactNamePage.clickSubmissionButton()
       assertOnPage(FirstContactEmailPage)
     }
@@ -366,7 +355,7 @@ class ContactDetailsSpec extends BaseSpec {
       goToFirstContactNamePage()
 
       When("the user enter a first contact name containing 105 characters")
-      FirstContactNamePage.addName(TestData.maxName)
+      FirstContactNamePage.addName(TestData.maximumNameCharacterLimit)
       FirstContactNamePage.clickSubmissionButton()
       assertOnPage(FirstContactEmailPage)
     }
@@ -382,7 +371,7 @@ class ContactDetailsSpec extends BaseSpec {
       goToFirstContactNamePage()
 
       When("the user enter a first contact name containing more than 105 characters")
-      FirstContactNamePage.addName(TestData.exceedingNameLimit)
+      FirstContactNamePage.addName(TestData.maximumNameCharacterLimitExceeded)
       FirstContactNamePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -408,23 +397,6 @@ class ContactDetailsSpec extends BaseSpec {
     }
 
     Scenario(
-      "Validate error when second contact name is empty",
-      RegistrationUITests,
-      ZapTests
-    ) {
-      Given(
-        "an authenticated user lands on the second contact details page"
-      )
-      goToSecondContactNamePage()
-
-      When("the user clicks 'Continue' without entering a second contact name")
-      SecondContactNamePage.clickSubmissionButton()
-
-      Then("an error is shown")
-      SecondContactNamePage.assertValidationErrorDisplayed(MissingNameError)
-    }
-
-    Scenario(
       "Accept second contact name containing 1 character",
       RegistrationUITests,
       ZapTests
@@ -435,7 +407,7 @@ class ContactDetailsSpec extends BaseSpec {
       goToSecondContactNamePage()
 
       When("the user enter a second contact name containing 1 character")
-      SecondContactNamePage.addName(TestData.minName)
+      SecondContactNamePage.addName(TestData.minimumNameCharacterLimit)
       SecondContactNamePage.clickSubmissionButton()
       assertOnPage(SecondContactEmailPage)
     }
@@ -451,7 +423,7 @@ class ContactDetailsSpec extends BaseSpec {
       goToSecondContactNamePage()
 
       When("the user enter a second contact name containing 105 characters")
-      SecondContactNamePage.addName(TestData.maxName)
+      SecondContactNamePage.addName(TestData.maximumNameCharacterLimit)
       SecondContactNamePage.clickSubmissionButton()
       assertOnPage(SecondContactEmailPage)
     }
@@ -467,7 +439,7 @@ class ContactDetailsSpec extends BaseSpec {
       goToSecondContactNamePage()
 
       When("the user enter a second contact name containing more than 105 characters")
-      SecondContactNamePage.addName(TestData.exceedingNameLimit)
+      SecondContactNamePage.addName(TestData.maximumNameCharacterLimitExceeded)
       SecondContactNamePage.clickSubmissionButton()
 
       Then("an error is shown")

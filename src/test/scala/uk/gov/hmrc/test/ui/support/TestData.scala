@@ -19,6 +19,8 @@ package uk.gov.hmrc.test.ui.support
 import com.github.javafaker.Faker
 import uk.gov.hmrc.test.ui.adt.CompanyDetails
 
+import scala.util.Random
+
 object TestData {
   private val faker = new Faker(new java.util.Locale("en-GB"))
 
@@ -26,17 +28,24 @@ object TestData {
   val name: String   = ".!#$%&’'*+/=?^_`{|}~-x!Q8r$*L9z+H=^" +
     "aaaaaaaaaABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
 
-  val firstPersonName: String                 = s"${faker.name().firstName()} ${faker.name().lastName()}-Test"
-  val secondPersonName: String                = s"${faker.name().firstName()} ${faker.name().lastName()}-Test"
-  val firstPersonEmail: String                = "9.!#$%&’'*+/=?^_`{|}~-x!Q8r$*L9z+H=^s@example.com"
-  val secondPersonEmail: String               = "valid.email+test@example.com"
-  val invalidEmailEndingWithDot: String       = "test@example."
-  val invalidEmailStartingWithDot: String     = "test@.example.com"
-  val invalidEmailWithConsecutiveDots: String = "test@example..com"
+  val firstPersonName: String   = s"${faker.name().firstName()} ${faker.name().lastName()}-Test"
+  val secondPersonName: String  = s"${faker.name().firstName()} ${faker.name().lastName()}-Test"
+  val firstPersonEmail: String  = "9.!#$%&’'*+/=?^_`{|}~-x!Q8r$*L9z+H=^s@example.com"
+  val secondPersonEmail: String = "valid.email+test@example.com"
 
-  val minName: String                   = "N"
-  val maxName: String                   = name.take(105)
-  val exceedingNameLimit: String        = name.take(106)
+  // this is a 'def' so that the value is new each time it's called
+  def invalidEmail: String = {
+    val options = Seq("test@example.", "test@.example.com", "test@example..com")
+    options(Random.nextInt(options.length))
+  }
+
+  val minimumNameCharacterLimit: String          = "N"
+  val maximumNameCharacterLimit: String          = name.take(105)
+  val maximumNameCharacterLimitExceeded: String  = name.take(106)
+  val maximumEmailCharacterLimitExceeded: String =
+    "example-test-attftffioiuoiuoiuoiuuoiuoiuoikjjfiytdiyvkhhjgvkooooooooooooooooooooooooooockvjhvliyufovyufkuyfjh" +
+      "gfkjyfovy8vyvo87g8giugouyfiytduiyrd6irds@oooooooooooooooooooooooooyvoutfoutdiytdiytitfiy5dtiydctiytdiytdi7t" +
+      "do7tudo7futdyfouyfjuyfo7ufuoyfjouyf.com"
   val nameWithInvalidCharacters: String = "Test <>\""
 
   val Companies: Map[String, CompanyDetails] = Map(
