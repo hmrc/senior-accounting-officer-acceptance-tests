@@ -16,7 +16,6 @@
 
 package uk.gov.hmrc.test.ui.pages.submission
 
-import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
@@ -30,6 +29,4 @@ object SubmissionTemplateGuidancePage extends CommonPage with SubmissionButtonSu
 
   override val pageTitle: String =
     "Submission template guidance - Senior Accounting Officer notification and certificate - GOV.UK"
-
-  val makeSubmissionButton: By = By.id("submit")
 }
