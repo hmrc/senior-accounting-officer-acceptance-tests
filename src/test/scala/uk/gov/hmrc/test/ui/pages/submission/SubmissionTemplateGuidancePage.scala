@@ -18,8 +18,9 @@ package uk.gov.hmrc.test.ui.pages.submission
 
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object SubmissionTemplateGuidancePage extends CommonPage {
+object SubmissionTemplateGuidancePage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/template-guidance"
 
@@ -28,5 +29,4 @@ object SubmissionTemplateGuidancePage extends CommonPage {
 
   override val pageTitle: String =
     "Submission template guidance - Senior Accounting Officer notification and certificate - GOV.UK"
-
 }

@@ -18,7 +18,7 @@ package uk.gov.hmrc.test.ui.specs
 
 import org.scalatest.*
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
-import uk.gov.hmrc.test.ui.pages.submission.SubmissionTemplateGuidancePage
+import uk.gov.hmrc.test.ui.pages.submission.{SubmissionTemplateGuidancePage, SubmissionTypePage}
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.PageSupport.*
@@ -59,6 +59,23 @@ class HomepageSpec extends BaseSpec {
 
       Then("the user is taken to the 'Submission Template Guidance 'page")
       assertOnPage(SubmissionTemplateGuidancePage)
+    }
+
+    Scenario(
+      "Submission type page is accessible from the 'Submission Template Guidance' page accessed from the 'Account Homepage'",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("the user is on the 'Submission Template Guidance' page")
+      assertOnPage(AccountHomePage)
+      AccountHomePage.clickGetSubmissionTemplateLink()
+      assertOnPage(SubmissionTemplateGuidancePage)
+
+      When("the user clicks on 'Make a Submission' button")
+      SubmissionTemplateGuidancePage.clickSubmissionButton()
+
+      Then("the user is taken to the 'submission-type' page")
+      assertOnPage(SubmissionTypePage)
     }
 
   }
