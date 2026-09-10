@@ -72,7 +72,7 @@ class HomepageSpec extends BaseSpec {
       assertOnPage(SubmissionTemplateGuidancePage)
 
       When("the user clicks on 'Make a Submission' button")
-      SubmissionTemplateGuidancePage.clickMakeSubmissionButton()
+      SubmissionTemplateGuidancePage.clickSubmissionButton()
 
       Then("the user is taken to the 'submission-type' page")
       assertOnPage(SubmissionTypePage)
