@@ -64,8 +64,7 @@ class HomepageSpec extends BaseSpec {
     Scenario(
       "Submission type page is accessible from the 'Submission Template Guidance' page accessed from the 'Account Homepage'",
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("the user is on the 'Submission Template Guidance' page")
       assertOnPage(AccountHomePage)
