@@ -18,9 +18,13 @@ package uk.gov.hmrc.test.ui.pages.registration
 
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.pages.CommonPage
-import uk.gov.hmrc.test.ui.support.{SubmissionButtonSupport, YesNoRadioButtonSupport}
+import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport, YesNoRadioButtonSupport}
 
-object HaveYouAddedAllContactsPage extends CommonPage with SubmissionButtonSupport with YesNoRadioButtonSupport {
+object HaveYouAddedAllContactsPage
+    extends CommonPage
+    with SubmissionButtonSupport
+    with YesNoRadioButtonSupport
+    with ErrorMessageSupport {
   override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details/first/add-another"
   override val pageTitle: String =
     "First contact details - Senior Accounting Officer notification and certificate - GOV.UK"
