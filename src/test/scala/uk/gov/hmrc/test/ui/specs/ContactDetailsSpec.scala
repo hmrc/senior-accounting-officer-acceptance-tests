@@ -191,7 +191,7 @@ class ContactDetailsSpec extends BaseSpec {
       FirstContactEmailPage.clickSubmissionButton()
 
       Then("the validation error for 'invalid email' is shown")
-      FirstContactEmailPage.assertValidationErrorDisplayed(ValidationError.MaximumEmailCharacterLimitExceededError)
+      FirstContactEmailPage.assertValidationErrorDisplayed(ValidationError.emailCharacterLimitExceededError)
 
       When("the user enters a valid email with 'allowed special characters' and clicks 'Continue'")
       FirstContactEmailPage.addEmail(TestData.firstPersonEmail)
@@ -252,7 +252,7 @@ class ContactDetailsSpec extends BaseSpec {
       SecondContactEmailPage.clickSubmissionButton()
 
       Then("the validation error for 'invalid email' is shown")
-      SecondContactEmailPage.assertValidationErrorDisplayed(ValidationError.MaximumEmailCharacterLimitExceededError)
+      SecondContactEmailPage.assertValidationErrorDisplayed(ValidationError.emailCharacterLimitExceededError)
 
       When("the user enters a valid email and clicks 'Continue'")
       SecondContactEmailPage.addEmail(TestData.secondPersonEmail)

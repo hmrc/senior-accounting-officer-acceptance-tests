@@ -22,7 +22,7 @@ enum ValidationError(val errorMessage: String) {
   case UnknownUploadError   extends ValidationError("The selected file could not be uploaded – try again")
   case InvalidEmailError extends ValidationError("Email address must be in the correct format, like name@example.com")
   case MissingEmailError extends ValidationError("Enter the email address of a person or team")
-  case MaximumEmailCharacterLimitExceededError extends ValidationError("Email address must be 254 characters or less")
+  case emailCharacterLimitExceededError extends ValidationError("Email address must be 254 characters or less")
   case MissingNameError            extends ValidationError("Enter the name of the person or team we can contact")
   case NameTooLongError            extends ValidationError("Name of the person or team must be 105 characters or less")
   case InvalidNameCharactersError  extends ValidationError("Name of the person or team must not include <, >, or \"")
