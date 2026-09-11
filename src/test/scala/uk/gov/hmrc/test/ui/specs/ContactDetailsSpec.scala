@@ -187,7 +187,7 @@ class ContactDetailsSpec extends BaseSpec {
       FirstContactEmailPage.assertValidationErrorDisplayed(ValidationError.InvalidEmailError)
 
       When("the user enters an email address exceeding the maximum allowed '254' character limit and clicks 'Continue'")
-      FirstContactEmailPage.addEmail(TestData.maximumEmailCharacterLimitExceeded)
+      FirstContactEmailPage.addEmail(TestData.emailCharacterLimitExceeded)
       FirstContactEmailPage.clickSubmissionButton()
 
       Then("the validation error for 'invalid email' is shown")
@@ -248,7 +248,7 @@ class ContactDetailsSpec extends BaseSpec {
       SecondContactEmailPage.assertValidationErrorDisplayed(ValidationError.InvalidEmailError)
 
       When("the user enters an email address exceeding the maximum allowed '254' character limit and clicks 'Continue'")
-      SecondContactEmailPage.addEmail(TestData.maximumEmailCharacterLimitExceeded)
+      SecondContactEmailPage.addEmail(TestData.emailCharacterLimitExceeded)
       SecondContactEmailPage.clickSubmissionButton()
 
       Then("the validation error for 'invalid email' is shown")
@@ -371,7 +371,7 @@ class ContactDetailsSpec extends BaseSpec {
       goToFirstContactNamePage()
 
       When("the user enter a first contact name containing more than 105 characters")
-      FirstContactNamePage.addName(TestData.maximumNameCharacterLimitExceeded)
+      FirstContactNamePage.addName(TestData.nameCharacterLimitExceeded)
       FirstContactNamePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -439,7 +439,7 @@ class ContactDetailsSpec extends BaseSpec {
       goToSecondContactNamePage()
 
       When("the user enter a second contact name containing more than 105 characters")
-      SecondContactNamePage.addName(TestData.maximumNameCharacterLimitExceeded)
+      SecondContactNamePage.addName(TestData.nameCharacterLimitExceeded)
       SecondContactNamePage.clickSubmissionButton()
 
       Then("an error is shown")
