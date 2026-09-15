@@ -29,6 +29,7 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
 
   private val redirectionUrlById: By                 = By.id("redirectionUrl")
   private val affinityGroupById: By                  = By.id("affinityGroupSelect")
+  private val credentialRoleById: By                 = By.id("credential-role-select")
   private val firstEnrolmentKeyInput: By             = By.id("enrolment[0].name")
   private val firstEnrolmentIdentifierNameInput: By  = By.id("input-0-0-name")
   private val firstEnrolmentIdentifierValueInput: By = By.id("input-0-0-value")
@@ -40,6 +41,13 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
     selectDropdownById(affinityGroupById).selectByVisibleText(affinityGroup.toString)
 
   def withAffinityGroup(affinityGroup: AffinityGroup): AuthorityWizardConfig = AuthorityWizardConfig(affinityGroup)
+
+  def withCredentialRole(config: AuthorityWizardConfig)(credentialRole: CredentialRole): AuthorityWizardConfig = {
+    config.copy(credentialRole = Some(credentialRole))
+  }
+
+  def selectCredentialRole(credentialRole: CredentialRole): Unit =
+    selectDropdownById(credentialRoleById).selectByVisibleText(credentialRole.toString)
 
   def redirectToRegistration(config: AuthorityWizardConfig): Unit =
     redirectTo(config, url = RegistrationPage.stubEnrolmentUrl, urlToAssert = RegistrationPage.pageUrl)
@@ -65,6 +73,14 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
       urlToAssert = IndividualCannotAccessThisServicePage.pageUrl
     )
 
+  def redirectToStandardUserCannotAccessThisService(config: AuthorityWizardConfig): Unit = {
+    redirectTo(
+      config,
+      url = RegistrationPage.pageUrl,
+      urlToAssert = StandardUserCannotAccessThisServicePage.pageUrl
+    )
+  }
+
   def redirectToHomePage(config: AuthorityWizardConfig): Unit =
     redirectTo(config, url = redirectHomePageUrl, urlToAssert = redirectHomePageUrl)
 
@@ -76,6 +92,7 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
     loadPage()
     sendKeys(redirectionUrlById, url)
     selectAffinityGroup(config.affinityGroup)
+    config.credentialRole.foreach(selectCredentialRole)
     config.enrolment.foreach { enrolment =>
       sendKeys(firstEnrolmentKeyInput, enrolment.enrolmentKey)
       sendKeys(firstEnrolmentIdentifierNameInput, enrolment.identifierName)
@@ -100,6 +117,7 @@ object AuthorityWizardPage extends CommonPage with SubmissionButtonSupport {
 
 final case class AuthorityWizardConfig private[pages] (
     affinityGroup: AffinityGroup,
+    credentialRole: Option[CredentialRole] = None,
     enrolment: Option[Enrolment] = None
 ) {
   def redirectToRegistration(): Unit                 = AuthorityWizardPage.redirectToRegistration(this)
@@ -107,8 +125,12 @@ final case class AuthorityWizardConfig private[pages] (
   def redirectToAgentCannotAccessThisService(): Unit = AuthorityWizardPage.redirectToAgentCannotAccessThisService(this)
   def redirectToIndividualCannotAccessThisService(): Unit =
     AuthorityWizardPage.redirectToIndividualCannotAccessThisService(this)
+  def redirectToStandardUserCannotAccessThisService(): Unit =
+    AuthorityWizardPage.redirectToStandardUserCannotAccessThisService(this)
   def redirectToHomePage(): Unit        = AuthorityWizardPage.redirectToHomePage(this)
   def redirectToNotEnrolledPage(): Unit = AuthorityWizardPage.redirectToNotEnrolledPage(this)
   def withDsaoEnrolment(subscriptionId: String): AuthorityWizardConfig =
     AuthorityWizardPage.withDsaoEnrolment(this)(subscriptionId)
+  def withCredentialRole(credentialRole: CredentialRole): AuthorityWizardConfig =
+    AuthorityWizardPage.withCredentialRole(this)(credentialRole)
 }
