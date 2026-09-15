@@ -829,7 +829,7 @@ class NotificationSpec extends BaseSpec {
       WhoWasTheSaoBeforePage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      WhoWasTheSaoBeforePage.assertErrorSummaryDisplayed()
+      WhoWasTheSaoBeforePage.assertValidationErrorDisplayed(MissingPreviousSAONameError)
 
       When("the 'Continue' button is clicked after entering a name for a preceding SAO of 'Jock B'")
       WhoWasTheSaoBeforePage.addName("Jock B")
@@ -887,16 +887,7 @@ class NotificationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user has added 'Shane Warne' as the last SAO")
-      goToMoreThanOneSaoPageFromHomePage()
-      MoreThanOneSaoPage.clickYesRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
-      assertOnPage(MultiSaoNamePage)
-      MultiSaoNamePage.addName("Shane Warne")
-      MultiSaoNamePage.clickSubmissionButton()
-      assertOnPage(MultiSaoFirstStartDatePage)
-      MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(20))
-      MultiSaoFirstStartDatePage.clickSubmissionButton()
-      assertOnPage(WhoWasTheSaoBeforePage)
+      goToWhoWasTheSAOBeforePage()
 
       And("has added 'Jonty Rhodes' as a prior SAO")
       WhoWasTheSaoBeforePage.addName("Jonty Rhodes")
@@ -1034,6 +1025,55 @@ class NotificationSpec extends BaseSpec {
       Then("an error is shown")
       MultiSaoNamePage.assertValidationErrorDisplayed(SAONameTooLongError)
     }
+
+    Scenario(
+      "Validate error when 'previous SAO name' contains invalid characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user lands on the 'who was the sao before' page"
+      )
+      goToWhoWasTheSAOBeforePage()
+
+      When("the user enters a 'previous SAO name' with invalid characters")
+      WhoWasTheSaoBeforePage.addName(TestData.nameWithInvalidCharacters)
+      WhoWasTheSaoBeforePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      WhoWasTheSaoBeforePage.assertValidationErrorDisplayed(InvalidSAONameCharactersError)
+    }
+
+    Scenario(
+      "Validate error when 'previous Sao name' exceeds 105 characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user lands on the 'who was the sao before' page"
+      )
+      goToWhoWasTheSAOBeforePage()
+
+      When("the user enters a 'previous SAO name' containing more than 105 characters")
+      WhoWasTheSaoBeforePage.addName(TestData.nameCharacterLimitExceeded)
+      WhoWasTheSaoBeforePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      WhoWasTheSaoBeforePage.assertValidationErrorDisplayed(SAONameTooLongError)
+    }
+  }
+
+  private def goToWhoWasTheSAOBeforePage(): Unit = {
+    goToMoreThanOneSaoPageFromHomePage()
+    MoreThanOneSaoPage.clickYesRadioButton()
+    MoreThanOneSaoPage.clickSubmissionButton()
+    assertOnPage(MultiSaoNamePage)
+    MultiSaoNamePage.addName("Shane Warne")
+    MultiSaoNamePage.clickSubmissionButton()
+    assertOnPage(MultiSaoFirstStartDatePage)
+    MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(20))
+    MultiSaoFirstStartDatePage.clickSubmissionButton()
+    assertOnPage(WhoWasTheSaoBeforePage)
   }
 
   private def goToAdditionalInformationPageFromHomePage(): Unit = {
