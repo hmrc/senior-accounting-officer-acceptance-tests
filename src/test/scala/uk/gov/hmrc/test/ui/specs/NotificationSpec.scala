@@ -796,14 +796,14 @@ class NotificationSpec extends BaseSpec {
       MoreThanOneSaoPage.clickYesRadioButton()
       MoreThanOneSaoPage.clickSubmissionButton()
 
-      Then("the user lands on the 'What is name of the last SAO' question page")
+      Then("the user lands on the 'What is the name of the SAO at the end of the financial year?' question page")
       assertOnPage(MultiSaoNamePage)
 
       When("the 'Continue' button is clicked after no name is entered")
       MultiSaoNamePage.clickSubmissionButton()
 
-      Then("an error message is displayed")
-      MultiSaoNamePage.assertErrorSummaryDisplayed()
+      Then("Then an error is shown ")
+      MultiSaoNamePage.assertValidationErrorDisplayed(MissingYearEndSAONameError)
 
       When("the 'Continue' button is clicked after entering a name of 'Jerry Hatrix'")
       MultiSaoNamePage.addName("Jerry Hatrix")
@@ -985,12 +985,54 @@ class NotificationSpec extends BaseSpec {
       MoreThanOneSaoPage.clickSubmissionButton()
       assertOnPage(SingleSaoNamePage)
 
-      When("the user enter a SAO name with invalid characters")
+      When("the user enter a SAO name containing more than 105 characters")
       SingleSaoNamePage.addName(TestData.nameCharacterLimitExceeded)
       SingleSaoNamePage.clickSubmissionButton()
 
       Then("an error is shown")
       SingleSaoNamePage.assertValidationErrorDisplayed(SAONameTooLongError)
+    }
+
+    Scenario(
+      "Validate error when 'end of the financial year SAO name' with invalid characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user lands on the 'more sao' submit notification full name page"
+      )
+      goToMoreThanOneSaoPageFromHomePage()
+      MoreThanOneSaoPage.clickYesRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
+      assertOnPage(MultiSaoNamePage)
+
+      When("the user enter a 'end of the financial year SAO name' with invalid characters")
+      MultiSaoNamePage.addName(TestData.nameWithInvalidCharacters)
+      MultiSaoNamePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      MultiSaoNamePage.assertValidationErrorDisplayed(InvalidSAONameCharactersError)
+    }
+
+    Scenario(
+      "Validate error when 'end of the financial year SAO name' exceeds 105 characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user lands on the 'more sao' submit notification full name page"
+      )
+      goToMoreThanOneSaoPageFromHomePage()
+      MoreThanOneSaoPage.clickYesRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
+      assertOnPage(MultiSaoNamePage)
+
+      When("the user enter a 'end of the financial year SAO name' containing more than 105 characters")
+      MultiSaoNamePage.addName(TestData.nameCharacterLimitExceeded)
+      MultiSaoNamePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      MultiSaoNamePage.assertValidationErrorDisplayed(SAONameTooLongError)
     }
   }
 
