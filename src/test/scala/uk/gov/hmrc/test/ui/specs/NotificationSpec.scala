@@ -770,17 +770,16 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'What is the name of the SAO' page")
       assertOnPage(SingleSaoNamePage)
 
-      When("the 'Continue' button is clicked after no name was entered")
+      When("the 'Continue' button is clicked after no SAO name was entered")
       SingleSaoNamePage.clickSubmissionButton()
 
-      Then("an error message is displayed")
-      SingleSaoNamePage.assertErrorSummaryDisplayed()
+      Then("the validation error for 'missing SAO name' is shown")
+      SingleSaoNamePage.assertValidationErrorDisplayed(MissingSAONameError)
 
-      When("the 'Continue' button is clicked after a name is entered")
+      When("the 'Continue' button is clicked after a SAO name is entered")
       SingleSaoNamePage.addName("Jane Doe")
       SingleSaoNamePage.clickSubmissionButton()
 
-      // TODO: Update the below step when the page is fully developed. This will land on the 'Account Homepage'.
       Then("the user lands on the 'Submit a notification' start page")
       assertOnPage(SubmitNotificationStartPage)
     }
@@ -950,6 +949,48 @@ class NotificationSpec extends BaseSpec {
 
       And("the page displays the correct content")
       MultiSaoFirstStartDatePage.assertHeadingMatches("What date did Shane Warne become the SAO?")
+    }
+
+    Scenario(
+      "Validate error when SAO name with invalid characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user lands on the submit notification full name page"
+      )
+      goToMoreThanOneSaoPageFromHomePage()
+      MoreThanOneSaoPage.clickNoRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
+      assertOnPage(SingleSaoNamePage)
+
+      When("the user enter a SAO name with invalid characters")
+      SingleSaoNamePage.addName(TestData.nameWithInvalidCharacters)
+      SingleSaoNamePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      SingleSaoNamePage.assertValidationErrorDisplayed(InvalidSAONameCharactersError)
+    }
+
+    Scenario(
+      "Validate error when SAO name exceeds 105 characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated user lands on the submit notification full name page"
+      )
+      goToMoreThanOneSaoPageFromHomePage()
+      MoreThanOneSaoPage.clickNoRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
+      assertOnPage(SingleSaoNamePage)
+
+      When("the user enter a SAO name with invalid characters")
+      SingleSaoNamePage.addName(TestData.nameCharacterLimitExceeded)
+      SingleSaoNamePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      SingleSaoNamePage.assertValidationErrorDisplayed(SAONameTooLongError)
     }
   }
 

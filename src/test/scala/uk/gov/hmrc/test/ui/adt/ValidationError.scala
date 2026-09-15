@@ -27,4 +27,7 @@ enum ValidationError(val errorMessage: String) {
   case NameTooLongError            extends ValidationError("Name of the person or team must be 105 characters or less")
   case InvalidNameCharactersError  extends ValidationError("Name of the person or team must not include <, >, or \"")
   case NoElementChosenContactError extends ValidationError("Select yes if you would like to add another contact")
+  case MissingSAONameError         extends ValidationError("Enter the name of the SAO")
+  case SAONameTooLongError         extends ValidationError("Name of the SAO must be 105 characters or less")
+  case InvalidSAONameCharactersError extends ValidationError("Name of the SAO must not include <, > or \"")
 }
