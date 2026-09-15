@@ -17,6 +17,7 @@
 package uk.gov.hmrc.test.ui.specs
 
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.{Agent, Individual, Organisation}
+import uk.gov.hmrc.test.ui.adt.CredentialRole.Assistant
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.{CannotStartYet, NotStarted}
 import uk.gov.hmrc.test.ui.adt.RegistrationPageLink.EnterYourNominatedCompanyDetailsLink
 import uk.gov.hmrc.test.ui.adt.RegistrationPageSection.{CompanyDetails, ContactDetails}
@@ -125,4 +126,22 @@ class RegistrationSpec extends BaseSpec {
       )
     }
   }
+
+  Scenario(
+    "User with credential role of 'assistant' and affinity group of 'Organisation', sees 'You cannot access this service' page",
+    RegistrationUITests,
+    ZapTests
+  ) {
+    Given("standard user lands on the 'You cannot access this service' page")
+    AuthorityWizardPage
+      .withAffinityGroup(Organisation)
+      .withCredentialRole(Assistant)
+      .redirectToStandardUserCannotAccessThisService()
+    assertOnPage(StandardUserCannotAccessThisServicePage)
+    StandardUserCannotAccessThisServicePage.assertLinkHasTextOnPage(
+      StandardUserCannotAccessThisServicePage.governmentGatewayOrganisationSignIn,
+      "sign in using an organisation Government Gateway ID"
+    )
+  }
+
 }
