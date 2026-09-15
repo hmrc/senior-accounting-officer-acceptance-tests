@@ -30,6 +30,6 @@ enum ValidationError(val errorMessage: String) {
   case MissingSAONameError         extends ValidationError("Enter the name of the SAO")
   case SAONameTooLongError         extends ValidationError("Name of the SAO must be 105 characters or less")
   case InvalidSAONameCharactersError extends ValidationError("Name of the SAO must not include <, > or \"")
-  case MissingYearEndSAONameError extends ValidationError("Enter the name of the SAO at the end of the financial year")
+  case MissingYearEndSAONameError  extends ValidationError("Enter the name of the SAO at the end of the financial year")
   case MissingPreviousSAONameError extends ValidationError("Enter the name of the SAO before Jerry Hatrix")
 }
