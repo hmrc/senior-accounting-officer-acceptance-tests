@@ -21,13 +21,13 @@ import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
 import uk.gov.hmrc.test.ui.adt.CertificateTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.PageSectionStatus.*
 import uk.gov.hmrc.test.ui.adt.UploadFile.*
-import uk.gov.hmrc.test.ui.adt.ValidationError.{InfectedFileError, InvalidFileTypeError, UnknownUploadError}
+import uk.gov.hmrc.test.ui.adt.ValidationError.*
 import uk.gov.hmrc.test.ui.pages.submission.*
 import uk.gov.hmrc.test.ui.pages.submission.certificate.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.InternalAuthorisationSupport.setupInternalAuthorisation
-import uk.gov.hmrc.test.ui.support.PageSupport.*
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertOnPage, *}
 import uk.gov.hmrc.test.ui.support.TestData
 
 class CertificateSpec extends BaseSpec {
@@ -564,7 +564,7 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoFullNamePage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      CertificateSaoFullNamePage.assertErrorSummaryDisplayed()
+      CertificateSaoFullNamePage.assertValidationErrorDisplayed(MissingSAONameForCertificateError)
 
       When("the 'Continue' button is clicked after adding a valid SAO name")
       CertificateSaoFullNamePage.addName(TestData.firstPersonName)
@@ -845,6 +845,43 @@ class CertificateSpec extends BaseSpec {
 
       // TODO: extend the test to check the additional information on the CYA page once development is complete
     }
+
+    Scenario(
+      "Validate error when SAO name responsible for Certificate contains invalid characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given("the user lands on the 'submit a certificate SAO full name' page")
+      navigateToCertificateStartPage()
+      CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
+      assertOnPage(CertificateSaoFullNamePage)
+
+      When("the user enters a SAO name containing invalid characters")
+      CertificateSaoFullNamePage.addName(TestData.nameWithInvalidCharacters)
+      CertificateSaoFullNamePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      CertificateSaoFullNamePage.assertValidationErrorDisplayed(InvalidSAONameCharactersError)
+    }
+
+    Scenario(
+      "Validate error when SAO name responsible for Certificate exceeds 105 characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given("the user lands on the 'submit a certificate SAO full name' page")
+      navigateToCertificateStartPage()
+      CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
+      assertOnPage(CertificateSaoFullNamePage)
+
+      When("the user enters a SAO name exceeding 105 characters")
+      CertificateSaoFullNamePage.addName(TestData.nameCharacterLimitExceeded)
+      CertificateSaoFullNamePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      CertificateSaoFullNamePage.assertValidationErrorDisplayed(SAONameTooLongError)
+    }
+
   }
 
   private def navigateToCertificateStartPage(): Unit = {
