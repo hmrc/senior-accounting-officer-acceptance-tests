@@ -22,7 +22,7 @@ import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.*
 import uk.gov.hmrc.test.ui.support.PageSupport.assertTextOnPage
 
-object MultiSaoSecondStartDatePage
+object PreviousSaoStartDatePage
     extends CommonPage
     with SubmissionButtonSupport
     with ErrorMessageSupport

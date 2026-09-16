@@ -19,22 +19,27 @@ package uk.gov.hmrc.test.ui.pages.submission.notification
 import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.CommonPage
+import uk.gov.hmrc.test.ui.support.*
 import uk.gov.hmrc.test.ui.support.PageSupport.assertTextOnPage
-import uk.gov.hmrc.test.ui.support.{DayMonthYearInputSupport, ErrorMessageSupport, SubmissionButtonSupport}
 
-object MultiSaoFirstStartDatePage
+object PreviousSaoNamePage
     extends CommonPage
     with SubmissionButtonSupport
     with ErrorMessageSupport
-    with DayMonthYearInputSupport {
+    with BackLinkSupport
+    with NameInputSupport {
 
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/more-sao/submit-notification-first-start-date"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/who-was-the-sao-before"
 
   override val pageTitle: String =
-    "What date did the last SAO become the SAO? - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Who was the SAO before the last SAO? - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val pageHeadingElement: By = By.className("govuk-fieldset__heading")
+  val pageHeadingElement: By = By.cssSelector(".govuk-label.govuk-label--l")
+  val pageHintElement: By    = By.id("value-hint")
+
+  val changePageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/who-was-the-sao-before?saoIndex=1"
 
   def assertHeadingMatches(text: String): Unit = {
     assertTextOnPage(pageHeadingElement, text)

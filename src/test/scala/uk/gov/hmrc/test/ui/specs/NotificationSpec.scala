@@ -548,18 +548,18 @@ class NotificationSpec extends BaseSpec {
       goToMoreThanOneSaoPageFromHomePage()
       MoreThanOneSaoPage.clickYesRadioButton()
       MoreThanOneSaoPage.clickSubmissionButton()
-      assertOnPage(MultiSaoNamePage)
-      MultiSaoNamePage.addName("Emi A Ward")
-      MultiSaoNamePage.clickSubmissionButton()
-      assertOnPage(MultiSaoFirstStartDatePage)
-      MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(40))
-      MultiSaoFirstStartDatePage.clickSubmissionButton()
-      assertOnPage(WhoWasTheSaoBeforePage)
-      WhoWasTheSaoBeforePage.addName("Piet Van De Merwe")
-      WhoWasTheSaoBeforePage.clickSubmissionButton()
-      assertOnPage(MultiSaoSecondStartDatePage)
-      MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(100))
-      MultiSaoSecondStartDatePage.clickSubmissionButton()
+      assertOnPage(LastSaoNamePage)
+      LastSaoNamePage.addName("Emi A Ward")
+      LastSaoNamePage.clickSubmissionButton()
+      assertOnPage(LastSaoStartDatePage)
+      LastSaoStartDatePage.addDate(LocalDate.now().minusDays(40))
+      LastSaoStartDatePage.clickSubmissionButton()
+      assertOnPage(PreviousSaoNamePage)
+      PreviousSaoNamePage.addName("Piet Van De Merwe")
+      PreviousSaoNamePage.clickSubmissionButton()
+      assertOnPage(PreviousSaoStartDatePage)
+      PreviousSaoStartDatePage.addDate(LocalDate.now().minusDays(100))
+      PreviousSaoStartDatePage.clickSubmissionButton()
       assertOnPage(MultiSaoSecondEndDatePage)
       MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(47))
       MultiSaoSecondEndDatePage.clickSubmissionButton()
@@ -662,37 +662,37 @@ class NotificationSpec extends BaseSpec {
       MoreThanOneSaoPage.clickSubmissionButton()
 
       Then("the user lands on the 'What is the name of the last SAO' page")
-      assertOnPage(MultiSaoNamePage)
+      assertOnPage(LastSaoNamePage)
 
       When("the 'Continue' button is clicked after entering a name of 'Jack Sparrow'")
-      MultiSaoNamePage.addName("Jack Sparrow")
-      MultiSaoNamePage.clickSubmissionButton()
+      LastSaoNamePage.addName("Jack Sparrow")
+      LastSaoNamePage.clickSubmissionButton()
 
       Then("the user lands on the 'What date did Jack Sparrow become the SAO' page")
-      assertOnPage(MultiSaoFirstStartDatePage)
-      MultiSaoFirstStartDatePage.assertHeadingMatches("What date did Jack Sparrow become the SAO?")
+      assertOnPage(LastSaoStartDatePage)
+      LastSaoStartDatePage.assertHeadingMatches("What date did Jack Sparrow become the SAO?")
 
       When("the 'Continue' button is clicked after adding a date 30 days in the past")
-      MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(30))
-      MultiSaoFirstStartDatePage.clickSubmissionButton()
+      LastSaoStartDatePage.addDate(LocalDate.now().minusDays(30))
+      LastSaoStartDatePage.clickSubmissionButton()
 
       Then("the user lands on the 'Who was the SAO before Jack Sparrow' page")
-      assertOnPage(WhoWasTheSaoBeforePage)
+      assertOnPage(PreviousSaoNamePage)
 
       And("the page displays the correct content")
-      WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Jack Sparrow?")
+      PreviousSaoNamePage.assertHeadingMatches("Who was the SAO before Jack Sparrow?")
 
       When("the 'Continue' button is clicked after entering a name of 'Gert Bo'")
-      WhoWasTheSaoBeforePage.addName("Gert Bo")
-      WhoWasTheSaoBeforePage.clickSubmissionButton()
+      PreviousSaoNamePage.addName("Gert Bo")
+      PreviousSaoNamePage.clickSubmissionButton()
 
       Then("the user lands on the 'When did Gert Bo’s responsibility as the SAO start' page")
-      assertOnPage(MultiSaoSecondStartDatePage)
-      MultiSaoSecondStartDatePage.assertHeadingMatches("When did Gert Bo become the SAO?")
+      assertOnPage(PreviousSaoStartDatePage)
+      PreviousSaoStartDatePage.assertHeadingMatches("When did Gert Bo become the SAO?")
 
       When("the 'Continue' button is clicked after adding a date 90 days in the past")
-      MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(90))
-      MultiSaoSecondStartDatePage.clickSubmissionButton()
+      PreviousSaoStartDatePage.addDate(LocalDate.now().minusDays(90))
+      PreviousSaoStartDatePage.clickSubmissionButton()
 
       Then("the user lands on the 'When did Gert Bo stop being the SAO' page")
       assertOnPage(MultiSaoSecondEndDatePage)
@@ -712,19 +712,19 @@ class NotificationSpec extends BaseSpec {
       MultiSaoAreAllAddedPage.clickSubmissionButton()
 
       Then("the user lands on the 'Who was the SAO before Gert Bo' page")
-      assertUrl(WhoWasTheSaoBeforePage.changePageUrl)
-      WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Gert Bo?")
+      assertUrl(PreviousSaoNamePage.changePageUrl)
+      PreviousSaoNamePage.assertHeadingMatches("Who was the SAO before Gert Bo?")
 
       When("the 'Continue' button is clicked after entering a name of 'Alex Rhodes'")
-      WhoWasTheSaoBeforePage.addName("Alex Rhodes")
-      WhoWasTheSaoBeforePage.clickSubmissionButton()
+      PreviousSaoNamePage.addName("Alex Rhodes")
+      PreviousSaoNamePage.clickSubmissionButton()
 
       Then("the user lands on the 'When did Alex Rhodes’s responsibility as the SAO start' page")
-      assertUrl(MultiSaoSecondStartDatePage.changePageUrl)
+      assertUrl(PreviousSaoStartDatePage.changePageUrl)
 
       When("the 'Continue' button is clicked after adding a start date 90 days in the past for the new SAO")
-      MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(90))
-      MultiSaoSecondStartDatePage.clickSubmissionButton()
+      PreviousSaoStartDatePage.addDate(LocalDate.now().minusDays(90))
+      PreviousSaoStartDatePage.clickSubmissionButton()
 
       Then("the user lands on the 'When did Alex Rhodes stop being the SAO' page")
       assertUrl(MultiSaoSecondEndDatePage.pageUrlWithSaoIndexOne)
@@ -797,56 +797,56 @@ class NotificationSpec extends BaseSpec {
       MoreThanOneSaoPage.clickSubmissionButton()
 
       Then("the user lands on the 'What is the name of the SAO at the end of the financial year?' question page")
-      assertOnPage(MultiSaoNamePage)
+      assertOnPage(LastSaoNamePage)
 
       When("the 'Continue' button is clicked after no name is entered")
-      MultiSaoNamePage.clickSubmissionButton()
+      LastSaoNamePage.clickSubmissionButton()
 
       Then("Then an error is shown ")
-      MultiSaoNamePage.assertValidationErrorDisplayed(MissingYearEndSAONameError)
+      LastSaoNamePage.assertValidationErrorDisplayed(MissingYearEndLastSAONameError)
 
       When("the 'Continue' button is clicked after entering a name of 'Jerry Hatrix'")
-      MultiSaoNamePage.addName("Jerry Hatrix")
-      MultiSaoNamePage.clickSubmissionButton()
+      LastSaoNamePage.addName("Jerry Hatrix")
+      LastSaoNamePage.clickSubmissionButton()
 
       Then("the user lands on the 'What date did Jerry Hatrix become the SAO' page")
-      assertOnPage(MultiSaoFirstStartDatePage)
+      assertOnPage(LastSaoStartDatePage)
 
       When("the 'Continue' button is clicked after no date is entered")
-      MultiSaoFirstStartDatePage.clickSubmissionButton()
+      LastSaoStartDatePage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      MultiSaoFirstStartDatePage.assertValidationErrorDisplayed(MissingSAOStartDateError)
+      LastSaoStartDatePage.assertValidationErrorDisplayed(MissingLastSAOStartDateError)
 
       When("the 'Continue' button is clicked after adding a date 30 days in the past")
-      MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(30))
-      MultiSaoFirstStartDatePage.clickSubmissionButton()
+      LastSaoStartDatePage.addDate(LocalDate.now().minusDays(30))
+      LastSaoStartDatePage.clickSubmissionButton()
 
       Then("the user lands on the 'Who was the SAO before Jerry Hatrix' question page")
-      assertOnPage(WhoWasTheSaoBeforePage)
+      assertOnPage(PreviousSaoNamePage)
 
       When("the 'Continue' button is clicked after no name is entered")
-      WhoWasTheSaoBeforePage.clickSubmissionButton()
+      PreviousSaoNamePage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      WhoWasTheSaoBeforePage.assertValidationErrorDisplayed(MissingPreviousSAONameError)
+      PreviousSaoNamePage.assertValidationErrorDisplayed(MissingPreviousSAONameError)
 
       When("the 'Continue' button is clicked after entering a name for a preceding SAO of 'Jock B'")
-      WhoWasTheSaoBeforePage.addName("Jock B")
-      WhoWasTheSaoBeforePage.clickSubmissionButton()
+      PreviousSaoNamePage.addName("Jock B")
+      PreviousSaoNamePage.clickSubmissionButton()
 
       Then("the user lands on the 'When did Jock B’s responsibility as the SAO start' page")
-      assertOnPage(MultiSaoSecondStartDatePage)
+      assertOnPage(PreviousSaoStartDatePage)
 
       When("the 'Continue' button is clicked after no date is entered")
-      MultiSaoSecondStartDatePage.clickSubmissionButton()
+      PreviousSaoStartDatePage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      MultiSaoSecondStartDatePage.assertErrorSummaryDisplayed()
+      PreviousSaoStartDatePage.assertValidationErrorDisplayed(MissingPreviousSAOStartDateError)
 
       When("the 'Continue' button is clicked after adding a date 45 days in the past")
-      MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(45))
-      MultiSaoSecondStartDatePage.clickSubmissionButton()
+      PreviousSaoStartDatePage.addDate(LocalDate.now().minusDays(45))
+      PreviousSaoStartDatePage.clickSubmissionButton()
 
       Then("the user lands on the 'When did Jock B stop being the SAO' page")
       assertOnPage(MultiSaoSecondEndDatePage)
@@ -859,7 +859,7 @@ class NotificationSpec extends BaseSpec {
       MultiSaoSecondEndDatePage.assertErrorSummaryDisplayed()
 
       When("the 'Continue' button is clicked after adding a date 35 days in the past")
-      MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(35))
+      LastSaoStartDatePage.addDate(LocalDate.now().minusDays(35))
       MultiSaoSecondEndDatePage.clickSubmissionButton()
 
       Then(
@@ -890,11 +890,11 @@ class NotificationSpec extends BaseSpec {
       goToWhoWasTheSAOBeforePage()
 
       And("has added 'Jonty Rhodes' as a prior SAO")
-      WhoWasTheSaoBeforePage.addName("Jonty Rhodes")
-      WhoWasTheSaoBeforePage.clickSubmissionButton()
-      assertOnPage(MultiSaoSecondStartDatePage)
-      MultiSaoSecondStartDatePage.addDate(LocalDate.now().minusDays(65))
-      MultiSaoSecondStartDatePage.clickSubmissionButton()
+      PreviousSaoNamePage.addName("Jonty Rhodes")
+      PreviousSaoNamePage.clickSubmissionButton()
+      assertOnPage(PreviousSaoStartDatePage)
+      PreviousSaoStartDatePage.addDate(LocalDate.now().minusDays(65))
+      PreviousSaoStartDatePage.clickSubmissionButton()
       assertOnPage(MultiSaoSecondEndDatePage)
       MultiSaoSecondEndDatePage.addDate(LocalDate.now().minusDays(35))
       MultiSaoSecondEndDatePage.clickSubmissionButton()
@@ -915,31 +915,31 @@ class NotificationSpec extends BaseSpec {
       MultiSaoSecondEndDatePage.clickBackLink()
 
       Then("the user lands on the 'When did Jonty Rhodes’s responsibility as the SAO start' page")
-      assertOnPage(MultiSaoSecondStartDatePage)
+      assertOnPage(PreviousSaoStartDatePage)
 
       And("the page displays the correct content")
-      MultiSaoSecondStartDatePage.assertHeadingMatches(
+      PreviousSaoStartDatePage.assertHeadingMatches(
         "When did Jonty Rhodes become the SAO?"
       )
 
       When("the 'Back' link is clicked")
-      MultiSaoSecondStartDatePage.clickBackLink()
+      PreviousSaoStartDatePage.clickBackLink()
 
       Then("the user lands on the 'Who was the SAO before Shane Warne' page")
-      assertOnPage(WhoWasTheSaoBeforePage)
+      assertOnPage(PreviousSaoNamePage)
 
       And("the page displays the correct content")
-      WhoWasTheSaoBeforePage.assertHeadingMatches("Who was the SAO before Shane Warne?")
-      WhoWasTheSaoBeforePage.assertNameMatches("Jonty Rhodes")
+      PreviousSaoNamePage.assertHeadingMatches("Who was the SAO before Shane Warne?")
+      PreviousSaoNamePage.assertNameMatches("Jonty Rhodes")
 
       When("the 'Back' link is clicked")
-      WhoWasTheSaoBeforePage.clickBackLink()
+      PreviousSaoNamePage.clickBackLink()
 
       Then("the user lands on the 'What date did Shane Warne become the SAO' page")
-      assertOnPage(MultiSaoFirstStartDatePage)
+      assertOnPage(LastSaoStartDatePage)
 
       And("the page displays the correct content")
-      MultiSaoFirstStartDatePage.assertHeadingMatches("What date did Shane Warne become the SAO?")
+      LastSaoStartDatePage.assertHeadingMatches("What date did Shane Warne become the SAO?")
     }
 
     Scenario(
@@ -995,14 +995,14 @@ class NotificationSpec extends BaseSpec {
       goToMoreThanOneSaoPageFromHomePage()
       MoreThanOneSaoPage.clickYesRadioButton()
       MoreThanOneSaoPage.clickSubmissionButton()
-      assertOnPage(MultiSaoNamePage)
+      assertOnPage(LastSaoNamePage)
 
       When("the user enter a 'end of the financial year SAO name' with invalid characters")
-      MultiSaoNamePage.addName(TestData.nameWithInvalidCharacters)
-      MultiSaoNamePage.clickSubmissionButton()
+      LastSaoNamePage.addName(TestData.nameWithInvalidCharacters)
+      LastSaoNamePage.clickSubmissionButton()
 
       Then("an error is shown")
-      MultiSaoNamePage.assertValidationErrorDisplayed(InvalidSAONameCharactersError)
+      LastSaoNamePage.assertValidationErrorDisplayed(InvalidSAONameCharactersError)
     }
 
     Scenario(
@@ -1016,101 +1016,158 @@ class NotificationSpec extends BaseSpec {
       goToMoreThanOneSaoPageFromHomePage()
       MoreThanOneSaoPage.clickYesRadioButton()
       MoreThanOneSaoPage.clickSubmissionButton()
-      assertOnPage(MultiSaoNamePage)
+      assertOnPage(LastSaoNamePage)
 
       When("the user enter a 'end of the financial year SAO name' containing more than 105 characters")
-      MultiSaoNamePage.addName(TestData.nameCharacterLimitExceeded)
-      MultiSaoNamePage.clickSubmissionButton()
+      LastSaoNamePage.addName(TestData.nameCharacterLimitExceeded)
+      LastSaoNamePage.clickSubmissionButton()
 
       Then("an error is shown")
-      MultiSaoNamePage.assertValidationErrorDisplayed(SAONameTooLongError)
+      LastSaoNamePage.assertValidationErrorDisplayed(SAONameTooLongError)
     }
 
     Scenario(
-      "Validate error when 'previous SAO name' contains invalid characters",
+      "Validate error when 'Previous SAO name' contains invalid characters",
       RegistrationUITests,
       ZapTests
     ) {
       Given(
-        "an authenticated user lands on the 'who was the sao before' page"
+        "an authenticated user lands on the 'Who was the sao before' page"
       )
       goToWhoWasTheSAOBeforePage()
 
-      When("the user enters a 'previous SAO name' with invalid characters")
-      WhoWasTheSaoBeforePage.addName(TestData.nameWithInvalidCharacters)
-      WhoWasTheSaoBeforePage.clickSubmissionButton()
+      When("the user enters a 'Previous SAO name' with invalid characters")
+      PreviousSaoNamePage.addName(TestData.nameWithInvalidCharacters)
+      PreviousSaoNamePage.clickSubmissionButton()
 
       Then("an error is shown")
-      WhoWasTheSaoBeforePage.assertValidationErrorDisplayed(InvalidSAONameCharactersError)
+      PreviousSaoNamePage.assertValidationErrorDisplayed(InvalidSAONameCharactersError)
     }
 
     Scenario(
-      "Validate error when 'previous Sao name' exceeds 105 characters",
+      "Validate error when 'Previous SAO name' exceeds 105 characters",
       RegistrationUITests,
       ZapTests
     ) {
       Given(
-        "an authenticated user lands on the 'who was the sao before' page"
+        "an authenticated user lands on the 'Who was the sao before' page"
       )
       goToWhoWasTheSAOBeforePage()
 
-      When("the user enters a 'previous SAO name' containing more than 105 characters")
-      WhoWasTheSaoBeforePage.addName(TestData.nameCharacterLimitExceeded)
-      WhoWasTheSaoBeforePage.clickSubmissionButton()
+      When("the user enters a 'Previous SAO name' containing more than 105 characters")
+      PreviousSaoNamePage.addName(TestData.nameCharacterLimitExceeded)
+      PreviousSaoNamePage.clickSubmissionButton()
 
       Then("an error is shown")
-      WhoWasTheSaoBeforePage.assertValidationErrorDisplayed(SAONameTooLongError)
+      PreviousSaoNamePage.assertValidationErrorDisplayed(SAONameTooLongError)
     }
 
     Scenario(
-      "Validate error when 'SAO start date' contains invalid characters",
+      "Validate error when 'Last SAO start date' contains invalid characters",
       SubmissionUITests,
       ZapTests
     ) {
-      Given("an authenticated user lands on the 'More than one SAO' First start date page")
+      Given("an authenticated user lands on the 'Last SAO start date' page")
       goToMoreThanOneSaoPageFromHomePage()
       MoreThanOneSaoPage.clickYesRadioButton()
       MoreThanOneSaoPage.clickSubmissionButton()
-      assertOnPage(MultiSaoNamePage)
-      MultiSaoNamePage.addName("Jerry Hatrix")
-      MultiSaoNamePage.clickSubmissionButton()
-      assertOnPage(MultiSaoFirstStartDatePage)
+      assertOnPage(LastSaoNamePage)
+      LastSaoNamePage.addName("Jerry Hatrix")
+      LastSaoNamePage.clickSubmissionButton()
+      assertOnPage(LastSaoStartDatePage)
 
-      When("the user enters a 'SAO start date' with invalid characters")
-      MultiSaoFirstStartDatePage.addDateWithInvalidCharacter()
-      MultiSaoFirstStartDatePage.clickSubmissionButton()
+      When("the user enters a 'Last SAO start date' with invalid characters")
+      LastSaoStartDatePage.addDateWithInvalidCharacter()
+      LastSaoStartDatePage.clickSubmissionButton()
 
       Then("an error is shown")
-      MultiSaoFirstStartDatePage.assertValidationErrorDisplayed(InvalidSAOStartDateError)
+      LastSaoStartDatePage.assertValidationErrorDisplayed(InvalidSAOStartDateError)
     }
 
     Scenario(
-      "Validate error when 'SAO start date' contains today's or future date",
+      "Validate error when 'Last SAO start date' contains today's or future date",
       SubmissionUITests,
       ZapTests
     ) {
-      Given("an authenticated user lands on the 'More than one SAO' First start date page")
+      Given("an authenticated user lands on the 'Last SAO start date' page")
       goToMoreThanOneSaoPageFromHomePage()
       MoreThanOneSaoPage.clickYesRadioButton()
       MoreThanOneSaoPage.clickSubmissionButton()
-      assertOnPage(MultiSaoNamePage)
-      MultiSaoNamePage.addName("Jerry Hatrix")
-      MultiSaoNamePage.clickSubmissionButton()
-      assertOnPage(MultiSaoFirstStartDatePage)
+      assertOnPage(LastSaoNamePage)
+      LastSaoNamePage.addName("Jerry Hatrix")
+      LastSaoNamePage.clickSubmissionButton()
+      assertOnPage(LastSaoStartDatePage)
 
-      When("the user enters a 'SAO start date' today's date")
-      MultiSaoFirstStartDatePage.addDate(LocalDate.now())
-      MultiSaoFirstStartDatePage.clickSubmissionButton()
-
-      Then("an error is shown")
-      MultiSaoFirstStartDatePage.assertValidationErrorDisplayed(SAOStartDateMustBeInThePastError)
-
-      When("the user enters a 'SAO start date' future date")
-      MultiSaoFirstStartDatePage.addDate(LocalDate.now().plusDays(25))
-      MultiSaoFirstStartDatePage.clickSubmissionButton()
+      When("the user enters today's date in the 'Last SAO start date' field ")
+      LastSaoStartDatePage.addDate(LocalDate.now())
+      LastSaoStartDatePage.clickSubmissionButton()
 
       Then("an error is shown")
-      MultiSaoFirstStartDatePage.assertValidationErrorDisplayed(SAOStartDateMustBeInThePastError)
+      LastSaoStartDatePage.assertValidationErrorDisplayed(SAOStartDateMustBeInThePastError)
+
+      When("the user enters future date in the 'Last SAO start date' field ")
+      LastSaoStartDatePage.addDate(LocalDate.now().plusDays(25))
+      LastSaoStartDatePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      LastSaoStartDatePage.assertValidationErrorDisplayed(SAOStartDateMustBeInThePastError)
+    }
+
+    Scenario(
+      "Validate error when 'Previous SAO start date' contains invalid characters",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'Previous SAO start date' page")
+      goToMoreThanOneSaoPageFromHomePage()
+      MoreThanOneSaoPage.clickYesRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
+      LastSaoNamePage.addName(TestData.firstPersonName)
+      LastSaoNamePage.clickSubmissionButton()
+      LastSaoStartDatePage.addDate(LocalDate.now().minusDays(90))
+      LastSaoStartDatePage.clickSubmissionButton()
+      PreviousSaoNamePage.addName(TestData.secondPersonName)
+      PreviousSaoNamePage.clickSubmissionButton()
+      assertOnPage(PreviousSaoStartDatePage)
+
+      When("the user enters a 'Previous SAO start date' containing invalid characters")
+      PreviousSaoStartDatePage.addDateWithInvalidCharacter()
+      PreviousSaoStartDatePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      PreviousSaoStartDatePage.assertValidationErrorDisplayed(InvalidSAOStartDateError)
+    }
+
+    Scenario(
+      "Validate error when 'Previous SAO start date' contains today's or future date",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'Previous SAO start date' page")
+      goToMoreThanOneSaoPageFromHomePage()
+      MoreThanOneSaoPage.clickYesRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
+      LastSaoNamePage.addName(TestData.firstPersonName)
+      LastSaoNamePage.clickSubmissionButton()
+      LastSaoStartDatePage.addDate(LocalDate.now().minusDays(90))
+      LastSaoStartDatePage.clickSubmissionButton()
+      PreviousSaoNamePage.addName(TestData.secondPersonName)
+      PreviousSaoNamePage.clickSubmissionButton()
+      assertOnPage(PreviousSaoStartDatePage)
+
+      When("the user enters today's date in the 'Previous SAO start date' field")
+      PreviousSaoStartDatePage.addDate(LocalDate.now())
+      PreviousSaoStartDatePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      PreviousSaoStartDatePage.assertValidationErrorDisplayed(SAOStartDateMustBeInThePastError)
+
+      When("the user enters a future date in the 'Previous SAO start date' field")
+      PreviousSaoStartDatePage.addDate(LocalDate.now().plusDays(25))
+      PreviousSaoStartDatePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      PreviousSaoStartDatePage.assertValidationErrorDisplayed(SAOStartDateMustBeInThePastError)
     }
   }
 
@@ -1118,13 +1175,13 @@ class NotificationSpec extends BaseSpec {
     goToMoreThanOneSaoPageFromHomePage()
     MoreThanOneSaoPage.clickYesRadioButton()
     MoreThanOneSaoPage.clickSubmissionButton()
-    assertOnPage(MultiSaoNamePage)
-    MultiSaoNamePage.addName("Shane Warne")
-    MultiSaoNamePage.clickSubmissionButton()
-    assertOnPage(MultiSaoFirstStartDatePage)
-    MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(20))
-    MultiSaoFirstStartDatePage.clickSubmissionButton()
-    assertOnPage(WhoWasTheSaoBeforePage)
+    assertOnPage(LastSaoNamePage)
+    LastSaoNamePage.addName("Shane Warne")
+    LastSaoNamePage.clickSubmissionButton()
+    assertOnPage(LastSaoStartDatePage)
+    LastSaoStartDatePage.addDate(LocalDate.now().minusDays(20))
+    LastSaoStartDatePage.clickSubmissionButton()
+    assertOnPage(PreviousSaoNamePage)
   }
 
   private def goToAdditionalInformationPageFromHomePage(): Unit = {
