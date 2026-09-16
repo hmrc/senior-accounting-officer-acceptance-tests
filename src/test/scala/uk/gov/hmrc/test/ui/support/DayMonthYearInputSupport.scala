@@ -35,4 +35,9 @@ trait DayMonthYearInputSupport {
     sendKeys(yearInput, date.getYear.toString)
   }
 
+  def addDateWithInvalidCharacter(): Unit = {
+    sendKeys(dayInput, "1")
+    sendKeys(monthInput, "1$")
+    sendKeys(yearInput, "1111")
+  }
 }
