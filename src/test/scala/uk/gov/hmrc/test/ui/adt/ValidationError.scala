@@ -32,4 +32,8 @@ enum ValidationError(val errorMessage: String) {
   case InvalidSAONameCharactersError extends ValidationError("Name of the SAO must not include <, > or \"")
   case MissingYearEndSAONameError  extends ValidationError("Enter the name of the SAO at the end of the financial year")
   case MissingPreviousSAONameError extends ValidationError("Enter the name of the SAO before Jerry Hatrix")
+  case MissingSAONameForCertificateError
+      extends ValidationError("Enter the name of the SAO responsible for the certificate")
+  case MissingAuthorisedSAONameToSubmitError
+      extends ValidationError("Enter the name of the SAO authorised to submit the certificate")
 }
