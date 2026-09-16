@@ -1077,7 +1077,7 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(MultiSaoFirstStartDatePage)
 
       When("the user enters a 'SAO start date' with invalid characters")
-      MultiSaoFirstStartDatePage.addInvalidDate(LocalDate.now())
+      MultiSaoFirstStartDatePage.addDateWithInvalidCharacter()
       MultiSaoFirstStartDatePage.clickSubmissionButton()
 
       Then("an error is shown")
