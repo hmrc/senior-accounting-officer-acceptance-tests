@@ -816,7 +816,7 @@ class NotificationSpec extends BaseSpec {
       MultiSaoFirstStartDatePage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      MultiSaoFirstStartDatePage.assertErrorSummaryDisplayed()
+      MultiSaoFirstStartDatePage.assertValidationErrorDisplayed(MissingSAOStartDateError)
 
       When("the 'Continue' button is clicked after adding a date 30 days in the past")
       MultiSaoFirstStartDatePage.addDate(LocalDate.now().minusDays(30))
@@ -1060,6 +1060,57 @@ class NotificationSpec extends BaseSpec {
 
       Then("an error is shown")
       WhoWasTheSaoBeforePage.assertValidationErrorDisplayed(SAONameTooLongError)
+    }
+
+    Scenario(
+      "Validate error when 'SAO start date' contains invalid characters",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'More than one SAO' First start date page")
+      goToMoreThanOneSaoPageFromHomePage()
+      MoreThanOneSaoPage.clickYesRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
+      assertOnPage(MultiSaoNamePage)
+      MultiSaoNamePage.addName("Jerry Hatrix")
+      MultiSaoNamePage.clickSubmissionButton()
+      assertOnPage(MultiSaoFirstStartDatePage)
+
+      When("the user enters a 'SAO start date' with invalid characters")
+      MultiSaoFirstStartDatePage.addInvalidDate(LocalDate.now())
+      MultiSaoFirstStartDatePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      MultiSaoFirstStartDatePage.assertValidationErrorDisplayed(InvalidSAOStartDateError)
+    }
+
+    Scenario(
+      "Validate error when 'SAO start date' contains today's or future date",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user lands on the 'More than one SAO' First start date page")
+      goToMoreThanOneSaoPageFromHomePage()
+      MoreThanOneSaoPage.clickYesRadioButton()
+      MoreThanOneSaoPage.clickSubmissionButton()
+      assertOnPage(MultiSaoNamePage)
+      MultiSaoNamePage.addName("Jerry Hatrix")
+      MultiSaoNamePage.clickSubmissionButton()
+      assertOnPage(MultiSaoFirstStartDatePage)
+
+      When("the user enters a 'SAO start date' today's date")
+      MultiSaoFirstStartDatePage.addDate(LocalDate.now())
+      MultiSaoFirstStartDatePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      MultiSaoFirstStartDatePage.assertValidationErrorDisplayed(SAOStartDateMustBeInThePastError)
+
+      When("the user enters a 'SAO start date' future date")
+      MultiSaoFirstStartDatePage.addDate(LocalDate.now().plusDays(25))
+      MultiSaoFirstStartDatePage.clickSubmissionButton()
+
+      Then("an error is shown")
+      MultiSaoFirstStartDatePage.assertValidationErrorDisplayed(SAOStartDateMustBeInThePastError)
     }
   }
 

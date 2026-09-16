@@ -35,4 +35,9 @@ trait DayMonthYearInputSupport {
     sendKeys(yearInput, date.getYear.toString)
   }
 
+  def addInvalidDate(date: LocalDate): Unit = {
+    sendKeys(dayInput, date.getDayOfMonth.toString)
+    sendKeys(monthInput, date.getMonthValue.toString + "$")
+    sendKeys(yearInput, date.getYear.toString)
+  }
 }
