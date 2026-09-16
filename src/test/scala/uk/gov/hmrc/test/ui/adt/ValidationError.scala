@@ -30,10 +30,12 @@ enum ValidationError(val errorMessage: String) {
   case MissingSAONameError         extends ValidationError("Enter the name of the SAO")
   case SAONameTooLongError         extends ValidationError("Name of the SAO must be 105 characters or less")
   case InvalidSAONameCharactersError extends ValidationError("Name of the SAO must not include <, > or \"")
-  case MissingYearEndSAONameError  extends ValidationError("Enter the name of the SAO at the end of the financial year")
-  case MissingPreviousSAONameError extends ValidationError("Enter the name of the SAO before Jerry Hatrix")
-  case MissingSAOStartDateError    extends ValidationError("Enter the date Jerry Hatrix became the SAO")
-  case InvalidSAOStartDateError    extends ValidationError("Start date of the SAO must be a real date")
+  case MissingYearEndLastSAONameError
+      extends ValidationError("Enter the name of the SAO at the end of the financial year")
+  case MissingPreviousSAONameError      extends ValidationError("Enter the name of the SAO before Jerry Hatrix")
+  case MissingLastSAOStartDateError     extends ValidationError("Enter the date Jerry Hatrix became the SAO")
+  case MissingPreviousSAOStartDateError extends ValidationError("Enter the date Jock B became the SAO")
+  case InvalidSAOStartDateError         extends ValidationError("Start date of the SAO must be a real date")
   case SAOStartDateMustBeInThePastError extends ValidationError("Start date of the SAO must be in the past")
   case MissingSAONameForCertificateError
       extends ValidationError("Enter the name of the SAO responsible for the certificate")
