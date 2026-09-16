@@ -35,4 +35,8 @@ enum ValidationError(val errorMessage: String) {
   case MissingSAOStartDateError    extends ValidationError("Enter the date Jerry Hatrix became the SAO")
   case InvalidSAOStartDateError    extends ValidationError("Start date of the SAO must be a real date")
   case SAOStartDateMustBeInThePastError extends ValidationError("Start date of the SAO must be in the past")
+  case MissingSAONameForCertificateError
+      extends ValidationError("Enter the name of the SAO responsible for the certificate")
+  case MissingAuthorisedSAONameToSubmitError
+      extends ValidationError("Enter the name of the SAO authorised to submit the certificate")
 }
