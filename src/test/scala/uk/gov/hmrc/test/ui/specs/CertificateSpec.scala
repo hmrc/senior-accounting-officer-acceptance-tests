@@ -650,7 +650,7 @@ class CertificateSpec extends BaseSpec {
       CertificateDeclarationSaoPage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      CertificateDeclarationSaoPage.assertErrorSummaryDisplayed()
+      CertificateDeclarationSaoPage.assertValidationErrorDisplayed(MissingAuthorisedSAONameToSubmitError)
 
       When("the user clicks 'Continue' after adding the SAO name to complete the declaration")
       CertificateDeclarationSaoPage.addSaoName(TestData.firstPersonName)
@@ -882,6 +882,37 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoFullNamePage.assertValidationErrorDisplayed(SAONameTooLongError)
     }
 
+    Scenario(
+      "Validate error when SAO name authorised to submit the certificate contains invalid characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given("the user lands on the 'submit certificate confirm SAO' page")
+      navigateToSubmitCertificateConfirmPage()
+
+      When("the user enters a SAO name containing invalid characters")
+      CertificateDeclarationSaoPage.addSaoName(TestData.nameWithInvalidCharacters)
+      CertificateDeclarationSaoPage.clickSubmissionButton()
+
+      Then("an error is shown")
+      CertificateDeclarationSaoPage.assertValidationErrorDisplayed(InvalidSAONameCharactersError)
+    }
+
+    Scenario(
+      "Validate error when SAO name authorised to submit the certificate exceeds 105 characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given("the user lands on the 'submit certificate confirm SAO' page")
+      navigateToSubmitCertificateConfirmPage()
+
+      When("the user enters a SAO name exceeding 105 characters")
+      CertificateDeclarationSaoPage.addSaoName(TestData.nameCharacterLimitExceeded)
+      CertificateDeclarationSaoPage.clickSubmissionButton()
+
+      Then("an error is shown")
+      CertificateDeclarationSaoPage.assertValidationErrorDisplayed(SAONameTooLongError)
+    }
   }
 
   private def navigateToCertificateStartPage(): Unit = {
@@ -921,5 +952,14 @@ class CertificateSpec extends BaseSpec {
     assertOnPage(UploadReviewUnqualifiedPage)
     UploadReviewUnqualifiedPage.clickSubmissionButton()
     assertUrl(CertificateTaskListPage.taskListThreePageUrl)
+  }
+
+  private def navigateToSubmitCertificateConfirmPage(): Unit = {
+    goToAdditionalInformationPageFromHomePage()
+    AdditionalInformationPage.clickSkipButton()
+    assertOnPage(CertificateWhoIsSubmittingPage)
+    CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
+    CertificateWhoIsSubmittingPage.clickSubmissionButton()
+    assertOnPage(CertificateDeclarationSaoPage)
   }
 }
