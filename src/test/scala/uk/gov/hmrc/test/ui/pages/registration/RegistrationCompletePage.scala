@@ -24,7 +24,7 @@ import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 object RegistrationCompletePage extends CommonPage with SubmissionButtonSupport {
   override def pageUrl: String   = s"${RegistrationPage.pageUrl}/registration-complete"
   override def pageTitle: String =
-    "SAO Registration Confirmation - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Registration complete - Senior Accounting Officer notification and certificate - GOV.UK"
 
   def assertReferenceNumberReturned(): Unit = {
     val referenceNumberElement: By = testId("registration-reference-number")

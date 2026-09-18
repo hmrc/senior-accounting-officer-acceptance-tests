@@ -21,5 +21,6 @@ import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object ContactDetailsPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details"
-  override val pageTitle: String = "Contact details - Senior Accounting Officer notification and certificate - GOV.UK"
+  override val pageTitle: String =
+    "Provide contact details for your nominated company - Contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 }
