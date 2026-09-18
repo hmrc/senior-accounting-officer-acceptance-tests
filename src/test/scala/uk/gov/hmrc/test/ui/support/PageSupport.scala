@@ -89,6 +89,16 @@ object PageSupport extends BrowserDriver with Matchers {
     element.findElement(By.tagName("a")).getAttribute("href") mustNot be(empty)
   }
 
+  def assertHyperlinkInList(locator: By, text: String): Unit = {
+    val element = driver
+      .findElements(locator)
+      .asScala
+      .find(e => e.isDisplayed && e.getText.trim == text)
+      .getOrElse(fail(s"Hyperlink with text '$text' was not found"))
+
+    element.getAttribute("href") mustNot be(empty)
+  }
+
   def assertTextIsNotHyperlink(locator: By, text: String): Unit = {
     val element = getElementIfVisible(locator)
     assertTextOnPage(element, text)

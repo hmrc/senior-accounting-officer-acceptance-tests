@@ -913,6 +913,42 @@ class CertificateSpec extends BaseSpec {
       Then("an error is shown")
       CertificateDeclarationSaoPage.assertValidationErrorDisplayed(SAONameTooLongError)
     }
+
+    Scenario(
+      "Validate errors when Authorised Person submits the certificate",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given("the user lands on the 'submit certificate confirm SAO' page")
+      navigateToSubmitCertificateConfirmAsStandInSubmitterPage()
+
+      When("the user leaves the SAO name and the stand in submitter name empty")
+      CertificateDeclarationStandInPage.clickSubmissionButton()
+
+      Then("the empty field errors are shown")
+      CertificateDeclarationStandInPage.assertValidationListErrorDisplayed(SAOStandInSubmitterNameEmpty)
+      CertificateDeclarationStandInPage.assertValidationListErrorDisplayed(SAOStandInSubmitterAuthorisedByNameEmpty)
+
+      When("the user enters SAO and stand in submitter names exceeding 105 characters")
+      CertificateDeclarationStandInPage.addSaoName(TestData.nameCharacterLimitExceeded)
+      CertificateDeclarationStandInPage.addStandInSubmitterName(TestData.nameCharacterLimitExceeded)
+      CertificateDeclarationStandInPage.clickSubmissionButton()
+
+      Then("the maximum character exceeded field errors are shown")
+      CertificateDeclarationStandInPage.assertValidationListErrorDisplayed(SAOStandInSubmitterNameTooLongError)
+      CertificateDeclarationStandInPage.assertValidationListErrorDisplayed(SAONameTooLongError)
+      CertificateDeclarationStandInPage.clearStandInNameField()
+      CertificateDeclarationStandInPage.clearSaoNameField()
+
+      When("the user enters a SAO and stand in submitter names with invalid characters")
+      CertificateDeclarationStandInPage.addSaoName(TestData.nameWithInvalidCharacters)
+      CertificateDeclarationStandInPage.addStandInSubmitterName(TestData.nameWithInvalidCharacters)
+      CertificateDeclarationStandInPage.clickSubmissionButton()
+
+      Then("the invalid character field errors are shown")
+      CertificateDeclarationStandInPage.assertValidationListErrorDisplayed(InvalidSAONameCharactersError)
+      CertificateDeclarationStandInPage.assertValidationListErrorDisplayed(SAOStandInSubmitterNameInvalid)
+    }
   }
 
   private def navigateToCertificateStartPage(): Unit = {
@@ -961,5 +997,14 @@ class CertificateSpec extends BaseSpec {
     CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
     CertificateWhoIsSubmittingPage.clickSubmissionButton()
     assertOnPage(CertificateDeclarationSaoPage)
+  }
+
+  private def navigateToSubmitCertificateConfirmAsStandInSubmitterPage(): Unit = {
+    goToAdditionalInformationPageFromHomePage()
+    AdditionalInformationPage.clickSkipButton()
+    assertOnPage(CertificateWhoIsSubmittingPage)
+    CertificateWhoIsSubmittingPage.clickStandInSubmitterRadioButton()
+    CertificateWhoIsSubmittingPage.clickSubmissionButton()
+    assertOnPage(CertificateDeclarationStandInPage)
   }
 }
