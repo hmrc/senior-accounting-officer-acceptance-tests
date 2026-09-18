@@ -25,7 +25,7 @@ object FirstContactEmailPage extends CommonPage with SubmissionButtonSupport wit
 
   override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details/first/email"
   override val pageTitle: String =
-    "First contact details - Senior Accounting Officer notification and certificate - GOV.UK"
+    "What is the email address for this contact? - First contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/first/change-email"
   val emailInput: By        = By.id("value")

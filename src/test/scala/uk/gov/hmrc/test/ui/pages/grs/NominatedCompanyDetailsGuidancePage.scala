@@ -24,5 +24,5 @@ object NominatedCompanyDetailsGuidancePage extends CommonPage with SubmissionBut
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-registration-frontend")}/nominated-company-details-guidance"
   override val pageTitle: String =
-    "Company Details - Senior Accounting Officer notification and certificate - GOV.UK"
+    "What you need to start your registration - Nominated company details - Senior Accounting Officer notification and certificate - GOV.UK"
 }
