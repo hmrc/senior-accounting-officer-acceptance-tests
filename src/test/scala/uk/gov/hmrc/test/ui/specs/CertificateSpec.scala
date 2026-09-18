@@ -917,8 +917,7 @@ class CertificateSpec extends BaseSpec {
     Scenario(
       "Validate errors when Authorised Person submits the certificate",
       RegistrationUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("the user lands on the 'submit certificate confirm SAO' page")
       navigateToSubmitCertificateConfirmAsStandInSubmitterPage()
