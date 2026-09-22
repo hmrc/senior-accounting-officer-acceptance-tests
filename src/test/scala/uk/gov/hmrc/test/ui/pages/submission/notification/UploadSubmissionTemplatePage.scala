@@ -77,7 +77,7 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
     case InfectedFile                                        => pageHeadingText
     case UnknownErrorFile                                    => pageHeadingText
     case RejectedFile                                        => pageHeadingText
-    case NoCompanyDataFile                                   => UploadTemplateErrorPage.pageHeadingText
+    case NoInformationFile                                   => UploadTemplateErrorPage.pageHeadingText
     case ZeroBytesFile                                       => UploadTemplateErrorPage.pageHeadingText
     case NoNotificationDataWithCertificateDataFile           => UploadTemplateErrorPage.pageHeadingText
     case InvalidFormatFile                                   => UploadTemplateErrorPage.pageHeadingText
