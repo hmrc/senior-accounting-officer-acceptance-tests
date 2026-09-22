@@ -23,7 +23,7 @@ enum UploadFile(val filename: String) {
   case InfectedFile             extends UploadFile("infected.VIRUS_NAME.csv")
   case UnknownErrorFile         extends UploadFile("unknown.REASON.csv")
   case RejectedFile             extends UploadFile("reject.UnexpectedContent.csv")
-  case NoCompanyDataFile        extends UploadFile("sao-template-no-data.csv")
+  case NoInformationFile        extends UploadFile("sao-template-no-data.csv")
   case ZeroBytesFile            extends UploadFile("sao-template-zero-bytes.csv")
   case NoNotificationDataWithCertificateDataFile
       extends UploadFile("sao-template-empty-notification-valid-cert-data.csv")

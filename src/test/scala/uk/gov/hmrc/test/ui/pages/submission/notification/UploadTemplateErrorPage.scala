@@ -43,6 +43,14 @@ object UploadTemplateErrorPage extends CommonPage with SubmissionButtonSupport {
     getParagraph(0) mustBe expectedText
   }
 
+  def assertParagraphDescribesNoInformationTemplateError(): Unit = {
+    val expectedText =
+      """Your template does not contain any information.
+        |Download a submission template and read guidance on how to complete it (opens in new tab)""".stripMargin
+
+    getParagraph(0) mustBe expectedText
+  }
+
   def assertParagraphDescribesTemplateDataErrors(): Unit = {
     val expectedText =
       """Review and correct the errors in your template before you upload another file. We only display the first 50 rows where there is an error. Read guidance on how to complete the submission template (opens in new tab)""".stripMargin

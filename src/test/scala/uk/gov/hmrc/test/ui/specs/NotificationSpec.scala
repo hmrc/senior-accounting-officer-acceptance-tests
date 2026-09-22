@@ -479,12 +479,14 @@ class NotificationSpec extends BaseSpec {
       closeCurrentTab()
       assertOnPage(UploadSubmissionTemplatePage)
 
-      And("the 'Continue' button is clicked after choosing a file with 'no company data' in the upload file")
-      UploadSubmissionTemplatePage.upload(NoCompanyDataFile)
+      And("the 'Continue' button is clicked after choosing a file with 'no information' in the upload file")
+      UploadSubmissionTemplatePage.upload(NoInformationFile)
 
-      Then("the user lands on the 'There is a problem with your submission template file' error page")
+      Then(
+        "the user lands on the 'There is a problem with your submission template file' with no information error page"
+      )
       assertOnPage(UploadTemplateErrorPage)
-      UploadTemplateErrorPage.assertParagraphDescribesInvalidTemplateError()
+      UploadTemplateErrorPage.assertParagraphDescribesNoInformationTemplateError()
 
       When(
         "the 'Download a submission template and read guidance on how to complete it (opens in new tab)' link is clicked"
@@ -502,11 +504,11 @@ class NotificationSpec extends BaseSpec {
       SubmissionTemplateGuidancePage.assertDownloadSubmissionTemplateLinkFound()
 
       When(
-        "the user closes the active tab and returns to the 'There is a problem with your submission template file' page tab"
+        "the user closes the active tab and returns to the 'There is a problem with your submission template file' with no information error page tab"
       )
       closeCurrentTab()
       assertOnPage(UploadTemplateErrorPage)
-      UploadTemplateErrorPage.assertParagraphDescribesInvalidTemplateError()
+      UploadTemplateErrorPage.assertParagraphDescribesNoInformationTemplateError()
 
       And("the 'Upload a submission template' button is clicked")
       UploadTemplateErrorPage.clickSubmissionButton()
@@ -569,11 +571,13 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(SubmitNotificationStartPage)
       SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
       assertOnPage(UploadSubmissionTemplatePage)
-      UploadSubmissionTemplatePage.upload(NoCompanyDataFile)
+      UploadSubmissionTemplatePage.upload(NoInformationFile)
 
-      And("the user lands on the 'There is a problem with your submission template file' page")
+      And(
+        "the user lands on the 'There is a problem with your submission template file' with no information error page"
+      )
       assertOnPage(UploadTemplateErrorPage)
-      UploadTemplateErrorPage.assertParagraphDescribesInvalidTemplateError()
+      UploadTemplateErrorPage.assertParagraphDescribesNoInformationTemplateError()
 
       And("the 'Upload a submission template' button is clicked")
       UploadTemplateErrorPage.clickSubmissionButton()
