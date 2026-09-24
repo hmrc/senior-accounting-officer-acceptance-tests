@@ -27,7 +27,7 @@ object HaveYouAddedAllContactsPage
     with ErrorMessageSupport {
   override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details/first/add-another"
   override val pageTitle: String =
-    "Add another contact - Contact details - Senior Accounting Officer notification and certificate - GOV.UK"
+    "First contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 
   override val yesRadioButton: By = By.id("value_0")
 
