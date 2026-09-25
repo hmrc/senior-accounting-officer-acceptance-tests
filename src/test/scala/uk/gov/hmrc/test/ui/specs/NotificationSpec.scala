@@ -139,6 +139,23 @@ class NotificationSpec extends BaseSpec {
     }
 
     Scenario(
+      "Error is displayed when additional information exceeds the character limit",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user is on the Additional Information page during a notification submission")
+      goToAdditionalInformationPageFromHomePage()
+
+      When("the user enters additional information exceeding the character limit and selects 'Continue'")
+      AdditionalInformationPage.addInformation(TestData.additionalInformationLimitExceeded)
+      AdditionalInformationPage.clickSubmissionButton()
+      assertPageWithError(AdditionalInformationPage)
+
+      Then("an error message is displayed")
+      AdditionalInformationPage.assertValidationErrorDisplayed(AdditionalInformationTooLongError)
+    }
+
+    Scenario(
       "When continuing with no additional information an error presents and is cleared on populating additional information and pressing continue",
       SubmissionUITests,
       ZapTests
@@ -151,7 +168,7 @@ class NotificationSpec extends BaseSpec {
       assertPageWithError(AdditionalInformationPage)
 
       Then("an error appears on screen")
-      AdditionalInformationPage.assertErrorSummaryDisplayed()
+      AdditionalInformationPage.assertValidationErrorDisplayed(MissingAdditionalInformationError)
 
       And(
         "on continuing after adding additional information the text added is displayed on the 'Check Your Answers' page"
@@ -177,7 +194,7 @@ class NotificationSpec extends BaseSpec {
       assertPageWithError(AdditionalInformationPage)
 
       Then("an error appears on screen")
-      AdditionalInformationPage.assertErrorSummaryDisplayed()
+      AdditionalInformationPage.assertValidationErrorDisplayed(MissingAdditionalInformationError)
 
       And("on pressing 'Skip', 'Not provided' value is displayed on the 'Check Your Answers' page")
       AdditionalInformationPage.clickSkipButton()
@@ -301,7 +318,7 @@ class NotificationSpec extends BaseSpec {
 
       Then("on pressing 'Continue' an error appears on screen")
       AdditionalInformationPage.clickSubmissionButton()
-      AdditionalInformationPage.assertErrorSummaryDisplayed()
+      AdditionalInformationPage.assertValidationErrorDisplayed(MissingAdditionalInformationError)
     }
 
     Scenario(
