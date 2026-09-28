@@ -892,7 +892,7 @@ class NotificationSpec extends BaseSpec {
       MultiSaoAreAllAddedPage.clickSubmissionButton()
 
       Then("an error appears on screen")
-      MultiSaoAreAllAddedPage.assertErrorSummaryDisplayed()
+      MultiSaoAreAllAddedPage.assertValidationErrorDisplayed(NoElementChosenMultiSaoAreAllAddedError)
 
       When("the 'Continue' button is clicked after selecting 'Yes'")
       MultiSaoAreAllAddedPage.clickYesRadioButton()
