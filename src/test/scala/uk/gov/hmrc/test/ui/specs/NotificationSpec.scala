@@ -106,6 +106,27 @@ class NotificationSpec extends BaseSpec {
     }
 
     Scenario(
+      "An upload notification data file exceeding the size limit is rejected",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user provides details for a single SAO in a notification submission")
+      assertOnPage(AccountHomePage)
+      AccountHomePage.clickMakeSubmissionLink()
+      assertOnPage(SubmissionTypePage)
+      SubmissionTypePage.clickNotificationRadioButton()
+      SubmissionTypePage.clickSubmissionButton()
+      assertOnPage(SubmitNotificationStartPage)
+      provideSingleSaoDetailsFromStartPage(TestData.firstPersonName)
+
+      When("A submission template containing notification data that exceeds the allowed size is uploaded")
+      SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+      assertOnPage(UploadSubmissionTemplatePage)
+      UploadSubmissionTemplatePage.upload(TooLargeDataFile)
+      UploadSubmissionTemplatePage.assertValidationErrorDisplayed(FileSizeExceededError)
+    }
+
+    Scenario(
       "A user can submit a notification successfully when additional information is added and not changed",
       SubmissionUITests,
       ZapTests

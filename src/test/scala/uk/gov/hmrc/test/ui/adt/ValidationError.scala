@@ -17,6 +17,10 @@
 package uk.gov.hmrc.test.ui.adt
 
 enum ValidationError(val errorMessage: String) {
+  case FileSizeExceededError
+      extends ValidationError(
+        "The selected file could not be uploaded. Check it is a CSV, smaller than 10MB and try again"
+      )
   case InvalidFileTypeError extends ValidationError("The selected file must be a CSV")
   case InfectedFileError    extends ValidationError("The selected file contains a virus")
   case UnknownUploadError   extends ValidationError("The selected file could not be uploaded – try again")

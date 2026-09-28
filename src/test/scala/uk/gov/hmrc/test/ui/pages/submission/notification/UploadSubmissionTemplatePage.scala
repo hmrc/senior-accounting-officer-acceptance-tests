@@ -73,6 +73,7 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
 
   private def getExpectedLandingPageHeading(file: UploadFile): String = file match {
     case InvalidQualificationFile                            => UploadTemplateErrorPage.pageHeadingText
+    case TooLargeDataFile                                    => pageHeadingText
     case InvalidTypeFile                                     => pageHeadingText
     case InfectedFile                                        => pageHeadingText
     case UnknownErrorFile                                    => pageHeadingText
