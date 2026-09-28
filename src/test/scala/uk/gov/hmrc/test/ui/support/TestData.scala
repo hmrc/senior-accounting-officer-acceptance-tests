@@ -39,10 +39,11 @@ object TestData {
     options(Random.nextInt(options.length))
   }
 
-  val minimumNameCharacterLimit: String   = "N"
-  val maximumNameCharacterLimit: String   = name.take(105)
-  val nameCharacterLimitExceeded: String  = name.take(106)
-  val emailCharacterLimitExceeded: String =
+  val minimumNameCharacterLimit: String          = "N"
+  val maximumNameCharacterLimit: String          = name.take(105)
+  val nameCharacterLimitExceeded: String         = name.take(106)
+  val additionalInformationLimitExceeded: String = (name * 100).take(5001)
+  val emailCharacterLimitExceeded: String        =
     "example-test-attftffioiuoiuoiuoiuuoiuoiuoikjjfiytdiyvkhhjgvkooooooooooooooooooooooooooockvjhvliyufovyufkuyfjh" +
       "gfkjyfovy8vyvo87g8giugouyfiytduiyrd6irds@oooooooooooooooooooooooooyvoutfoutdiytdiytitfiy5dtiydctiytdiytdi7t" +
       "do7tudo7futdyfouyfjuyfo7ufuoyfjouyf.com"
