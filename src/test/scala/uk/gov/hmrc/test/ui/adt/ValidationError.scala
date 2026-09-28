@@ -53,4 +53,6 @@ enum ValidationError(val errorMessage: String) {
       extends ValidationError("Enter information about your notification, or select skip if there’s nothing to add")
   case AdditionalInformationTooLongError
       extends ValidationError("Additional information about your notification must be 5000 characters or less")
+  case NoElementChosenMultiSaoAreAllAddedError
+      extends ValidationError("Select yes if you have added all the SAOs for this notification")
 }
