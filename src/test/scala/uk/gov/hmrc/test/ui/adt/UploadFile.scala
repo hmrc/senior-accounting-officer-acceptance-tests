@@ -20,6 +20,7 @@ enum UploadFile(val filename: String) {
   case FourCompaniesFile        extends UploadFile("sao-template-4-companies.csv")
   case InvalidQualificationFile extends UploadFile("sao-template-invalid-qualification.csv")
   case InvalidTypeFile          extends UploadFile("invalid.REASON.csv")
+  case TooLargeDataFile         extends UploadFile("sao-template-more-than-10MB-data.csv")
   case InfectedFile             extends UploadFile("infected.VIRUS_NAME.csv")
   case UnknownErrorFile         extends UploadFile("unknown.REASON.csv")
   case RejectedFile             extends UploadFile("reject.UnexpectedContent.csv")
