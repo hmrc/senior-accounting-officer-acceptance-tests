@@ -573,6 +573,12 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'SAO email' page")
       assertOnPage(CertificateSaoEmailPage)
 
+      When("the user clicks 'Continue' after landing at SAO email page")
+      CertificateSaoEmailPage.clickSubmissionButton()
+
+      Then("an error message is displayed")
+      CertificateSaoEmailPage.assertValidationErrorDisplayed(MissingSAOEmailForCertificateError)
+
       And("the page heading displays the correct SAO name")
       CertificateSaoEmailPage.assertHeadingMatches(s"What is the email address for ${TestData.firstPersonName}?")
 
@@ -581,7 +587,7 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoEmailPage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      CertificateSaoEmailPage.assertErrorSummaryDisplayed()
+      CertificateSaoEmailPage.assertValidationErrorDisplayed(InvalidEmailError)
 
       When("the user enters a valid SAO email and clicks 'Continue'")
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
@@ -637,7 +643,7 @@ class CertificateSpec extends BaseSpec {
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      CertificateWhoIsSubmittingPage.assertErrorSummaryDisplayed()
+      CertificateWhoIsSubmittingPage.assertValidationErrorDisplayed(NoElementChosenWhoIsSubmittingError)
 
       When("the user clicks 'Continue' after selecting the SAO submitter radio option")
       CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
@@ -912,6 +918,26 @@ class CertificateSpec extends BaseSpec {
 
       Then("an error is shown")
       CertificateDeclarationSaoPage.assertValidationErrorDisplayed(SAONameTooLongError)
+    }
+
+    Scenario(
+      "Validate error when SAO email authorised to submit the certificate exceeds 254 characters",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
+      navigateToCertificateStartPage()
+
+      And("the user enters a SAO email details exceeding 254 characters")
+      CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
+      CertificateSaoFullNamePage.addName(TestData.firstPersonName)
+      CertificateSaoFullNamePage.clickSubmissionButton()
+      assertOnPage(CertificateSaoEmailPage)
+      CertificateSaoEmailPage.addEmail(TestData.emailCharacterLimitExceeded)
+      CertificateSaoEmailPage.clickSubmissionButton()
+
+      Then("an error is shown")
+      CertificateSaoEmailPage.assertValidationErrorDisplayed(emailCharacterLimitExceededError)
     }
 
     Scenario(
