@@ -49,7 +49,7 @@ enum ValidationError(val errorMessage: String) {
       extends ValidationError("Enter the name of the SAO responsible for the certificate")
   case MissingAuthorisedSAONameToSubmitError
       extends ValidationError("Enter the name of the SAO authorised to submit the certificate")
-  case MissingSAOEmailForCertificateError extends ValidationError("Enter the email address of the SAO")
+  case MissingSaoEmailForCertificateError extends ValidationError("Enter the email address of the SAO")
   case MissingAdditionalInformationError
       extends ValidationError("Enter information about your notification, or select skip if there’s nothing to add")
   case AdditionalInformationTooLongError
