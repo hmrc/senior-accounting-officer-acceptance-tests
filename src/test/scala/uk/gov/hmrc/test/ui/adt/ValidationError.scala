@@ -19,7 +19,10 @@ package uk.gov.hmrc.test.ui.adt
 enum ValidationError(val errorMessage: String) {
   case InvalidFileTypeError extends ValidationError("The selected file must be a CSV")
   case InfectedFileError    extends ValidationError("The selected file contains a virus")
-  case UnknownUploadError   extends ValidationError("The selected file could not be uploaded – try again")
+  case UnknownUploadError
+      extends ValidationError(
+        "The selected file could not be uploaded. Check it is a CSV, smaller than 10MB and try again"
+      )
   case InvalidEmailError extends ValidationError("Email address must be in the correct format, like name@example.com")
   case MissingEmailError extends ValidationError("Enter the email address of a person or team")
   case emailCharacterLimitExceededError extends ValidationError("Email address must be 254 characters or less")
