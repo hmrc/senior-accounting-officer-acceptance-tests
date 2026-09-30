@@ -67,4 +67,6 @@ enum ValidationError(val errorMessage: String) {
       extends ValidationError("Select yes if you have added all the SAOs for this notification")
   case NoElementChosenWhoIsSubmittingError extends ValidationError("Select who is submitting the certificate")
   case NoSubmissionTypeChosenToSubmit      extends ValidationError("Select what you would like to submit")
+  case NoOptionChosenIfSaoChangedError
+      extends ValidationError("Select yes, if the SAO changed during the financial year you are submitting for")
 }
