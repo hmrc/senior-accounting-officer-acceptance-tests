@@ -52,6 +52,8 @@ enum ValidationError(val errorMessage: String) {
   case MissingPreviousSAOEndDateError         extends ValidationError("Enter the date Jock B stopped being the SAO")
   case InvalidPreviousSAOEndDateError         extends ValidationError("End date of the SAO must be a real date")
   case PreviousSAOEndDateMustBeInThePastError extends ValidationError("End date of the SAO must be in the past")
+  case PreviousSAOEndDateBeforeStartDateError
+      extends ValidationError("The end date must be the same as or after the start date")
   case MissingSAONameForCertificateError
       extends ValidationError("Enter the name of the SAO responsible for the certificate")
   case MissingAuthorisedSAONameToSubmitError
@@ -64,5 +66,5 @@ enum ValidationError(val errorMessage: String) {
   case NoElementChosenMultiSaoAreAllAddedError
       extends ValidationError("Select yes if you have added all the SAOs for this notification")
   case NoElementChosenWhoIsSubmittingError extends ValidationError("Select who is submitting the certificate")
-  case NoSubmissionTypeChosenToSubmit extends ValidationError("Select what you would like to submit")
+  case NoSubmissionTypeChosenToSubmit      extends ValidationError("Select what you would like to submit")
 }
