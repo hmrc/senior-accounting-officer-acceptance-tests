@@ -381,6 +381,7 @@ class CertificateSpec extends BaseSpec {
 
     Scenario(
       "Attempting to upload unacceptable submission template files to Upscan returns the appropriate error",
+      CertificateUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -854,7 +855,8 @@ class CertificateSpec extends BaseSpec {
 
     Scenario(
       "Validate error when SAO name responsible for Certificate contains invalid characters",
-      RegistrationUITests,
+      CertificateUITests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given("the user lands on the 'submit a certificate SAO full name' page")
@@ -872,7 +874,8 @@ class CertificateSpec extends BaseSpec {
 
     Scenario(
       "Validate error when SAO name responsible for Certificate exceeds 105 characters",
-      RegistrationUITests,
+      CertificateUITests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given("the user lands on the 'submit a certificate SAO full name' page")
@@ -890,7 +893,8 @@ class CertificateSpec extends BaseSpec {
 
     Scenario(
       "Validate error when SAO name authorised to submit the certificate contains invalid characters",
-      RegistrationUITests,
+      CertificateUITests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given("the user lands on the 'submit certificate confirm SAO' page")
@@ -906,7 +910,8 @@ class CertificateSpec extends BaseSpec {
 
     Scenario(
       "Validate error when SAO name authorised to submit the certificate exceeds 105 characters",
-      RegistrationUITests,
+      CertificateUITests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given("the user lands on the 'submit certificate confirm SAO' page")
@@ -922,7 +927,8 @@ class CertificateSpec extends BaseSpec {
 
     Scenario(
       "Validate error when SAO email authorised to submit the certificate exceeds 254 characters",
-      RegistrationUITests,
+      CertificateUITests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
@@ -942,7 +948,8 @@ class CertificateSpec extends BaseSpec {
 
     Scenario(
       "Validate errors when Authorised Person submits the certificate",
-      RegistrationUITests,
+      CertificateUITests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given("the user lands on the 'submit certificate confirm SAO' page")
