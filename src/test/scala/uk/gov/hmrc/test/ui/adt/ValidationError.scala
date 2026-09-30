@@ -23,7 +23,10 @@ enum ValidationError(val errorMessage: String) {
       )
   case InvalidFileTypeError extends ValidationError("The selected file must be a CSV")
   case InfectedFileError    extends ValidationError("The selected file contains a virus")
-  case UnknownUploadError   extends ValidationError("The selected file could not be uploaded – try again")
+  case UnknownUploadError
+      extends ValidationError(
+        "The selected file could not be uploaded. Check it is a CSV, smaller than 10MB and try again"
+      )
   case InvalidEmailError extends ValidationError("Email address must be in the correct format, like name@example.com")
   case MissingEmailError extends ValidationError("Enter the email address of a person or team")
   case emailCharacterLimitExceededError extends ValidationError("Email address must be 254 characters or less")
@@ -53,11 +56,13 @@ enum ValidationError(val errorMessage: String) {
       extends ValidationError("Enter the name of the SAO responsible for the certificate")
   case MissingAuthorisedSAONameToSubmitError
       extends ValidationError("Enter the name of the SAO authorised to submit the certificate")
+  case MissingSaoEmailForCertificateError extends ValidationError("Enter the email address of the SAO")
   case MissingAdditionalInformationError
       extends ValidationError("Enter information about your notification, or select skip if there’s nothing to add")
   case AdditionalInformationTooLongError
       extends ValidationError("Additional information about your notification must be 5000 characters or less")
   case NoElementChosenMultiSaoAreAllAddedError
       extends ValidationError("Select yes if you have added all the SAOs for this notification")
+  case NoElementChosenWhoIsSubmittingError extends ValidationError("Select who is submitting the certificate")
   case NoSubmissionTypeChosenToSubmit extends ValidationError("Select what you would like to submit")
 }
