@@ -745,7 +745,7 @@ class NotificationSpec extends BaseSpec {
       PreviousSaoEndDatePage.clickSubmissionButton()
 
       Then("an error message is displayed")
-      PreviousSaoEndDatePage.assertValidationErrorDisplayed(PreviousSAOEndDateBeforeStartDateError)
+      PreviousSaoEndDatePage.assertValidationErrorDisplayed(PreviousSaoEndDateBeforeStartDateError)
 
       When("the 'Continue' button is clicked after adding a date 65 days in the past")
       PreviousSaoEndDatePage.addDate(LocalDate.now().minusDays(65))
