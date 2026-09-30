@@ -27,7 +27,7 @@ object UploadCertificateDeclarationStandInPage extends CommonPage with Submissio
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/declaration-stand-in"
 
   override val pageTitle: String = {
-    "Confirm the certificate - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Declaration - Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
   }
 
   override def clickSubmissionButton(): Unit = {
