@@ -18,6 +18,7 @@ package uk.gov.hmrc.test.ui.specs
 
 import org.scalatest.*
 import uk.gov.hmrc.test.ui.adt.AffinityGroup.Organisation
+import uk.gov.hmrc.test.ui.adt.ValidationError.NoSubmissionTypeChosenToSubmit
 import uk.gov.hmrc.test.ui.pages.submission.{SubmissionTemplateGuidancePage, SubmissionTypePage}
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
@@ -79,6 +80,25 @@ class HomepageSpec extends BaseSpec {
 
       Then("the user is taken to the 'submission-type' page")
       assertOnPage(SubmissionTypePage)
+    }
+
+    Scenario(
+      "Validate 'what you would like to submit' error on 'Submission Type' page",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("the user is on the 'submission-type' page")
+      assertOnPage(AccountHomePage)
+      AccountHomePage.clickGetSubmissionTemplateLink()
+      assertOnPage(SubmissionTemplateGuidancePage)
+      SubmissionTemplateGuidancePage.clickSubmissionButton()
+      assertOnPage(SubmissionTypePage)
+
+      When("user click on 'Continue' button without selecting any options on 'Submission Type' page")
+      SubmissionTypePage.clickSubmissionButton()
+
+      Then("error message should be displayed as 'Select what you would like to submit'")
+      SubmissionTypePage.assertValidationErrorDisplayed(NoSubmissionTypeChosenToSubmit)
     }
   }
 }
