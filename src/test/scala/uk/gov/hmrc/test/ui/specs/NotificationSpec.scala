@@ -699,6 +699,14 @@ class NotificationSpec extends BaseSpec {
       Given("an authenticated user lands on the 'More than one SAO' page")
       goToMoreThanOneSaoPageFromHomePage()
 
+      When("the 'Continue' button is clicked without selecting any options")
+      MoreThanOneSaoPage.clickSubmissionButton()
+
+      Then(
+        "error message 'Select yes, if the SAO changed during the financial year you are submitting for' is displayed"
+      )
+      MoreThanOneSaoPage.assertValidationErrorDisplayed(NoOptionChosenIfSaoChangedError)
+
       When("the 'Continue' button is clicked after selecting 'Yes'")
       MoreThanOneSaoPage.clickYesRadioButton()
       MoreThanOneSaoPage.clickSubmissionButton()
@@ -806,11 +814,13 @@ class NotificationSpec extends BaseSpec {
       Given("an authenticated user lands on the 'More than one SAO' page")
       goToMoreThanOneSaoPageFromHomePage()
 
-      When("the 'Continue' button is clicked after selecting no radio options")
+      When("the 'Continue' button is clicked without selecting any options")
       MoreThanOneSaoPage.clickSubmissionButton()
 
-      Then("an error message is displayed")
-      MoreThanOneSaoPage.assertErrorSummaryDisplayed()
+      Then(
+        "an error message 'Select yes, if the SAO changed during the financial year you are submitting for' is displayed"
+      )
+      MoreThanOneSaoPage.assertValidationErrorDisplayed(NoOptionChosenIfSaoChangedError)
 
       When("the 'Continue' button is clicked after the 'No' radio button is selected")
       MoreThanOneSaoPage.clickNoRadioButton()
