@@ -29,7 +29,7 @@ object UploadReviewQualifiedPage extends CommonPage with SubmissionButtonSupport
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateReviewQualified"
 
   override val pageTitle: String = {
-    "Review the companies with a qualified certificate - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Review the companies with a qualified certificate - Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
   }
 
   val pageContentElement: By        = By.className("govuk-grid-column-two-thirds")
@@ -47,7 +47,7 @@ object UploadReviewQualifiedPage extends CommonPage with SubmissionButtonSupport
 
   def assertFirstParagraphMatches(totalCompanyCount: Int): Unit = {
     val expectedText = s"This list is from the certificate details in your submission template. " +
-      s"There were $totalCompanyCount companies your SAO was responsible for in a previous financial year."
+      s"There were $totalCompanyCount companies the SAO was responsible for in a previous financial year."
 
     getParagraph(paragraphIndex = 0) mustBe expectedText
   }

@@ -28,7 +28,7 @@ object AdditionalInformationPage extends CommonPage with SubmissionButtonSupport
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateAdditionalInformation"
 
   override val pageTitle: String =
-    "Additional information and explanation - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Additional information about your certificate - Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/changeCertificateAdditionalInformation"
