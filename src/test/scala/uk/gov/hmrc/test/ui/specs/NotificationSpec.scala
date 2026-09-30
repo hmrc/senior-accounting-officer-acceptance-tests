@@ -740,6 +740,13 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(PreviousSaoEndDatePage)
       PreviousSaoEndDatePage.assertHeadingMatches("When did Gert Bo stop being the SAO?")
 
+      When("the user enters an end date that is one day before the start date")
+      PreviousSaoEndDatePage.addDate(LocalDate.now().minusDays(91))
+      PreviousSaoEndDatePage.clickSubmissionButton()
+
+      Then("an error message is displayed")
+      PreviousSaoEndDatePage.assertValidationErrorDisplayed(PreviousSaoEndDateBeforeStartDateError)
+
       When("the 'Continue' button is clicked after adding a date 65 days in the past")
       PreviousSaoEndDatePage.addDate(LocalDate.now().minusDays(65))
       PreviousSaoEndDatePage.clickSubmissionButton()
