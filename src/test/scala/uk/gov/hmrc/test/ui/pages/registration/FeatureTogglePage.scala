@@ -29,11 +29,23 @@ object FeatureTogglePage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String   = s"${RegistrationPage.pageUrl}/test-only/feature-toggle"
   override val pageTitle: String = ""
 
-  private val stubGrsCheckbox: By = By.id("stubGrs")
+  private val stubGrsCheckbox: By               = By.id("stubGrs")
+  private val reshuffledContactFlowCheckbox: By = By.id("contactFlowReshuffle")
 
   def setGrsHost(grsHost: GrsHost): Unit = {
     loadPage()
     setStubGrs(isChecked = grsHost.isStubGrsChecked)
+    FeatureTogglePage.clickSubmissionButton()
+  }
+
+  def setReshuffledContactFlow(isEnabled: Boolean): Unit = {
+    loadPage()
+    val checkboxElement = driver.findElement(reshuffledContactFlowCheckbox)
+
+    if checkboxElement.isSelected != isEnabled then {
+      checkboxElement.click()
+    }
+
     FeatureTogglePage.clickSubmissionButton()
   }
 
