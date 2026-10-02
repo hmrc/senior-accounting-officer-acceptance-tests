@@ -31,7 +31,7 @@ object CertificateDeclarationSaoPage
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/submit-certificate-confirm-sao"
 
   override val pageTitle: String =
-    "Confirm the certificate - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Declaration - Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/change-submit-certificate-confirm-sao"

@@ -24,8 +24,11 @@ import uk.gov.hmrc.test.ui.adt.{CertificateTaskListSection, PageSectionStatus}
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.BasePage
 import uk.gov.hmrc.test.ui.pages.StaticTitle
+import uk.gov.hmrc.test.ui.pages.submission.certificate.ConfirmationPage.host
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
+
+import java.util.regex.Pattern
 
 object CertificateTaskListPage extends BasePage with StaticTitle with SubmissionButtonSupport {
 
@@ -35,6 +38,7 @@ object CertificateTaskListPage extends BasePage with StaticTitle with Submission
       statusLocator: By,
       statusHighlightLocator: By
   )
+  val host = TestConfiguration.url("senior-accounting-officer-submission-frontend")
 
   val taskListOnePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/1"
@@ -48,8 +52,9 @@ object CertificateTaskListPage extends BasePage with StaticTitle with Submission
   val taskListThreePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/3"
 
-  val taskListCompletePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/complete"
+  val taskListCompletePageUrlRegEx: String =
+    s"^${Pattern.quote(host)}/certificate/task-list/complete?certificateReference=(CRT[0-9]{10})$$"
+//    s"${}/certificate/task-list/complete?certificateReference=CRT0005714781"
 
   private def statusLocator(id: String): By          = By.cssSelector(s"#$id-status")
   private def statusHighlightLocator(id: String): By = By.cssSelector(s"#$id-status .govuk-tag.govuk-tag--blue")
@@ -114,6 +119,10 @@ object CertificateTaskListPage extends BasePage with StaticTitle with Submission
       attribute = "class",
       expectedText = "govuk-tag govuk-tag--blue"
     )
+  }
+  
+  def assertUrl(): Unit = {
+    
   }
 
   def assertTaskListSectionStatus(section: CertificateTaskListSection, expectedStatus: PageSectionStatus): Unit = {
