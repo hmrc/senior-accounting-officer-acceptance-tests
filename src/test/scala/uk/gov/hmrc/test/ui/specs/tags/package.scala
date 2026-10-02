@@ -24,4 +24,5 @@ package object tags {
   object SoloTests           extends Tag("SoloTests")
   object RegistrationUITests extends Tag("RegistrationUITests")
   object CertificateUITests  extends Tag("CertificateUITests")
+  object NotificationUITests extends Tag("NotificationUITests")
 }
