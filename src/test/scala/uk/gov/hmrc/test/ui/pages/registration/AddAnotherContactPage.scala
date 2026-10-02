@@ -20,14 +20,14 @@ import org.openqa.selenium.By
 import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport, YesNoRadioButtonSupport}
 
-object HaveYouAddedAllContactsPage
+object AddAnotherContactPage
     extends CommonPage
     with SubmissionButtonSupport
     with YesNoRadioButtonSupport
     with ErrorMessageSupport {
   override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details/first/add-another"
   override val pageTitle: String =
-    "First contact details - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Add another contact - Contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 
   override val yesRadioButton: By = By.id("value_0")
 
