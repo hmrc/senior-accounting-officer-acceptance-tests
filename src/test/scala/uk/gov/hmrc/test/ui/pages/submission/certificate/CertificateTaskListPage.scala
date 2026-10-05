@@ -22,9 +22,7 @@ import org.scalatest.AppendedClues.convertToClueful
 import uk.gov.hmrc.test.ui.adt.CertificateTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.{CertificateTaskListSection, PageSectionStatus}
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.pages.StaticTitle
-import uk.gov.hmrc.test.ui.pages.submission.certificate.ConfirmationPage.host
+import uk.gov.hmrc.test.ui.pages.{BasePage, StaticTitle}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
@@ -38,7 +36,7 @@ object CertificateTaskListPage extends BasePage with StaticTitle with Submission
       statusLocator: By,
       statusHighlightLocator: By
   )
-  val host = TestConfiguration.url("senior-accounting-officer-submission-frontend")
+  val host: String = TestConfiguration.url("senior-accounting-officer-submission-frontend")
 
   val taskListOnePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/1"
@@ -53,8 +51,7 @@ object CertificateTaskListPage extends BasePage with StaticTitle with Submission
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/3"
 
   val taskListCompletePageUrlRegEx: String =
-    s"^${Pattern.quote(host)}/certificate/task-list/complete?certificateReference=(CRT[0-9]{10})$$"
-//    s"${}/certificate/task-list/complete?certificateReference=CRT0005714781"
+    s"^${Pattern.quote(host)}/certificate/task-list/complete\\?certificateReference=(CRT[0-9]{10})$$"
 
   private def statusLocator(id: String): By          = By.cssSelector(s"#$id-status")
   private def statusHighlightLocator(id: String): By = By.cssSelector(s"#$id-status .govuk-tag.govuk-tag--blue")
@@ -120,9 +117,9 @@ object CertificateTaskListPage extends BasePage with StaticTitle with Submission
       expectedText = "govuk-tag govuk-tag--blue"
     )
   }
-  
-  def assertUrl(): Unit = {
-    
+
+  def assertCompleteUrl(): Unit = {
+    fluentWait.until(ExpectedConditions.urlMatches(taskListCompletePageUrlRegEx))
   }
 
   def assertTaskListSectionStatus(section: CertificateTaskListSection, expectedStatus: PageSectionStatus): Unit = {
@@ -131,4 +128,5 @@ object CertificateTaskListPage extends BasePage with StaticTitle with Submission
     statusElement.getText.trim mustBe expectedStatus.toString withClue
       s"Expected a status of '$expectedStatus' for the '$section' section, but found '${statusElement.getText}'"
   }
+
 }

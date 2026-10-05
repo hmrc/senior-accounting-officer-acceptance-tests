@@ -169,7 +169,7 @@ class CertificateSpec extends BaseSpec {
       CheckYourAnswersPage.clickSubmissionButton()
 
       Then("the user lands on the 'Certificate Task List'")
-      CertificateTaskListPage.assertUrl()
+      CertificateTaskListPage.assertCompleteUrl()
 
       When("user clicks on 'View your confirmation'")
       CertificateTaskListPage.clickSubmissionButton()
@@ -271,7 +271,7 @@ class CertificateSpec extends BaseSpec {
       CheckYourAnswersPage.clickSubmissionButton()
 
       Then("the user lands on the 'Certificate Task List'")
-      CertificateTaskListPage.assertUrl()
+      CertificateTaskListPage.assertCompleteUrl()
 
       When("user clicks on 'View your confirmation'")
       CertificateTaskListPage.clickSubmissionButton()
