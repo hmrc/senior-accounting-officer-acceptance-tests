@@ -630,8 +630,10 @@ class CertificateSpec extends BaseSpec {
       When("pressing continue without providing additional information")
       AdditionalInformationPage.clickSubmissionButton()
 
-      Then("an error appears on screen")
-      AdditionalInformationPage.assertErrorSummaryDisplayed()
+      Then(
+        "an error message 'Enter information about your certificate, or select skip if there’s nothing to add' is displayed"
+      )
+      AdditionalInformationPage.assertValidationErrorDisplayed(MissingCertificateAdditionalInformationError)
 
       When("the user clicks 'Continue' after adding additional information")
       AdditionalInformationPage.addInformation("No additional information for this certificate")
@@ -944,6 +946,25 @@ class CertificateSpec extends BaseSpec {
 
       Then("an error is shown")
       CertificateSaoEmailPage.assertValidationErrorDisplayed(emailCharacterLimitExceededError)
+    }
+
+    Scenario(
+      "Error is displayed when additional information exceeds the character limit",
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user is on the Additional Information page during a certificate submission")
+      goToAdditionalInformationPageFromHomePage()
+
+      When("the user enters additional information exceeding the character limit and selects 'Continue'")
+      AdditionalInformationPage.addInformation(TestData.additionalInformationLimitExceeded)
+      AdditionalInformationPage.clickSubmissionButton()
+      assertPageWithError(AdditionalInformationPage)
+
+      Then(
+        "an error message 'Additional information about your certificate must be 5000 characters or less' is displayed"
+      )
+      AdditionalInformationPage.assertValidationErrorDisplayed(CertificateAdditionalInformationTooLongError)
     }
 
     Scenario(

@@ -178,7 +178,7 @@ class NotificationSpec extends BaseSpec {
       assertPageWithError(AdditionalInformationPage)
 
       Then("an error message is displayed")
-      AdditionalInformationPage.assertValidationErrorDisplayed(AdditionalInformationTooLongError)
+      AdditionalInformationPage.assertValidationErrorDisplayed(NotificationAdditionalInformationTooLongError)
     }
 
     Scenario(
@@ -195,7 +195,7 @@ class NotificationSpec extends BaseSpec {
       assertPageWithError(AdditionalInformationPage)
 
       Then("an error appears on screen")
-      AdditionalInformationPage.assertValidationErrorDisplayed(MissingAdditionalInformationError)
+      AdditionalInformationPage.assertValidationErrorDisplayed(MissingNotificationAdditionalInformationError)
 
       And(
         "on continuing after adding additional information the text added is displayed on the 'Check Your Answers' page"
@@ -222,7 +222,7 @@ class NotificationSpec extends BaseSpec {
       assertPageWithError(AdditionalInformationPage)
 
       Then("an error appears on screen")
-      AdditionalInformationPage.assertValidationErrorDisplayed(MissingAdditionalInformationError)
+      AdditionalInformationPage.assertValidationErrorDisplayed(MissingNotificationAdditionalInformationError)
 
       And("on pressing 'Skip', 'Not provided' value is displayed on the 'Check Your Answers' page")
       AdditionalInformationPage.clickSkipButton()
@@ -351,7 +351,7 @@ class NotificationSpec extends BaseSpec {
 
       Then("on pressing 'Continue' an error appears on screen")
       AdditionalInformationPage.clickSubmissionButton()
-      AdditionalInformationPage.assertValidationErrorDisplayed(MissingAdditionalInformationError)
+      AdditionalInformationPage.assertValidationErrorDisplayed(MissingNotificationAdditionalInformationError)
     }
 
     Scenario(
