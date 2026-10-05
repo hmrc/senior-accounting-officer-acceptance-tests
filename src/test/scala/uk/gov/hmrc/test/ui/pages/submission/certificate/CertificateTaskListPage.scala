@@ -36,7 +36,7 @@ object CertificateTaskListPage extends BasePage with StaticTitle with Submission
       statusLocator: By,
       statusHighlightLocator: By
   )
-  val host = TestConfiguration.url("senior-accounting-officer-submission-frontend")
+  val host: String = TestConfiguration.url("senior-accounting-officer-submission-frontend")
 
   val taskListOnePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/1"
@@ -128,4 +128,5 @@ object CertificateTaskListPage extends BasePage with StaticTitle with Submission
     statusElement.getText.trim mustBe expectedStatus.toString withClue
       s"Expected a status of '$expectedStatus' for the '$section' section, but found '${statusElement.getText}'"
   }
+
 }
