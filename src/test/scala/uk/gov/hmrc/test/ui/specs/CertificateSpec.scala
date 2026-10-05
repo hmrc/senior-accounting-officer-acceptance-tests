@@ -168,40 +168,22 @@ class CertificateSpec extends BaseSpec {
       When("the user clicks 'Confirm and submit'")
       CheckYourAnswersPage.clickSubmissionButton()
 
+      Then("the user lands on the 'Certificate Task List'")
+      CertificateTaskListPage.assertCompleteUrl()
+
+      When("user clicks on 'View your confirmation'")
+      CertificateTaskListPage.clickSubmissionButton()
       Then("the user lands on the 'Confirmation' page")
       ConfirmationPage.assertUrl()
       assertPageTitle(ConfirmationPage.pageTitle)
       ConfirmationPage.assertReferenceNumberMatchesUrl()
 
       And("the expected 'download a pdf' and 'print this page' links are present")
-      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "Download a PDF")
-      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "Print this page")
+      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "download a PDF")
+      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "print this page")
 
       And("the 'download a pdf' link targets the certificate pdf download route")
       ConfirmationPage.assertDownloadPdfLinkTargetsPdf()
-
-      When("the 'Confirm and submit' button is clicked")
-      ConfirmationPage.clickSubmissionButton()
-
-      Then("the user returns to the 'Certificate Task List'")
-      assertUrl(CertificateTaskListPage.taskListCompletePageUrl)
-
-      And("the task list displays each element in the correct state with the correct status")
-      CertificateTaskListPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
-      CertificateTaskListPage.assertStatusNotHighlighted(ProvideSaoDetails)
-      CertificateTaskListPage.assertTaskListSectionNameIsNotHyperlink(ProvideSaoDetails)
-      CertificateTaskListPage.assertTaskListSectionStatus(UploadSubmissionTemplate, Completed)
-      CertificateTaskListPage.assertStatusNotHighlighted(UploadSubmissionTemplate)
-      CertificateTaskListPage.assertTaskListSectionNameIsNotHyperlink(UploadSubmissionTemplate)
-      CertificateTaskListPage.assertTaskListSectionStatus(SubmitCertificate, Completed)
-      CertificateTaskListPage.assertStatusNotHighlighted(SubmitCertificate)
-      CertificateTaskListPage.assertTaskListSectionNameIsNotHyperlink(SubmitCertificate)
-
-      When("the user clicks on 'Go back to homepage' button")
-      CertificateTaskListPage.clickSubmissionButton()
-
-      Then("user returns to the Account homepage")
-      assertOnPage(AccountHomePage)
     }
 
     Scenario(
@@ -288,20 +270,20 @@ class CertificateSpec extends BaseSpec {
       When("the user clicks 'Confirm and submit'")
       CheckYourAnswersPage.clickSubmissionButton()
 
+      Then("the user lands on the 'Certificate Task List'")
+      CertificateTaskListPage.assertCompleteUrl()
+
+      When("user clicks on 'View your confirmation'")
+      CertificateTaskListPage.clickSubmissionButton()
+
       Then("the user lands on the 'Confirmation' page")
       ConfirmationPage.assertUrl()
       assertPageTitle(ConfirmationPage.pageTitle)
       ConfirmationPage.assertReferenceNumberMatchesUrl()
 
       And("the expected 'download a pdf' and 'print this page' links are present")
-      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "Download a PDF")
-      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "Print this page")
-
-      When("the user clicks 'Confirm and submit'")
-      ConfirmationPage.clickSubmissionButton()
-
-      Then("the user returns to the 'Certificate Task List'")
-      assertUrl(CertificateTaskListPage.taskListCompletePageUrl)
+      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "download a PDF")
+      ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "print this page")
     }
 
     Scenario(

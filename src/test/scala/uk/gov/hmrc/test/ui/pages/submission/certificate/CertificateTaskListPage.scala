@@ -22,10 +22,11 @@ import org.scalatest.AppendedClues.convertToClueful
 import uk.gov.hmrc.test.ui.adt.CertificateTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.{CertificateTaskListSection, PageSectionStatus}
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.BasePage
-import uk.gov.hmrc.test.ui.pages.StaticTitle
+import uk.gov.hmrc.test.ui.pages.{BasePage, StaticTitle}
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
+
+import java.util.regex.Pattern
 
 object CertificateTaskListPage extends BasePage with StaticTitle with SubmissionButtonSupport {
 
@@ -35,6 +36,7 @@ object CertificateTaskListPage extends BasePage with StaticTitle with Submission
       statusLocator: By,
       statusHighlightLocator: By
   )
+  val host: String = TestConfiguration.url("senior-accounting-officer-submission-frontend")
 
   val taskListOnePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/1"
@@ -48,8 +50,8 @@ object CertificateTaskListPage extends BasePage with StaticTitle with Submission
   val taskListThreePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/3"
 
-  val taskListCompletePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/complete"
+  val taskListCompletePageUrlRegEx: String =
+    s"^${Pattern.quote(host)}/certificate/task-list/complete\\?certificateReference=(CRT[0-9]{10})$$"
 
   private def statusLocator(id: String): By          = By.cssSelector(s"#$id-status")
   private def statusHighlightLocator(id: String): By = By.cssSelector(s"#$id-status .govuk-tag.govuk-tag--blue")
@@ -116,10 +118,15 @@ object CertificateTaskListPage extends BasePage with StaticTitle with Submission
     )
   }
 
+  def assertCompleteUrl(): Unit = {
+    fluentWait.until(ExpectedConditions.urlMatches(taskListCompletePageUrlRegEx))
+  }
+
   def assertTaskListSectionStatus(section: CertificateTaskListSection, expectedStatus: PageSectionStatus): Unit = {
     val statusElement = new FluentWait(driver)
       .until(ExpectedConditions.visibilityOfElementLocated(taskListSections(section).statusLocator))
     statusElement.getText.trim mustBe expectedStatus.toString withClue
       s"Expected a status of '$expectedStatus' for the '$section' section, but found '${statusElement.getText}'"
   }
+
 }

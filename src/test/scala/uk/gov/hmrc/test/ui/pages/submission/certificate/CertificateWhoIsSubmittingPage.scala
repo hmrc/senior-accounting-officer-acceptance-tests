@@ -32,7 +32,7 @@ object CertificateWhoIsSubmittingPage
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate-who-is-submitting"
 
   override val pageTitle: String =
-    "Who is submitting the certificate? - Senior Accounting Officer notification and certificate - GOV.UK"
+    "Certificate submission and authorisation - Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/change-certificate-who-is-submitting"

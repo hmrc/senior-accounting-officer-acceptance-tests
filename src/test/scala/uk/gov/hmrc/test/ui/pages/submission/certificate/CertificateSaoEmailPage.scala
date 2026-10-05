@@ -27,7 +27,7 @@ object CertificateSaoEmailPage extends CommonPage with SubmissionButtonSupport w
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate-only/sao-email"
 
   override val pageTitle: String =
-    "What is the email address for the SAO? - Senior Accounting Officer notification and certificate - GOV.UK"
+    "What is the email address for the SAO? - Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val pageHeadingElement: By = By.cssSelector(".govuk-label-wrapper")
 
