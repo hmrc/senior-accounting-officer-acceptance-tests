@@ -43,6 +43,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Notification task list shows the correct initial state",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -68,6 +69,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Invalid certificate data in an upload file will not prevent a successful notification submission",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -107,6 +109,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "An upload notification data file exceeding the size limit is rejected",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -128,6 +131,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "A user can submit a notification successfully when additional information is added and not changed",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -161,6 +165,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Error is displayed when additional information exceeds the character limit",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -178,6 +183,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "When continuing with no additional information an error presents and is cleared on populating additional information and pressing continue",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -204,6 +210,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "When continuing with no additional information an error presents and is cleared on pressing 'Skip'",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -227,6 +234,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "When pressing 'Skip' with no additional information, no text is displayed on the 'Check Your Answers' page",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -245,6 +253,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "When pressing 'Skip' with additional information added, no text is displayed on the 'Check Your Answers' page",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -264,6 +273,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "When selecting to change additional information from the 'Check Your Answers' page the changes are persisted",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -291,6 +301,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "When selecting to change additional information from the 'Check Your Answers' page and when 'Skip' is pressed then the changes are not persisted",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -318,6 +329,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "When the existing additional information text is removed, post clicking the change link from 'CYA' page, then the error message is displayed",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -344,6 +356,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "When selecting to change SAO name from the 'Check Your Answers' page during a notification submission",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -372,6 +385,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "When changing the SAO name from the 'Check Your Answers' page during a notification submission, without making any changes to the name",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -401,6 +415,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Complete a notification providing details for a single SAO in the financial year",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -485,6 +500,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Access template guidance and the 'Download a submission template' link in the notification submission journey",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -579,6 +595,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Review uploaded company details and upload an updated notification submission",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -645,6 +662,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Attempting to upload unacceptable submission template files to Upscan returns the appropriate error",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -693,6 +711,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Complete a notification providing multiple SAO's for the financial year",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -808,6 +827,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Validate that SAO details are required for a notification submission given a single SAO in the financial year",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -845,6 +865,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Validate that SAO details are required for a notification submission given there are multiple SAO's in the financial year",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -942,6 +963,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Validate that 'dynamic' SAO details are retained on selecting the 'back link' during a notification submission",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -1003,7 +1025,8 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Validate error when SAO name with invalid characters",
-      RegistrationUITests,
+      NotificationUITests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given(
@@ -1024,7 +1047,8 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Validate error when SAO name exceeds 105 characters",
-      RegistrationUITests,
+      NotificationUITests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given(
@@ -1045,7 +1069,8 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Validate error when 'end of the financial year SAO name' with invalid characters",
-      RegistrationUITests,
+      NotificationUITests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given(
@@ -1066,7 +1091,8 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Validate error when 'end of the financial year SAO name' exceeds 105 characters",
-      RegistrationUITests,
+      NotificationUITests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given(
@@ -1087,7 +1113,8 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Validate error when 'Previous SAO name' contains invalid characters",
-      RegistrationUITests,
+      NotificationUITests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given(
@@ -1105,7 +1132,8 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Validate error when 'Previous SAO name' exceeds 105 characters",
-      RegistrationUITests,
+      NotificationUITests,
+      SubmissionUITests,
       ZapTests
     ) {
       Given(
@@ -1123,6 +1151,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Validate error when 'Last SAO start date' contains invalid characters",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -1145,6 +1174,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Validate error when 'Last SAO start date' contains today's or future date",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -1174,6 +1204,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Validate error when 'Previous SAO start date' contains invalid characters",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -1199,6 +1230,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Validate error when 'Previous SAO start date' contains today's or future date",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -1231,6 +1263,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Validate error when 'Previous SAO end date' contains invalid characters",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
@@ -1258,6 +1291,7 @@ class NotificationSpec extends BaseSpec {
 
     Scenario(
       "Validate error when 'Previous SAO end date' contains today's or future date",
+      NotificationUITests,
       SubmissionUITests,
       ZapTests
     ) {
