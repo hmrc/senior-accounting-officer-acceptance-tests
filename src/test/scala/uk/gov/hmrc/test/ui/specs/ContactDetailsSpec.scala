@@ -81,7 +81,7 @@ class ContactDetailsSpec extends BaseSpec {
         "the user navigates to the 'Add another contact' page using 'Do you want to add another contact' change link"
       )
       CheckYourAnswersPage.clickDoYouWantToAddAnotherContactChangeLink()
-      assertUrl(AddAnotherContactPage.changePageUrl)
+      assertUrl(AddAnotherContactPage.transactionPageUrl)
       AddAnotherContactPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
 
@@ -346,7 +346,7 @@ class ContactDetailsSpec extends BaseSpec {
         "the user navigates to the 'Add another contact' page using 'Do you want to add another contact' change link"
       )
       CheckYourAnswersPage.clickDoYouWantToAddAnotherContactChangeLink()
-      assertUrl(AddAnotherContactPage.changePageUrl)
+      assertUrl(AddAnotherContactPage.transactionPageUrl)
 
       And("the user not changed the original selection")
       AddAnotherContactPage.clickSubmissionButton()
@@ -394,7 +394,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user selects the 'Change' link for 'Do you want to add another contact'")
       CheckYourAnswersPage.clickDoYouWantToAddAnotherContactChangeLink()
-      assertUrl(AddAnotherContactPage.changePageUrl)
+      assertUrl(AddAnotherContactPage.transactionPageUrl)
 
       And("the user changes the selection from 'No' to 'Yes'")
       AddAnotherContactPage.clickYesRadioButton()
@@ -418,7 +418,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user selects the 'Change' link for 'Do you want to add another contact?'")
       CheckYourAnswersPage.clickDoYouWantToAddAnotherContactChangeLink()
-      assertUrl(AddAnotherContactPage.changePageUrl)
+      assertUrl(AddAnotherContactPage.transactionPageUrl)
 
       And("the user changes the selection from 'Yes' to 'No'")
       AddAnotherContactPage.clickNoRadioButton()
@@ -432,7 +432,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user selects the 'Change' link for 'Do you want to add another contact?'")
       CheckYourAnswersPage.clickDoYouWantToAddAnotherContactChangeLink()
-      assertUrl(AddAnotherContactPage.changePageUrl)
+      assertUrl(AddAnotherContactPage.transactionPageUrl)
 
       And("the user changes the selection from 'No' to 'Yes' for incomplete journey")
       AddAnotherContactPage.clickYesRadioButton()
