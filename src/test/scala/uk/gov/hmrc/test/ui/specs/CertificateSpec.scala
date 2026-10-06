@@ -525,8 +525,7 @@ class CertificateSpec extends BaseSpec {
       "Validate that mandatory details are required for a certification submission",
       CertificateUITests,
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user lands on the 'What would you like to submit?' page")
       assertOnPage(AccountHomePage)
