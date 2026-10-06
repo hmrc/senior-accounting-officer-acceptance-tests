@@ -28,7 +28,7 @@ import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.InternalAuthorisationSupport.setupInternalAuthorisation
 import uk.gov.hmrc.test.ui.support.PageSupport.*
-import uk.gov.hmrc.test.ui.support.TestData
+import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
 
 class CertificateSpec extends BaseSpec {
   override def beforeEach(): Unit = {
@@ -164,6 +164,14 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user lands on the 'Check your answers' page")
       assertOnPage(CheckYourAnswersPage)
+      assertTextOnPage(CheckYourAnswersPage.certificateSaoFullNameValue, TestData.firstPersonName)
+      assertTextOnPage(CheckYourAnswersPage.certificateSaoEmailValue, TestData.firstPersonEmail)
+      assertTextOnPage(CheckYourAnswersPage.certificateWhoIsSubmittingValue, "The SAO")
+      assertTextOnPage(CheckYourAnswersPage.certificateDeclarationSaoValue, TestData.firstPersonName)
+      assertTextOnPage(
+        CheckYourAnswersPage.certificateAdditionalInformationValue,
+        "No additional information for this certificate"
+      )
 
       When("the user clicks 'Confirm and submit'")
       CheckYourAnswersPage.clickSubmissionButton()
@@ -649,8 +657,14 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user lands on the 'Check your answers' page")
       assertOnPage(CheckYourAnswersPage)
-
-      // TODO validation assertion for 'Check your answers' in the 'SAO declaration' variation
+      assertTextOnPage(CheckYourAnswersPage.certificateSaoFullNameValue, TestData.firstPersonName)
+      assertTextOnPage(CheckYourAnswersPage.certificateSaoEmailValue, TestData.firstPersonEmail)
+      assertTextOnPage(CheckYourAnswersPage.certificateWhoIsSubmittingValue, "The SAO")
+      assertTextOnPage(CheckYourAnswersPage.certificateDeclarationSaoValue, TestData.firstPersonName)
+      assertTextOnPage(
+        CheckYourAnswersPage.certificateAdditionalInformationValue,
+        "No additional information for this certificate"
+      )
 
       When("the 'Back' link is clicked")
       CheckYourAnswersPage.clickBackLink()
