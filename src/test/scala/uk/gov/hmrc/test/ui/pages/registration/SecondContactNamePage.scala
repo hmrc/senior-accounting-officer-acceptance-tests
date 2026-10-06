@@ -29,5 +29,6 @@ object SecondContactNamePage
   override val pageTitle: String =
     "What is the name of the person or team we can contact? - Second contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val changePageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/second/change-name"
+  val transactionPageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/second/transaction-name"
+  val changePageUrl: String      = s"${RegistrationPage.pageUrl}/contact-details/second/change-name"
 }
