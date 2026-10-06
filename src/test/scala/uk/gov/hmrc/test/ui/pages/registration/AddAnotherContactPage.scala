@@ -29,8 +29,8 @@ object AddAnotherContactPage
   override val pageTitle: String =
     "Add another contact - Contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val transactionPageUrl: String       = s"${RegistrationPage.pageUrl}/contact-details/first/transaction-add-another"
-  override val yesRadioButton: By = By.id("value_0")
+  val transactionPageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/first/transaction-add-another"
 
-  override val noRadioButton: By = By.id("value_1")
+  override val yesRadioButton: By = By.id("value_0")
+  override val noRadioButton: By  = By.id("value_1")
 }
