@@ -27,8 +27,9 @@ object SecondContactEmailPage extends CommonPage with SubmissionButtonSupport wi
   override val pageTitle: String =
     "What is the email address for this contact? - Second contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val changePageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/second/change-email"
-  val emailInput: By        = By.id("value")
+  val transactionPageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/second/transaction-email"
+  val changePageUrl: String      = s"${RegistrationPage.pageUrl}/contact-details/second/change-email"
+  val emailInput: By             = By.id("value")
 
   def addEmail(emailAddress: String): Unit = {
     sendKeys(emailInput, emailAddress)
