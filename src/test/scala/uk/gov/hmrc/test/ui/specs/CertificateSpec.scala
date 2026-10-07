@@ -824,8 +824,7 @@ class CertificateSpec extends BaseSpec {
       "Additional information can be skipped during a certificate submission",
       CertificateUITests,
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user lands on the additional information page during a certificate submission")
       goToAdditionalInformationPageFromHomePage()
