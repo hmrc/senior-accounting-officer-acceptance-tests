@@ -824,7 +824,8 @@ class CertificateSpec extends BaseSpec {
       "Additional information can be skipped during a certificate submission",
       CertificateUITests,
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user lands on the additional information page during a certificate submission")
       goToAdditionalInformationPageFromHomePage()
@@ -847,8 +848,26 @@ class CertificateSpec extends BaseSpec {
 
       Then("the user lands on the 'Who is submitting the certificate?' page")
       assertOnPage(CertificateWhoIsSubmittingPage)
+      CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
+      CertificateWhoIsSubmittingPage.clickSubmissionButton()
 
-      // TODO: extend the test to check the additional information on the CYA page once development is complete
+      Then("the user lands on the 'SAO declaration' page")
+      assertOnPage(CertificateDeclarationSaoPage)
+
+      When("the user clicks 'Continue' after adding the SAO name to complete the declaration")
+      CertificateDeclarationSaoPage.addSaoName(TestData.firstPersonName)
+      CertificateDeclarationSaoPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Check your answers' page")
+      assertOnPage(CheckYourAnswersPage)
+      assertTextOnPage(CheckYourAnswersPage.certificateSaoFullNameValue, TestData.firstPersonName)
+      assertTextOnPage(CheckYourAnswersPage.certificateSaoEmailValue, TestData.firstPersonEmail)
+      assertTextOnPage(CheckYourAnswersPage.certificateWhoIsSubmittingValue, "The SAO")
+      assertTextOnPage(CheckYourAnswersPage.certificateDeclarationSaoValue, TestData.firstPersonName)
+      assertTextOnPage(
+        CheckYourAnswersPage.certificateAdditionalInformationValue,
+        "Not provided"
+      )
     }
 
     Scenario(
@@ -998,6 +1017,79 @@ class CertificateSpec extends BaseSpec {
       Then("the invalid character field errors are shown")
       CertificateDeclarationStandInPage.assertValidationListErrorDisplayed(InvalidSAONameCharactersError)
       CertificateDeclarationStandInPage.assertValidationListErrorDisplayed(SAOStandInSubmitterNameInvalid)
+    }
+
+    Scenario(
+      "Validate that an authorised SAO can amend the required details using the Change Link on the CYA (Check Your Answers) page during the submission process",
+      CertificateUITests,
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given(
+        "an authenticated sao user enters all mandatory details to submit a certificate from the 'Account Homepage'"
+      )
+      navigateToSubmitCertificateConfirmPage()
+      CertificateDeclarationSaoPage.addSaoName(TestData.firstPersonName)
+      CertificateDeclarationSaoPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+      assertTextOnPage(CheckYourAnswersPage.certificateSaoFullNameValue, TestData.firstPersonName)
+      assertTextOnPage(CheckYourAnswersPage.certificateSaoEmailValue, TestData.firstPersonEmail)
+      assertTextOnPage(CheckYourAnswersPage.certificateWhoIsSubmittingValue, "The SAO")
+      assertTextOnPage(CheckYourAnswersPage.certificateDeclarationSaoValue, TestData.firstPersonName)
+      assertTextOnPage(
+        CheckYourAnswersPage.certificateAdditionalInformationValue,
+        "Not provided"
+      )
+
+      When("the user amends the sao name value using the 'Change' link")
+      CheckYourAnswersPage.clickCertificateSaoNameChangeLink()
+      assertUrl(CertificateSaoFullNamePage.changeSaoFullNamePageUrl)
+      CertificateSaoFullNamePage.addName(TestData.secondPersonName)
+      CertificateSaoFullNamePage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+
+      And("the user amends the sao email value using the 'Change' link")
+      CheckYourAnswersPage.clickCertificateSaoEmailChangeLink()
+      assertUrl(CertificateSaoEmailPage.changeSaoEmailPageUrl)
+      CertificateSaoEmailPage.addEmail(TestData.secondPersonEmail)
+      CertificateSaoEmailPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+
+      And("the user amends the additional information value using 'Change' link")
+      CheckYourAnswersPage.clickCertificateAdditionalInformationLink()
+      assertUrl(AdditionalInformationPage.changeCertificateAdditionalInformationPageUrl)
+      AdditionalInformationPage.addInformation("No additional information for this certificate")
+      AdditionalInformationPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+
+      Then(
+        "Amended sao name, sao email and an additional information values are correctly displayed on the 'Check Your Answers' page"
+      )
+      assertTextOnPage(CheckYourAnswersPage.certificateSaoFullNameValue, TestData.secondPersonName)
+      assertTextOnPage(CheckYourAnswersPage.certificateSaoEmailValue, TestData.secondPersonEmail)
+      assertTextOnPage(
+        CheckYourAnswersPage.certificateAdditionalInformationValue,
+        "No additional information for this certificate"
+      )
+
+      And("the user amends 'who is submitting' value using 'Change' link")
+      CheckYourAnswersPage.clickCertificateWhoIsSubmittingChangeLink()
+      assertUrl(CertificateWhoIsSubmittingPage.transactionCertificateWhoIsSubmittingPageUrl)
+      CertificateWhoIsSubmittingPage.clickStandInSubmitterRadioButton()
+      CertificateWhoIsSubmittingPage.clickSubmissionButton()
+      assertUrl(CertificateDeclarationStandInPage.transactionDeclarationStandInPageUrl)
+      CertificateDeclarationStandInPage.addSaoName(TestData.firstPersonName)
+      CertificateDeclarationStandInPage.addStandInSubmitterName(TestData.secondPersonName)
+      CertificateDeclarationStandInPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+
+      Then("Amended 'Who is submitting' value is correctly displayed")
+      assertTextOnPage(
+        CheckYourAnswersPage.certificateWhoIsSubmittingValue,
+        "A person authorised to submit on behalf of the SAO"
+      )
+      assertTextOnPage(CheckYourAnswersPage.certificateDeclarationStandInValue, TestData.secondPersonName)
+      assertTextOnPage(CheckYourAnswersPage.certificateDeclarationSaoValue, TestData.firstPersonName)
     }
   }
 
