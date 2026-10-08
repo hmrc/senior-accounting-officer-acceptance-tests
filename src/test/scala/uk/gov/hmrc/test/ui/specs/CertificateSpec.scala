@@ -48,7 +48,9 @@ class CertificateSpec extends BaseSpec {
       Given("an authenticated user lands on the certification start page at the start of a new submission")
       navigateToCertificateStartPage()
 
-      Then("the task list displays each element in the correct state with the correct status")
+      Then(
+        "the 'Submit a certificate' task list page is displayed with each element in the correct state with the correct status"
+      )
       CertificateTaskListPage.assertTaskListSectionStatus(ProvideSaoDetails, NotStarted)
       CertificateTaskListPage.assertStatusHighlightedBlue(ProvideSaoDetails)
       CertificateTaskListPage.assertTaskListSectionNameIsHyperlink(ProvideSaoDetails)
@@ -69,27 +71,31 @@ class CertificateSpec extends BaseSpec {
       Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
       navigateToCertificateStartPage()
 
-      When("the 'Provide the SAO's details' link is clicked")
+      When("the user selects 'Provide the SAO's details' link")
       CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
 
-      Then("the user lands on the 'SAO full name' page")
+      Then("the 'What is the name of the SAO responsible for the certificate?' page is displayed")
       assertOnPage(CertificateSaoFullNamePage)
 
-      When("the 'Continue' button is clicked after a valid SAO name is added")
+      Then("the user enters the SAO's name")
       CertificateSaoFullNamePage.addName(TestData.firstPersonName)
+
+      When("the user selects 'Continue' after a valid SAO name is added")
       CertificateSaoFullNamePage.clickSubmissionButton()
 
-      Then("the user lands on the 'SAO email' page")
+      Then("the 'What is the email address for SAO name?' page is displayed ")
       assertOnPage(CertificateSaoEmailPage)
 
-      When("the user clicks 'Continue' after adding a valid SAO email")
+      Then("the user enters the SAO's email address")
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
+
+      When("the user selects 'Continue' after adding a valid SAO email")
       CertificateSaoEmailPage.clickSubmissionButton()
 
-      Then("the user returns to the 'Certificate Task List'")
+      Then("the user returns to the 'Submit a certificate task list' page")
       assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
 
-      And("the task list displays each element in the correct state with the correct status")
+      And("the 'Submit a certificate task list' page is displayed showing 'Provide the SAO's details' as Completed")
       CertificateTaskListPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
       CertificateTaskListPage.assertStatusNotHighlighted(ProvideSaoDetails)
       CertificateTaskListPage.assertTaskListSectionNameIsNotHyperlink(ProvideSaoDetails)
@@ -100,34 +106,36 @@ class CertificateSpec extends BaseSpec {
       CertificateTaskListPage.assertStatusNotHighlighted(SubmitCertificate)
       CertificateTaskListPage.assertTaskListSectionNameIsNotHyperlink(SubmitCertificate)
 
-      When("the 'Upload the submission template' link is clicked")
+      When("the user selects 'Upload the submission template' link")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
 
-      Then("the user lands on the 'Upload a submission template' page")
+      Then("the 'Upload a submission template' page is displayed")
       assertOnPage(UploadSubmissionTemplatePage)
 
       And("the guidance link is present and correct")
       UploadSubmissionTemplatePage.assertTemplateGuidanceLinkFoundWithCorrectAttributes()
 
-      When("the user clicks 'Continue' after choosing a file for upload")
+      When("the user uploads a valid submission template and selects 'Continue'")
       UploadSubmissionTemplatePage.upload(FourCompaniesFile)
 
-      Then("the user lands on the 'Review the companies with a qualifying certificate' page")
+      Then("the 'Review the companies with a qualified certificate' page is displayed")
       assertOnPage(UploadReviewQualifiedPage)
 
-      When("the 'Continue' button is clicked")
+      When("the user reviews the qualified certificate details displayed and selects 'Continue'")
       UploadReviewQualifiedPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Review Unqualified' page")
+      Then("the 'Review the companies with an unqualified certificate' page is displayed")
       assertOnPage(UploadReviewUnqualifiedPage)
 
-      When("the 'Continue' button is clicked")
+      When("the user reviews the unqualified certificate details displayed and selects 'Continue'")
       UploadReviewUnqualifiedPage.clickSubmissionButton()
 
-      Then("the user returns to the 'Certificate Task List'")
+      Then("the user returns to the 'Submit a certificate task list'")
       assertUrl(CertificateTaskListPage.taskListThreePageUrl)
 
-      And("the task list displays each element in the correct state with the correct status")
+      And(
+        "the Submit a certificate task list page is displayed showing 'Provide the SAO's details' and 'Upload the submission template' as 'Completed'"
+      )
       CertificateTaskListPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
       CertificateTaskListPage.assertStatusNotHighlighted(ProvideSaoDetails)
       CertificateTaskListPage.assertTaskListSectionNameIsNotHyperlink(ProvideSaoDetails)
@@ -138,32 +146,40 @@ class CertificateSpec extends BaseSpec {
       CertificateTaskListPage.assertStatusHighlightedBlue(SubmitCertificate)
       CertificateTaskListPage.assertTaskListSectionNameIsHyperlink(SubmitCertificate)
 
-      When("the user continues from the additional information task")
+      When("he user selects 'Submit the certificate' link")
       CertificateTaskListPage.clickTaskListSectionLink(SubmitCertificate)
 
-      Then("the user lands on the 'Additional information' page")
+      Then("the 'Additional information about your certificate' page is displayed ")
       assertOnPage(AdditionalInformationPage)
 
-      When("the user clicks 'Continue' after adding additional information")
+      Then("the user enters additional information")
       AdditionalInformationPage.addInformation("No additional information for this certificate")
+
+      When("the user selects 'Continue' after adding additional information")
       AdditionalInformationPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Who is submitting' page")
+      Then("the 'Certificate submission and authorisation' page is displayed")
       assertOnPage(CertificateWhoIsSubmittingPage)
 
-      When("the user clicks 'Continue' after selecting the SAO submitter radio option")
+      Then("the user selects The SAO submitter radio option")
       CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
+
+      When("the user selects 'Continue' after selecting the SAO submitter radio option")
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
 
-      Then("the user lands on the 'SAO declaration' page")
+      Then("the 'Declaration' page is displayed")
       assertOnPage(CertificateDeclarationSaoPage)
 
-      When("the user clicks 'Continue' after adding the SAO name to complete the declaration")
+      Then("the user enters their full name")
       CertificateDeclarationSaoPage.addSaoName(TestData.firstPersonName)
+
+      When("the user selects 'Confirm'")
       CertificateDeclarationSaoPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Check your answers' page")
+      Then("the 'Check your answers' page is displayed")
       assertOnPage(CheckYourAnswersPage)
+
+      Then("the user reviews the certificate details")
       assertTextOnPage(CheckYourAnswersPage.certificateSaoFullNameValue, TestData.firstPersonName)
       assertTextOnPage(CheckYourAnswersPage.certificateSaoEmailValue, TestData.firstPersonEmail)
       assertTextOnPage(CheckYourAnswersPage.certificateWhoIsSubmittingValue, "The SAO")
@@ -173,20 +189,22 @@ class CertificateSpec extends BaseSpec {
         "No additional information for this certificate"
       )
 
-      When("the user clicks 'Confirm and submit'")
+      When("the user select 'Confirm and submit'")
       CheckYourAnswersPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Certificate Task List'")
+      Then("Then the 'Submit a certificate task list' page is displayed showing all tasks as Completed")
       CertificateTaskListPage.assertCompleteUrl()
 
-      When("user clicks on 'View your confirmation'")
+      When("the user selects 'View your confirmation'")
       CertificateTaskListPage.clickSubmissionButton()
-      Then("the user lands on the 'Confirmation' page")
+      Then("the 'Certificate submitted confirmation' page is displayed")
       ConfirmationPage.assertUrl()
       assertPageTitle(ConfirmationPage.pageTitle)
       ConfirmationPage.assertReferenceNumberMatchesUrl()
 
-      And("the expected 'download a pdf' and 'print this page' links are present")
+      And(
+        "if the PDF is generated successfully I can download a PDF copy of my notification, and I can print the confirmation page"
+      )
       ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "download a PDF")
       ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "print this page")
 
