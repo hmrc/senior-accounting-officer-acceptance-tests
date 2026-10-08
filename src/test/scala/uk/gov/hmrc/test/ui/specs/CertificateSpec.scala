@@ -1139,6 +1139,25 @@ class CertificateSpec extends BaseSpec {
       assertTextOnPage(CheckYourAnswersPage.certificateDeclarationStandInValue, TestData.secondPersonName)
       assertTextOnPage(CheckYourAnswersPage.certificateDeclarationSaoValue, TestData.firstPersonName)
     }
+
+    Scenario(
+      "Validate that an authorised SAO can successfully provide authorised SAO details",
+      CertificateUITests,
+      SubmissionUITests,
+      ZapTests,
+      SoloTests
+    ) {
+      Given(
+        "an authenticated sao user enters all mandatory details to submit a certificate from the 'Account Homepage'"
+      )
+      navigateToSubmitCertificateConfirmAsStandInSubmitterPage()
+      CertificateDeclarationStandInPage.addSaoName(TestData.firstPersonName)
+      CertificateDeclarationStandInPage.addStandInSubmitterName(TestData.secondPersonName)
+      CertificateDeclarationSaoPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+      assertTextOnPage(CheckYourAnswersPage.certificateDeclarationSaoValue, TestData.firstPersonName)
+      assertTextOnPage(CheckYourAnswersPage.certificateDeclarationStandInValue, TestData.secondPersonName)
+    }
   }
 
   private def navigateToCertificateStartPage(): Unit = {
