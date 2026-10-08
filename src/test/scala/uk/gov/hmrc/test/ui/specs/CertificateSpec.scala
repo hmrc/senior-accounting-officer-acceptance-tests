@@ -1144,8 +1144,7 @@ class CertificateSpec extends BaseSpec {
       "Validate that an authorised SAO can successfully provide authorised SAO details",
       CertificateUITests,
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given(
         "an authenticated sao user enters all mandatory details to submit a certificate from the 'Account Homepage'"
