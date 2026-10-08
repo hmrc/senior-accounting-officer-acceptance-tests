@@ -27,13 +27,17 @@ object CertificateDeclarationSaoPage
     with SubmissionButtonSupport
     with BackLinkSupport
     with ErrorMessageSupport {
+
   override val pageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/submit-certificate-confirm-sao"
 
   override val pageTitle: String =
     "Declaration - Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val changePageUrl: String =
+  val transactionDeclarationSaoPageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/transaction-submit-certificate-confirm-sao"
+
+  val changeDeclarationSaoPageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/change-submit-certificate-confirm-sao"
 
   override protected def submissionButtonLocator: By = By.className("govuk-button")

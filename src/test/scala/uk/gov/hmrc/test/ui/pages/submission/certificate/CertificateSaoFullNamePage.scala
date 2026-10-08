@@ -31,6 +31,6 @@ object CertificateSaoFullNamePage
   override val pageTitle: String =
     "What is the name of the SAO responsible for the certificate? - Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val changePageUrl: String =
+  val changeSaoFullNamePageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/change-submit-certificate-sao-full-name"
 }

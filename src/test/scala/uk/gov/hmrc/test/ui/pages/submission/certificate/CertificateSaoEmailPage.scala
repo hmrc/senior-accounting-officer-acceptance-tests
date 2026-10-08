@@ -35,6 +35,9 @@ object CertificateSaoEmailPage extends CommonPage with SubmissionButtonSupport w
 
   val saoEmailInput: By = By.id("value")
 
+  val changeSaoEmailPageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate-only/change-sao-email"
+
   def addEmail(emailAddress: String): Unit = {
     sendKeys(saoEmailInput, emailAddress)
   }

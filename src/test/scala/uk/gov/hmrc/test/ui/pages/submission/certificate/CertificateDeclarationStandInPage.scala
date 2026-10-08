@@ -29,6 +29,9 @@ object CertificateDeclarationStandInPage extends CommonPage with SubmissionButto
   override val pageTitle: String =
     "Declaration – Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
+  val transactionDeclarationStandInPageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/transaction-declaration-stand-in"
+
   override protected def submissionButtonLocator: By = By.className("govuk-button")
 
   val saoNameInputElement: By     = By.id("SaoName")
