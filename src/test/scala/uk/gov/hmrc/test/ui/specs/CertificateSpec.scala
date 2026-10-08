@@ -181,6 +181,7 @@ class CertificateSpec extends BaseSpec {
 
       When("user clicks on 'View your confirmation'")
       CertificateTaskListPage.clickSubmissionButton()
+
       Then("the user lands on the 'Confirmation' page")
       ConfirmationPage.assertUrl()
       assertPageTitle(ConfirmationPage.pageTitle)
@@ -1040,6 +1041,54 @@ class CertificateSpec extends BaseSpec {
         "Not provided"
       )
 
+      When("the user click on sao name 'Change' link but makes no changes")
+      CheckYourAnswersPage.clickCertificateSaoNameChangeLink()
+      assertUrl(CertificateSaoFullNamePage.changeSaoFullNamePageUrl)
+      CertificateSaoFullNamePage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+
+      Then("the original sao name value should be retained")
+      assertTextOnPage(CheckYourAnswersPage.certificateSaoFullNameValue, TestData.firstPersonName)
+
+      When("the user click on sao email 'Change' link but makes no changes")
+      CheckYourAnswersPage.clickCertificateSaoEmailChangeLink()
+      assertUrl(CertificateSaoEmailPage.changeSaoEmailPageUrl)
+      CertificateSaoFullNamePage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+
+      Then("the original sao email value should be retained")
+      assertTextOnPage(CheckYourAnswersPage.certificateSaoEmailValue, TestData.firstPersonEmail)
+
+      When("the user click on Additional information 'Change' link but makes no changes")
+      CheckYourAnswersPage.clickCertificateAdditionalInformationLink()
+      assertUrl(AdditionalInformationPage.changeCertificateAdditionalInformationPageUrl)
+      AdditionalInformationPage.clickSkipButton()
+      assertOnPage(CheckYourAnswersPage)
+
+      Then("the original Additional information value should be retained")
+      assertTextOnPage(
+        CheckYourAnswersPage.certificateAdditionalInformationValue,
+        "Not provided"
+      )
+
+      When("the user click on who is submitting 'Change' link but makes no changes")
+      CheckYourAnswersPage.clickCertificateWhoIsSubmittingChangeLink()
+      assertUrl(CertificateWhoIsSubmittingPage.transactionCertificateWhoIsSubmittingPageUrl)
+      CertificateWhoIsSubmittingPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+
+      Then("the original 'who is submitting' value should be retained")
+      assertTextOnPage(CheckYourAnswersPage.certificateWhoIsSubmittingValue, "The SAO")
+
+      When("the user click on sao name on declaration 'Change' link but makes no changes")
+      CheckYourAnswersPage.clickCertificateDeclarationSaoNameChangeLink()
+      assertUrl(CertificateDeclarationSaoPage.changeDeclarationSaoPageUrl)
+      CertificateDeclarationSaoPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
+
+      Then("the original declaration sao name value should be retained")
+      assertTextOnPage(CheckYourAnswersPage.certificateDeclarationSaoValue, TestData.firstPersonName)
+
       When("the user amends the sao name value using the 'Change' link")
       CheckYourAnswersPage.clickCertificateSaoNameChangeLink()
       assertUrl(CertificateSaoFullNamePage.changeSaoFullNamePageUrl)
@@ -1071,7 +1120,7 @@ class CertificateSpec extends BaseSpec {
         "No additional information for this certificate"
       )
 
-      And("the user amends 'who is submitting' value using 'Change' link")
+      When("the user amends 'who is submitting' value using 'Change' link")
       CheckYourAnswersPage.clickCertificateWhoIsSubmittingChangeLink()
       assertUrl(CertificateWhoIsSubmittingPage.transactionCertificateWhoIsSubmittingPageUrl)
       CertificateWhoIsSubmittingPage.clickStandInSubmitterRadioButton()

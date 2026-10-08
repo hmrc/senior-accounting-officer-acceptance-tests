@@ -37,6 +37,9 @@ object CertificateDeclarationSaoPage
   val transactionDeclarationSaoPageUrl: String =
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/transaction-submit-certificate-confirm-sao"
 
+  val changeDeclarationSaoPageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/change-submit-certificate-confirm-sao"
+
   override protected def submissionButtonLocator: By = By.className("govuk-button")
 
   val declarationInput: By = By.id("value")
