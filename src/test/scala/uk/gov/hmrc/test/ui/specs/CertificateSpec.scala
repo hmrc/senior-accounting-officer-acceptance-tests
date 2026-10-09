@@ -146,7 +146,7 @@ class CertificateSpec extends BaseSpec {
       CertificateTaskListPage.assertStatusHighlightedBlue(SubmitCertificate)
       CertificateTaskListPage.assertTaskListSectionNameIsHyperlink(SubmitCertificate)
 
-      When("he user selects 'Submit the certificate' link")
+      When("the user selects 'Submit the certificate' link")
       CertificateTaskListPage.clickTaskListSectionLink(SubmitCertificate)
 
       Then("the 'Additional information about your certificate' page is displayed ")
@@ -189,13 +189,13 @@ class CertificateSpec extends BaseSpec {
         "No additional information for this certificate"
       )
 
-      When("the user select 'Confirm and submit'")
+      When("the user clicks 'Confirm and submit'")
       CheckYourAnswersPage.clickSubmissionButton()
 
-      Then("Then the 'Submit a certificate task list' page is displayed showing all tasks as Completed")
+      Then("the 'Submit a certificate task list' page is displayed showing all tasks as Completed")
       CertificateTaskListPage.assertCompleteUrl()
 
-      When("the user selects 'View your confirmation'")
+      When("the user clicks 'View your confirmation'")
       CertificateTaskListPage.clickSubmissionButton()
 
       Then("the user lands on the 'Confirmation' page")
