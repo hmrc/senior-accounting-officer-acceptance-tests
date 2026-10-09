@@ -34,8 +34,8 @@ object CertificateWhoIsSubmittingPage
   override val pageTitle: String =
     "Certificate submission and authorisation - Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/change-certificate-who-is-submitting"
+  val transactionCertificateWhoIsSubmittingPageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/transaction-certificate-who-is-submitting"
 
   override protected def submissionButtonLocator: By = By.className("govuk-button")
 
