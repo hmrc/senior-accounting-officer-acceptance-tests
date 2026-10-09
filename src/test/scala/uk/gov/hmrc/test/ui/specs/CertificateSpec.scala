@@ -192,7 +192,7 @@ class CertificateSpec extends BaseSpec {
       When("the user clicks 'Confirm and submit'")
       CheckYourAnswersPage.clickSubmissionButton()
 
-      Then("the 'Submit a certificate task list' page is displayed showing all tasks as Completed")
+      Then("the 'Submit a certificate task list' page is displayed showing all tasks as 'Completed'")
       CertificateTaskListPage.assertCompleteUrl()
 
       When("the user clicks 'View your confirmation'")
