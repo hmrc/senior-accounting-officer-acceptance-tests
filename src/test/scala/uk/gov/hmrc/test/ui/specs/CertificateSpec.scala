@@ -822,6 +822,35 @@ class CertificateSpec extends BaseSpec {
     }
 
     Scenario(
+      "An upload certificate data file exceeding the size limit is rejected",
+      CertificateUITests,
+      SubmissionUITests,
+      ZapTests
+    ) {
+      Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
+      navigateToCertificateStartPage()
+
+      And("SAO details are provided to complete the first task in the task list")
+      CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
+      assertOnPage(CertificateSaoFullNamePage)
+      CertificateSaoFullNamePage.addName(TestData.firstPersonName)
+      CertificateSaoFullNamePage.clickSubmissionButton()
+      assertOnPage(CertificateSaoEmailPage)
+      CertificateSaoEmailPage.assertHeadingMatches(s"What is the email address for ${TestData.firstPersonName}?")
+      CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
+      CertificateSaoEmailPage.clickSubmissionButton()
+      assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+      CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+
+      When("A submission template containing certificate data that exceeds the allowed size is uploaded")
+      assertOnPage(UploadSubmissionTemplatePage)
+      UploadSubmissionTemplatePage.upload(TooLargeDataFile)
+
+      Then("the error message is displayed")
+      UploadSubmissionTemplatePage.assertValidationErrorDisplayed(FileSizeExceededError)
+    }
+
+    Scenario(
       "Additional information can be skipped during a certificate submission",
       CertificateUITests,
       SubmissionUITests,
