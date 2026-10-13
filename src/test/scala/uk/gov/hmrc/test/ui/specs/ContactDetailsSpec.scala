@@ -8,7 +8,7 @@
  *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
+ * distributed un`der the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
@@ -324,7 +324,19 @@ class ContactDetailsSpec extends BaseSpec {
       CheckYourAnswersPage.clickFirstContactNameChangeLink()
       assertUrl(FirstContactNamePage.changePageUrl)
 
-      And("submits without changing the name")
+      And("the user removes name")
+      FirstContactNamePage.addName("")
+
+      And("the user clicks 'Continue' v")
+      FirstContactNamePage.clickSubmissionButton()
+
+      Then("the validation error for 'missing name' is shown")
+      FirstContactNamePage.assertValidationErrorDisplayed(MissingNameError)
+
+      Then("the user submits original name")
+      FirstContactNamePage.addName(TestData.firstPersonName)
+
+      And("the user clicks 'Continue'")
       FirstContactNamePage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
 
@@ -335,7 +347,19 @@ class ContactDetailsSpec extends BaseSpec {
       CheckYourAnswersPage.clickFirstContactEmailChangeLink()
       assertUrl(FirstContactEmailPage.changePageUrl)
 
-      And("submits without changing the email")
+      And("the user removes email")
+      FirstContactEmailPage.addEmail("")
+
+      When("the user clicks 'Continue' without entering an email address")
+      FirstContactEmailPage.clickSubmissionButton()
+
+      Then("the validation error for 'missing email' is shown")
+      FirstContactEmailPage.assertValidationErrorDisplayed(ValidationError.MissingEmailError)
+
+      And("the user submits with original email")
+      FirstContactEmailPage.addEmail(TestData.firstPersonEmail)
+
+      And("the user clicks 'Continue'")
       FirstContactEmailPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
 
@@ -359,7 +383,19 @@ class ContactDetailsSpec extends BaseSpec {
       CheckYourAnswersPage.clickSecondContactNameChangeLink()
       assertUrl(SecondContactNamePage.changePageUrl)
 
+      And("the user removes name")
+      SecondContactNamePage.addName("")
+
+      And("the user clicks 'Continue' without entering an email address")
+      SecondContactNamePage.clickSubmissionButton()
+
+      And("the validation error for 'missing name' is shown")
+      SecondContactNamePage.assertValidationErrorDisplayed(ValidationError.MissingNameError)
+
       And("submits without changing the name")
+      SecondContactNamePage.addName(TestData.secondPersonName)
+
+      And("the user clicks 'Continue'")
       SecondContactNamePage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
 
@@ -370,7 +406,19 @@ class ContactDetailsSpec extends BaseSpec {
       CheckYourAnswersPage.clickSecondContactEmailChangeLink()
       assertUrl(SecondContactEmailPage.changePageUrl)
 
+      And("the user leaves email empty")
+      SecondContactEmailPage.addEmail("")
+
+      When("the user clicks 'Continue' without entering a name")
+      SecondContactEmailPage.clickSubmissionButton()
+
+      Then("the validation error for 'missing name' is shown")
+      SecondContactEmailPage.assertValidationErrorDisplayed(ValidationError.MissingEmailError)
+
       And("submits without changing the email")
+      SecondContactEmailPage.addEmail(TestData.secondPersonEmail)
+
+      And("the user clicks 'Continue'")
       SecondContactEmailPage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
 
