@@ -327,7 +327,7 @@ class ContactDetailsSpec extends BaseSpec {
       And("the user removes name")
       FirstContactNamePage.addName("")
 
-      And("the user clicks 'Continue' v")
+      And("the user clicks 'Continue' without entering a name")
       FirstContactNamePage.clickSubmissionButton()
 
       Then("the validation error for 'missing name' is shown")
