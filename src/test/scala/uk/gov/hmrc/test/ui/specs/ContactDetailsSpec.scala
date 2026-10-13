@@ -333,7 +333,7 @@ class ContactDetailsSpec extends BaseSpec {
       Then("the validation error for 'missing name' is shown")
       FirstContactNamePage.assertValidationErrorDisplayed(MissingNameError)
 
-      Then("the user submits original name")
+      Then("the user resubmits with the original name")
       FirstContactNamePage.addName(TestData.firstPersonName)
 
       And("the user clicks 'Continue'")
@@ -356,7 +356,7 @@ class ContactDetailsSpec extends BaseSpec {
       Then("the validation error for 'missing email' is shown")
       FirstContactEmailPage.assertValidationErrorDisplayed(ValidationError.MissingEmailError)
 
-      And("the user submits with original email")
+      And("the user resubmits with the original email")
       FirstContactEmailPage.addEmail(TestData.firstPersonEmail)
 
       And("the user clicks 'Continue'")
@@ -392,7 +392,7 @@ class ContactDetailsSpec extends BaseSpec {
       And("the validation error for 'missing name' is shown")
       SecondContactNamePage.assertValidationErrorDisplayed(ValidationError.MissingNameError)
 
-      And("submits without changing the name")
+      And("the user resubmits with the original name")
       SecondContactNamePage.addName(TestData.secondPersonName)
 
       And("the user clicks 'Continue'")
@@ -415,7 +415,7 @@ class ContactDetailsSpec extends BaseSpec {
       Then("the validation error for 'missing name' is shown")
       SecondContactEmailPage.assertValidationErrorDisplayed(ValidationError.MissingEmailError)
 
-      And("submits without changing the email")
+      And("the user resubmits with the original email")
       SecondContactEmailPage.addEmail(TestData.secondPersonEmail)
 
       And("the user clicks 'Continue'")
