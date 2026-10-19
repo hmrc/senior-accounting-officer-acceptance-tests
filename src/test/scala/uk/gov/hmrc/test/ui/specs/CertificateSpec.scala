@@ -740,7 +740,7 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Check your answers' page")
       assertOnPage(CheckYourAnswersPage)
 
-      When("the user is shown the the relevant authorised SAO entries")
+      And("the user is shown the relevant authorised SAO entries")
       assertTextOnPage(CheckYourAnswersPage.certificateDeclarationSaoValue, TestData.firstPersonName)
       assertTextOnPage(CheckYourAnswersPage.certificateDeclarationStandInValue, TestData.secondPersonName)
     }
