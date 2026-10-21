@@ -32,7 +32,6 @@ import uk.gov.hmrc.test.ui.support.TestData
 class RegistrationSpec extends BaseSpec {
 
   Feature("Business registration") {
-
     Scenario(
       "The registration page displays with the correct page elements and values when starting a new registration",
       RegistrationUITests,
@@ -40,30 +39,49 @@ class RegistrationSpec extends BaseSpec {
     ) {
       Given("an authenticated user lands on the registration page to register a business")
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
+
+      Then("the page loads correctly to start the new registration")
       assertOnPage(RegistrationPage)
 
-      Then("the page displays with the expected page elements and values required at the start of a new registration")
+      And("the enter nominated company details link is visible")
       RegistrationPage.assertLinkIsVisibleWithText(EnterYourNominatedCompanyDetailsLink)
+
+      And("the registration status for company details is 'Not Started'")
       RegistrationPage.assertRegistrationPageSectionStatus(CompanyDetails, NotStarted)
+
+      And("the 'enter contact details' link isn't active")
       RegistrationPage.assertEnterYourContactDetailsLinkNotFound()
+
+      And("the 'enter contact details' status is marked as 'Cannot Start Yet'")
       RegistrationPage.assertRegistrationPageSectionStatus(ContactDetails, CannotStartYet)
+
+      And("the submission button is not visible")
       RegistrationPage.assertSubmitButtonDoesNotExist()
     }
 
     Scenario(
-      "After adding company details successfully the action states update correctly on the registration page",
+      "After adding company details successfully the company details task status is marked as complete",
       RegistrationUITests,
       ZapTests
     ) {
-      Given("a user successfully adds company details from the registration page")
+      Given("a user starts the lands on the registration landing page")
       FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
+
+      Then("the user clicks 'Enter nominated company details' link")
       RegistrationPage.clickEnterYourNominatedCompanyDetailsLink()
+
+      Then("they land on the company details guidance page")
       assertOnPage(NominatedCompanyDetailsGuidancePage)
+
+      Then("the user clicks the continue button")
       NominatedCompanyDetailsGuidancePage.clickSubmissionButton()
       GrsStubPage.clickStubResponseButton()
 
-      Then("the action states displayed on the registration page are updated correctly")
+      Then("the user is redirected back to the registration landing page")
+      assertOnPage(RegistrationPage)
+
+      And("the company details task status is marked as complete with the link no longer active")
       RegistrationPage.assertEnterYourContactDetailsLinkFound()
       RegistrationPage.assertRegistrationPageSectionStatus(ContactDetails, NotStarted)
     }
@@ -78,6 +96,8 @@ class RegistrationSpec extends BaseSpec {
         .withAffinityGroup(Organisation)
         .withDsaoEnrolment(TestData.subscriptionId)
         .redirectToCompanyAlreadyRegistered()
+
+      And("the page links the user to the business tax account page")
       CompanyAlreadyRegisteredPage.assertLinkHasTextOnPage(
         CompanyAlreadyRegisteredPage.businessTaxAccountLink,
         "business tax account (opens in new tab)"
@@ -85,15 +105,18 @@ class RegistrationSpec extends BaseSpec {
     }
 
     Scenario(
-      "Agent user sees 'You cannot access this service' page",
+      "An Agent attempts to sign-in and is redirect to 'You cannot access this service' page",
       RegistrationUITests,
       ZapTests
     ) {
-      Given("an Agent user lands on the 'You cannot access this service' page")
+      Given("An Agent attempts to sign into the registration journey")
+      Then("they are redirected to the 'You cannot access this service' page")
       AuthorityWizardPage
         .withAffinityGroup(Agent)
         .redirectToAgentCannotAccessThisService()
       assertOnPage(AgentCannotAccessThisServicePage)
+
+      And("the 'who can use this service' link is present")
       AgentCannotAccessThisServicePage.assertLinkHasTextOnPage(
         AgentCannotAccessThisServicePage.whoCanUseThisServiceLink,
         "Find out more about who can use this service"
@@ -101,13 +124,12 @@ class RegistrationSpec extends BaseSpec {
     }
 
     Scenario(
-      "A user categorised with an affinity group of 'Individual' attempts to sign-in",
+      "A user categorised with an affinity group of 'Individual' attempts to sign-in and is redirected to 'You cannot access this service' page",
       RegistrationUITests,
       ZapTests
     ) {
-      Given(
-        "a user categorised with an affinity group of 'Individual' lands on the 'You cannot access this service' page"
-      )
+      Given("An Individual attempts to sign into the registration journey")
+      Then("they are redirected to the 'You cannot access this service' page")
       AuthorityWizardPage
         .withAffinityGroup(Individual)
         .redirectToIndividualCannotAccessThisService()
@@ -125,23 +147,25 @@ class RegistrationSpec extends BaseSpec {
         "sign in to Government Gateway with an organisation account"
       )
     }
-  }
 
-  Scenario(
-    "User with credential role of 'assistant' and affinity group of 'Organisation', sees 'You cannot access this service' page",
-    RegistrationUITests,
-    ZapTests
-  ) {
-    Given("standard user lands on the 'You cannot access this service' page")
-    AuthorityWizardPage
-      .withAffinityGroup(Organisation)
-      .withCredentialRole(Assistant)
-      .redirectToStandardUserCannotAccessThisService()
-    assertOnPage(StandardUserCannotAccessThisServicePage)
-    StandardUserCannotAccessThisServicePage.assertLinkHasTextOnPage(
-      StandardUserCannotAccessThisServicePage.governmentGatewayOrganisationSignIn,
-      "sign in using an organisation Government Gateway ID"
-    )
-  }
+    Scenario(
+      "User with credential role of 'assistant' and affinity group of 'Organisation' and is redirect to 'You cannot access this service' page",
+      RegistrationUITests,
+      ZapTests
+    ) {
+      Given("standard user attempts to sign into the registration journey")
+      Then("they are redirected to the 'You cannot access this service' page")
+      AuthorityWizardPage
+        .withAffinityGroup(Organisation)
+        .withCredentialRole(Assistant)
+        .redirectToStandardUserCannotAccessThisService()
+      assertOnPage(StandardUserCannotAccessThisServicePage)
 
+      And("the 'Find out more about who can use this service' link is present")
+      StandardUserCannotAccessThisServicePage.assertLinkHasTextOnPage(
+        StandardUserCannotAccessThisServicePage.governmentGatewayOrganisationSignIn,
+        "sign in using an organisation Government Gateway ID"
+      )
+    }
+  }
 }
