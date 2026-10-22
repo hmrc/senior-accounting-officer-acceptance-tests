@@ -63,7 +63,7 @@ class CertificateSpec extends BaseSpec {
     }
 
     Scenario(
-      "An authorised senior accounting officer can submit a certificate successfully from the 'Account Homepage'",
+      "An authorised senior accounting officer submits a certificate from the 'Account Homepage'",
       CertificateUITests,
       SubmissionUITests,
       ZapTests
@@ -118,7 +118,7 @@ class CertificateSpec extends BaseSpec {
       UploadSubmissionTemplatePage.assertTemplateGuidanceLinkFoundWithCorrectAttributes()
 
       When("the user uploads a valid submission template and selects 'Continue'")
-      UploadSubmissionTemplatePage.upload(FourCompaniesFile)
+      UploadSubmissionTemplatePage.uploadAndSubmit(FourCompaniesFile)
 
       Then("the 'Review the companies with a qualified certificate' page is displayed")
       assertOnPage(UploadReviewQualifiedPage)
@@ -154,44 +154,44 @@ class CertificateSpec extends BaseSpec {
       Then("the 'Additional information about your certificate' page is displayed")
       assertOnPage(AdditionalInformationPage)
 
-      Then("the user enters additional information")
+      When("the user enters additional information")
       AdditionalInformationPage.addInformation("additional information for this certificate")
 
-      When("the user selects 'Continue' after entering additional information")
+      And("the user selects 'Continue'")
       AdditionalInformationPage.clickSubmissionButton()
 
       Then("the 'Certificate submission and authorisation' page is displayed")
       assertOnPage(CertificateWhoIsSubmittingPage)
 
-      Then("the user selects The SAO submitter radio option")
+      When("the user selects 'The SAO' radio option")
       CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
 
-      When("the user selects 'Continue' after selecting the SAO submitter radio option")
+      And("the user selects 'Continue'")
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
 
-      Then("the 'Declaration' page is displayed")
+      When("the 'Declaration' page is displayed")
       assertOnPage(CertificateDeclarationSaoPage)
 
-      Then("the user enters their full name")
+      And("the user enters their full name")
       CertificateDeclarationSaoPage.addSaoName(TestData.firstPersonName)
 
-      When("the user selects 'Confirm'")
+      And("the user selects 'Confirm'")
       CertificateDeclarationSaoPage.clickSubmissionButton()
 
       Then("the 'Check your answers' page is displayed")
       assertOnPage(CheckYourAnswersPage)
 
-      Then("the user reviews the certificate details")
+      When("the user reviews the certificate details")
       assertTextOnPage(CheckYourAnswersPage.certificateSaoFullNameValue, TestData.firstPersonName)
       assertTextOnPage(CheckYourAnswersPage.certificateSaoEmailValue, TestData.firstPersonEmail)
       assertTextOnPage(CheckYourAnswersPage.certificateWhoIsSubmittingValue, "The SAO")
       assertTextOnPage(CheckYourAnswersPage.certificateDeclarationSaoValue, TestData.firstPersonName)
       assertTextOnPage(
         CheckYourAnswersPage.certificateAdditionalInformationValue,
-        "Additional information for this certificate"
+        "additional information for this certificate"
       )
 
-      When("the user clicks 'Confirm and submit'")
+      And("the user clicks 'Confirm and submit'")
       CheckYourAnswersPage.clickSubmissionButton()
 
       Then("the 'Submit a certificate task list' page is displayed showing all tasks as 'Completed'")
@@ -200,15 +200,19 @@ class CertificateSpec extends BaseSpec {
       When("the user clicks 'View your confirmation'")
       CertificateTaskListPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Confirmation' page")
+      Then("the user lands on the 'Certificate confirmation' page")
       ConfirmationPage.assertUrl()
+
+      And("the expected page title is displayed")
       assertPageTitle(ConfirmationPage.pageTitle)
+
+      And("the expected reference is displayed on the url")
       ConfirmationPage.assertReferenceNumberMatchesUrl()
 
-      And(
-        "if the PDF is generated successfully I can download a PDF copy of my certificate, and I can print the confirmation page"
-      )
+      And("the expected 'download a pdf' link is present")
       ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "download a PDF")
+
+      And("the expected 'print this page; link is present")
       ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "print this page")
 
       And("the 'download a pdf' link targets the certificate pdf download route")
@@ -216,7 +220,7 @@ class CertificateSpec extends BaseSpec {
     }
 
     Scenario(
-      "A user submits a certificate successfully from the 'Account Homepage' on behalf of their SAO",
+      "A user submits a certificate from the 'Account Homepage' on behalf of their SAO",
       CertificateUITests,
       SubmissionUITests,
       ZapTests
@@ -224,21 +228,23 @@ class CertificateSpec extends BaseSpec {
       Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
       navigateToCertificateStartPage()
 
-      When("the user selects 'Provide the SAO's details' link")
+      When("the user selects 'Provide the SAO’s details' link")
       CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
 
-      Then("the user lands on the 'SAO full name' page")
+      Then("the user lands on the 'What is the name of the SAO responsible for the certificate?' page")
       assertOnPage(CertificateSaoFullNamePage)
 
       When("the user selects 'Continue' after adding a valid SAO name")
       CertificateSaoFullNamePage.addName(TestData.firstPersonName)
       CertificateSaoFullNamePage.clickSubmissionButton()
 
-      Then("the user lands on the 'SAO email' page")
+      Then("the user lands on the 'What is the email address for SAO name?' page")
       assertOnPage(CertificateSaoEmailPage)
 
-      When("the user clicks 'Continue' after adding a valid SAO email")
+      When("the user enters the SAO’s email")
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
+
+      And("the user selects 'Continue'")
       CertificateSaoEmailPage.clickSubmissionButton()
 
       Then("the user returns to the 'Certificate Task List'")
@@ -251,15 +257,15 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
 
       When("the 'Continue' button is clicked after choosing a file for upload")
-      UploadSubmissionTemplatePage.upload(FourCompaniesFile)
+      UploadSubmissionTemplatePage.uploadAndSubmit(FourCompaniesFile)
 
-      Then("the user lands on the 'Review the companies with a qualifying certificate' page")
+      Then("the user lands on the 'Review the companies with a qualified certificate' page")
       assertOnPage(UploadReviewQualifiedPage)
 
       When("the 'Continue' button is clicked")
       UploadReviewQualifiedPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Review Unqualified' page")
+      Then("the user lands on the 'Review the companies with an unqualified certificate' page")
       assertOnPage(UploadReviewUnqualifiedPage)
 
       When("the 'Continue' button is clicked")
@@ -268,29 +274,37 @@ class CertificateSpec extends BaseSpec {
       Then("the user returns to the 'Certificate Task List'")
       assertUrl(CertificateTaskListPage.taskListThreePageUrl)
 
-      When("the user continues from the additional information task")
+      When("the user selects 'Submit the certificate' link")
       CertificateTaskListPage.clickTaskListSectionLink(SubmitCertificate)
 
-      Then("the user lands on the 'Additional information' page")
+      Then("the user lands on the 'Additional information about your certificate' page")
       assertOnPage(AdditionalInformationPage)
 
-      When("the user clicks 'Continue' after adding additional information")
-      AdditionalInformationPage.addInformation("No additional information for this certificate")
+      When("the user enters additional information")
+      AdditionalInformationPage.addInformation("additional information for this certificate")
+
+      And("the user selects 'Continue'")
       AdditionalInformationPage.clickSubmissionButton()
 
       Then("the user lands on the 'Who is submitting' page")
       assertOnPage(CertificateWhoIsSubmittingPage)
 
-      When("the user clicks 'Continue' after selecting the stand-in submitter radio option")
+      When("the user selects the stand-in submitter radio option")
       CertificateWhoIsSubmittingPage.clickStandInSubmitterRadioButton()
+
+      And("the user selects 'Continue'")
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
 
       Then("the user lands on the 'SAO stand-in declaration' page")
       assertOnPage(CertificateDeclarationStandInPage)
 
-      When("the user clicks 'Continue' after adding the SAO and stand-in submitter names to complete the declaration")
+      When("the user enters their name")
       CertificateDeclarationStandInPage.addSaoName(TestData.firstPersonName)
+
+      And("the user enters the SAO’s name")
       CertificateDeclarationStandInPage.addStandInSubmitterName(TestData.secondPersonName)
+
+      And("the user clicks 'Continue'")
       CertificateDeclarationStandInPage.clickSubmissionButton()
 
       Then("the user lands on the 'Check your answers' page")
@@ -305,14 +319,23 @@ class CertificateSpec extends BaseSpec {
       When("user clicks on 'View your confirmation'")
       CertificateTaskListPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Confirmation' page")
+      Then("the user lands on the 'Certificate confirmation' page")
       ConfirmationPage.assertUrl()
+
+      And("the expected page title is displayed")
       assertPageTitle(ConfirmationPage.pageTitle)
+
+      And("the expected reference is displayed on the url")
       ConfirmationPage.assertReferenceNumberMatchesUrl()
 
-      And("the expected 'download a pdf' and 'print this page' links are present")
+      And("the expected 'download a pdf' link is present")
       ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "download a PDF")
+
+      And("the expected 'print this page; link is present")
       ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "print this page")
+
+      And("the 'download a pdf' link targets the certificate pdf download route")
+      ConfirmationPage.assertDownloadPdfLinkTargetsPdf()
     }
 
     Scenario(
@@ -324,7 +347,7 @@ class CertificateSpec extends BaseSpec {
       Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
       navigateToCertificateStartPage()
 
-      And("SAO details are provided to complete the first task in the task list")
+      And("the first task in the task list is completed")
       CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
       assertOnPage(CertificateSaoFullNamePage)
       CertificateSaoFullNamePage.addName(TestData.firstPersonName)
@@ -335,9 +358,14 @@ class CertificateSpec extends BaseSpec {
       assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
 
       When("a submission template is successfully uploaded")
+      When("the user selects the 'Upload the submission template' link")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+
+      Then("the 'Upload a submission template' page is displayed")
       assertOnPage(UploadSubmissionTemplatePage)
-      UploadSubmissionTemplatePage.upload(FourCompaniesFile)
+
+      When("the user uploads a valid submission template and selects 'Continue'")
+      UploadSubmissionTemplatePage.uploadAndSubmit(FourCompaniesFile)
 
       Then("the user lands on the 'Review the companies with a qualified certificate' page")
       assertOnPage(UploadReviewQualifiedPage)
@@ -362,7 +390,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
 
       When("the 'Continue' button is clicked having the original upload file still chosen")
-      UploadSubmissionTemplatePage.upload(FourCompaniesFile)
+      UploadSubmissionTemplatePage.uploadAndSubmit(FourCompaniesFile)
 
       Then("the user lands on the 'Review the companies with a qualified certificate' page")
       assertOnPage(UploadReviewQualifiedPage)
@@ -383,7 +411,7 @@ class CertificateSpec extends BaseSpec {
       When("the 'Continue' button is clicked")
       UploadReviewQualifiedPage.clickSubmissionButton()
 
-      Then("the user returns to the 'Certificate Task List'")
+      Then("the user returns to the 'Certificate Task List' page")
       assertUrl(CertificateTaskListPage.taskListThreePageUrl)
 
       And("the 'Upload the submission template' task is shown as completed")
@@ -391,7 +419,7 @@ class CertificateSpec extends BaseSpec {
     }
 
     Scenario(
-      "Attempting to upload unacceptable submission template files to Upscan returns the appropriate error",
+      "Attempting to upload unacceptable submission template files to Upscan which returns the appropriate error",
       CertificateUITests,
       SubmissionUITests,
       ZapTests
@@ -399,7 +427,7 @@ class CertificateSpec extends BaseSpec {
       Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
       navigateToCertificateStartPage()
 
-      And("SAO details are provided to complete the first task in the task list")
+      And("the first task in the task list is completed")
       CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
       assertOnPage(CertificateSaoFullNamePage)
       CertificateSaoFullNamePage.addName(TestData.firstPersonName)
@@ -409,10 +437,10 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoEmailPage.clickSubmissionButton()
       assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
 
-      When("attempting to upload a submission template which has invalid data for a company")
+      When("attempting to upload an invalid submission template")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
       assertOnPage(UploadSubmissionTemplatePage)
-      UploadSubmissionTemplatePage.upload(InvalidQualificationFile)
+      UploadSubmissionTemplatePage.uploadAndSubmit(InvalidQualificationFile)
 
       Then("the expected error page displays with a count of 4 errors")
       assertOnPage(UploadTableErrorPage)
@@ -424,20 +452,20 @@ class CertificateSpec extends BaseSpec {
       Then("the user is returned to the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
 
-      When("attempting to upload a submission template which is named 'invalid.REASON.csv'")
-      UploadSubmissionTemplatePage.upload(InvalidTypeFile)
+      When("attempting to upload 'invalid.REASON.csv' submission template")
+      UploadSubmissionTemplatePage.uploadAndSubmit(InvalidTypeFile)
 
       Then("the appropriate error is shown on screen")
       UploadSubmissionTemplatePage.assertValidationErrorDisplayed(InvalidFileTypeError)
 
-      When("attempting to upload a submission template which is named 'infected.VIRUS_NAME.csv'")
-      UploadSubmissionTemplatePage.upload(InfectedFile)
+      When("attempting to upload 'infected.VIRUS_NAME.csv' submission template")
+      UploadSubmissionTemplatePage.uploadAndSubmit(InfectedFile)
 
       Then("the appropriate error is shown on screen")
       UploadSubmissionTemplatePage.assertValidationErrorDisplayed(InfectedFileError)
 
-      When("attempting to upload a submission template which is named 'unknown.REASON.csv'")
-      UploadSubmissionTemplatePage.upload(UnknownErrorFile)
+      When("attempting to upload 'unknown.REASON.csv' submission template")
+      UploadSubmissionTemplatePage.uploadAndSubmit(UnknownErrorFile)
 
       Then("the appropriate error is shown on screen")
       UploadSubmissionTemplatePage.assertValidationErrorDisplayed(UnknownUploadError)
@@ -452,7 +480,7 @@ class CertificateSpec extends BaseSpec {
       Given("an authenticated user initiates a certificate submission")
       navigateToCertificateStartPage()
 
-      And("SAO details are provided to complete the first task in the task list")
+      And("first task in the task list is completed")
       CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
       assertOnPage(CertificateSaoFullNamePage)
       CertificateSaoFullNamePage.addName(TestData.firstPersonName)
@@ -462,7 +490,7 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoEmailPage.clickSubmissionButton()
       assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
 
-      When("attempting to upload a submission template which has invalid data for a company")
+      When("attempting to upload an invalid submission template")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
       assertOnPage(UploadSubmissionTemplatePage)
       UploadSubmissionTemplatePage.assertTemplateGuidanceLinkFoundWithCorrectAttributes()
@@ -485,7 +513,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
 
       And("the 'Continue' button is clicked after choosing a submission template file with an 'invalid structure'")
-      UploadSubmissionTemplatePage.upload(InvalidFormatFile)
+      UploadSubmissionTemplatePage.uploadAndSubmit(InvalidFormatFile)
 
       Then("the user lands on the 'There is a problem with your submission template file' error page")
       assertOnPage(UploadTemplateErrorPage)
@@ -520,7 +548,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
 
       When("the 'Continue' button is clicked after choosing a file with 'invalid certificate data' in the upload file")
-      UploadSubmissionTemplatePage.upload(ValidNotificationDataWithInvalidCertificateDataFile)
+      UploadSubmissionTemplatePage.uploadAndSubmit(ValidNotificationDataWithInvalidCertificateDataFile)
 
       And("the user lands on the 'There is a problem with your submission template file' page")
       assertOnPage(UploadTemplateErrorPage)
@@ -553,29 +581,31 @@ class CertificateSpec extends BaseSpec {
       AccountHomePage.clickMakeSubmissionLink()
       assertOnPage(SubmissionTypePage)
 
-      When("the 'Continue' button is clicked after neither radio button is selected")
+      When("the 'Continue' button is clicked")
       SubmissionTypePage.clickSubmissionButton()
 
       Then("an error message is displayed")
       SubmissionTypePage.assertErrorSummaryDisplayed()
 
-      When("the 'Continue' button is clicked after the 'A certificate' radio button is selected")
+      When("the 'A certificate' radio button is selected")
       SubmissionTypePage.clickCertificateRadioButton()
+
+      And("the 'Continue' button is clicked")
       SubmissionTypePage.clickSubmissionButton()
 
       Then("the user lands on the 'Submit a certificate' page")
       assertUrl(CertificateTaskListPage.taskListOnePageUrl)
 
-      When("the 'Provide the SAO's details' link is clicked")
+      When("the 'Provide the SAO’s details' link is clicked")
       CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
 
-      Then("the user lands on the 'SAO full name' page")
+      Then("the user lands on the 'What is the name of the SAO responsible for the certificate?' page")
       assertOnPage(CertificateSaoFullNamePage)
 
-      When("the 'Continue' button is clicked after no name was added")
+      When("the 'Continue' button is clicked")
       CertificateSaoFullNamePage.clickSubmissionButton()
 
-      Then("an error message is displayed")
+      Then("an error message 'Enter the name of the SAO responsible for the certificate' is displayed")
       CertificateSaoFullNamePage.assertValidationErrorDisplayed(MissingSAONameForCertificateError)
 
       When("the 'Continue' button is clicked after adding a valid SAO name")
@@ -585,10 +615,10 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'SAO email' page")
       assertOnPage(CertificateSaoEmailPage)
 
-      When("the user clicks 'Continue' after landing at SAO email page")
+      When("the user clicks 'Continue'")
       CertificateSaoEmailPage.clickSubmissionButton()
 
-      Then("an error message is displayed")
+      Then("an error message 'Enter the email address of the SAO' is displayed")
       CertificateSaoEmailPage.assertValidationErrorDisplayed(MissingSaoEmailForCertificateError)
 
       And("the page heading displays the correct SAO name")
@@ -596,13 +626,17 @@ class CertificateSpec extends BaseSpec {
 
       When("the user clicks 'Continue' after adding an invalid SAO email")
       CertificateSaoEmailPage.addEmail("abc123")
+
+      And("the user clicks 'Continue'")
       CertificateSaoEmailPage.clickSubmissionButton()
 
-      Then("an error message is displayed")
+      Then("an error message 'Email address must be in the correct format, like name@example.com' is displayed")
       CertificateSaoEmailPage.assertValidationErrorDisplayed(InvalidEmailError)
 
-      When("the user enters a valid SAO email and clicks 'Continue'")
+      When("the user enters a valid SAO email")
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
+
+      And("the user clicks 'Continue'")
       CertificateSaoEmailPage.clickSubmissionButton()
 
       Then("the user returns to the 'Certificate Task List'")
@@ -614,16 +648,16 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
 
-      When("the 'Continue' button is clicked after choosing a file for upload")
-      UploadSubmissionTemplatePage.upload(FourCompaniesFile)
+      When("a valid submission template is uploaded")
+      UploadSubmissionTemplatePage.uploadAndSubmit(FourCompaniesFile)
 
-      Then("the user lands on the 'Review the companies with a qualifying certificate' page")
+      Then("the user lands on the 'Review the companies with a qualified certificate' page")
       assertOnPage(UploadReviewQualifiedPage)
 
       When("the 'Continue' button is clicked")
       UploadReviewQualifiedPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Review Unqualified' page")
+      Then("the user lands on the 'Review the companies with an unqualified certificate' page")
       assertOnPage(UploadReviewUnqualifiedPage)
 
       When("the 'Continue' button is clicked")
@@ -632,13 +666,13 @@ class CertificateSpec extends BaseSpec {
       Then("the user returns to the 'Certificate Task List'")
       assertUrl(CertificateTaskListPage.taskListThreePageUrl)
 
-      When("the user continues from the additional information task")
+      When("the user selects 'Submit the certificate' link")
       CertificateTaskListPage.clickTaskListSectionLink(SubmitCertificate)
 
       Then("the user lands on the 'Additional information' page")
       assertOnPage(AdditionalInformationPage)
 
-      When("pressing continue without providing additional information")
+      When("the user clicks 'Continue'")
       AdditionalInformationPage.clickSubmissionButton()
 
       Then(
@@ -647,7 +681,7 @@ class CertificateSpec extends BaseSpec {
       AdditionalInformationPage.assertValidationErrorDisplayed(MissingCertificateAdditionalInformationError)
 
       When("the user clicks 'Continue' after adding additional information")
-      AdditionalInformationPage.addInformation("No additional information for this certificate")
+      AdditionalInformationPage.addInformation("additional information for this certificate")
       AdditionalInformationPage.clickSubmissionButton()
 
       Then("the user lands on the 'Who is submitting' page")
@@ -656,24 +690,28 @@ class CertificateSpec extends BaseSpec {
       When("the 'Continue' button is clicked after neither radio button is selected")
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
 
-      Then("an error message is displayed")
+      Then("the error message 'Select who is submitting the certificate' is displayed")
       CertificateWhoIsSubmittingPage.assertValidationErrorDisplayed(NoElementChosenWhoIsSubmittingError)
 
-      When("the user clicks 'Continue' after selecting the SAO submitter radio option")
+      When("the user selects 'The SAO' radio option")
       CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
+
+      And("the user clicks 'Continue'")
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
 
-      Then("the user lands on the SAO's 'Confirm the certificate' page")
+      Then("the user lands on the SAO’s 'Declaration' page")
       assertOnPage(CertificateDeclarationSaoPage)
 
-      When("the 'Confirm' button is clicked after no name is added")
+      When("the 'Confirm' button is clicked")
       CertificateDeclarationSaoPage.clickSubmissionButton()
 
-      Then("an error message is displayed")
+      Then("the error message 'Enter the name of the SAO authorised to submit the certificate' is displayed")
       CertificateDeclarationSaoPage.assertValidationErrorDisplayed(MissingAuthorisedSAONameToSubmitError)
 
-      When("the user clicks 'Continue' after adding the SAO name to complete the declaration")
+      When("the user enters the SAO name")
       CertificateDeclarationSaoPage.addSaoName(TestData.firstPersonName)
+
+      And("the user clicks 'Confirm'")
       CertificateDeclarationSaoPage.clickSubmissionButton()
 
       Then("the user lands on the 'Check your answers' page")
@@ -684,13 +722,13 @@ class CertificateSpec extends BaseSpec {
       assertTextOnPage(CheckYourAnswersPage.certificateDeclarationSaoValue, TestData.firstPersonName)
       assertTextOnPage(
         CheckYourAnswersPage.certificateAdditionalInformationValue,
-        "No additional information for this certificate"
+        "additional information for this certificate"
       )
 
       When("the 'Back' link is clicked")
       CheckYourAnswersPage.clickBackLink()
 
-      Then("the user lands on the SAO's 'Confirm the certificate' page showing the previous error")
+      Then("the user lands on the SAO's 'Confirm the certificate'")
       assertOnPage(CertificateDeclarationSaoPage)
 
       When("the 'Back' link is clicked")
@@ -705,14 +743,16 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Who is submitting' page")
       assertOnPage(CertificateWhoIsSubmittingPage)
 
-      When("the user clicks 'Continue' after selecting the stand-in submitter radio option")
+      When("the user selects 'A person authorised to submit on behalf of the SAO' radio option")
       CertificateWhoIsSubmittingPage.clickStandInSubmitterRadioButton()
+
+      And("the user clicks 'Continue'")
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
 
       Then("the user lands on the 'SAO stand-in declaration' page")
       assertOnPage(CertificateDeclarationStandInPage)
 
-      When("the 'Confirm' button is clicked after no names are entered")
+      When("the 'Confirm' button is clicked")
       CertificateDeclarationStandInPage.clickSubmissionButton()
 
       Then("an error message is displayed")
@@ -742,7 +782,7 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Check your answers' page")
       assertOnPage(CheckYourAnswersPage)
 
-      // TODO validation assertion for 'Check your answers' in the 'Stand-in declaration' variation
+      // TODO validation assertion for 'Check your answers' in the 'Stand-in declaration' variation --> is this still needed?
     }
 
     Scenario(
@@ -767,7 +807,7 @@ class CertificateSpec extends BaseSpec {
       When("attempting to upload a certificate submission template which has 1 invalid qualification set for a company")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
       assertOnPage(UploadSubmissionTemplatePage)
-      UploadSubmissionTemplatePage.upload(InvalidQualificationFile)
+      UploadSubmissionTemplatePage.uploadAndSubmit(InvalidQualificationFile)
 
       Then("the expected certificate upload error page displays with a count of 4 errors")
       assertOnPage(UploadTableErrorPage)
@@ -800,10 +840,14 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoEmailPage.clickSubmissionButton()
       assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
 
-      When("a submission template is successfully uploaded")
+      When("the 'Upload the submission template' is clicked")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+
+      Then("the user clicks 'Continue'")
       assertOnPage(UploadSubmissionTemplatePage)
-      UploadSubmissionTemplatePage.upload(FourCompaniesFile)
+
+      When("a valid submission template is uploaded")
+      UploadSubmissionTemplatePage.uploadAndSubmit(FourCompaniesFile)
 
       Then("the user lands on 'Review the companies with a qualified certificate' page")
       assertOnPage(UploadReviewQualifiedPage)
@@ -822,7 +866,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(UploadSubmissionTemplatePage)
 
       When("the 'Continue' button is clicked after re-selecting the original upload file")
-      UploadSubmissionTemplatePage.upload(FourCompaniesFile)
+      UploadSubmissionTemplatePage.uploadAndSubmit(FourCompaniesFile)
 
       Then("the user lands on the 'Review the companies with a qualified certificate' page")
       assertOnPage(UploadReviewQualifiedPage)
@@ -862,9 +906,9 @@ class CertificateSpec extends BaseSpec {
       assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
 
-      When("A submission template containing certificate data that exceeds the allowed size is uploaded")
+      And("A submission template containing certificate data that exceeds the allowed size is uploaded")
       assertOnPage(UploadSubmissionTemplatePage)
-      UploadSubmissionTemplatePage.upload(TooLargeDataFile)
+      UploadSubmissionTemplatePage.uploadAndSubmit(TooLargeDataFile)
 
       Then("the error message is displayed")
       UploadSubmissionTemplatePage.assertValidationErrorDisplayed(FileSizeExceededError)
@@ -1019,7 +1063,7 @@ class CertificateSpec extends BaseSpec {
       And("the user selects 'Continue'")
       CertificateSaoFullNamePage.clickSubmissionButton()
 
-      Then("user lands on the 'What is email address for {saoName}?' page")
+      Then("user lands on the 'What is email address for SAO Name?' page")
       assertOnPage(CertificateSaoEmailPage)
 
       And("the user enters a SAO email details exceeding 254 characters")
@@ -1029,9 +1073,9 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoEmailPage.clickSubmissionButton()
 
       Then("an error page is shown")
-      assertPageWithError(AdditionalInformationPage)
+      assertPageWithError(CertificateSaoEmailPage)
 
-      And("an error is shown") // need to mention the actual error message
+      And("the error message 'Email address must be 254 characters or less' is displayed")
       CertificateSaoEmailPage.assertValidationErrorDisplayed(emailCharacterLimitExceededError)
     }
 
@@ -1040,10 +1084,10 @@ class CertificateSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given("an authenticated user is on the 'Additional Information' page during a certificate submission")
+      Given("an authenticated user is on the 'Additional information' page")
       goToAdditionalInformationPageFromHomePage()
 
-      When("the user enters additional information exceeding the character limit and selects 'Continue'")
+      When("the user enters additional information that exceeds the character limit")
       AdditionalInformationPage.addInformation(TestData.additionalInformationLimitExceeded)
 
       And("the user selects 'Continue")
@@ -1058,14 +1102,13 @@ class CertificateSpec extends BaseSpec {
       AdditionalInformationPage.assertValidationErrorDisplayed(CertificateAdditionalInformationTooLongError)
     }
 
-    //empty fields
     Scenario(
-      "Validate errors when Authorised Person submits the certificate",
+      "Validate errors when the authorised submitter attempts submits the certificate with empty fields",
       CertificateUITests,
       SubmissionUITests,
       ZapTests
     ) {
-      Given("the user lands on the 'Declaration' page")
+      Given("the user lands on the 'SAO Declaration' page")
       navigateToSubmitCertificateConfirmAsStandInSubmitterPage()
 
       When("the user selects 'Confirm'")
@@ -1081,9 +1124,8 @@ class CertificateSpec extends BaseSpec {
       CertificateDeclarationStandInPage.assertValidationListErrorDisplayed(SAOStandInSubmitterAuthorisedByNameEmpty)
     }
 
-    //chaaracter exceeds
     Scenario(
-      "Validate errors when Authorised Person submits the certificate",
+      "Validate errors when authorised attempts to submit the certificate with fields where character limit is exceeded",
       CertificateUITests,
       SubmissionUITests,
       ZapTests
@@ -1091,7 +1133,7 @@ class CertificateSpec extends BaseSpec {
       Given("the user lands on the 'Declaration' page")
       navigateToSubmitCertificateConfirmAsStandInSubmitterPage()
 
-      When("the user enters the SAO name exceeding 105 characters")
+      When("the user enters the SAO name that exceeds 105 characters")
       CertificateDeclarationStandInPage.addSaoName(TestData.nameCharacterLimitExceeded)
 
       And("the user enters the stand in submitter name exceeding 105 characters")
@@ -1113,14 +1155,13 @@ class CertificateSpec extends BaseSpec {
       CertificateDeclarationStandInPage.clearSaoNameField()
     }
 
-    //invalid characters
     Scenario(
-      "Validate errors when Authorised Person submits the certificate",
+      "Validate errors when the authorised submitter attempts to submit the certificate with fields that have invalid characters",
       CertificateUITests,
       SubmissionUITests,
       ZapTests
     ) {
-      Given("the user lands on the 'Declaration' page")
+      Given("the user lands on the 'SAO Declaration' page")
       navigateToSubmitCertificateConfirmAsStandInSubmitterPage()
 
       When("the user enters the stand in submitter name with invalid characters")
@@ -1145,11 +1186,8 @@ class CertificateSpec extends BaseSpec {
       CertificateDeclarationStandInPage.clearSaoNameField()
     }
 
-
-    //no field values have been changed. Not sure if it's needed anymore.
-    //validate that all 'Change' links work from the account
     Scenario(
-      "Validate that an authorised SAO can amend the required details using the Change Link on the CYA (Check Your Answers) page during the submission process",
+      "Validate that an authorised SAO did not amend the details using the 'Change' Links on the CYA (Check Your Answers) page during the submission process",
       CertificateUITests,
       SubmissionUITests,
       ZapTests
@@ -1170,59 +1208,87 @@ class CertificateSpec extends BaseSpec {
         "Not provided"
       )
 
-      //leaving the inputs as it is
-      When("the user click on sao name 'Change' link but makes no changes")
+      When("the user selects the 'Change' link to amend the 'SAO name'")
       CheckYourAnswersPage.clickCertificateSaoNameChangeLink()
+
+      Then("the user is redirected to 'What is the name of the SAO responsible for the certificate?' page")
       assertUrl(CertificateSaoFullNamePage.changeSaoFullNamePageUrl)
+
+      And("the user clicks 'Continue' without amending the SAO name")
       CertificateSaoFullNamePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
 
-      Then("the original sao name value should be retained")
+      And("the sao name value is unchanged")
       assertTextOnPage(CheckYourAnswersPage.certificateSaoFullNameValue, TestData.firstPersonName)
 
-      When("the user click on sao email 'Change' link but makes no changes")
+      When("the user selects the 'Change' link to amend the 'SAO email address'")
       CheckYourAnswersPage.clickCertificateSaoEmailChangeLink()
+
+      Then("the user is redirected to 'What is the email address for SAO name?' page")
       assertUrl(CertificateSaoEmailPage.changeSaoEmailPageUrl)
+
+      And("the user selects 'Continue' without changing the SAO email")
       CertificateSaoFullNamePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
 
-      Then("the original sao email value should be retained")
+      Then("the SAO email value is unchanged")
       assertTextOnPage(CheckYourAnswersPage.certificateSaoEmailValue, TestData.firstPersonEmail)
 
-      When("the user click on Additional information 'Change' link but makes no changes")
-      CheckYourAnswersPage.clickCertificateAdditionalInformationLink()
-      assertUrl(AdditionalInformationPage.changeCertificateAdditionalInformationPageUrl)
-      AdditionalInformationPage.clickSkipButton()
+      When("the user selects the 'Change' link to amend 'Who is submitting the certificate?' detail")
+      CheckYourAnswersPage.clickCertificateWhoIsSubmittingChangeLink()
+
+      Then("the user lands on the transaction 'Who is submitting the certificate?' page")
+      assertUrl(CertificateWhoIsSubmittingPage.transactionCertificateWhoIsSubmittingPageUrl)
+
+      When("the user selects 'Continue'")
+      CertificateWhoIsSubmittingPage.clickSubmissionButton()
+
+      Then("user lands on the 'Check Your Answer' page")
       assertOnPage(CheckYourAnswersPage)
 
-      Then("the original Additional information value should be retained")
+      Then("the 'Who is submitting the certificate' value is unchanged")
+      assertTextOnPage(CheckYourAnswersPage.certificateWhoIsSubmittingValue, "The SAO")
+
+      When("the user selects the 'Change' link to amend 'SAO name on the declaration' detail")
+      CheckYourAnswersPage.clickCertificateDeclarationSaoNameChangeLink()
+
+      Then("the user is redirected to the 'Change SAO Declaration' page")
+      assertUrl(CertificateDeclarationSaoPage.changeDeclarationSaoPageUrl)
+
+      And("the user selects 'Confirm'")
+      CertificateDeclarationSaoPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Check Your Answer' page")
+      assertOnPage(CheckYourAnswersPage)
+
+      Then("the SAO declaration value is unchanged")
+      assertTextOnPage(CheckYourAnswersPage.certificateDeclarationSaoValue, TestData.firstPersonName)
+
+      When("the user selects the 'Change' link to amend 'Additional information about your certificate' detail")
+      CheckYourAnswersPage.clickCertificateAdditionalInformationLink()
+
+      Then("the user is redirected to the 'changeCertificateAdditionalInformation' url")
+      assertUrl(AdditionalInformationPage.changeCertificateAdditionalInformationPageUrl)
+
+      When("the user selects 'Skip'")
+      AdditionalInformationPage.clickSkipButton()
+
+      Then("the user lands on the 'Check Your Answer' page")
+      assertOnPage(CheckYourAnswersPage)
+
+      Then("the 'Additional information' value is unchanged")
       assertTextOnPage(
         CheckYourAnswersPage.certificateAdditionalInformationValue,
         "Not provided"
       )
-
-      When("the user click on who is submitting 'Change' link but makes no changes")
-      CheckYourAnswersPage.clickCertificateWhoIsSubmittingChangeLink()
-      assertUrl(CertificateWhoIsSubmittingPage.transactionCertificateWhoIsSubmittingPageUrl)
-      CertificateWhoIsSubmittingPage.clickSubmissionButton()
-      assertOnPage(CheckYourAnswersPage)
-
-      Then("the original 'who is submitting' value should be retained")
-      assertTextOnPage(CheckYourAnswersPage.certificateWhoIsSubmittingValue, "The SAO")
-
-      When("the user click on sao name on declaration 'Change' link but makes no changes")
-      CheckYourAnswersPage.clickCertificateDeclarationSaoNameChangeLink()
-      assertUrl(CertificateDeclarationSaoPage.changeDeclarationSaoPageUrl)
-      CertificateDeclarationSaoPage.clickSubmissionButton()
-      assertOnPage(CheckYourAnswersPage)
-
-      Then("the original declaration sao name value should be retained")
-      assertTextOnPage(CheckYourAnswersPage.certificateDeclarationSaoValue, TestData.firstPersonName)
     }
 
-    //field values have been changed
     Scenario(
-      "Validate that an authorised SAO can amend the required details using the Change Link on the CYA (Check Your Answers) page during the submission process",
+      "Validate that an authorised SAO amends the details using the Change Link on the CYA (Check Your Answers) page during the submission process",
       CertificateUITests,
       SubmissionUITests,
       ZapTests
@@ -1230,57 +1296,108 @@ class CertificateSpec extends BaseSpec {
       Given(
         "an authenticated sao user enters all mandatory details to submit a certificate from the 'Account Homepage'"
       )
+      navigateToSubmitCertificateConfirmPage()
+      CertificateDeclarationSaoPage.addSaoName(TestData.firstPersonName)
+      CertificateDeclarationSaoPage.clickSubmissionButton()
+      assertOnPage(CheckYourAnswersPage)
 
-      //amending the inputs
-      When("the user amends the sao name value using the 'Change' link")
+      When("the user selects the 'Change' link to amend the 'SAO name'")
       CheckYourAnswersPage.clickCertificateSaoNameChangeLink()
+
+      Then("the user is redirected to 'What is the name of the SAO responsible for the certificate?' page")
       assertUrl(CertificateSaoFullNamePage.changeSaoFullNamePageUrl)
+
+      When("the user enters a different SAO name")
       CertificateSaoFullNamePage.addName(TestData.secondPersonName)
+
+      And("the user selects 'Continue'")
       CertificateSaoFullNamePage.clickSubmissionButton()
+
+      Then("the user lands on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
 
-      And("the user amends the sao email value using the 'Change' link")
+      And("the new SAO name is displayed")
+      assertTextOnPage(CheckYourAnswersPage.certificateSaoFullNameValue, TestData.secondPersonName)
+
+      When("the user selects the 'Change' link to amend the 'SAO email address'")
       CheckYourAnswersPage.clickCertificateSaoEmailChangeLink()
-      assertUrl(CertificateSaoEmailPage.changeSaoEmailPageUrl)
-      CertificateSaoEmailPage.addEmail(TestData.secondPersonEmail)
-      CertificateSaoEmailPage.clickSubmissionButton()
-      assertOnPage(CheckYourAnswersPage)
 
-      And("the user amends the additional information value using 'Change' link")
-      CheckYourAnswersPage.clickCertificateAdditionalInformationLink()
-      assertUrl(AdditionalInformationPage.changeCertificateAdditionalInformationPageUrl)
-      AdditionalInformationPage.addInformation("No additional information for this certificate")
-      AdditionalInformationPage.clickSubmissionButton()
+      Then("the user is redirected to 'What is the email address for SAO name?' page")
+      assertUrl(CertificateSaoEmailPage.changeSaoEmailPageUrl)
+
+      When("the user enters a different SAO email address")
+      CertificateSaoEmailPage.addEmail(TestData.secondPersonEmail)
+
+      And("the user selects 'Continue'")
+      CertificateSaoEmailPage.clickSubmissionButton()
+
+      Then("the user lands on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
 
       Then(
-        "Amended sao name, sao email and an additional information values are correctly displayed on the 'Check Your Answers' page"
+        "the new sao email value is displayed"
       )
-      assertTextOnPage(CheckYourAnswersPage.certificateSaoFullNameValue, TestData.secondPersonName)
       assertTextOnPage(CheckYourAnswersPage.certificateSaoEmailValue, TestData.secondPersonEmail)
-      assertTextOnPage(
-        CheckYourAnswersPage.certificateAdditionalInformationValue,
-        "No additional information for this certificate"
-      )
 
-      When("the user amends 'who is submitting' value using 'Change' link")
+      When("the user selects the 'Change' link to amend 'Who is submitting the certificate?' detail")
       CheckYourAnswersPage.clickCertificateWhoIsSubmittingChangeLink()
+
+      Then("the user is redirected to the 'Who is submitting the certificate?' page")
       assertUrl(CertificateWhoIsSubmittingPage.transactionCertificateWhoIsSubmittingPageUrl)
+
+      When("the user selects the 'A person authorised to submit on behalf of the SAO' radio option")
       CertificateWhoIsSubmittingPage.clickStandInSubmitterRadioButton()
+
+      And("the user selects 'Continue'")
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
+
+      Then("the user lands on the 'stand in Declaration' page")
       assertUrl(CertificateDeclarationStandInPage.transactionDeclarationStandInPageUrl)
-      CertificateDeclarationStandInPage.addSaoName(TestData.firstPersonName)
+
+      When("user enters a Stand in submitter name")
       CertificateDeclarationStandInPage.addStandInSubmitterName(TestData.secondPersonName)
+
+      And("the user enters the SAO name")
+      CertificateDeclarationStandInPage.addSaoName(TestData.firstPersonName)
+
+      And("the user selects 'Confirm'")
       CertificateDeclarationStandInPage.clickSubmissionButton()
+
+      Then("the user lands on 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
 
-      Then("Amended 'Who is submitting' value is correctly displayed")
+      Then("the amended 'Who is submitting the certificate?' value is correctly displayed")
       assertTextOnPage(
         CheckYourAnswersPage.certificateWhoIsSubmittingValue,
         "A person authorised to submit on behalf of the SAO"
       )
+
+      And("the 'Authorised name on the declaration' value is displayed")
       assertTextOnPage(CheckYourAnswersPage.certificateDeclarationStandInValue, TestData.secondPersonName)
+
+      And("the 'SAO name on the declaration' value is displayed")
       assertTextOnPage(CheckYourAnswersPage.certificateDeclarationSaoValue, TestData.firstPersonName)
+
+      When("the user selects the 'Change' link to amend the 'Additional information about your certificate' value")
+      CheckYourAnswersPage.clickCertificateAdditionalInformationLink()
+
+      Then("the user is redirected to the 'Change Additional information about your certificate' page")
+      assertUrl(AdditionalInformationPage.changeCertificateAdditionalInformationPageUrl)
+
+      When("the user enters additional information")
+      AdditionalInformationPage.addInformation("additional information for this certificate")
+
+      When("the user selects 'Continue'")
+      AdditionalInformationPage.clickSubmissionButton()
+
+      Then("the user lands on 'Check Your Answers' page")
+      assertOnPage(CheckYourAnswersPage)
+
+      And("the new additional information is displayed")
+      assertTextOnPage(
+        CheckYourAnswersPage.certificateAdditionalInformationValue,
+        "additional information for this certificate"
+      )
     }
   }
 
@@ -1315,7 +1432,7 @@ class CertificateSpec extends BaseSpec {
   private def completeUploadSubmissionTemplateTask(): Unit = {
     CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
     assertOnPage(UploadSubmissionTemplatePage)
-    UploadSubmissionTemplatePage.upload(FourCompaniesFile)
+    UploadSubmissionTemplatePage.uploadAndSubmit(FourCompaniesFile)
     assertOnPage(UploadReviewQualifiedPage)
     UploadReviewQualifiedPage.clickSubmissionButton()
     assertOnPage(UploadReviewUnqualifiedPage)

@@ -43,7 +43,7 @@ object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupp
   val pageHeadingText: String            = "Upload a submission template"
   val guidanceLinkLocator: By            = By.id("template-guidance")
 
-  def upload(file: UploadFile): Unit = {
+  def uploadAndSubmit(file: UploadFile): Unit = {
     chooseFile(file.filename)
     clickSubmissionButton()
     waitForTextInHeading(getExpectedLandingPageHeading(file))
