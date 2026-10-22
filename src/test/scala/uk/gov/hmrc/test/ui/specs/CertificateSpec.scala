@@ -761,22 +761,32 @@ class CertificateSpec extends BaseSpec {
       When("the 'Confirm' button is clicked after an 'SAO' name is entered but not the 'stand in submitter' name")
       CertificateDeclarationStandInPage.addSaoName(TestData.firstPersonName)
       CertificateDeclarationStandInPage.clearStandInNameField()
+
+      Then("the 'Confirm' button is clicked")
       CertificateDeclarationStandInPage.clickSubmissionButton()
 
-      Then("an error message is displayed")
+      Then("the error message 'Enter the name of the SAO who authorised you to submit the certificate' is displayed")
       CertificateDeclarationStandInPage.assertErrorSummaryDisplayed()
 
-      When("the 'Confirm' button is clicked after an 'stand in submitter' name is entered but not the 'SAO' name")
+      When("the 'stand in submitter' name is entered")
       CertificateDeclarationStandInPage.addStandInSubmitterName(TestData.secondPersonName)
+
+      And("sao name field is empty")
       CertificateDeclarationStandInPage.clearSaoNameField()
+
+      And("the 'Confirm' button is clicked")
       CertificateDeclarationStandInPage.clickSubmissionButton()
 
-      Then("an error message is displayed")
+      Then("the error message 'Enter your full name' is displayed")
       CertificateDeclarationStandInPage.assertErrorSummaryDisplayed()
 
-      When("the 'Confirm' button is clicked after both names are entered")
+      When("the user enters a SAO name")
       CertificateDeclarationStandInPage.addSaoName(TestData.firstPersonName)
+
+      And("the user enters stand-in submitter name")
       CertificateDeclarationStandInPage.addStandInSubmitterName(TestData.secondPersonName)
+
+      When("the 'Confirm' button is clicked")
       CertificateDeclarationStandInPage.clickSubmissionButton()
 
       Then("the user lands on the 'Check your answers' page")
