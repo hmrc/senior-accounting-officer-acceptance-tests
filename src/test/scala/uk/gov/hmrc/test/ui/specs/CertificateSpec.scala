@@ -792,7 +792,9 @@ class CertificateSpec extends BaseSpec {
       Then("the user lands on the 'Check your answers' page")
       assertOnPage(CheckYourAnswersPage)
 
-      // TODO validation assertion for 'Check your answers' in the 'Stand-in declaration' variation --> is this still needed?
+      And("the user is shown the relevant authorised SAO entries")
+      assertTextOnPage(CheckYourAnswersPage.certificateDeclarationSaoValue, TestData.firstPersonName)
+      assertTextOnPage(CheckYourAnswersPage.certificateDeclarationStandInValue, TestData.secondPersonName)
     }
 
     Scenario(
