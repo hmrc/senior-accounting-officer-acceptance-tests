@@ -660,7 +660,7 @@ class ContactDetailsSpec extends BaseSpec {
     assertOnPage(CheckYourAnswersPage)
   }
 
-  private def testCheckYourAnswerContentFirstContact() = {
+  private def testCheckYourAnswerContentFirstContact(): Unit = {
     And("the first contact name is correctly displayed")
     assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, TestData.firstPersonName)
     And("the first contact email is correctly displayed")
@@ -669,7 +669,7 @@ class ContactDetailsSpec extends BaseSpec {
     assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "Yes")
   }
 
-  private def testCheckYourAnswerContentSecondContact() = {
+  private def testCheckYourAnswerContentSecondContact(): Unit = {
     And("the second contact name is correctly displayed")
     assertTextOnPage(CheckYourAnswersPage.secondContactNameValue, TestData.secondPersonName)
     And("the second contact email is correctly displayed")
