@@ -50,14 +50,14 @@ class ContactDetailsSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user starts adding contact details")
-      AddFirstContactDetails()
+      addFirstContactDetails()
       Then("they click the no radio button")
       AddAnotherContactPage.clickNoRadioButton()
       And("click the continue button")
       AddAnotherContactPage.clickSubmissionButton()
       Then("the user is on the check your answers page")
       assertOnPage(CheckYourAnswersPage)
-      testCheckYourAnswersContents(addAnotherContactValue = "No")
+      testCheckYourAnswerContentFirstContact()
 
       When("the user amends the first contact name using the 'Change' link")
       Then("they click the first contact name change link")
@@ -115,9 +115,10 @@ class ContactDetailsSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user completes company details and adds first and second contacts")
-      AddFirstContactDetails()
-      AddSecondContactDetails()
-      testCheckYourAnswersContents(addAnotherContactValue = "Yes")
+      addFirstContactDetails()
+      addSecondContactDetails()
+      testCheckYourAnswerContentFirstContact()
+      testCheckYourAnswerContentSecondContact()
 
       When("the user submits the contact details by clicking the continue button")
       CheckYourAnswersPage.clickSubmissionButton()
@@ -143,7 +144,7 @@ class ContactDetailsSpec extends BaseSpec {
       ZapTests
     ) {
       Given("a user has completed registration with a single contact")
-      AddFirstContactDetails()
+      addFirstContactDetails()
 
       Then("they click the no radio button")
       AddAnotherContactPage.clickNoRadioButton()
@@ -154,7 +155,7 @@ class ContactDetailsSpec extends BaseSpec {
       Then("they are on the check your answers page")
       assertOnPage(CheckYourAnswersPage)
 
-      testCheckYourAnswersContents(addAnotherContactValue = "No")
+      testCheckYourAnswerContentFirstContact()
 
       Then("the user clicks the continue button")
       CheckYourAnswersPage.clickSubmissionButton()
@@ -323,7 +324,8 @@ class ContactDetailsSpec extends BaseSpec {
 
       Then("the user lands on the 'Check Your Answers' page showing the correct details")
       assertOnPage(CheckYourAnswersPage)
-      testCheckYourAnswersContents(addAnotherContactValue = "Yes")
+      testCheckYourAnswerContentFirstContact()
+      testCheckYourAnswerContentSecondContact()
     }
 
     Scenario(
@@ -332,10 +334,11 @@ class ContactDetailsSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user completes company details and adds first and second contacts")
-      AddFirstContactDetails()
-      AddSecondContactDetails()
+      addFirstContactDetails()
+      addSecondContactDetails()
 
-      testCheckYourAnswersContents(addAnotherContactValue = "Yes")
+      testCheckYourAnswerContentFirstContact()
+      testCheckYourAnswerContentSecondContact()
 
       When("the user navigates to the first contact 'change name' page using the 'Change' link")
       CheckYourAnswersPage.clickFirstContactNameChangeLink()
@@ -461,7 +464,7 @@ class ContactDetailsSpec extends BaseSpec {
       ZapTests
     ) {
       Given("an authenticated user has added company details and a first contact")
-      AddFirstContactDetails()
+      addFirstContactDetails()
       Then("the user clicks the no radio button")
       AddAnotherContactPage.clickNoRadioButton()
       Then("the user clicks the continue button")
@@ -469,7 +472,7 @@ class ContactDetailsSpec extends BaseSpec {
       Then("the user is on the check your answers page")
       assertOnPage(CheckYourAnswersPage)
 
-      testCheckYourAnswersContents(addAnotherContactValue = "No")
+      testCheckYourAnswerContentFirstContact()
 
       When("the user selects the 'Change' link for 'Do you want to add another contact'")
       CheckYourAnswersPage.clickDoYouWantToAddAnotherContactChangeLink()
@@ -496,7 +499,8 @@ class ContactDetailsSpec extends BaseSpec {
       Then("the user is on the check your answers page")
       assertOnPage(CheckYourAnswersPage)
 
-      testCheckYourAnswersContents(addAnotherContactValue = "Yes")
+      testCheckYourAnswerContentFirstContact()
+      testCheckYourAnswerContentSecondContact()
 
       When("the user selects the 'Change' link for 'Do you want to add another contact?'")
       CheckYourAnswersPage.clickDoYouWantToAddAnotherContactChangeLink()
@@ -510,7 +514,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       Then("the user can view only the first contact details")
       assertOnPage(CheckYourAnswersPage)
-      testCheckYourAnswersContents(addAnotherContactValue = "No")
+      testCheckYourAnswerContentFirstContact()
 
       When("the user selects the 'Change' link for 'Do you want to add another contact?'")
       CheckYourAnswersPage.clickDoYouWantToAddAnotherContactChangeLink()
@@ -605,14 +609,14 @@ class ContactDetailsSpec extends BaseSpec {
   }
 
   private def goToSecondContactNamePage(): Unit = {
-    AddFirstContactDetails()
+    addFirstContactDetails()
     Then("the user clicks the yes radio button")
     AddAnotherContactPage.clickYesRadioButton()
     Then("the user clicks the continue button")
     AddAnotherContactPage.clickSubmissionButton()
   }
 
-  private def AddFirstContactDetails(): Unit = {
+  private def addFirstContactDetails(): Unit = {
     Then("the user clicks the enter your contact details link")
     RegistrationPage.clickEnterYourContactDetailsLink()
     Then("the user is on the contact details page")
@@ -635,7 +639,7 @@ class ContactDetailsSpec extends BaseSpec {
     assertOnPage(AddAnotherContactPage)
   }
 
-  private def AddSecondContactDetails(): Unit = {
+  private def addSecondContactDetails(): Unit = {
     Then("the user clicks the yes radio button")
     AddAnotherContactPage.clickYesRadioButton()
     And("the user clicks the continue button")
@@ -656,19 +660,19 @@ class ContactDetailsSpec extends BaseSpec {
     assertOnPage(CheckYourAnswersPage)
   }
 
-  private def testCheckYourAnswersContents(addAnotherContactValue: String): Unit = {
+  private def testCheckYourAnswerContentFirstContact() = {
     And("the first contact name is correctly displayed")
     assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, TestData.firstPersonName)
     And("the first contact email is correctly displayed")
     assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, TestData.firstPersonEmail)
-    And(s"the add another contact value is correctly displayed with value $addAnotherContactValue")
-    assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, addAnotherContactValue)
+    And(s"the add another contact value is correctly displayed with value Yes")
+    assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "Yes")
+  }
 
-    if addAnotherContactValue == "Yes" then {
-      And("the second contact name is correctly displayed")
-      assertTextOnPage(CheckYourAnswersPage.secondContactNameValue, TestData.secondPersonName)
-      And("the second contact email is correctly displayed")
-      assertTextOnPage(CheckYourAnswersPage.secondContactEmailValue, TestData.secondPersonEmail)
-    }
+  private def testCheckYourAnswerContentSecondContact() = {
+    And("the second contact name is correctly displayed")
+    assertTextOnPage(CheckYourAnswersPage.secondContactNameValue, TestData.secondPersonName)
+    And("the second contact email is correctly displayed")
+    assertTextOnPage(CheckYourAnswersPage.secondContactEmailValue, TestData.secondPersonEmail)
   }
 }

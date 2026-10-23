@@ -105,7 +105,7 @@ class RegistrationSpec extends BaseSpec {
     }
 
     Scenario(
-      "An Agent attempts to sign-in and is redirect to 'You cannot access this service' page",
+      "An Agent attempts to sign-in and is redirected to 'You cannot access this service' page",
       RegistrationUITests,
       ZapTests
     ) {
@@ -153,7 +153,7 @@ class RegistrationSpec extends BaseSpec {
       RegistrationUITests,
       ZapTests
     ) {
-      Given("standard user attempts to sign into the registration journey")
+      Given("An assistant attempts to sign into the registration journey")
       Then("they are redirected to the 'You cannot access this service' page")
       AuthorityWizardPage
         .withAffinityGroup(Organisation)
