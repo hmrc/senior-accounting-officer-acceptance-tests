@@ -58,6 +58,8 @@ class ContactDetailsSpec extends BaseSpec {
       Then("the user is on the check your answers page")
       assertOnPage(CheckYourAnswersPage)
       testCheckYourAnswerContentFirstContact()
+      And(s"the add another contact value is correctly displayed with value No")
+      assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "No")
 
       When("the user amends the first contact name using the 'Change' link")
       Then("they click the first contact name change link")
@@ -118,6 +120,10 @@ class ContactDetailsSpec extends BaseSpec {
       addFirstContactDetails()
       addSecondContactDetails()
       testCheckYourAnswerContentFirstContact()
+
+      And(s"the add another contact value is correctly displayed with value Yes")
+      assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "Yes")
+
       testCheckYourAnswerContentSecondContact()
 
       When("the user submits the contact details by clicking the continue button")
@@ -156,6 +162,9 @@ class ContactDetailsSpec extends BaseSpec {
       assertOnPage(CheckYourAnswersPage)
 
       testCheckYourAnswerContentFirstContact()
+
+      And(s"the add another contact value is correctly displayed with value No")
+      assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "No")
 
       Then("the user clicks the continue button")
       CheckYourAnswersPage.clickSubmissionButton()
@@ -325,6 +334,10 @@ class ContactDetailsSpec extends BaseSpec {
       Then("the user lands on the 'Check Your Answers' page showing the correct details")
       assertOnPage(CheckYourAnswersPage)
       testCheckYourAnswerContentFirstContact()
+
+      And(s"the add another contact value is correctly displayed with value Yes")
+      assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "Yes")
+
       testCheckYourAnswerContentSecondContact()
     }
 
@@ -338,6 +351,10 @@ class ContactDetailsSpec extends BaseSpec {
       addSecondContactDetails()
 
       testCheckYourAnswerContentFirstContact()
+
+      And(s"the add another contact value is correctly displayed with value Yes")
+      assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "Yes")
+
       testCheckYourAnswerContentSecondContact()
 
       When("the user navigates to the first contact 'change name' page using the 'Change' link")
@@ -474,6 +491,9 @@ class ContactDetailsSpec extends BaseSpec {
 
       testCheckYourAnswerContentFirstContact()
 
+      And(s"the add another contact value is correctly displayed with value No")
+      assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "No")
+
       When("the user selects the 'Change' link for 'Do you want to add another contact'")
       CheckYourAnswersPage.clickDoYouWantToAddAnotherContactChangeLink()
       Then("the user is on the 'add another contact page'")
@@ -500,6 +520,10 @@ class ContactDetailsSpec extends BaseSpec {
       assertOnPage(CheckYourAnswersPage)
 
       testCheckYourAnswerContentFirstContact()
+
+      And(s"the add another contact value is correctly displayed with value Yes")
+      assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "Yes")
+
       testCheckYourAnswerContentSecondContact()
 
       When("the user selects the 'Change' link for 'Do you want to add another contact?'")
@@ -515,6 +539,9 @@ class ContactDetailsSpec extends BaseSpec {
       Then("the user can view only the first contact details")
       assertOnPage(CheckYourAnswersPage)
       testCheckYourAnswerContentFirstContact()
+
+      And(s"the add another contact value is correctly displayed with value No")
+      assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "No")
 
       When("the user selects the 'Change' link for 'Do you want to add another contact?'")
       CheckYourAnswersPage.clickDoYouWantToAddAnotherContactChangeLink()
@@ -665,8 +692,6 @@ class ContactDetailsSpec extends BaseSpec {
     assertTextOnPage(CheckYourAnswersPage.firstContactNameValue, TestData.firstPersonName)
     And("the first contact email is correctly displayed")
     assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, TestData.firstPersonEmail)
-    And(s"the add another contact value is correctly displayed with value Yes")
-    assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "Yes")
   }
 
   private def testCheckYourAnswerContentSecondContact(): Unit = {
