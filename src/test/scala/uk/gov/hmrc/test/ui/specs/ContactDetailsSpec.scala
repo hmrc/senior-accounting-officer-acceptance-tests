@@ -53,23 +53,23 @@ class ContactDetailsSpec extends BaseSpec {
       addFirstContactDetails()
       When("the user clicks the no radio button")
       AddAnotherContactPage.clickNoRadioButton()
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       AddAnotherContactPage.clickSubmissionButton()
       Then("the user is on the check your answers page")
       assertOnPage(CheckYourAnswersPage)
       testCheckYourAnswerContentFirstContact()
-      And(s"the add another contact value is correctly displayed with value No")
+      And("the add another contact value is correctly displayed with value No")
       assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "No")
 
       When("the user amends the first contact name using the 'Change' link")
-      When("they click the first contact name change link")
+      And("they click the first contact name change link")
       CheckYourAnswersPage.clickFirstContactNameChangeLink()
       Then("they are back on the enter first contact name page")
       assertUrl(FirstContactNamePage.changePageUrl)
 
       When("they change the old name")
       FirstContactNamePage.addName(TestData.secondPersonName)
-      When("they click the continue button")
+      And("they click the continue button")
       FirstContactNamePage.clickSubmissionButton()
       Then("they are back on the check your answers page")
       assertOnPage(CheckYourAnswersPage)
@@ -80,7 +80,7 @@ class ContactDetailsSpec extends BaseSpec {
       assertUrl(FirstContactEmailPage.changePageUrl)
       When("they change the old email")
       FirstContactEmailPage.addEmail(TestData.secondPersonEmail)
-      When("they click the continue button")
+      And("they click the continue button")
       FirstContactEmailPage.clickSubmissionButton()
       Then("they are back on the check your answers page")
       assertOnPage(CheckYourAnswersPage)
@@ -89,7 +89,7 @@ class ContactDetailsSpec extends BaseSpec {
       assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, TestData.secondPersonEmail)
 
       When("the user wants to go back to the add another client page through the change link")
-      When("the user clicks the change link for 'do you want to add another contact'")
+      And("the user clicks the change link for 'do you want to add another contact'")
       CheckYourAnswersPage.clickDoYouWantToAddAnotherContactChangeLink()
       Then("they are on the 'add another contact' page")
       assertUrl(AddAnotherContactPage.transactionPageUrl)
@@ -122,7 +122,7 @@ class ContactDetailsSpec extends BaseSpec {
       addSecondContactDetails()
       testCheckYourAnswerContentFirstContact()
 
-      And(s"the add another contact value is correctly displayed with value Yes")
+      And("the add another contact value is correctly displayed with value Yes")
       assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "Yes")
 
       testCheckYourAnswerContentSecondContact()
@@ -156,7 +156,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("they click the no radio button")
       AddAnotherContactPage.clickNoRadioButton()
 
-      When("they click the continue button")
+      And("they click the continue button")
       AddAnotherContactPage.clickSubmissionButton()
 
       Then("they are on the check your answers page")
@@ -164,7 +164,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       testCheckYourAnswerContentFirstContact()
 
-      And(s"the add another contact value is correctly displayed with value No")
+      And("the add another contact value is correctly displayed with value No")
       assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "No")
 
       When("the user clicks the continue button")
@@ -197,7 +197,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user enter a first contact name with invalid characters")
       FirstContactNamePage.addName(TestData.nameWithInvalidCharacters)
 
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       FirstContactNamePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -206,7 +206,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user enter a first contact name containing more than 105 characters")
       FirstContactNamePage.addName(TestData.nameCharacterLimitExceeded)
 
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       FirstContactNamePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -215,7 +215,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user enters a valid name")
       FirstContactNamePage.addName(TestData.firstPersonName)
 
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       FirstContactNamePage.clickSubmissionButton()
 
       Then("the user is taken to the first contact email page")
@@ -230,7 +230,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user enters an invalid email address")
       FirstContactEmailPage.addEmail(TestData.invalidEmail)
 
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       FirstContactEmailPage.clickSubmissionButton()
 
       Then("the validation error for 'invalid email' is shown")
@@ -239,7 +239,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user enters an email address exceeding the maximum allowed '254' character limit")
       FirstContactEmailPage.addEmail(TestData.emailCharacterLimitExceeded)
 
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       FirstContactEmailPage.clickSubmissionButton()
 
       Then("the validation error for 'email characters limit exceed' is shown")
@@ -248,7 +248,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user enters a valid email with 'allowed special characters'")
       FirstContactEmailPage.addEmail(TestData.firstPersonEmail)
 
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       FirstContactEmailPage.clickSubmissionButton()
 
       Then("the user lands on the 'Have you added all the contacts you need?' question page")
@@ -263,7 +263,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the selects the 'No' radio button")
       AddAnotherContactPage.clickYesRadioButton()
 
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       AddAnotherContactPage.clickSubmissionButton()
 
       Then("the user lands on the second contact name page")
@@ -278,7 +278,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user enter a second contact name with invalid characters")
       SecondContactNamePage.addName(TestData.nameWithInvalidCharacters)
 
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       SecondContactNamePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -287,7 +287,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user enter a second contact name containing more than 105 characters")
       SecondContactNamePage.addName(TestData.nameCharacterLimitExceeded)
 
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       SecondContactNamePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -296,7 +296,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user enters a valid name and clicks 'Continue'")
       SecondContactNamePage.addName(TestData.secondPersonName)
 
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       SecondContactNamePage.clickSubmissionButton()
 
       Then("the user is taken to the second contact email page")
@@ -311,7 +311,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user enters an invalid email address with consecutive dots in the domain")
       SecondContactEmailPage.addEmail(TestData.invalidEmail)
 
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       SecondContactEmailPage.clickSubmissionButton()
 
       Then("the invalid email address validation error is shown")
@@ -320,7 +320,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user enters an email address exceeding the maximum allowed '254' character limit")
       SecondContactEmailPage.addEmail(TestData.emailCharacterLimitExceeded)
 
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       SecondContactEmailPage.clickSubmissionButton()
 
       Then("the validation error for 'email characters limit exceed' is shown")
@@ -329,14 +329,14 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user enters a valid email")
       SecondContactEmailPage.addEmail(TestData.secondPersonEmail)
 
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       SecondContactEmailPage.clickSubmissionButton()
 
       Then("the user lands on the 'Check Your Answers' page showing the correct details")
       assertOnPage(CheckYourAnswersPage)
       testCheckYourAnswerContentFirstContact()
 
-      And(s"the add another contact value is correctly displayed with value Yes")
+      And("the add another contact value is correctly displayed with value Yes")
       assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "Yes")
 
       testCheckYourAnswerContentSecondContact()
@@ -353,13 +353,15 @@ class ContactDetailsSpec extends BaseSpec {
 
       testCheckYourAnswerContentFirstContact()
 
-      And(s"the add another contact value is correctly displayed with value Yes")
+      And("the add another contact value is correctly displayed with value Yes")
       assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "Yes")
 
       testCheckYourAnswerContentSecondContact()
 
-      When("the user navigates to the first contact 'change name' page using the 'Change' link")
+      When("the user clicks on the 'Change' link for the first contact name")
       CheckYourAnswersPage.clickFirstContactNameChangeLink()
+
+      Then("the user is on the first contact name page")
       assertUrl(FirstContactNamePage.changePageUrl)
 
       When("the user changes the name")
@@ -378,7 +380,7 @@ class ContactDetailsSpec extends BaseSpec {
       CheckYourAnswersPage.clickFirstContactNameChangeLink()
       assertUrl(FirstContactNamePage.changePageUrl)
 
-      When("the user removes name")
+      And("the user removes name")
       FirstContactNamePage.addName("")
 
       When("the user clicks 'Continue' without entering a name")
@@ -390,7 +392,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user resubmits with the original name")
       FirstContactNamePage.addName(TestData.firstPersonName)
 
-      When("the user clicks 'Continue'")
+      And("the user clicks 'Continue'")
       FirstContactNamePage.clickSubmissionButton()
       assertOnPage(CheckYourAnswersPage)
 
@@ -401,10 +403,10 @@ class ContactDetailsSpec extends BaseSpec {
       CheckYourAnswersPage.clickFirstContactEmailChangeLink()
       assertUrl(FirstContactEmailPage.changePageUrl)
 
-      When("the user removes email")
+      And("the user removes email")
       FirstContactEmailPage.addEmail("")
 
-      When("the user clicks 'Continue' without entering an email address")
+      And("the user clicks 'Continue' without entering an email address")
       FirstContactEmailPage.clickSubmissionButton()
 
       Then("the validation error for 'missing email' is shown")
@@ -413,8 +415,10 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user resubmits with the original email")
       FirstContactEmailPage.addEmail(TestData.firstPersonEmail)
 
-      When("the user clicks 'Continue'")
+      And("the user clicks 'Continue'")
       FirstContactEmailPage.clickSubmissionButton()
+
+      Then("the user is on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
 
       Then("the original first contact email address is correctly displayed on the 'Check Your Answers' page")
@@ -446,7 +450,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user removes name")
       SecondContactNamePage.addName("")
 
-      When("the user clicks 'Continue' without entering an email address")
+      And("the user clicks 'Continue' without entering an email address")
       SecondContactNamePage.clickSubmissionButton()
 
       And("the validation error for 'missing name' is shown")
@@ -455,8 +459,10 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user resubmits with the original name")
       SecondContactNamePage.addName(TestData.secondPersonName)
 
-      When("the user clicks 'Continue'")
+      And("the user clicks 'Continue'")
       SecondContactNamePage.clickSubmissionButton()
+
+      Then("the user is on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
 
       And("the original second contact name is correctly displayed on the 'Check Your Answers' page")
@@ -480,8 +486,10 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user resubmits with the original email")
       SecondContactEmailPage.addEmail(TestData.secondPersonEmail)
 
-      When("the user clicks 'Continue'")
+      And("the user clicks 'Continue'")
       SecondContactEmailPage.clickSubmissionButton()
+
+      Then("the user is on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
 
       Then("the original second contact email address is correctly displayed on the 'Check Your Answers' page")
@@ -504,7 +512,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       testCheckYourAnswerContentFirstContact()
 
-      And(s"the add another contact value is correctly displayed with value No")
+      And("the add another contact value is correctly displayed with value No")
       assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "No")
 
       When("the user selects the 'Change' link for 'Do you want to add another contact'")
@@ -514,27 +522,27 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user changes the selection from 'No' to 'Yes' by clicking the yes radio button")
       AddAnotherContactPage.clickYesRadioButton()
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       AddAnotherContactPage.clickSubmissionButton()
       Then("the user is on the enter second contact name page")
       assertUrl(SecondContactNamePage.transactionPageUrl)
 
       When("the user can enter the second contact details by inputting a name")
       SecondContactNamePage.addName(TestData.secondPersonName)
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       SecondContactNamePage.clickSubmissionButton()
       Then("the user is on the enter second contact email page")
       assertUrl(SecondContactEmailPage.transactionPageUrl)
       When("they input a second contact email")
       SecondContactEmailPage.addEmail(TestData.secondPersonEmail)
-      When("they click the continue button")
+      And("they click the continue button")
       SecondContactEmailPage.clickSubmissionButton()
       Then("the user is on the check your answers page")
       assertOnPage(CheckYourAnswersPage)
 
       testCheckYourAnswerContentFirstContact()
 
-      And(s"the add another contact value is correctly displayed with value Yes")
+      And("the add another contact value is correctly displayed with value Yes")
       assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "Yes")
 
       testCheckYourAnswerContentSecondContact()
@@ -546,7 +554,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user changes the selection from 'Yes' to 'No'")
       AddAnotherContactPage.clickNoRadioButton()
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       AddAnotherContactPage.clickSubmissionButton()
 
       Then("the user can view only the first contact details")
@@ -554,7 +562,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       testCheckYourAnswerContentFirstContact()
 
-      And(s"the add another contact value is correctly displayed with value No")
+      And("the add another contact value is correctly displayed with value No")
       assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "No")
 
       When("the user selects the 'Change' link for 'Do you want to add another contact?'")
@@ -564,7 +572,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user changes the selection from 'No' to 'Yes' for incomplete journey")
       AddAnotherContactPage.clickYesRadioButton()
-      When("the user clicks the back link")
+      And("the user clicks the back link")
       clickOnBackLink()
 
       Then("the user can view only the original selection 'No'")
@@ -585,7 +593,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user enter a first contact name containing 1 character")
       FirstContactNamePage.addName(TestData.minimumNameCharacterLimit)
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       FirstContactNamePage.clickSubmissionButton()
       Then("the user is on the enter first contact email page")
       assertOnPage(FirstContactEmailPage)
@@ -601,7 +609,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user enter a first contact name containing 105 characters")
       FirstContactNamePage.addName(TestData.maximumNameCharacterLimit)
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       FirstContactNamePage.clickSubmissionButton()
       Then("the user is on the first contact email page")
       assertOnPage(FirstContactEmailPage)
@@ -617,7 +625,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user enter a second contact name containing 1 character")
       SecondContactNamePage.addName(TestData.minimumNameCharacterLimit)
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       SecondContactNamePage.clickSubmissionButton()
       Then("the user is on the second contact email page")
       assertOnPage(SecondContactEmailPage)
@@ -635,7 +643,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user enter a second contact name containing 105 characters")
       SecondContactNamePage.addName(TestData.maximumNameCharacterLimit)
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       SecondContactNamePage.clickSubmissionButton()
       Then("the user is on the second contact email page")
       assertOnPage(SecondContactEmailPage)
@@ -645,7 +653,7 @@ class ContactDetailsSpec extends BaseSpec {
   private def goToFirstContactNamePage(): Unit = {
     When("the user clicks the enter contact details link")
     RegistrationPage.clickEnterYourContactDetailsLink()
-    When("the user clicks the continue button")
+    And("the user clicks the continue button")
     ContactDetailsPage.clickSubmissionButton()
     Then("the user is on the first contact name page")
     assertOnPage(FirstContactNamePage)
@@ -655,7 +663,7 @@ class ContactDetailsSpec extends BaseSpec {
     addFirstContactDetails()
     When("the user clicks the yes radio button")
     AddAnotherContactPage.clickYesRadioButton()
-    When("the user clicks the continue button")
+    And("the user clicks the continue button")
     AddAnotherContactPage.clickSubmissionButton()
   }
 
@@ -670,13 +678,13 @@ class ContactDetailsSpec extends BaseSpec {
     assertOnPage(FirstContactNamePage)
     When("the user inputs their first name")
     FirstContactNamePage.addName(TestData.firstPersonName)
-    When("the user clicks the continue button")
+    And("the user clicks the continue button")
     FirstContactNamePage.clickSubmissionButton()
     Then("the user on the enter first email page")
     assertOnPage(FirstContactEmailPage)
     When("the user inputs their first email")
     FirstContactEmailPage.addEmail(TestData.firstPersonEmail)
-    When("the user clicks the continue button")
+    And("the user clicks the continue button")
     FirstContactEmailPage.clickSubmissionButton()
     Then("the user is on the 'add another contact' page")
     assertOnPage(AddAnotherContactPage)
@@ -685,19 +693,19 @@ class ContactDetailsSpec extends BaseSpec {
   private def addSecondContactDetails(): Unit = {
     When("the user clicks the yes radio button")
     AddAnotherContactPage.clickYesRadioButton()
-    When("the user clicks the continue button")
+    And("the user clicks the continue button")
     AddAnotherContactPage.clickSubmissionButton()
     Then("the user is on the enter second contact name page")
     assertOnPage(SecondContactNamePage)
     When("the user inputs a second contact name")
     SecondContactNamePage.addName(TestData.secondPersonName)
-    When("the user clicks the continue button")
+    And("the user clicks the continue button")
     SecondContactNamePage.clickSubmissionButton()
     Then("the user is on the enter second contact email page")
     assertOnPage(SecondContactEmailPage)
     When("the user inputs a second contact email")
     SecondContactEmailPage.addEmail(TestData.secondPersonEmail)
-    When("the user clicks the continue button")
+    And("the user clicks the continue button")
     SecondContactEmailPage.clickSubmissionButton()
     Then("the user is on the check your answers page")
     assertOnPage(CheckYourAnswersPage)
