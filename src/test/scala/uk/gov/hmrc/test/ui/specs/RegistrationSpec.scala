@@ -68,13 +68,13 @@ class RegistrationSpec extends BaseSpec {
       FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
 
-      Then("the user clicks 'Enter nominated company details' link")
+      When("the user clicks 'Enter nominated company details' link")
       RegistrationPage.clickEnterYourNominatedCompanyDetailsLink()
 
       Then("they land on the company details guidance page")
       assertOnPage(NominatedCompanyDetailsGuidancePage)
 
-      Then("the user clicks the continue button")
+      When("the user clicks the continue button")
       NominatedCompanyDetailsGuidancePage.clickSubmissionButton()
       GrsStubPage.clickStubResponseButton()
 
