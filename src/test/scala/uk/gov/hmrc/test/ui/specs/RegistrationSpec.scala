@@ -97,7 +97,7 @@ class RegistrationSpec extends BaseSpec {
         .withDsaoEnrolment(TestData.subscriptionId)
         .redirectToCompanyAlreadyRegistered()
 
-      And("the page links the user to the business tax account page")
+      Then("the page links the user to the business tax account page")
       CompanyAlreadyRegisteredPage.assertLinkHasTextOnPage(
         CompanyAlreadyRegisteredPage.businessTaxAccountLink,
         "business tax account (opens in new tab)"
@@ -135,7 +135,7 @@ class RegistrationSpec extends BaseSpec {
         .redirectToIndividualCannotAccessThisService()
       assertOnPage(IndividualCannotAccessThisServicePage)
 
-      Then("the 'sign in to Government Gateway with an organisation account' link is present")
+      And("the 'sign in to Government Gateway with an organisation account' link is present")
       IndividualCannotAccessThisServicePage.assertLinkHasTextOnPage(
         IndividualCannotAccessThisServicePage.whoCanUseThisServiceLink,
         "Find out more about who can use this service"

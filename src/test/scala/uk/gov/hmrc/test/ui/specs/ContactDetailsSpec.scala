@@ -122,7 +122,7 @@ class ContactDetailsSpec extends BaseSpec {
       addSecondContactDetails()
       testCheckYourAnswerContentFirstContact()
 
-      And("the add another contact value is correctly displayed with value Yes")
+      Then("the add another contact value is correctly displayed with value Yes")
       assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "Yes")
 
       testCheckYourAnswerContentSecondContact()
@@ -132,7 +132,7 @@ class ContactDetailsSpec extends BaseSpec {
       Then("the user is back on the registration page")
       assertOnPage(RegistrationPage)
 
-      Then("the 'Enter your contact details' section status is 'Completed'")
+      And("the 'Enter your contact details' section status is 'Completed'")
       RegistrationPage.assertRegistrationPageSectionStatus(ContactDetails, Completed)
 
       When("the user submits the registration")
@@ -353,7 +353,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       testCheckYourAnswerContentFirstContact()
 
-      And("the add another contact value is correctly displayed with value Yes")
+      Then("the add another contact value is correctly displayed with value Yes")
       assertTextOnPage(CheckYourAnswersPage.addAnotherContactValue, "Yes")
 
       testCheckYourAnswerContentSecondContact()
@@ -367,7 +367,7 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user changes the name")
       FirstContactNamePage.addName(TestData.name)
 
-      Then("the user clicks the back link hence not completing the journey")
+      And("the user clicks the back link hence not completing the journey")
       clickOnBackLink()
 
       Then("the user is back on the check your answers page")
@@ -421,7 +421,7 @@ class ContactDetailsSpec extends BaseSpec {
       Then("the user is on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
 
-      Then("the original first contact email address is correctly displayed on the 'Check Your Answers' page")
+      And("the original first contact email address is correctly displayed on the 'Check Your Answers' page")
       assertTextOnPage(CheckYourAnswersPage.firstContactEmailValue, TestData.firstPersonEmail)
 
       When(
@@ -453,7 +453,7 @@ class ContactDetailsSpec extends BaseSpec {
       And("the user clicks 'Continue' without entering an email address")
       SecondContactNamePage.clickSubmissionButton()
 
-      And("the validation error for 'missing name' is shown")
+      Then("the validation error for 'missing name' is shown")
       SecondContactNamePage.assertValidationErrorDisplayed(ValidationError.MissingNameError)
 
       When("the user resubmits with the original name")
@@ -474,10 +474,10 @@ class ContactDetailsSpec extends BaseSpec {
       Then("the user on the second contact email page")
       assertUrl(SecondContactEmailPage.changePageUrl)
 
-      Then("the user leaves email empty")
+      When("the user leaves email empty")
       SecondContactEmailPage.addEmail("")
 
-      When("the user clicks 'Continue' without entering a name")
+      And("the user clicks 'Continue' without entering a name")
       SecondContactEmailPage.clickSubmissionButton()
 
       Then("the validation error for 'missing name' is shown")
@@ -492,7 +492,7 @@ class ContactDetailsSpec extends BaseSpec {
       Then("the user is on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
 
-      Then("the original second contact email address is correctly displayed on the 'Check Your Answers' page")
+      And("the original second contact email address is correctly displayed on the 'Check Your Answers' page")
       assertTextOnPage(CheckYourAnswersPage.secondContactEmailValue, TestData.secondPersonEmail)
     }
 
@@ -505,7 +505,7 @@ class ContactDetailsSpec extends BaseSpec {
       addFirstContactDetails()
       When("the user clicks the no radio button")
       AddAnotherContactPage.clickNoRadioButton()
-      When("the user clicks the continue button")
+      And("the user clicks the continue button")
       AddAnotherContactPage.clickSubmissionButton()
       Then("the user is on the check your answers page")
       assertOnPage(CheckYourAnswersPage)
