@@ -20,9 +20,14 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.{BasePage, DynamicUrlWithKnownParam, StaticTitle}
-import uk.gov.hmrc.test.ui.support.PageSupport.clickContinueButton
+import uk.gov.hmrc.test.ui.support.GrsJourneyIdSupport
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertUrl, clickContinueButton}
 
-object IsThisYourBusinessPage extends BasePage with DynamicUrlWithKnownParam[String] with StaticTitle {
+object IsThisYourBusinessPage
+    extends BasePage
+    with DynamicUrlWithKnownParam[String]
+    with StaticTitle
+    with GrsJourneyIdSupport {
 
   private val grsHost: String = TestConfiguration.url("incorporated-entity-identification-frontend")
 
@@ -31,11 +36,12 @@ object IsThisYourBusinessPage extends BasePage with DynamicUrlWithKnownParam[Str
 
   override def pageUrl(param: String): String = s"$grsHost/$param/confirm-business-name"
 
+  def assertOnPage(): Unit = assertUrl(pageUrl(journeyId))
+
   val selectYesRadioButton: By = By.id("confirmBusinessName")
 
   def selectYesRadioAndSubmit(): Unit = {
     fluentWait.until(ExpectedConditions.presenceOfElementLocated(selectYesRadioButton)).click()
     clickContinueButton()
   }
-
 }

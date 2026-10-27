@@ -20,15 +20,22 @@ import org.openqa.selenium.By
 import org.openqa.selenium.support.ui.ExpectedConditions
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
 import uk.gov.hmrc.test.ui.pages.{BasePage, DynamicUrlWithKnownParam, StaticTitle}
-import uk.gov.hmrc.test.ui.support.PageSupport.clickContinueButton
+import uk.gov.hmrc.test.ui.support.GrsJourneyIdSupport
+import uk.gov.hmrc.test.ui.support.PageSupport.{assertUrl, clickContinueButton}
 
-object UniqueTaxpayerReferencePage extends BasePage with DynamicUrlWithKnownParam[String] with StaticTitle {
+object UniqueTaxpayerReferencePage
+    extends BasePage
+    with DynamicUrlWithKnownParam[String]
+    with StaticTitle
+    with GrsJourneyIdSupport {
 
   private val grsHost: String = TestConfiguration.url("incorporated-entity-identification-frontend")
 
   override def pageUrl(param: String): String = s"$grsHost/$param/ct-utr"
   override def pageTitle: String              =
     "Your Corporation Tax Unique Taxpayer Reference (UTR) - Senior Accounting Officer notification and certificate - GOV.UK"
+
+  def assertOnPage(): Unit = assertUrl(pageUrl(journeyId))
 
   val validGrsStubUniqueTaxpayerReference: String = "1234567890"
 

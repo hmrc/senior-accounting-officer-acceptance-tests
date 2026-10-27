@@ -31,6 +31,7 @@ object FeatureTogglePage extends CommonPage with SubmissionButtonSupport {
 
   private val stubGrsCheckbox: By               = By.id("stubGrs")
   private val reshuffledContactFlowCheckbox: By = By.id("contactFlowReshuffle")
+  private val grsAllowsRelativeUrlCheckbox: By  = By.id("grsAllowsRelativeUrl")
 
   def setGrsHost(grsHost: GrsHost): Unit = {
     loadPage()
@@ -54,5 +55,14 @@ object FeatureTogglePage extends CommonPage with SubmissionButtonSupport {
     if checkboxElement.isSelected != isChecked then {
       checkboxElement.click()
     }
+  }
+
+  def setGrsAllowsRelativeUrl(isEnabled: Boolean): Unit = {
+    val checkBoxElement = driver.findElement(grsAllowsRelativeUrlCheckbox)
+    if checkBoxElement.isSelected != isEnabled then {
+      checkBoxElement.click()
+    }
+
+    FeatureTogglePage.clickSubmissionButton()
   }
 }
