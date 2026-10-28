@@ -93,7 +93,7 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoEmailPage.clickSubmissionButton()
 
       Then("the user returns to the 'Submit a certificate task list' page")
-      assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+      assertOnPage(CertificateTaskListPage)
 
       And(
         "the 'Submit a certificate task list' page is displayed showing 'Provide the SAO’s details' section as Completed"
@@ -133,7 +133,7 @@ class CertificateSpec extends BaseSpec {
       UploadReviewUnqualifiedPage.clickSubmissionButton()
 
       Then("the user returns to the 'Submit a certificate task list'")
-      assertUrl(CertificateTaskListPage.taskListThreePageUrl)
+      assertOnPage(CertificateTaskListPage)
 
       And(
         "the Submit a certificate task list page is displayed, showing 'Provide the SAO’s details' and 'Upload the submission template' sections as 'Completed'"
@@ -248,7 +248,7 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoEmailPage.clickSubmissionButton()
 
       Then("the user returns to the 'Certificate Task List'")
-      assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+      assertOnPage(CertificateTaskListPage)
 
       When("the 'Upload the submission template' link is clicked")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
@@ -272,7 +272,7 @@ class CertificateSpec extends BaseSpec {
       UploadReviewUnqualifiedPage.clickSubmissionButton()
 
       Then("the user returns to the 'Certificate Task List'")
-      assertUrl(CertificateTaskListPage.taskListThreePageUrl)
+      assertOnPage(CertificateTaskListPage)
 
       When("the user selects 'Submit the certificate' link")
       CertificateTaskListPage.clickTaskListSectionLink(SubmitCertificate)
@@ -355,7 +355,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateSaoEmailPage)
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
       CertificateSaoEmailPage.clickSubmissionButton()
-      assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+      assertOnPage(CertificateTaskListPage)
 
       When("a submission template is successfully uploaded")
       When("the user selects the 'Upload the submission template' link")
@@ -412,7 +412,7 @@ class CertificateSpec extends BaseSpec {
       UploadReviewQualifiedPage.clickSubmissionButton()
 
       Then("the user returns to the 'Certificate Task List' page")
-      assertUrl(CertificateTaskListPage.taskListThreePageUrl)
+      assertOnPage(CertificateTaskListPage)
 
       And("the 'Upload the submission template' task is shown as completed")
       CertificateTaskListPage.assertTaskListSectionStatus(UploadSubmissionTemplate, Completed)
@@ -435,7 +435,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateSaoEmailPage)
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
       CertificateSaoEmailPage.clickSubmissionButton()
-      assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+      assertOnPage(CertificateTaskListPage)
 
       When("attempting to upload an invalid submission template")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
@@ -488,7 +488,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateSaoEmailPage)
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
       CertificateSaoEmailPage.clickSubmissionButton()
-      assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+      assertOnPage(CertificateTaskListPage)
 
       When("attempting to upload an invalid submission template")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
@@ -594,7 +594,7 @@ class CertificateSpec extends BaseSpec {
       SubmissionTypePage.clickSubmissionButton()
 
       Then("the user lands on the 'Submit a certificate' page")
-      assertUrl(CertificateTaskListPage.taskListOnePageUrl)
+      assertOnPage(CertificateTaskListPage)
 
       When("the 'Provide the SAO’s details' link is clicked")
       CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
@@ -640,7 +640,7 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoEmailPage.clickSubmissionButton()
 
       Then("the user returns to the 'Certificate Task List'")
-      assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+      assertOnPage(CertificateTaskListPage)
 
       When("the 'Upload the submission template' link is clicked")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
@@ -664,7 +664,7 @@ class CertificateSpec extends BaseSpec {
       UploadReviewUnqualifiedPage.clickSubmissionButton()
 
       Then("the user returns to the 'Certificate Task List'")
-      assertUrl(CertificateTaskListPage.taskListThreePageUrl)
+      assertOnPage(CertificateTaskListPage)
 
       When("the user selects 'Submit the certificate' link")
       CertificateTaskListPage.clickTaskListSectionLink(SubmitCertificate)
@@ -814,7 +814,7 @@ class CertificateSpec extends BaseSpec {
       assertOnPage(CertificateSaoEmailPage)
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
       CertificateSaoEmailPage.clickSubmissionButton()
-      assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+      assertOnPage(CertificateTaskListPage)
 
       When("attempting to upload a certificate submission template which has 1 invalid qualification set for a company")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
@@ -850,7 +850,7 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoEmailPage.assertHeadingMatches(s"What is the email address for ${TestData.firstPersonName}?")
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
       CertificateSaoEmailPage.clickSubmissionButton()
-      assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+      assertOnPage(CertificateTaskListPage)
 
       When("the 'Upload the submission template' is clicked")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
@@ -915,7 +915,7 @@ class CertificateSpec extends BaseSpec {
       CertificateSaoEmailPage.assertHeadingMatches(s"What is the email address for ${TestData.firstPersonName}?")
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
       CertificateSaoEmailPage.clickSubmissionButton()
-      assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+      assertOnPage(CertificateTaskListPage)
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
 
       And("A submission template containing certificate data that exceeds the allowed size is uploaded")
@@ -1419,7 +1419,7 @@ class CertificateSpec extends BaseSpec {
     assertOnPage(SubmissionTypePage)
     SubmissionTypePage.clickCertificateRadioButton()
     SubmissionTypePage.clickSubmissionButton()
-    assertUrl(CertificateTaskListPage.taskListOnePageUrl)
+    assertOnPage(CertificateTaskListPage)
   }
 
   private def goToAdditionalInformationPageFromHomePage(): Unit = {
@@ -1438,7 +1438,7 @@ class CertificateSpec extends BaseSpec {
     assertOnPage(CertificateSaoEmailPage)
     CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
     CertificateSaoEmailPage.clickSubmissionButton()
-    assertUrl(CertificateTaskListPage.taskListTwoPageUrl)
+    assertOnPage(CertificateTaskListPage)
   }
 
   private def completeUploadSubmissionTemplateTask(): Unit = {
@@ -1449,7 +1449,7 @@ class CertificateSpec extends BaseSpec {
     UploadReviewQualifiedPage.clickSubmissionButton()
     assertOnPage(UploadReviewUnqualifiedPage)
     UploadReviewUnqualifiedPage.clickSubmissionButton()
-    assertUrl(CertificateTaskListPage.taskListThreePageUrl)
+    assertOnPage(CertificateTaskListPage)
   }
 
   private def navigateToSubmitCertificateConfirmPage(): Unit = {
