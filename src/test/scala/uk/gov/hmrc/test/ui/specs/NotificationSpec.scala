@@ -49,21 +49,25 @@ class NotificationSpec extends BaseSpec {
     ) {
       Given("an authenticated user lands on the notification start page at the start of a new submission")
       assertOnPage(AccountHomePage)
-      AccountHomePage.clickMakeSubmissionLink()
-      assertOnPage(SubmissionTypePage)
-      SubmissionTypePage.clickNotificationRadioButton()
-      SubmissionTypePage.clickSubmissionButton()
-      assertOnPage(SubmitNotificationStartPage)
+      startNotificationJourney()
 
-      Then("the task list displays each element in the correct state with the correct status")
+      And("the provide sao details status is 'Not Started'")
       SubmitNotificationStartPage.assertTaskListSectionStatus(ProvideSaoDetails, NotStarted)
+      And("the provide sao details status is highlighted blue")
       SubmitNotificationStartPage.assertStatusHighlightedBlue(ProvideSaoDetails)
+      And("the provide sao details link is active")
       SubmitNotificationStartPage.assertTaskListSectionNameIsHyperlink(ProvideSaoDetails)
+      And("the upload submission template status is 'Cannot Start Yet'")
       SubmitNotificationStartPage.assertTaskListSectionStatus(UploadSubmissionTemplate, CannotStartYet)
+      And("the upload submission template status is not highlighted")
       SubmitNotificationStartPage.assertStatusNotHighlighted(UploadSubmissionTemplate)
+      And("the upload submission template link is not active")
       SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(UploadSubmissionTemplate)
+      And("the submit notification status is 'Cannot Start Yet'")
       SubmitNotificationStartPage.assertTaskListSectionStatus(SubmitNotification, CannotStartYet)
+      And("the submit notification status is not highlighted")
       SubmitNotificationStartPage.assertStatusNotHighlighted(SubmitNotification)
+      And("the submit notification link is not active")
       SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(SubmitNotification)
     }
 
@@ -75,16 +79,14 @@ class NotificationSpec extends BaseSpec {
     ) {
       Given("an authenticated user provides details for a single SAO in a notification submission")
       assertOnPage(AccountHomePage)
-      AccountHomePage.clickMakeSubmissionLink()
-      assertOnPage(SubmissionTypePage)
-      SubmissionTypePage.clickNotificationRadioButton()
-      SubmissionTypePage.clickSubmissionButton()
-      assertOnPage(SubmitNotificationStartPage)
+      startNotificationJourney()
       provideSingleSaoDetailsFromStartPage(TestData.firstPersonName)
 
-      When("A submission template which has valid notification data but invalid certificate data is uploaded")
+      When("the user clicks the upload submission template link")
       SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+      Then("the user is on the upload submission template page")
       assertOnPage(UploadSubmissionTemplatePage)
+      When("the user uploads valid notification data but invalid certificate data")
       UploadSubmissionTemplatePage.upload(ValidNotificationDataWithInvalidCertificateDataFile)
 
       Then("the user lands on the 'Review the companies in your notification' page")
@@ -96,8 +98,6 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'Submit a notification' start page")
       assertOnPage(SubmitNotificationStartPage)
 
-      When("the 'submit a notification' task is completed with default selections")
-      And("the user lands on the 'Submit a notification' complete page")
       completeSubmitANotificationFromTaskListWithDefaultSelections()
 
       And("the 'Go back to the homepage' button is clicked")
@@ -115,17 +115,19 @@ class NotificationSpec extends BaseSpec {
     ) {
       Given("an authenticated user provides details for a single SAO in a notification submission")
       assertOnPage(AccountHomePage)
-      AccountHomePage.clickMakeSubmissionLink()
-      assertOnPage(SubmissionTypePage)
-      SubmissionTypePage.clickNotificationRadioButton()
-      SubmissionTypePage.clickSubmissionButton()
-      assertOnPage(SubmitNotificationStartPage)
+
+      startNotificationJourney()
+
       provideSingleSaoDetailsFromStartPage(TestData.firstPersonName)
 
-      When("A submission template containing notification data that exceeds the allowed size is uploaded")
+      When("The user clicks on the upload submission template link")
       SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+      Then("the user is on the upload submission template page")
       assertOnPage(UploadSubmissionTemplatePage)
+
+      When("the user uploads a file that is too large")
       UploadSubmissionTemplatePage.upload(TooLargeDataFile)
+      And("the file size exceeded error is displayed")
       UploadSubmissionTemplatePage.assertValidationErrorDisplayed(FileSizeExceededError)
     }
 
@@ -140,10 +142,16 @@ class NotificationSpec extends BaseSpec {
 
       When("additional information is added")
       AdditionalInformationPage.addInformation("Test")
+      And("the user clicks the continue button")
       AdditionalInformationPage.clickSubmissionButton()
+      Then("the user is on the confirm notification page")
       assertOnPage(ConfirmNotificationPage)
+
+      When("the user clicks the continue button")
       ConfirmNotificationPage.clickSubmissionButton()
+      Then("the user is on the check your answers page")
       assertOnPage(CheckYourAnswersPage)
+      And("there is a value of the additional information the usr provided")
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
       And("the user confirms their answers by clicking 'Continue'")
@@ -155,8 +163,9 @@ class NotificationSpec extends BaseSpec {
       And("a unique reference number is displayed on screen")
       ConfirmationPage.assertReferenceNumberEquals(ConfirmationPage.notificationReference)
 
-      And("the expected 'download a pdf' and 'print this page' links are present")
+      And("the expected 'download a pdf' link is present")
       ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "download a PDF")
+      And("the expected 'print this page' link is present")
       ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "print this page")
 
       And("the 'download a pdf' link targets the notification pdf download route")
@@ -172,12 +181,13 @@ class NotificationSpec extends BaseSpec {
       Given("an authenticated user is on the Additional Information page during a notification submission")
       goToAdditionalInformationPageFromHomePage()
 
-      When("the user enters additional information exceeding the character limit and selects 'Continue'")
+      When("the user adds additional information with an exceeded character limit")
       AdditionalInformationPage.addInformation(TestData.additionalInformationLimitExceeded)
+      And("the user clicks continue")
       AdditionalInformationPage.clickSubmissionButton()
+      Then("the use stays on the additional information page")
       assertPageWithError(AdditionalInformationPage)
-
-      Then("an error message is displayed")
+      And("an error message is displayed")
       AdditionalInformationPage.assertValidationErrorDisplayed(NotificationAdditionalInformationTooLongError)
     }
 
@@ -190,21 +200,25 @@ class NotificationSpec extends BaseSpec {
       Given("an authenticated user arrives on the additional information page during a notification submission")
       goToAdditionalInformationPageFromHomePage()
 
-      When("pressing continue without providing additional information")
+      When("the user presses continue without providing additional information")
       AdditionalInformationPage.clickSubmissionButton()
+      Then("the user is kept on the additional information page")
       assertPageWithError(AdditionalInformationPage)
 
-      Then("an error appears on screen")
+      And("an error appears on screen")
       AdditionalInformationPage.assertValidationErrorDisplayed(MissingNotificationAdditionalInformationError)
 
-      And(
-        "on continuing after adding additional information the text added is displayed on the 'Check Your Answers' page"
-      )
+      When("the user adds additional information")
       AdditionalInformationPage.addInformation("Test")
+      And("the user clicks the continue button")
       AdditionalInformationPage.clickSubmissionButton()
+      Then("the user is on the 'Confirm Notification' page")
       assertOnPage(ConfirmNotificationPage)
+      When("the user clicks the continue button")
       ConfirmNotificationPage.clickSubmissionButton()
+      Then("the user is on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
+      And("the additional information section contains the text the user provided")
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
     }
 
@@ -217,18 +231,23 @@ class NotificationSpec extends BaseSpec {
       Given("an authenticated user arrives on the additional information page during a notification submission")
       goToAdditionalInformationPageFromHomePage()
 
-      When("pressing 'Continue' without providing additional information")
+      When("the user clicks 'Continue' without providing additional information")
       AdditionalInformationPage.clickSubmissionButton()
+      Then("the user is kept on the additional information page")
       assertPageWithError(AdditionalInformationPage)
 
-      Then("an error appears on screen")
+      And("an error appears on screen")
       AdditionalInformationPage.assertValidationErrorDisplayed(MissingNotificationAdditionalInformationError)
 
-      And("on pressing 'Skip', 'Not provided' value is displayed on the 'Check Your Answers' page")
+      When("the user clicks the skip button")
       AdditionalInformationPage.clickSkipButton()
+      Then("the user is on the 'Confirm Notification' page")
       assertOnPage(ConfirmNotificationPage)
+      When("the user clicks the continue button")
       ConfirmNotificationPage.clickSubmissionButton()
+      Then("the user is on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
+      And("there is no provided text on the additional information section")
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Not provided")
     }
 
@@ -241,13 +260,16 @@ class NotificationSpec extends BaseSpec {
       Given("an authenticated user arrives on the 'Additional Information' page during a notification submission")
       goToAdditionalInformationPageFromHomePage()
 
-      When("pressing 'Skip' without providing additional information")
+      When("the user clicks the skip button")
       AdditionalInformationPage.clickSkipButton()
+      Then("the user is on the 'Confirm Notification' page")
       assertOnPage(ConfirmNotificationPage)
 
-      Then("'Not provided' value is displayed on the 'Check Your Answers' page")
+      When("the user clicks the continue button")
       ConfirmNotificationPage.clickSubmissionButton()
+      Then("the user is on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
+      And("the page doesn't provide additional information")
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Not provided")
     }
 
@@ -260,14 +282,22 @@ class NotificationSpec extends BaseSpec {
       Given("an authenticated user arrives on the 'Additional Information' page during a notification submission")
       goToAdditionalInformationPageFromHomePage()
 
-      When("pressing skip with additional information provided")
+      When("the user adds additional information")
       AdditionalInformationPage.addInformation("Test")
+
+      And("the user clicks the skip button")
       AdditionalInformationPage.clickSkipButton()
+
+      Then("the user is on the 'Confirm Notification' page")
       assertOnPage(ConfirmNotificationPage)
 
-      Then("'Not provided' value is displayed on the 'Check Your Answers' page")
+      When("the user clicks the continue button")
       ConfirmNotificationPage.clickSubmissionButton()
+
+      Then("the user is on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
+
+      And("'Not provided' is displayed for additional information")
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Not provided")
     }
 
@@ -277,25 +307,18 @@ class NotificationSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given(
-        "an authenticated user provides additional information and arrives on the 'Check Your Answers' page during a notification submission"
-      )
-      goToAdditionalInformationPageFromHomePage()
-      AdditionalInformationPage.addInformation("Test")
-      AdditionalInformationPage.clickSubmissionButton()
-      assertOnPage(ConfirmNotificationPage)
-      ConfirmNotificationPage.clickSubmissionButton()
-      assertOnPage(CheckYourAnswersPage)
-      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
-
-      When("pressing the change link and updating the provided additional information")
-      CheckYourAnswersPage.clickAdditionalInformationChangeLink()
-      assertUrl(AdditionalInformationPage.changePageUrl)
+      Given("an authenticated user is on the additional information page during a notification submission")
+      goToAdditionalInformationChangePage()
+      When("the user updates the additional information")
       AdditionalInformationPage.addInformation("New Test For Changed Text")
 
-      Then("on pressing 'Continue' the updated text is displayed on the 'Check Your Answers' page")
+      And("the user clicks the continue button")
       AdditionalInformationPage.clickSubmissionButton()
+
+      Then("the user is returned to the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
+
+      And("the updated additional information is displayed")
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "New Test For Changed Text")
     }
 
@@ -305,25 +328,19 @@ class NotificationSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given(
-        "an authenticated user provides additional information and arrives on the 'Check Your Answers' page during a notification submission"
-      )
-      goToAdditionalInformationPageFromHomePage()
-      AdditionalInformationPage.addInformation("Test")
-      AdditionalInformationPage.clickSubmissionButton()
-      assertOnPage(ConfirmNotificationPage)
-      ConfirmNotificationPage.clickSubmissionButton()
-      assertOnPage(CheckYourAnswersPage)
-      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
+      Given("an authenticated user is on the additional information page during a notification submission")
+      goToAdditionalInformationChangePage()
 
-      When("pressing the change link and updating the provided additional information")
-      CheckYourAnswersPage.clickAdditionalInformationChangeLink()
-      assertUrl(AdditionalInformationPage.changePageUrl)
+      When("the user updates the additional information")
       AdditionalInformationPage.addInformation("New Test For Changed Text")
 
-      Then("on pressing 'Skip' the updated text is not displayed is on the 'Check Your Answers' page")
+      And("the user clicks the skip button")
       AdditionalInformationPage.clickSkipButton()
+
+      Then("the user is returned to the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
+
+      And("the additional information is shown as 'Not provided'")
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Not provided")
     }
 
@@ -333,24 +350,16 @@ class NotificationSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given(
-        "an authenticated user provides additional information and arrives on the 'Check Your Answers' page during a notification submission"
-      )
-      goToAdditionalInformationPageFromHomePage()
-      AdditionalInformationPage.addInformation("Test")
-      AdditionalInformationPage.clickSubmissionButton()
-      assertOnPage(ConfirmNotificationPage)
-      ConfirmNotificationPage.clickSubmissionButton()
-      assertOnPage(CheckYourAnswersPage)
-      assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
+      Given("an authenticated user is on the additional information page during a notification submission")
+      goToAdditionalInformationChangePage()
 
-      When("pressing the change link and clearing the existing additional information")
-      CheckYourAnswersPage.clickAdditionalInformationChangeLink()
-      assertUrl(AdditionalInformationPage.changePageUrl)
+      When("the user clears the additional information")
       AdditionalInformationPage.addInformation("")
 
-      Then("on pressing 'Continue' an error appears on screen")
+      And("the user clicks the continue button")
       AdditionalInformationPage.clickSubmissionButton()
+
+      Then("an error is displayed")
       AdditionalInformationPage.assertValidationErrorDisplayed(MissingNotificationAdditionalInformationError)
     }
 
@@ -360,23 +369,37 @@ class NotificationSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given(
-        "an authenticated user provides SAO name and arrives on the 'Check Your Answers' page during a notification submission"
-      )
+      Given("an authenticated user is on the additional information page during a notification submission")
       goToAdditionalInformationPageFromHomePage()
+
+      When("the user clicks the skip button")
       AdditionalInformationPage.clickSkipButton()
+
+      Then("the user is on the 'Confirm Notification' page")
       assertOnPage(ConfirmNotificationPage)
+
+      When("the user clicks the continue button")
       ConfirmNotificationPage.clickSubmissionButton()
+
+      Then("the user is on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
 
-      When("user changes the SAO name by clicking on the change link")
+      When("the user clicks the change link for the SAO name")
       CheckYourAnswersPage.clickSaoNameChangeLink()
+
+      Then("the user is on the SAO name change page")
       assertUrl(SingleSaoNamePage.changePageUrl)
+
+      When("the user updates the SAO name")
       SingleSaoNamePage.addName("Jade Dancing")
+
+      And("the user clicks the continue button")
       SingleSaoNamePage.clickSubmissionButton()
+
+      Then("the user is returned to the 'Check Your Answers' page")
       assertTextOnPage(CheckYourAnswersPage.saoNameValueElement, "Jade Dancing")
 
-      And("the user confirms their answers by clicking 'Continue'")
+      When("the user clicks the continue button")
       CheckYourAnswersPage.clickSubmissionButton()
 
       Then("the user lands on the 'Confirmation' page")
@@ -389,24 +412,34 @@ class NotificationSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given(
-        "an authenticated user provides SAO name and arrives on the 'Check Your Answers' page during a notification submission"
-      )
+      Given("an authenticated user is on the additional information page during a notification submission")
       goToAdditionalInformationPageFromHomePage()
+
+      When("the user clicks the skip button")
       AdditionalInformationPage.clickSkipButton()
+
+      Then("the user is on the 'Confirm Notification' page")
       assertOnPage(ConfirmNotificationPage)
+
+      When("the user clicks the continue button")
       ConfirmNotificationPage.clickSubmissionButton()
+
+      Then("the user is on the 'Check Your Answers' page")
       assertOnPage(CheckYourAnswersPage)
 
-      When("the user returns to the 'Check Your Answers' page without saving any changes ")
+      When("the user clicks the change link for the SAO name")
       CheckYourAnswersPage.clickSaoNameChangeLink()
+
+      Then("the user is on the SAO name change page")
       assertUrl(SingleSaoNamePage.changePageUrl)
+
+      When("the user clicks the continue button")
       SingleSaoNamePage.clickSubmissionButton()
 
       Then("the original SAO name is displayed on the 'Check Your Answers' page")
       assertTextOnPage(CheckYourAnswersPage.saoNameValueElement, "Cat Noir")
 
-      When("the user confirms their answers by clicking 'Continue'")
+      When("the user clicks the continue button")
       CheckYourAnswersPage.clickSubmissionButton()
 
       Then("the user lands on the 'Confirmation' page")
@@ -421,30 +454,33 @@ class NotificationSpec extends BaseSpec {
     ) {
       Given("an authenticated user lands on the 'More than one SAO' page")
       goToMoreThanOneSaoPageFromHomePage()
-
-      When("the 'Continue' button is clicked after the 'No' radio button is selected")
-      MoreThanOneSaoPage.clickNoRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
-
-      Then("the user lands on the 'What is the name of the SAO' page")
-      assertOnPage(SingleSaoNamePage)
+      goToSingleSaoJourney()
 
       When("the 'Continue' button is clicked after an SAO name is entered")
       SingleSaoNamePage.addName("Jane Doe")
+      And("the user clicks the continue button")
       SingleSaoNamePage.clickSubmissionButton()
 
       Then("the user lands on the 'Submit a notification' start page")
       assertOnPage(SubmitNotificationStartPage)
 
-      And("the task list displays each element in the correct state with the correct status")
+      And("the 'Provide SAO Details' status is Completed")
       SubmitNotificationStartPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
+      And("the 'Provide SAO Details' status is not highlighted")
       SubmitNotificationStartPage.assertStatusNotHighlighted(ProvideSaoDetails)
+      And("the 'Provide SAO Details' link is a hyperlink")
       SubmitNotificationStartPage.assertTaskListSectionNameIsHyperlink(ProvideSaoDetails)
+      And("the 'Upload Submission Template' status is Not Started")
       SubmitNotificationStartPage.assertTaskListSectionStatus(UploadSubmissionTemplate, NotStarted)
+      And("the 'Upload Submission Template' status is highlighted blue")
       SubmitNotificationStartPage.assertStatusHighlightedBlue(UploadSubmissionTemplate)
+      And("the 'Upload Submission Template' link is a hyperlink")
       SubmitNotificationStartPage.assertTaskListSectionNameIsHyperlink(UploadSubmissionTemplate)
+      And("the 'Submit Notification' status is Cannot Start Yet")
       SubmitNotificationStartPage.assertTaskListSectionStatus(SubmitNotification, CannotStartYet)
+      And("the 'Submit Notification' status is not highlighted")
       SubmitNotificationStartPage.assertStatusNotHighlighted(SubmitNotification)
+      And("the 'Submit Notification' section name is not a hyperlink")
       SubmitNotificationStartPage.assertTaskListSectionNameIsNotHyperlink(SubmitNotification)
 
       When("the 'Upload the submission template' link is clicked")
@@ -465,30 +501,46 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'Submit a notification' start page")
       assertOnPage(SubmitNotificationStartPage)
 
-      And("the task list displays each element in the correct state with the correct status")
+      And("the 'Provide SAO Details' status is Completed")
       SubmitNotificationStartPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
+      And("the 'Provide SAO Details' status is not highlighted")
       SubmitNotificationStartPage.assertStatusNotHighlighted(ProvideSaoDetails)
+      And("the 'Provide SAO Details' link is a hyperlink")
       SubmitNotificationStartPage.assertTaskListSectionNameIsHyperlink(ProvideSaoDetails)
+      And("the 'Upload Submission Template' status is Completed")
       SubmitNotificationStartPage.assertTaskListSectionStatus(UploadSubmissionTemplate, Completed)
+      And("the 'Upload Submission Template' status is not highlighted")
       SubmitNotificationStartPage.assertStatusNotHighlighted(UploadSubmissionTemplate)
+      And("the 'Upload Submission Template' link is a hyperlink")
       SubmitNotificationStartPage.assertTaskListSectionNameIsHyperlink(UploadSubmissionTemplate)
+      And("the 'Submit Notification' status is Not Started")
       SubmitNotificationStartPage.assertTaskListSectionStatus(SubmitNotification, NotStarted)
+      And("the 'Submit Notification' status is highlighted blue")
       SubmitNotificationStartPage.assertStatusHighlightedBlue(SubmitNotification)
+      And("the 'Submit Notification' section name is a hyperlink")
       SubmitNotificationStartPage.assertTaskListSectionNameIsHyperlink(SubmitNotification)
 
       When("the 'submit a notification' task is completed with default selections")
       And("the user lands on the 'Submit a notification' complete page")
       completeSubmitANotificationFromTaskListWithDefaultSelections()
 
-      And("the task list displays each element in the correct state with the correct status")
+      And("the 'Provide SAO Details' status is Completed")
       SubmitNotificationCompletePage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
+      And("the 'Provide SAO Details' status is not highlighted")
       SubmitNotificationCompletePage.assertStatusNotHighlighted(ProvideSaoDetails)
+      And("the 'Provide SAO Details' link is not a hyperlink")
       SubmitNotificationCompletePage.assertTaskListSectionNameIsNotHyperlink(ProvideSaoDetails)
+      And("the 'Upload Submission Template' status is Completed")
       SubmitNotificationCompletePage.assertTaskListSectionStatus(UploadSubmissionTemplate, Completed)
+      And("the 'Upload Submission Template' status is not highlighted")
       SubmitNotificationCompletePage.assertStatusNotHighlighted(UploadSubmissionTemplate)
+      And("the 'Upload Submission Template' link is not a hyperlink")
       SubmitNotificationCompletePage.assertTaskListSectionNameIsNotHyperlink(UploadSubmissionTemplate)
+      And("the 'Submit Notification' status is Completed")
       SubmitNotificationCompletePage.assertTaskListSectionStatus(SubmitNotification, Completed)
+      And("the 'Submit Notification' status is not highlighted")
       SubmitNotificationCompletePage.assertStatusNotHighlighted(SubmitNotification)
+      And("the 'Submit Notification' section name is not a hyperlink")
       SubmitNotificationCompletePage.assertTaskListSectionNameIsNotHyperlink(SubmitNotification)
 
       When("the 'Go back to the homepage' button is clicked")
@@ -506,31 +558,28 @@ class NotificationSpec extends BaseSpec {
     ) {
       Given("an authenticated user lands on the 'Upload a submission template' page during a notification submission")
       goToMoreThanOneSaoPageFromHomePage()
-      MoreThanOneSaoPage.clickNoRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
-      assertOnPage(SingleSaoNamePage)
+      goToSingleSaoJourney()
+      When("the user adds a name")
       SingleSaoNamePage.addName(TestData.firstPersonName)
+      And("the user clicks the continue button")
       SingleSaoNamePage.clickSubmissionButton()
+      Then("the user is on the 'Submit Notification Start' page")
       assertOnPage(SubmitNotificationStartPage)
+      When("the user clicks the upload submission template link")
       SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+      Then("the user is on the upload submission template page")
       assertOnPage(UploadSubmissionTemplatePage)
+      And("the guidance link found has the correct attributes")
       UploadSubmissionTemplatePage.assertTemplateGuidanceLinkFoundWithCorrectAttributes()
 
       When("the 'Read guidance on how to complete the submission template (opens in new tab)' link is clicked")
       UploadSubmissionTemplatePage.clickReadGuidanceLink()
 
-      Then(
-        "the 'How to complete and submit your submission template' page opens on a new tab which the user navigates to"
-      )
-      switchTab(1)
-      assertUrl(SubmissionTemplateGuidancePage.pageUrlForNewTab)
-      assertPageTitle(SubmissionTemplateGuidancePage.pageTitle)
+      assertTemplateGuidancePageDisplayed()
 
-      And("the 'Download a submission template' link is present with the correct path")
-      SubmissionTemplateGuidancePage.assertDownloadSubmissionTemplateLinkFound()
-
-      When("the user closes the active tab and returns to the 'Upload a submission template' page tab")
+      When("the user closes the active tab")
       closeCurrentTab()
+      Then("the user is back on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
 
       And("the 'Continue' button is clicked after choosing a file with 'no information' in the upload file")
@@ -547,50 +596,34 @@ class NotificationSpec extends BaseSpec {
       )
       UploadTemplateErrorPage.clickDownloadTemplateAndReadGuidanceLink()
 
-      Then(
-        "the 'How to complete and submit your submission template' page opens on a new tab which the user navigates to"
-      )
-      switchTab(1)
-      assertUrl(SubmissionTemplateGuidancePage.pageUrlForNewTab)
-      assertPageTitle(SubmissionTemplateGuidancePage.pageTitle)
+      assertTemplateGuidancePageDisplayed()
 
-      And("the 'Download a submission template' link is present with the correct path")
-      SubmissionTemplateGuidancePage.assertDownloadSubmissionTemplateLinkFound()
-
-      When(
-        "the user closes the active tab and returns to the 'There is a problem with your submission template file' with no information error page tab"
-      )
+      When("the user closes the active tab")
       closeCurrentTab()
+      Then("the user is back on the 'Upload a submission template' page")
       assertOnPage(UploadTemplateErrorPage)
+      And("there is a no information template error")
       UploadTemplateErrorPage.assertParagraphDescribesNoInformationTemplateError()
 
-      And("the 'Upload a submission template' button is clicked")
+      When("the 'Upload a submission template' button is clicked")
       UploadTemplateErrorPage.clickSubmissionButton()
-
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
 
       When("the 'Continue' button is clicked after choosing a file with 'invalid notification data' in the upload file")
       UploadSubmissionTemplatePage.upload(InvalidNotificationDataFile)
 
-      And("the user lands on the 'There is a problem with your submission template file' page")
+      Then("the user lands on the 'There is a problem with your submission template file' page")
       assertOnPage(UploadTemplateErrorPage)
+      And("the page describes template data errors relating to 'invalid notification data'")
       UploadTemplateErrorPage.assertParagraphDescribesTemplateDataErrors()
 
-      And(
+      When(
         "the 'Download a submission template and read guidance on how to complete it (opens in new tab)' link is clicked"
       )
       UploadTemplateErrorPage.clickDownloadTemplateAndReadGuidanceLink()
 
-      Then(
-        "the 'How to complete and submit your submission template' page opens on a new tab which the user navigates to"
-      )
-      switchTab(1)
-      assertUrl(SubmissionTemplateGuidancePage.pageUrlForNewTab)
-      assertPageTitle(SubmissionTemplateGuidancePage.pageTitle)
-
-      And("the 'Download a submission template' link is present with the correct path")
-      SubmissionTemplateGuidancePage.assertDownloadSubmissionTemplateLinkFound()
+      assertTemplateGuidancePageDisplayed()
     }
 
     Scenario(
@@ -600,62 +633,81 @@ class NotificationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("a random example value of 'Emi A Ward' is chosen as the last SAO during a notification submission")
-      And("a random example value of 'Piet Van De Merwe' is chosen as the previous SAO")
-      When("the authenticated user chooses to upload an empty notification submission file")
       goToMoreThanOneSaoPageFromHomePage()
-      MoreThanOneSaoPage.clickYesRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
-      assertOnPage(LastSaoNamePage)
-      LastSaoNamePage.addName("Emi A Ward")
-      LastSaoNamePage.clickSubmissionButton()
-      assertOnPage(LastSaoStartDatePage)
-      LastSaoStartDatePage.addDate(LocalDate.now().minusDays(40))
-      LastSaoStartDatePage.clickSubmissionButton()
-      assertOnPage(PreviousSaoNamePage)
-      PreviousSaoNamePage.addName("Piet Van De Merwe")
-      PreviousSaoNamePage.clickSubmissionButton()
-      assertOnPage(PreviousSaoStartDatePage)
-      PreviousSaoStartDatePage.addDate(LocalDate.now().minusDays(100))
-      PreviousSaoStartDatePage.clickSubmissionButton()
-      assertOnPage(PreviousSaoEndDatePage)
-      PreviousSaoEndDatePage.addDate(LocalDate.now().minusDays(47))
-      PreviousSaoEndDatePage.clickSubmissionButton()
-      assertOnPage(MultiSaoAreAllAddedPage)
-      MultiSaoAreAllAddedPage.clickYesRadioButton()
-      MultiSaoAreAllAddedPage.clickSubmissionButton()
-      assertOnPage(SubmitNotificationStartPage)
-      SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
-      assertOnPage(UploadSubmissionTemplatePage)
-      UploadSubmissionTemplatePage.upload(NoInformationFile)
+      goToMultiSaoJourney()
 
-      And(
+      When("the user adds a name")
+      LastSaoNamePage.addName("Emi A Ward")
+      And("the user clicks the continue button")
+      LastSaoNamePage.clickSubmissionButton()
+      Then("the user is on the 'Last SAO start date' page")
+      assertOnPage(LastSaoStartDatePage)
+
+      When("the user adds a start date")
+      LastSaoStartDatePage.addDate(LocalDate.now().minusDays(40))
+      And("the user clicks the continue button")
+      LastSaoStartDatePage.clickSubmissionButton()
+      Then("the user is on the 'Previous SAO Name' page")
+      assertOnPage(PreviousSaoNamePage)
+
+      When("the user adds a previous SAO name")
+      PreviousSaoNamePage.addName("Piet Van De Merwe")
+      And("the user clicks the continue button")
+      PreviousSaoNamePage.clickSubmissionButton()
+      Then("the user is on the 'Previous SAO start page")
+      assertOnPage(PreviousSaoStartDatePage)
+
+      When("the user adds a previous SAO start date")
+      PreviousSaoStartDatePage.addDate(LocalDate.now().minusDays(100))
+      And("the user clicks the continue button")
+      PreviousSaoStartDatePage.clickSubmissionButton()
+      Then("the user is on the 'Previous SAO end date' page")
+      assertOnPage(PreviousSaoEndDatePage)
+
+      When("the user adds a previous end date")
+      PreviousSaoEndDatePage.addDate(LocalDate.now().minusDays(47))
+      And("the user clicks the continue button")
+      PreviousSaoEndDatePage.clickSubmissionButton()
+      Then("the user is on the 'Multiple SAO all added' page")
+      assertOnPage(MultiSaoAreAllAddedPage)
+
+      When("the user clicks the Yes radio button")
+      MultiSaoAreAllAddedPage.clickYesRadioButton()
+      And("the user clicks the continue button")
+      MultiSaoAreAllAddedPage.clickSubmissionButton()
+      Then("The user is on the 'Submit Notification Start' page")
+      assertOnPage(SubmitNotificationStartPage)
+
+      When("the user clicks the 'Upload Submission Template' link")
+      SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+      Then("the user is on the 'Upload Submission Template' page")
+      assertOnPage(UploadSubmissionTemplatePage)
+
+      When("the user uploads a file with no information")
+      UploadSubmissionTemplatePage.upload(NoInformationFile)
+      Then(
         "the user lands on the 'There is a problem with your submission template file' with no information error page"
       )
       assertOnPage(UploadTemplateErrorPage)
+      And("there is a no information template error on the page")
       UploadTemplateErrorPage.assertParagraphDescribesNoInformationTemplateError()
 
-      And("the 'Upload a submission template' button is clicked")
+      When("the 'Upload a submission template' button is clicked")
       UploadTemplateErrorPage.clickSubmissionButton()
-
       Then("the user lands on the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
 
       When("the 'Continue' button is clicked after choosing a file with '4' companies in the upload file")
       UploadSubmissionTemplatePage.upload(FourCompaniesFile)
-
       Then("the user lands on the 'Review the companies in your notification' page")
       assertOnPage(UploadTablePage)
-
-      Then("The page displays the correct company count of '4'")
-      And("'Emi A Ward' as the responsible SAO")
+      And("The page displays the correct company count of '4' and 'Emi A Ward' as the responsible SAO")
       UploadTablePage.assertCompanyCountAndSaoMatch(companyCount = 4, expectedSao = "Emi A Ward")
-
       And("The table contains '4' rows of company details")
       UploadTablePage.assertCompanyCountInTableEquals(4)
 
       When("the 'Continue' button is clicked")
       ConfirmationPage.clickSubmissionButton()
-
       Then("the user lands on the 'Submit a notification' start page")
       assertOnPage(SubmitNotificationStartPage)
     }
@@ -668,43 +720,39 @@ class NotificationSpec extends BaseSpec {
     ) {
       Given("an authenticated user provides details for a single SAO in a notification submission")
       assertOnPage(AccountHomePage)
-      AccountHomePage.clickMakeSubmissionLink()
-      assertOnPage(SubmissionTypePage)
-      SubmissionTypePage.clickNotificationRadioButton()
-      SubmissionTypePage.clickSubmissionButton()
-      assertOnPage(SubmitNotificationStartPage)
+      startNotificationJourney()
+
       provideSingleSaoDetailsFromStartPage(TestData.firstPersonName)
 
-      When("attempting to upload a submission template which has invalid data for a company")
+      When("the user clicks the 'Upload Submission Template' link")
       SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+      Then("the user is on the 'Upload Submission Template' page")
       assertOnPage(UploadSubmissionTemplatePage)
-      UploadSubmissionTemplatePage.upload(InvalidQualificationFile)
 
-      Then("the expected error page displays with a count of only the 2 errors associated with notification")
+      When("the user uploads a template which has invalid data for a company")
+      UploadSubmissionTemplatePage.upload(InvalidQualificationFile)
+      Then("the expected error page displays")
       assertOnPage(UploadTableErrorPage)
+      And("the page displays 2 errors associated with notification")
       UploadTableErrorPage.assertParagraphWithErrorCountMatches(errorCount = 2)
 
       When("the 'Return to file upload' button is clicked")
       UploadTableErrorPage.clickSubmissionButton()
-
       Then("the user is returned to the 'Upload a submission template' page")
       assertOnPage(UploadSubmissionTemplatePage)
 
       When("attempting to upload a submission template which is named 'invalid.REASON.csv'")
       UploadSubmissionTemplatePage.upload(InvalidTypeFile)
-
       Then("the appropriate error is shown on screen")
       UploadSubmissionTemplatePage.assertValidationErrorDisplayed(InvalidFileTypeError)
 
       When("attempting to upload a submission template which is named 'infected.VIRUS_NAME.csv'")
       UploadSubmissionTemplatePage.upload(InfectedFile)
-
       Then("the appropriate error is shown on screen")
       UploadSubmissionTemplatePage.assertValidationErrorDisplayed(InfectedFileError)
 
       When("attempting to upload a submission template which is named 'unknown.REASON.csv'")
       UploadSubmissionTemplatePage.upload(UnknownErrorFile)
-
       Then("the appropriate error is shown on screen")
       UploadSubmissionTemplatePage.assertValidationErrorDisplayed(UnknownUploadError)
     }
@@ -726,23 +774,21 @@ class NotificationSpec extends BaseSpec {
       )
       MoreThanOneSaoPage.assertValidationErrorDisplayed(NoOptionChosenIfSaoChangedError)
 
-      When("the 'Continue' button is clicked after selecting 'Yes'")
-      MoreThanOneSaoPage.clickYesRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
+      goToMultiSaoJourney()
 
-      Then("the user lands on the 'What is the name of the last SAO' page")
-      assertOnPage(LastSaoNamePage)
-
-      When("the 'Continue' button is clicked after entering a name of 'Jack Sparrow'")
+      When("the user enters a name")
       LastSaoNamePage.addName("Jack Sparrow")
+      And("the continue button is clicked")
       LastSaoNamePage.clickSubmissionButton()
 
       Then("the user lands on the 'What date did Jack Sparrow become the SAO' page")
       assertOnPage(LastSaoStartDatePage)
+      And("the heading matches with 'What date did Jack Sparrow become the SAO'")
       LastSaoStartDatePage.assertHeadingMatches("What date did Jack Sparrow become the SAO?")
 
-      When("the 'Continue' button is clicked after adding a date 30 days in the past")
+      When("the user adds a date")
       LastSaoStartDatePage.addDate(LocalDate.now().minusDays(30))
+      And("the continue button is clicked")
       LastSaoStartDatePage.clickSubmissionButton()
 
       Then("the user lands on the 'Who was the SAO before Jack Sparrow' page")
@@ -751,31 +797,37 @@ class NotificationSpec extends BaseSpec {
       And("the page displays the correct content")
       PreviousSaoNamePage.assertHeadingMatches("Who was the SAO before Jack Sparrow?")
 
-      When("the 'Continue' button is clicked after entering a name of 'Gert Bo'")
+      When("the user adds a name")
       PreviousSaoNamePage.addName("Gert Bo")
+      And("the continue button is clicked")
       PreviousSaoNamePage.clickSubmissionButton()
 
       Then("the user lands on the 'When did Gert Bo’s responsibility as the SAO start' page")
       assertOnPage(PreviousSaoStartDatePage)
+      And("the heading matches 'When did Gert Bo become the SAO?'")
       PreviousSaoStartDatePage.assertHeadingMatches("When did Gert Bo become the SAO?")
 
-      When("the 'Continue' button is clicked after adding a date 90 days in the past")
+      When("the user adds a date 90 days in the past")
       PreviousSaoStartDatePage.addDate(LocalDate.now().minusDays(90))
+      And("the continue button is clicked")
       PreviousSaoStartDatePage.clickSubmissionButton()
 
       Then("the user lands on the 'When did Gert Bo stop being the SAO' page")
       assertOnPage(PreviousSaoEndDatePage)
+      And("the heading matches 'When did Gert Bo stop being the SAO?'")
       PreviousSaoEndDatePage.assertHeadingMatches("When did Gert Bo stop being the SAO?")
 
       When("the user enters an end date that is one day before the start date")
       PreviousSaoEndDatePage.addDate(LocalDate.now().minusDays(91))
+      And("the continue button is clicked")
       PreviousSaoEndDatePage.clickSubmissionButton()
 
       Then("an error message is displayed")
       PreviousSaoEndDatePage.assertValidationErrorDisplayed(PreviousSaoEndDateBeforeStartDateError)
 
-      When("the 'Continue' button is clicked after adding a date 65 days in the past")
+      When("the user adds a date 65 days in the past")
       PreviousSaoEndDatePage.addDate(LocalDate.now().minusDays(65))
+      And("the continue button is clicked")
       PreviousSaoEndDatePage.clickSubmissionButton()
 
       Then(
@@ -783,30 +835,35 @@ class NotificationSpec extends BaseSpec {
       )
       assertOnPage(MultiSaoAreAllAddedPage)
 
-      When("the 'Continue' button is clicked after the 'No' radio button is selected")
+      When("the user clicks the No radio button")
       MultiSaoAreAllAddedPage.clickNoRadioButton()
+      And("the continue button is clicked")
       MultiSaoAreAllAddedPage.clickSubmissionButton()
 
       Then("the user lands on the 'Who was the SAO before Gert Bo' page")
       assertUrl(PreviousSaoNamePage.changePageUrl)
+      And("the heading is 'Who was the SAO before Gert Bo?'")
       PreviousSaoNamePage.assertHeadingMatches("Who was the SAO before Gert Bo?")
 
-      When("the 'Continue' button is clicked after entering a name of 'Alex Rhodes'")
+      When("the user adds a name")
       PreviousSaoNamePage.addName("Alex Rhodes")
+      And("the user clicks the continue button")
       PreviousSaoNamePage.clickSubmissionButton()
 
       Then("the user lands on the 'When did Alex Rhodes’s responsibility as the SAO start' page")
       assertUrl(PreviousSaoStartDatePage.changePageUrl)
 
-      When("the 'Continue' button is clicked after adding a start date 90 days in the past for the new SAO")
+      When("the user adds a date 90s in the past")
       PreviousSaoStartDatePage.addDate(LocalDate.now().minusDays(90))
+      And("the user clicks the continue button")
       PreviousSaoStartDatePage.clickSubmissionButton()
 
       Then("the user lands on the 'When did Alex Rhodes stop being the SAO' page")
       assertUrl(PreviousSaoEndDatePage.pageUrlWithSaoIndexOne)
 
-      When("the 'Continue' button is clicked after adding an end date 70 days in the past for the new SAO")
+      When("the user adds a date 70 days in the past")
       PreviousSaoEndDatePage.addDate(LocalDate.now().minusDays(70))
+      And("the user clicks the continue button")
       PreviousSaoEndDatePage.clickSubmissionButton()
 
       Then(
@@ -814,8 +871,9 @@ class NotificationSpec extends BaseSpec {
       )
       assertUrl(MultiSaoAreAllAddedPage.changePageUrl)
 
-      When("the 'Continue' button is clicked after the 'Yes' radio button is selected")
+      When("the user clicks the Yes radio button")
       MultiSaoAreAllAddedPage.clickYesRadioButton()
+      And("the user clicks the continue button")
       MultiSaoAreAllAddedPage.clickSubmissionButton()
 
       Then("the user lands on the 'Submit a notification' start page")
@@ -842,12 +900,7 @@ class NotificationSpec extends BaseSpec {
       )
       MoreThanOneSaoPage.assertValidationErrorDisplayed(NoOptionChosenIfSaoChangedError)
 
-      When("the 'Continue' button is clicked after the 'No' radio button is selected")
-      MoreThanOneSaoPage.clickNoRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
-
-      Then("the user lands on the 'What is the name of the SAO' page")
-      assertOnPage(SingleSaoNamePage)
+      goToSingleSaoJourney()
 
       When("the 'Continue' button is clicked after no SAO name was entered")
       SingleSaoNamePage.clickSubmissionButton()
@@ -855,8 +908,9 @@ class NotificationSpec extends BaseSpec {
       Then("the validation error for 'missing SAO name' is shown")
       SingleSaoNamePage.assertValidationErrorDisplayed(MissingSAONameError)
 
-      When("the 'Continue' button is clicked after a SAO name is entered")
+      When("the user adds the SAO name")
       SingleSaoNamePage.addName("Jane Doe")
+      And("the user clicks the continue button")
       SingleSaoNamePage.clickSubmissionButton()
 
       Then("the user lands on the 'Submit a notification' start page")
@@ -872,12 +926,7 @@ class NotificationSpec extends BaseSpec {
       Given("an authenticated user lands on the 'More than one SAO' page")
       goToMoreThanOneSaoPageFromHomePage()
 
-      When("the 'Continue' button is clicked after selecting 'Yes'")
-      MoreThanOneSaoPage.clickYesRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
-
-      Then("the user lands on the 'What is the name of the SAO at the end of the financial year?' question page")
-      assertOnPage(LastSaoNamePage)
+      goToMultiSaoJourney()
 
       When("the 'Continue' button is clicked after no name is entered")
       LastSaoNamePage.clickSubmissionButton()
@@ -885,8 +934,9 @@ class NotificationSpec extends BaseSpec {
       Then("Then an error is shown ")
       LastSaoNamePage.assertValidationErrorDisplayed(MissingYearEndLastSAONameError)
 
-      When("the 'Continue' button is clicked after entering a name of 'Jerry Hatrix'")
+      When("the user adds a name")
       LastSaoNamePage.addName("Jerry Hatrix")
+      And("the user clicks the continue button")
       LastSaoNamePage.clickSubmissionButton()
 
       Then("the user lands on the 'What date did Jerry Hatrix become the SAO' page")
@@ -898,8 +948,9 @@ class NotificationSpec extends BaseSpec {
       Then("an error message is displayed")
       LastSaoStartDatePage.assertValidationErrorDisplayed(MissingLastSAOStartDateError)
 
-      When("the 'Continue' button is clicked after adding a date 30 days in the past")
+      When("the user adds a date 30 days in the past")
       LastSaoStartDatePage.addDate(LocalDate.now().minusDays(30))
+      And("the user clicks the continue button")
       LastSaoStartDatePage.clickSubmissionButton()
 
       Then("the user lands on the 'Who was the SAO before Jerry Hatrix' question page")
@@ -911,8 +962,9 @@ class NotificationSpec extends BaseSpec {
       Then("an error message is displayed")
       PreviousSaoNamePage.assertValidationErrorDisplayed(MissingPreviousSAONameError)
 
-      When("the 'Continue' button is clicked after entering a name for a preceding SAO of 'Jock B'")
+      When("the user adds a name for a preceding SAO")
       PreviousSaoNamePage.addName("Jock B")
+      And("the user clicks the continue button")
       PreviousSaoNamePage.clickSubmissionButton()
 
       Then("the user lands on the 'When did Jock B’s responsibility as the SAO start' page")
@@ -924,12 +976,14 @@ class NotificationSpec extends BaseSpec {
       Then("an error message is displayed")
       PreviousSaoStartDatePage.assertValidationErrorDisplayed(MissingPreviousSAOStartDateError)
 
-      When("the 'Continue' button is clicked after adding a date 45 days in the past")
+      When("the user adds a date 45 days in the past")
       PreviousSaoStartDatePage.addDate(LocalDate.now().minusDays(45))
+      And("the user clicks the continue button")
       PreviousSaoStartDatePage.clickSubmissionButton()
 
       Then("the user lands on the 'When did Jock B stop being the SAO' page")
       assertOnPage(PreviousSaoEndDatePage)
+      And("the heading is 'When did Jock B stop being the SAO?'")
       PreviousSaoEndDatePage.assertHeadingMatches("When did Jock B stop being the SAO?")
 
       When("the 'Continue' button is clicked after no date is entered")
@@ -938,8 +992,9 @@ class NotificationSpec extends BaseSpec {
       Then("an error message is displayed")
       PreviousSaoEndDatePage.assertValidationErrorDisplayed(MissingPreviousSAOEndDateError)
 
-      When("the 'Continue' button is clicked after adding a date 35 days in the past")
+      When("the user adds a date 35 days in the past")
       LastSaoStartDatePage.addDate(LocalDate.now().minusDays(35))
+      And("the user clicks the continue button")
       PreviousSaoEndDatePage.clickSubmissionButton()
 
       Then(
@@ -953,8 +1008,9 @@ class NotificationSpec extends BaseSpec {
       Then("an error appears on screen")
       MultiSaoAreAllAddedPage.assertValidationErrorDisplayed(NoElementChosenMultiSaoAreAllAddedError)
 
-      When("the 'Continue' button is clicked after selecting 'Yes'")
+      When("the user clicks the Yes radio button")
       MultiSaoAreAllAddedPage.clickYesRadioButton()
+      And("the user clicks the continue button")
       MultiSaoAreAllAddedPage.clickSubmissionButton()
 
       Then("the user lands on the 'Submit a notification' start page")
@@ -970,17 +1026,26 @@ class NotificationSpec extends BaseSpec {
       Given("an authenticated user has added 'Shane Warne' as the last SAO")
       goToWhoWasTheSAOBeforePage()
 
-      And("has added 'Jonty Rhodes' as a prior SAO")
+      When("the user adds a name")
       PreviousSaoNamePage.addName("Jonty Rhodes")
+      And("the user clicks the continue button")
       PreviousSaoNamePage.clickSubmissionButton()
+      Then("the user is on the 'Previous SAO Start' page")
       assertOnPage(PreviousSaoStartDatePage)
+      When("the user adds a date")
       PreviousSaoStartDatePage.addDate(LocalDate.now().minusDays(65))
+      And("the user clicks the continue button")
       PreviousSaoStartDatePage.clickSubmissionButton()
+      Then("The user is on the 'Previous SAO End Date' page")
       assertOnPage(PreviousSaoEndDatePage)
+      When("the user adds a date")
       PreviousSaoEndDatePage.addDate(LocalDate.now().minusDays(35))
+      And("the user clicks the continue button")
       PreviousSaoEndDatePage.clickSubmissionButton()
 
-      And("the user lands on the 'Have you added all the SAO for the financial year this notification relates to' page")
+      Then(
+        "the user lands on the 'Have you added all the SAO for the financial year this notification relates to' page"
+      )
       assertOnPage(MultiSaoAreAllAddedPage)
 
       When("the 'Back' link is clicked")
@@ -999,9 +1064,7 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(PreviousSaoStartDatePage)
 
       And("the page displays the correct content")
-      PreviousSaoStartDatePage.assertHeadingMatches(
-        "When did Jonty Rhodes become the SAO?"
-      )
+      PreviousSaoStartDatePage.assertHeadingMatches("When did Jonty Rhodes become the SAO?")
 
       When("the 'Back' link is clicked")
       PreviousSaoStartDatePage.clickBackLink()
@@ -1009,8 +1072,9 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'Who was the SAO before Shane Warne' page")
       assertOnPage(PreviousSaoNamePage)
 
-      And("the page displays the correct content")
+      And("the heading displays the correct content")
       PreviousSaoNamePage.assertHeadingMatches("Who was the SAO before Shane Warne?")
+      And("the name is the correct content")
       PreviousSaoNamePage.assertNameMatches("Jonty Rhodes")
 
       When("the 'Back' link is clicked")
@@ -1033,12 +1097,11 @@ class NotificationSpec extends BaseSpec {
         "an authenticated user lands on the submit notification full name page"
       )
       goToMoreThanOneSaoPageFromHomePage()
-      MoreThanOneSaoPage.clickNoRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
-      assertOnPage(SingleSaoNamePage)
+      goToSingleSaoJourney()
 
-      When("the user enter a SAO name with invalid characters")
+      When("the user adds a name with invalid characters")
       SingleSaoNamePage.addName(TestData.nameWithInvalidCharacters)
+      And("the user clicks the continue button")
       SingleSaoNamePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -1051,16 +1114,13 @@ class NotificationSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given(
-        "an authenticated user lands on the submit notification full name page"
-      )
+      Given("an authenticated user lands on the submit notification full name page")
       goToMoreThanOneSaoPageFromHomePage()
-      MoreThanOneSaoPage.clickNoRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
-      assertOnPage(SingleSaoNamePage)
+      goToSingleSaoJourney()
 
-      When("the user enter a SAO name containing more than 105 characters")
+      When("the user enters a SAO name containing more than 105 characters")
       SingleSaoNamePage.addName(TestData.nameCharacterLimitExceeded)
+      And("the user clicks the continue button")
       SingleSaoNamePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -1073,16 +1133,13 @@ class NotificationSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given(
-        "an authenticated user lands on the 'more sao' submit notification full name page"
-      )
+      Given("an authenticated user lands on the 'more sao' submit notification full name page")
       goToMoreThanOneSaoPageFromHomePage()
-      MoreThanOneSaoPage.clickYesRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
-      assertOnPage(LastSaoNamePage)
+      goToMultiSaoJourney()
 
-      When("the user enter a 'end of the financial year SAO name' with invalid characters")
+      When("the user enters a 'end of the financial year SAO name' with invalid characters")
       LastSaoNamePage.addName(TestData.nameWithInvalidCharacters)
+      And("the user clicks the continue button")
       LastSaoNamePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -1095,16 +1152,13 @@ class NotificationSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given(
-        "an authenticated user lands on the 'more sao' submit notification full name page"
-      )
+      Given("an authenticated user lands on the 'more sao' submit notification full name page")
       goToMoreThanOneSaoPageFromHomePage()
-      MoreThanOneSaoPage.clickYesRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
-      assertOnPage(LastSaoNamePage)
+      goToMultiSaoJourney()
 
-      When("the user enter a 'end of the financial year SAO name' containing more than 105 characters")
+      When("the user enters a 'end of the financial year SAO name' containing more than 105 characters")
       LastSaoNamePage.addName(TestData.nameCharacterLimitExceeded)
+      And("the user clicks the continue button")
       LastSaoNamePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -1117,13 +1171,12 @@ class NotificationSpec extends BaseSpec {
       SubmissionUITests,
       ZapTests
     ) {
-      Given(
-        "an authenticated user lands on the 'Who was the sao before' page"
-      )
+      Given("an authenticated user lands on the 'Who was the sao before' page")
       goToWhoWasTheSAOBeforePage()
 
       When("the user enters a 'Previous SAO name' with invalid characters")
       PreviousSaoNamePage.addName(TestData.nameWithInvalidCharacters)
+      And("the user clicks the continue button")
       PreviousSaoNamePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -1143,6 +1196,7 @@ class NotificationSpec extends BaseSpec {
 
       When("the user enters a 'Previous SAO name' containing more than 105 characters")
       PreviousSaoNamePage.addName(TestData.nameCharacterLimitExceeded)
+      And("the user clicks the continue button")
       PreviousSaoNamePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -1157,15 +1211,17 @@ class NotificationSpec extends BaseSpec {
     ) {
       Given("an authenticated user lands on the 'Last SAO start date' page")
       goToMoreThanOneSaoPageFromHomePage()
-      MoreThanOneSaoPage.clickYesRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
-      assertOnPage(LastSaoNamePage)
+      goToMultiSaoJourney()
+      When("the user enters a name")
       LastSaoNamePage.addName("Jerry Hatrix")
+      And("the user clicks the continue button")
       LastSaoNamePage.clickSubmissionButton()
+      Then("the user is on the 'Last SAO Start Date' page")
       assertOnPage(LastSaoStartDatePage)
 
       When("the user enters a 'Last SAO start date' with invalid characters")
       LastSaoStartDatePage.addDateWithInvalidCharacter()
+      And("the user clicks the continue button")
       LastSaoStartDatePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -1180,15 +1236,17 @@ class NotificationSpec extends BaseSpec {
     ) {
       Given("an authenticated user lands on the 'Last SAO start date' page")
       goToMoreThanOneSaoPageFromHomePage()
-      MoreThanOneSaoPage.clickYesRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
-      assertOnPage(LastSaoNamePage)
+      goToMultiSaoJourney()
+      When("the user enters a name")
       LastSaoNamePage.addName("Jerry Hatrix")
+      And("the user clicks the continue button")
       LastSaoNamePage.clickSubmissionButton()
+      Then("the user is on the 'Last SAO Start Date' page")
       assertOnPage(LastSaoStartDatePage)
 
       When("the user enters today's date in the 'Last SAO start date' field ")
       LastSaoStartDatePage.addDate(LocalDate.now())
+      And("the user clicks the continue button")
       LastSaoStartDatePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -1196,6 +1254,7 @@ class NotificationSpec extends BaseSpec {
 
       When("the user enters future date in the 'Last SAO start date' field ")
       LastSaoStartDatePage.addDate(LocalDate.now().plusDays(25))
+      And("the user clicks the continue button")
       LastSaoStartDatePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -1210,18 +1269,25 @@ class NotificationSpec extends BaseSpec {
     ) {
       Given("an authenticated user lands on the 'Previous SAO start date' page")
       goToMoreThanOneSaoPageFromHomePage()
-      MoreThanOneSaoPage.clickYesRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
+      goToMultiSaoJourney()
+      When("the user adds a first person name")
       LastSaoNamePage.addName(TestData.firstPersonName)
+      And("the user clicks the continue button")
       LastSaoNamePage.clickSubmissionButton()
+      When("the user adds a date")
       LastSaoStartDatePage.addDate(LocalDate.now().minusDays(90))
+      And("the user clicks the continue button")
       LastSaoStartDatePage.clickSubmissionButton()
+      When("the user adds a second person name")
       PreviousSaoNamePage.addName(TestData.secondPersonName)
+      And("the user clicks the continue button")
       PreviousSaoNamePage.clickSubmissionButton()
+      Then("the user is on the 'Previous SAO start date' page")
       assertOnPage(PreviousSaoStartDatePage)
 
       When("the user enters a 'Previous SAO start date' containing invalid characters")
       PreviousSaoStartDatePage.addDateWithInvalidCharacter()
+      And("the user clicks the continue button")
       PreviousSaoStartDatePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -1236,18 +1302,25 @@ class NotificationSpec extends BaseSpec {
     ) {
       Given("an authenticated user lands on the 'Previous SAO start date' page")
       goToMoreThanOneSaoPageFromHomePage()
-      MoreThanOneSaoPage.clickYesRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
+      goToMultiSaoJourney()
+      When("the user adds the first person's name")
       LastSaoNamePage.addName(TestData.firstPersonName)
+      And("the user clicks the continue button")
       LastSaoNamePage.clickSubmissionButton()
+      When("the user adds a date")
       LastSaoStartDatePage.addDate(LocalDate.now().minusDays(90))
+      And("the user clicks the continue button")
       LastSaoStartDatePage.clickSubmissionButton()
+      When("the user adds the seond person's name")
       PreviousSaoNamePage.addName(TestData.secondPersonName)
+      And("the user clicks the continue button")
       PreviousSaoNamePage.clickSubmissionButton()
+      Then("the user is on the 'Previous SAO Start date' page")
       assertOnPage(PreviousSaoStartDatePage)
 
       When("the user enters today's date in the 'Previous SAO start date' field")
       PreviousSaoStartDatePage.addDate(LocalDate.now())
+      And("the user clicks the continue button")
       PreviousSaoStartDatePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -1255,6 +1328,7 @@ class NotificationSpec extends BaseSpec {
 
       When("the user enters a future date in the 'Previous SAO start date' field")
       PreviousSaoStartDatePage.addDate(LocalDate.now().plusDays(25))
+      And("the user clicks the continue button")
       PreviousSaoStartDatePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -1269,20 +1343,29 @@ class NotificationSpec extends BaseSpec {
     ) {
       Given("an authenticated user lands on the 'Previous SAO end date' page")
       goToMoreThanOneSaoPageFromHomePage()
-      MoreThanOneSaoPage.clickYesRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
+      goToMultiSaoJourney()
+      When("the user adds the first person's name")
       LastSaoNamePage.addName(TestData.firstPersonName)
+      And("the user clicks the continue button")
       LastSaoNamePage.clickSubmissionButton()
+      When("the user adds a date")
       LastSaoStartDatePage.addDate(LocalDate.now().minusDays(1))
+      And("the user clicks the continue button")
       LastSaoStartDatePage.clickSubmissionButton()
+      When("the user adds a second person's name")
       PreviousSaoNamePage.addName(TestData.secondPersonName)
+      And("the user clicks the continue button")
       PreviousSaoNamePage.clickSubmissionButton()
+      When("the user adds a date")
       PreviousSaoStartDatePage.addDate(LocalDate.now().minusDays(100))
+      And("the user clicks the continue button")
       PreviousSaoStartDatePage.clickSubmissionButton()
+      Then("the user is on the 'Previous SAO End Date' page")
       assertOnPage(PreviousSaoEndDatePage)
 
       When("the user enters a 'Previous SAO end date' containing invalid characters")
       PreviousSaoEndDatePage.addDateWithInvalidCharacter()
+      And("the user clicks the continue button")
       PreviousSaoEndDatePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -1297,20 +1380,29 @@ class NotificationSpec extends BaseSpec {
     ) {
       Given("an authenticated user lands on the 'Previous SAO end date' page")
       goToMoreThanOneSaoPageFromHomePage()
-      MoreThanOneSaoPage.clickYesRadioButton()
-      MoreThanOneSaoPage.clickSubmissionButton()
+      goToMultiSaoJourney()
+      When("the user adds the first person's name")
       LastSaoNamePage.addName(TestData.firstPersonName)
+      And("the user clicks the continue button")
       LastSaoNamePage.clickSubmissionButton()
+      When("the user adds a date")
       LastSaoStartDatePage.addDate(LocalDate.now().minusDays(1))
+      And("the user clicks the continue button")
       LastSaoStartDatePage.clickSubmissionButton()
+      When("the user adds the second person's name")
       PreviousSaoNamePage.addName(TestData.secondPersonName)
+      And("the user clicks the continue button")
       PreviousSaoNamePage.clickSubmissionButton()
+      When("the user adds a date")
       PreviousSaoStartDatePage.addDate(LocalDate.now().minusDays(100))
+      And("the user clicks the continue button")
       PreviousSaoStartDatePage.clickSubmissionButton()
+      Then("the user is on the 'Previous SAO End Date' page")
       assertOnPage(PreviousSaoEndDatePage)
 
       When("the user enters today's date in the 'Previous SAO end date' field")
       PreviousSaoEndDatePage.addDate(LocalDate.now())
+      And("the user clicks the continue button")
       PreviousSaoEndDatePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -1318,6 +1410,7 @@ class NotificationSpec extends BaseSpec {
 
       When("the user enters a future date in the 'Previous SAO end date' field")
       PreviousSaoEndDatePage.addDate(LocalDate.now().plusDays(25))
+      And("the user clicks the continue button")
       PreviousSaoEndDatePage.clickSubmissionButton()
 
       Then("an error is shown")
@@ -1325,73 +1418,161 @@ class NotificationSpec extends BaseSpec {
     }
   }
 
+  private def startNotificationJourney(): Unit = {
+    When("the user clicks the make a submission link")
+    AccountHomePage.clickMakeSubmissionLink()
+    Then("the user is on the submission type page")
+    assertOnPage(SubmissionTypePage)
+    When("the user clicks the notification radio button")
+    SubmissionTypePage.clickNotificationRadioButton()
+    And("the user clicks the continue button")
+    SubmissionTypePage.clickSubmissionButton()
+    Then("the user is on the submit a notification start page")
+    assertOnPage(SubmitNotificationStartPage)
+  }
+
   private def goToWhoWasTheSAOBeforePage(): Unit = {
     goToMoreThanOneSaoPageFromHomePage()
-    MoreThanOneSaoPage.clickYesRadioButton()
-    MoreThanOneSaoPage.clickSubmissionButton()
-    assertOnPage(LastSaoNamePage)
+    goToMultiSaoJourney()
+    When("the user adds a name")
     LastSaoNamePage.addName("Shane Warne")
+    When("the user clicks the continue button")
     LastSaoNamePage.clickSubmissionButton()
+    Then("the user is on the last SAO start date page")
     assertOnPage(LastSaoStartDatePage)
+    When("the user adds a date")
     LastSaoStartDatePage.addDate(LocalDate.now().minusDays(20))
+    When("the user clicks the continue button")
     LastSaoStartDatePage.clickSubmissionButton()
+    Then("the user is on the previous SAO name page")
     assertOnPage(PreviousSaoNamePage)
   }
 
   private def goToAdditionalInformationPageFromHomePage(): Unit = {
+    Then("the user is on the account home page")
     assertOnPage(AccountHomePage)
-    AccountHomePage.clickMakeSubmissionLink()
-    assertOnPage(SubmissionTypePage)
-    SubmissionTypePage.clickNotificationRadioButton()
-    SubmissionTypePage.clickSubmissionButton()
-    assertOnPage(SubmitNotificationStartPage)
+    startNotificationJourney()
     provideSingleSaoDetailsFromStartPage()
     uploadSimpleSubmissionTemplateFromStartPage()
+    When("the user clicks the submit notification link")
     SubmitNotificationStartPage.clickTaskListSectionLink(SubmitNotification)
+    Then("the user is on the additional information page")
     assertOnPage(AdditionalInformationPage)
   }
 
   private def provideSingleSaoDetailsFromStartPage(name: String = "Cat Noir"): Unit = {
+    When("the user clicks the provide sao details link")
     SubmitNotificationStartPage.clickTaskListSectionLink(ProvideSaoDetails)
+    Then("the user is on the 'More than one SAO' page")
     assertOnPage(MoreThanOneSaoPage)
+    When("the user clicks the no radio button")
     MoreThanOneSaoPage.clickNoRadioButton()
+    When("the user clicks the continue button")
     MoreThanOneSaoPage.clickSubmissionButton()
+    Then("the user is on the single sao name page")
     assertOnPage(SingleSaoNamePage)
+    When("the user adds a name")
     SingleSaoNamePage.addName(name)
+    When("the user clicks the continue button")
     SingleSaoNamePage.clickSubmissionButton()
+    Then("the user back on the submit notification start page")
     assertOnPage(SubmitNotificationStartPage)
   }
 
   private def uploadSimpleSubmissionTemplateFromStartPage(): Unit = {
+    When("the user clicks the Upload Submission Template link")
     SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+    Then("the user is on the upload submission template page")
     assertOnPage(UploadSubmissionTemplatePage)
+    When("the user uploads a valid file")
     UploadSubmissionTemplatePage.upload(FourCompaniesFile)
+    Then("the user is on the upload table page")
     assertOnPage(UploadTablePage)
+    When("the user clicks the continue button")
     UploadTablePage.clickSubmissionButton()
+    Then("the user is on the submit notification start page")
     assertOnPage(SubmitNotificationStartPage)
   }
 
   private def goToMoreThanOneSaoPageFromHomePage(): Unit = {
+    Then("the user is on the account home page")
     assertOnPage(AccountHomePage)
-    AccountHomePage.clickMakeSubmissionLink()
-    assertOnPage(SubmissionTypePage)
-    SubmissionTypePage.clickNotificationRadioButton()
-    SubmissionTypePage.clickSubmissionButton()
-    assertOnPage(SubmitNotificationStartPage)
+    startNotificationJourney()
+    When("the user clicks the Provide SAO details link")
     SubmitNotificationStartPage.clickTaskListSectionLink(ProvideSaoDetails)
+    Then("the user is on the 'More Than One SAO' Page")
     assertOnPage(MoreThanOneSaoPage)
   }
 
   private def completeSubmitANotificationFromTaskListWithDefaultSelections(): Unit = {
+    When("the user clicks the 'Submit Notification' link")
     SubmitNotificationStartPage.clickTaskListSectionLink(SubmitNotification)
+    Then("the user is on the 'Additional Information' page")
     assertOnPage(AdditionalInformationPage)
+    When("the user clicks the skip button")
     AdditionalInformationPage.clickSkipButton()
+    Then("the user is on the 'Confirm Notification' page")
     assertOnPage(ConfirmNotificationPage)
+    When("the user clicks the continue button")
     ConfirmNotificationPage.clickSubmissionButton()
+    Then("the user is on the 'Check Your Answers' page")
     assertOnPage(CheckYourAnswersPage)
+    When("the user clicks the continue button")
     CheckYourAnswersPage.clickSubmissionButton()
+    Then("the user is on the confirmation page")
     assertOnPage(ConfirmationPage)
+    When("the user clicks the continue button")
     ConfirmationPage.clickSubmissionButton()
+    Then("the user is on the 'Submit Notification Complete' Pages")
     assertOnPage(SubmitNotificationCompletePage)
+  }
+
+  private def goToSingleSaoJourney(): Unit = {
+    When("the user clicks the 'No' radio button")
+    MoreThanOneSaoPage.clickNoRadioButton()
+    And("the user clicks the continue button")
+    MoreThanOneSaoPage.clickSubmissionButton()
+    Then("the user lands on the 'What is the name of the SAO' page")
+    assertOnPage(SingleSaoNamePage)
+  }
+
+  private def goToMultiSaoJourney(): Unit = {
+    When("the user clicks the Yes radio button")
+    MoreThanOneSaoPage.clickYesRadioButton()
+    And("the user clicks the continue button")
+    MoreThanOneSaoPage.clickSubmissionButton()
+    Then("the user is on the 'Last SAO Name' page")
+    assertOnPage(LastSaoNamePage)
+  }
+
+  private def assertTemplateGuidancePageDisplayed(): Unit = {
+    Then("the user switches tab to the 'How to complete and submit your submission template' page")
+    switchTab(1)
+    And("the user is on the 'How to complete and submit your submission template' page")
+    assertUrl(SubmissionTemplateGuidancePage.pageUrlForNewTab)
+    And("the page title for the page is correct")
+    assertPageTitle(SubmissionTemplateGuidancePage.pageTitle)
+    And("the 'Download a submission template' link is present with the correct path")
+    SubmissionTemplateGuidancePage.assertDownloadSubmissionTemplateLinkFound()
+  }
+
+  private def goToAdditionalInformationChangePage(): Unit = {
+    goToAdditionalInformationPageFromHomePage()
+    When("the user adds additional information")
+    AdditionalInformationPage.addInformation("Test")
+    And("the user clicks the continue button")
+    AdditionalInformationPage.clickSubmissionButton()
+    Then("the user is on the 'Confirm Notification' page")
+    assertOnPage(ConfirmNotificationPage)
+    When("the user clicks the continue button")
+    ConfirmNotificationPage.clickSubmissionButton()
+    Then("the user is on the 'Check Your Answers' page")
+    assertOnPage(CheckYourAnswersPage)
+    And("the provided additional information is displayed")
+    assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
+    When("the user clicks the change link for additional information")
+    CheckYourAnswersPage.clickAdditionalInformationChangeLink()
+    Then("the user is on the additional information change page")
+    assertUrl(AdditionalInformationPage.changePageUrl)
   }
 }
