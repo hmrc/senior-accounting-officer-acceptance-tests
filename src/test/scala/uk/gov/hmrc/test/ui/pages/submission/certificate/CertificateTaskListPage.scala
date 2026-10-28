@@ -22,13 +22,16 @@ import org.scalatest.AppendedClues.convertToClueful
 import uk.gov.hmrc.test.ui.adt.CertificateTaskListSection.*
 import uk.gov.hmrc.test.ui.adt.{CertificateTaskListSection, PageSectionStatus}
 import uk.gov.hmrc.test.ui.conf.TestConfiguration
-import uk.gov.hmrc.test.ui.pages.{BasePage, StaticTitle}
+import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 import java.util.regex.Pattern
 
-object CertificateTaskListPage extends BasePage with StaticTitle with SubmissionButtonSupport {
+object CertificateTaskListPage extends CommonPage with SubmissionButtonSupport {
+
+  override def pageUrl: String =
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list"
 
   case class TaskListSection(
       name: String,
@@ -38,17 +41,8 @@ object CertificateTaskListPage extends BasePage with StaticTitle with Submission
   )
   val host: String = TestConfiguration.url("senior-accounting-officer-submission-frontend")
 
-  val taskListOnePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/1"
-
   override val pageTitle: String =
     "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
-
-  val taskListTwoPageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/2"
-
-  val taskListThreePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list/3"
 
   val taskListCompletePageUrlRegEx: String =
     s"^${Pattern.quote(host)}/certificate/task-list/complete\\?certificateReference=(CRT[0-9]{10})$$"
