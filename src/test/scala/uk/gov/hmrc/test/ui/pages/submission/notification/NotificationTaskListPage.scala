@@ -26,7 +26,7 @@ import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-object SubmitNotificationCompletePage extends CommonPage with SubmissionButtonSupport {
+object NotificationTaskListPage extends CommonPage with SubmissionButtonSupport {
 
   case class TaskListSection(
       name: String,

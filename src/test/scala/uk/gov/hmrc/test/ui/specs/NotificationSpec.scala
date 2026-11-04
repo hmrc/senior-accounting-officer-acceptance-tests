@@ -99,12 +99,12 @@ class NotificationSpec extends BaseSpec {
       assertOnPage(SubmitNotificationStartPage)
 
       completeSubmitANotificationFromTaskListWithDefaultSelections()
-
-      And("the 'Go back to the homepage' button is clicked")
-      SubmitNotificationCompletePage.clickSubmissionButton()
-
-      Then("the user lands on the 'Account Homepage'")
-      assertOnPage(AccountHomePage)
+      When("the user lands on Task list page")
+      assertOnPage(NotificationTaskListPage)
+      And("the user clicks 'view your confirmation' button")
+      NotificationTaskListPage.clickSubmissionButton()
+      Then("the user is on the confirmation page")
+      assertOnPage(ConfirmationPage)
     }
 
     Scenario(
@@ -156,6 +156,9 @@ class NotificationSpec extends BaseSpec {
 
       And("the user confirms their answers by clicking 'Continue'")
       CheckYourAnswersPage.clickSubmissionButton()
+
+      And("the user clicks the 'view your confirmation' button")
+      NotificationTaskListPage.clickSubmissionButton()
 
       Then("the user lands on the 'Confirmation' page")
       assertOnPage(ConfirmationPage)
@@ -402,6 +405,9 @@ class NotificationSpec extends BaseSpec {
       When("the user clicks the continue button")
       CheckYourAnswersPage.clickSubmissionButton()
 
+      And("the user clicks the 'view your confirmation' button")
+      NotificationTaskListPage.clickSubmissionButton()
+
       Then("the user lands on the 'Confirmation' page")
       assertOnPage(ConfirmationPage)
     }
@@ -441,6 +447,9 @@ class NotificationSpec extends BaseSpec {
 
       When("the user clicks the continue button")
       CheckYourAnswersPage.clickSubmissionButton()
+
+      And("the user clicks the 'view your confirmation' button")
+      NotificationTaskListPage.clickSubmissionButton()
 
       Then("the user lands on the 'Confirmation' page")
       assertOnPage(ConfirmationPage)
@@ -523,31 +532,30 @@ class NotificationSpec extends BaseSpec {
       When("the 'submit a notification' task is completed with default selections")
       And("the user lands on the 'Submit a notification' complete page")
       completeSubmitANotificationFromTaskListWithDefaultSelections()
-
+      When("the user lands on Task list page")
+      assertOnPage(NotificationTaskListPage)
       And("the 'Provide SAO Details' status is Completed")
-      SubmitNotificationCompletePage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
+      NotificationTaskListPage.assertTaskListSectionStatus(ProvideSaoDetails, Completed)
       And("the 'Provide SAO Details' status is not highlighted")
-      SubmitNotificationCompletePage.assertStatusNotHighlighted(ProvideSaoDetails)
+      NotificationTaskListPage.assertStatusNotHighlighted(ProvideSaoDetails)
       And("the 'Provide SAO Details' link is not a hyperlink")
-      SubmitNotificationCompletePage.assertTaskListSectionNameIsNotHyperlink(ProvideSaoDetails)
+      NotificationTaskListPage.assertTaskListSectionNameIsNotHyperlink(ProvideSaoDetails)
       And("the 'Upload Submission Template' status is Completed")
-      SubmitNotificationCompletePage.assertTaskListSectionStatus(UploadSubmissionTemplate, Completed)
+      NotificationTaskListPage.assertTaskListSectionStatus(UploadSubmissionTemplate, Completed)
       And("the 'Upload Submission Template' status is not highlighted")
-      SubmitNotificationCompletePage.assertStatusNotHighlighted(UploadSubmissionTemplate)
+      NotificationTaskListPage.assertStatusNotHighlighted(UploadSubmissionTemplate)
       And("the 'Upload Submission Template' link is not a hyperlink")
-      SubmitNotificationCompletePage.assertTaskListSectionNameIsNotHyperlink(UploadSubmissionTemplate)
+      NotificationTaskListPage.assertTaskListSectionNameIsNotHyperlink(UploadSubmissionTemplate)
       And("the 'Submit Notification' status is Completed")
-      SubmitNotificationCompletePage.assertTaskListSectionStatus(SubmitNotification, Completed)
+      NotificationTaskListPage.assertTaskListSectionStatus(SubmitNotification, Completed)
       And("the 'Submit Notification' status is not highlighted")
-      SubmitNotificationCompletePage.assertStatusNotHighlighted(SubmitNotification)
+      NotificationTaskListPage.assertStatusNotHighlighted(SubmitNotification)
       And("the 'Submit Notification' section name is not a hyperlink")
-      SubmitNotificationCompletePage.assertTaskListSectionNameIsNotHyperlink(SubmitNotification)
-
-      When("the 'Go back to the homepage' button is clicked")
-      SubmitNotificationCompletePage.clickSubmissionButton()
-
-      Then("the user lands on the 'Account Homepage'")
-      assertOnPage(AccountHomePage)
+      NotificationTaskListPage.assertTaskListSectionNameIsNotHyperlink(SubmitNotification)
+      And("the user clicks 'view your confirmation' button")
+      NotificationTaskListPage.clickSubmissionButton()
+      Then("the user is on the confirmation page")
+      assertOnPage(ConfirmationPage)
     }
 
     Scenario(
@@ -1519,12 +1527,6 @@ class NotificationSpec extends BaseSpec {
     assertOnPage(CheckYourAnswersPage)
     When("the user clicks the continue button")
     CheckYourAnswersPage.clickSubmissionButton()
-    Then("the user is on the confirmation page")
-    assertOnPage(ConfirmationPage)
-    When("the user clicks the continue button")
-    ConfirmationPage.clickSubmissionButton()
-    Then("the user is on the 'Submit Notification Complete' Pages")
-    assertOnPage(SubmitNotificationCompletePage)
   }
 
   private def goToSingleSaoJourney(): Unit = {
