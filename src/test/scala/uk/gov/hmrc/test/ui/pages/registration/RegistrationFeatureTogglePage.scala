@@ -25,18 +25,19 @@ enum GrsHost(val isStubGrsChecked: Boolean) {
   case GrsMicroservice               extends GrsHost(isStubGrsChecked = false)
 }
 
-object FeatureTogglePage extends CommonPage with SubmissionButtonSupport {
+object RegistrationFeatureTogglePage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String   = s"${RegistrationPage.pageUrl}/test-only/feature-toggle"
   override val pageTitle: String = ""
 
-  private val stubGrsCheckbox: By               = By.id("stubGrs")
-  private val reshuffledContactFlowCheckbox: By = By.id("contactFlowReshuffle")
-  private val grsAllowsRelativeUrlCheckbox: By  = By.id("grsAllowsRelativeUrl")
+  private val stubGrsCheckbox: By                              = By.id("stubGrs")
+  private val reshuffledContactFlowCheckbox: By                = By.id("contactFlowReshuffle")
+  private val grsAllowsRelativeUrlCheckbox: By                 = By.id("grsAllowsRelativeUrl")
+  private val faultToleranceEndpointAndSpinnerPageCheckbox: By = By.id("fault-tolerance")
 
   def setGrsHost(grsHost: GrsHost): Unit = {
     loadPage()
     setStubGrs(isChecked = grsHost.isStubGrsChecked)
-    FeatureTogglePage.clickSubmissionButton()
+    RegistrationFeatureTogglePage.clickSubmissionButton()
   }
 
   def setReshuffledContactFlow(isEnabled: Boolean): Unit = {
@@ -47,7 +48,7 @@ object FeatureTogglePage extends CommonPage with SubmissionButtonSupport {
       checkboxElement.click()
     }
 
-    FeatureTogglePage.clickSubmissionButton()
+    RegistrationFeatureTogglePage.clickSubmissionButton()
   }
 
   def setStubGrs(isChecked: Boolean): Unit = {
@@ -63,6 +64,15 @@ object FeatureTogglePage extends CommonPage with SubmissionButtonSupport {
       checkBoxElement.click()
     }
 
-    FeatureTogglePage.clickSubmissionButton()
+    RegistrationFeatureTogglePage.clickSubmissionButton()
+  }
+
+  def setFaultToleranceEndpointAndSpinnerPage(isEnabled: Boolean): Unit = {
+    val checkBoxElement = driver.findElement(faultToleranceEndpointAndSpinnerPageCheckbox)
+    if checkBoxElement.isSelected != isEnabled then {
+      checkBoxElement.click()
+    }
+
+    RegistrationFeatureTogglePage.clickSubmissionButton()
   }
 }

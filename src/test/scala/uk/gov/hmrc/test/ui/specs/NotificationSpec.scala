@@ -27,7 +27,7 @@ import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.InternalAuthorisationSupport.setupInternalAuthorisation
 import uk.gov.hmrc.test.ui.support.PageSupport.*
-import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
+import uk.gov.hmrc.test.ui.support.TestData
 
 import java.time.LocalDate
 
@@ -35,6 +35,7 @@ class NotificationSpec extends BaseSpec {
 
   override def beforeEach(): Unit = {
     super.beforeEach()
+    SubmissionFeatureTogglePage.setFaultToleranceEndpointAndSpinnerPage(isEnabled = true)
     AuthorityWizardPage.withAffinityGroup(Organisation).withDsaoEnrolment(TestData.subscriptionId).redirectToHomePage()
     setupInternalAuthorisation
   }
@@ -157,7 +158,10 @@ class NotificationSpec extends BaseSpec {
       And("the user confirms their answers by clicking 'Continue'")
       CheckYourAnswersPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Confirmation' page")
+      Then("the user is on the loading spinner page")
+      NotificationSpinnerPage.assertOnPage()
+
+      And("the user lands on the 'Confirmation' page")
       assertOnPage(ConfirmationPage)
 
       And("a unique reference number is displayed on screen")
@@ -402,7 +406,10 @@ class NotificationSpec extends BaseSpec {
       When("the user clicks the continue button")
       CheckYourAnswersPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Confirmation' page")
+      Then("the user is on the loading spinner page")
+      NotificationSpinnerPage.assertOnPage()
+
+      And("the user lands on the 'Confirmation' page")
       assertOnPage(ConfirmationPage)
     }
 
@@ -442,7 +449,10 @@ class NotificationSpec extends BaseSpec {
       When("the user clicks the continue button")
       CheckYourAnswersPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Confirmation' page")
+      Then("the user is on the loading spinner page")
+      NotificationSpinnerPage.assertOnPage()
+
+      And("the user lands on the 'Confirmation' page")
       assertOnPage(ConfirmationPage)
     }
 
@@ -1519,7 +1529,9 @@ class NotificationSpec extends BaseSpec {
     assertOnPage(CheckYourAnswersPage)
     When("the user clicks the continue button")
     CheckYourAnswersPage.clickSubmissionButton()
-    Then("the user is on the confirmation page")
+    Then("the user is on the loading spinner page")
+    NotificationSpinnerPage.assertOnPage()
+    And("the user is on the confirmation page")
     assertOnPage(ConfirmationPage)
     When("the user clicks the continue button")
     ConfirmationPage.clickSubmissionButton()

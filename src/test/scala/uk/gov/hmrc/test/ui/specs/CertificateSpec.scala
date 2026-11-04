@@ -33,8 +33,10 @@ import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
 class CertificateSpec extends BaseSpec {
   override def beforeEach(): Unit = {
     super.beforeEach()
+    SubmissionFeatureTogglePage.setFaultToleranceEndpointAndSpinnerPage(isEnabled = true)
     AuthorityWizardPage.withAffinityGroup(Organisation).withDsaoEnrolment(TestData.subscriptionId).redirectToHomePage()
     setupInternalAuthorisation
+    println("URL :: " + driver.getCurrentUrl)
   }
 
   Feature("Submit Certificate") {
@@ -66,34 +68,44 @@ class CertificateSpec extends BaseSpec {
       "An authorised senior accounting officer submits a certificate from the 'Account Homepage'",
       CertificateUITests,
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user initiates a certificate submission from the 'Account Homepage'")
       navigateToCertificateStartPage()
 
       When("the user selects 'Provide the SAO’s details' link")
+      println("URL 8 :: " + driver.getCurrentUrl)
       CertificateTaskListPage.clickTaskListSectionLink(ProvideSaoDetails)
+      println("URL 9 :: " + driver.getCurrentUrl)
 
       Then("the 'What is the name of the SAO responsible for the certificate?' page is displayed")
       assertOnPage(CertificateSaoFullNamePage)
+      println("URL 10 :: " + driver.getCurrentUrl)
 
       When("the user enters the SAO’s name")
       CertificateSaoFullNamePage.addName(TestData.firstPersonName)
+      println("URL 11 :: " + driver.getCurrentUrl)
 
       And("the user selects 'Continue' after a valid SAO name is added")
       CertificateSaoFullNamePage.clickSubmissionButton()
+      println("URL 12 :: " + driver.getCurrentUrl)
 
       Then("the 'What is the email address for SAO name?' page is displayed")
       assertOnPage(CertificateSaoEmailPage)
+      println("URL 13 :: " + driver.getCurrentUrl)
 
       When("the user enters the SAO’s email address")
       CertificateSaoEmailPage.addEmail(TestData.firstPersonEmail)
+      println("URL 14 :: " + driver.getCurrentUrl)
 
       And("the user selects 'Continue'")
       CertificateSaoEmailPage.clickSubmissionButton()
+      println("URL 15 :: " + driver.getCurrentUrl)
 
       Then("the user returns to the 'Submit a certificate task list' page")
       assertOnPage(CertificateTaskListPage)
+      println("URL 16 :: " + driver.getCurrentUrl)
 
       And(
         "the 'Submit a certificate task list' page is displayed showing 'Provide the SAO’s details' section as Completed"
@@ -107,33 +119,43 @@ class CertificateSpec extends BaseSpec {
       CertificateTaskListPage.assertTaskListSectionStatus(SubmitCertificate, CannotStartYet)
       CertificateTaskListPage.assertStatusNotHighlighted(SubmitCertificate)
       CertificateTaskListPage.assertTaskListSectionNameIsNotHyperlink(SubmitCertificate)
+      println("URL 17 :: " + driver.getCurrentUrl)
 
       When("the user selects 'Upload the submission template' link")
       CertificateTaskListPage.clickTaskListSectionLink(UploadSubmissionTemplate)
+      println("URL 18 :: " + driver.getCurrentUrl)
 
       Then("the 'Upload a submission template' page is displayed")
       assertOnPage(UploadSubmissionTemplatePage)
+      println("URL 19 :: " + driver.getCurrentUrl)
 
       And("the guidance link is present and correct")
       UploadSubmissionTemplatePage.assertTemplateGuidanceLinkFoundWithCorrectAttributes()
+      println("URL 20 :: " + driver.getCurrentUrl)
 
       When("the user uploads a valid submission template and selects 'Continue'")
       UploadSubmissionTemplatePage.uploadAndSubmit(FourCompaniesFile)
+      println("URL 21 :: " + driver.getCurrentUrl)
 
       Then("the 'Review the companies with a qualified certificate' page is displayed")
       assertOnPage(UploadReviewQualifiedPage)
+      println("URL 22 :: " + driver.getCurrentUrl)
 
       When("the user selects 'Continue'")
       UploadReviewQualifiedPage.clickSubmissionButton()
+      println("URL 23 :: " + driver.getCurrentUrl)
 
       Then("the 'Review the companies with an unqualified certificate' page is displayed")
       assertOnPage(UploadReviewUnqualifiedPage)
+      println("URL 24 :: " + driver.getCurrentUrl)
 
       When("the user selects 'Continue'")
       UploadReviewUnqualifiedPage.clickSubmissionButton()
+      println("URL 25 :: " + driver.getCurrentUrl)
 
       Then("the user returns to the 'Submit a certificate task list'")
       assertOnPage(CertificateTaskListPage)
+      println("URL 26 :: " + driver.getCurrentUrl)
 
       And(
         "the Submit a certificate task list page is displayed, showing 'Provide the SAO’s details' and 'Upload the submission template' sections as 'Completed'"
@@ -147,39 +169,51 @@ class CertificateSpec extends BaseSpec {
       CertificateTaskListPage.assertTaskListSectionStatus(SubmitCertificate, NotStarted)
       CertificateTaskListPage.assertStatusHighlightedBlue(SubmitCertificate)
       CertificateTaskListPage.assertTaskListSectionNameIsHyperlink(SubmitCertificate)
+      println("URL 27 :: " + driver.getCurrentUrl)
 
       When("the user selects 'Submit the certificate' link")
       CertificateTaskListPage.clickTaskListSectionLink(SubmitCertificate)
+      println("URL 28 :: " + driver.getCurrentUrl)
 
       Then("the 'Additional information about your certificate' page is displayed")
       assertOnPage(AdditionalInformationPage)
+      println("URL 29 :: " + driver.getCurrentUrl)
 
       When("the user enters additional information")
       AdditionalInformationPage.addInformation("additional information for this certificate")
+      println("URL 30 :: " + driver.getCurrentUrl)
 
       And("the user selects 'Continue'")
       AdditionalInformationPage.clickSubmissionButton()
+      println("URL 31 :: " + driver.getCurrentUrl)
 
       Then("the 'Certificate submission and authorisation' page is displayed")
       assertOnPage(CertificateWhoIsSubmittingPage)
+      println("URL 32 :: " + driver.getCurrentUrl)
 
       When("the user selects 'The SAO' radio option")
       CertificateWhoIsSubmittingPage.clickSaoSubmitterRadioButton()
+      println("URL 33 :: " + driver.getCurrentUrl)
 
       And("the user selects 'Continue'")
       CertificateWhoIsSubmittingPage.clickSubmissionButton()
+      println("URL 34 :: " + driver.getCurrentUrl)
 
       When("the 'Declaration' page is displayed")
       assertOnPage(CertificateDeclarationSaoPage)
+      println("URL 35 :: " + driver.getCurrentUrl)
 
       And("the user enters their full name")
       CertificateDeclarationSaoPage.addSaoName(TestData.firstPersonName)
+      println("URL 36 :: " + driver.getCurrentUrl)
 
       And("the user selects 'Confirm'")
       CertificateDeclarationSaoPage.clickSubmissionButton()
+      println("URL 37 :: " + driver.getCurrentUrl)
 
       Then("the 'Check your answers' page is displayed")
       assertOnPage(CheckYourAnswersPage)
+      println("URL 38 :: " + driver.getCurrentUrl)
 
       When("the user reviews the certificate details")
       assertTextOnPage(CheckYourAnswersPage.certificateSaoFullNameValue, TestData.firstPersonName)
@@ -190,33 +224,39 @@ class CertificateSpec extends BaseSpec {
         CheckYourAnswersPage.certificateAdditionalInformationValue,
         "additional information for this certificate"
       )
+      println("URL 39 :: " + driver.getCurrentUrl)
 
       And("the user clicks 'Confirm and submit'")
       CheckYourAnswersPage.clickSubmissionButton()
+      println("URL 40 :: " + driver.getCurrentUrl)
 
-      Then("the 'Submit a certificate task list' page is displayed showing all tasks as 'Completed'")
-      CertificateTaskListPage.assertCompleteUrl()
+      Then("the user is on the loading spinner page")
+      CertificateSpinnerPage.assertOnPage()
+      println("URL 41 :: " + driver.getCurrentUrl)
 
-      When("the user clicks 'View your confirmation'")
-      CertificateTaskListPage.clickSubmissionButton()
-
-      Then("the user lands on the 'Certificate confirmation' page")
+      And("the user is on the 'Certificate confirmation' page")
       ConfirmationPage.assertUrl()
+      println("URL 42 :: " + driver.getCurrentUrl)
 
       And("the expected page title is displayed")
       assertPageTitle(ConfirmationPage.pageTitle)
+      println("URL 43 :: " + driver.getCurrentUrl)
 
       And("the expected reference is displayed on the url")
       ConfirmationPage.assertReferenceNumberMatchesUrl()
+      println("URL 44 :: " + driver.getCurrentUrl)
 
       And("the expected 'download a pdf' link is present")
       ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "download a PDF")
+      println("URL 45 :: " + driver.getCurrentUrl)
 
       And("the expected 'print this page; link is present")
       ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "print this page")
+      println("URL 46 :: " + driver.getCurrentUrl)
 
       And("the 'download a pdf' link targets the certificate pdf download route")
       ConfirmationPage.assertDownloadPdfLinkTargetsPdf()
+      println("URL 47 :: " + driver.getCurrentUrl)
     }
 
     Scenario(
@@ -307,19 +347,16 @@ class CertificateSpec extends BaseSpec {
       And("the user clicks 'Continue'")
       CertificateDeclarationStandInPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Check your answers' page")
+      Then("the user is on the 'Check your answers' page")
       assertOnPage(CheckYourAnswersPage)
 
       When("the user clicks 'Confirm and submit'")
       CheckYourAnswersPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Certificate Task List'")
-      CertificateTaskListPage.assertCompleteUrl()
+      Then("the user is on the loading spinner page")
+      CertificateSpinnerPage.assertOnPage()
 
-      When("user clicks on 'View your confirmation'")
-      CertificateTaskListPage.clickSubmissionButton()
-
-      Then("the user lands on the 'Certificate confirmation' page")
+      And("the user is on the 'Certificate confirmation' page")
       ConfirmationPage.assertUrl()
 
       And("the expected page title is displayed")
@@ -1414,12 +1451,19 @@ class CertificateSpec extends BaseSpec {
   }
 
   private def navigateToCertificateStartPage(): Unit = {
+    println("URL 2 :: " + driver.getCurrentUrl)
     assertOnPage(AccountHomePage)
+    println("URL 3 :: " + driver.getCurrentUrl)
     AccountHomePage.clickMakeSubmissionLink()
+    println("URL 4 :: " + driver.getCurrentUrl)
     assertOnPage(SubmissionTypePage)
+    println("URL 4a :: " + driver.getCurrentUrl)
     SubmissionTypePage.clickCertificateRadioButton()
+    println("URL 5 :: " + driver.getCurrentUrl)
     SubmissionTypePage.clickSubmissionButton()
+    println("URL 6 :: " + driver.getCurrentUrl)
     assertOnPage(CertificateTaskListPage)
+    println("URL 7 :: " + driver.getCurrentUrl)
   }
 
   private def goToAdditionalInformationPageFromHomePage(): Unit = {
