@@ -52,7 +52,7 @@ object CertificateSpinnerPage
 
     val startTime = Instant.now()
 
-    new WebDriverWait(driver, Duration.ofSeconds(3))
-      .until(_ => Duration.between(startTime, Instant.now()).toMillis >= 2000)
+    new WebDriverWait(driver, Duration.ofSeconds(5))
+      .until(_ => Duration.between(startTime, Instant.now()).toMillis >= 4000)
   }
 }
