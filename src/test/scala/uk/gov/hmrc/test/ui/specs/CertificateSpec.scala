@@ -33,6 +33,7 @@ import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
 class CertificateSpec extends BaseSpec {
   override def beforeEach(): Unit = {
     super.beforeEach()
+    SubmissionFeatureTogglePage.setFaultToleranceEndpointAndSpinnerPage(isEnabled = true)
     AuthorityWizardPage.withAffinityGroup(Organisation).withDsaoEnrolment(TestData.subscriptionId).redirectToHomePage()
     setupInternalAuthorisation
   }
@@ -194,13 +195,10 @@ class CertificateSpec extends BaseSpec {
       And("the user clicks 'Confirm and submit'")
       CheckYourAnswersPage.clickSubmissionButton()
 
-      Then("the 'Submit a certificate task list' page is displayed showing all tasks as 'Completed'")
-      CertificateTaskListPage.assertCompleteUrl()
+      Then("the user is on the loading spinner page")
+      CertificateSpinnerPage.assertOnPage()
 
-      When("the user clicks 'View your confirmation'")
-      CertificateTaskListPage.clickSubmissionButton()
-
-      Then("the user lands on the 'Certificate confirmation' page")
+      And("the user is on the 'Certificate confirmation' page")
       ConfirmationPage.assertUrl()
 
       And("the expected page title is displayed")
@@ -307,19 +305,16 @@ class CertificateSpec extends BaseSpec {
       And("the user clicks 'Continue'")
       CertificateDeclarationStandInPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Check your answers' page")
+      Then("the user is on the 'Check your answers' page")
       assertOnPage(CheckYourAnswersPage)
 
       When("the user clicks 'Confirm and submit'")
       CheckYourAnswersPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Certificate Task List'")
-      CertificateTaskListPage.assertCompleteUrl()
+      Then("the user is on the loading spinner page")
+      CertificateSpinnerPage.assertOnPage()
 
-      When("user clicks on 'View your confirmation'")
-      CertificateTaskListPage.clickSubmissionButton()
-
-      Then("the user lands on the 'Certificate confirmation' page")
+      And("the user is on the 'Certificate confirmation' page")
       ConfirmationPage.assertUrl()
 
       And("the expected page title is displayed")
