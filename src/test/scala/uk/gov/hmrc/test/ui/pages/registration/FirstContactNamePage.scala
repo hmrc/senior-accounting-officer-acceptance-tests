@@ -25,9 +25,9 @@ object FirstContactNamePage
     with ErrorMessageSupport
     with NameInputSupport {
 
-  override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details/first/name"
+  override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details/first/full-name"
   override val pageTitle: String =
     "What is the name of the person or team we can contact? - First contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val changePageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/first/change-name"
+  val changePageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/first/full-name?mode=CheckMode"
 }

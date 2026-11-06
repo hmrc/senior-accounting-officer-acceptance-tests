@@ -23,13 +23,14 @@ import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport
 
 object SecondContactEmailPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
 
-  override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details/second/email"
+  override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details/second/email-address"
   override val pageTitle: String =
     "What is the email address for this contact? - Second contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val transactionPageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/second/transaction-email"
-  val changePageUrl: String      = s"${RegistrationPage.pageUrl}/contact-details/second/change-email"
-  val emailInput: By             = By.id("value")
+  val transactionPageUrl: String =
+    s"${RegistrationPage.pageUrl}/contact-details/second/email-address?mode=TransactionMode"
+  val changePageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/second/email-address?mode=CheckMode"
+  val emailInput: By        = By.id("value")
 
   def addEmail(emailAddress: String): Unit = {
     sendKeys(emailInput, emailAddress)
