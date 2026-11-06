@@ -25,10 +25,10 @@ object SecondContactNamePage
     with ErrorMessageSupport
     with NameInputSupport {
 
-  override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details/second/name"
+  override val pageUrl: String   = s"${RegistrationPage.pageUrl}/contact-details/second/full-name"
   override val pageTitle: String =
     "What is the name of the person or team we can contact? - Second contact details - Senior Accounting Officer notification and certificate - GOV.UK"
 
-  val transactionPageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/second/transaction-name"
-  val changePageUrl: String      = s"${RegistrationPage.pageUrl}/contact-details/second/change-name"
+  val transactionPageUrl: String = s"${RegistrationPage.pageUrl}/contact-details/second/full-name?mode=TransactionMode"
+  val changePageUrl: String      = s"${RegistrationPage.pageUrl}/contact-details/second/full-name?mode=CheckMode"
 }

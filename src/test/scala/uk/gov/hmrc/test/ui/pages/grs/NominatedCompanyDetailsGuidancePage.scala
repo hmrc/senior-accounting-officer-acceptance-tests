@@ -22,7 +22,7 @@ import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object NominatedCompanyDetailsGuidancePage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-registration-frontend")}/nominated-company-details-guidance"
+    s"${TestConfiguration.url("senior-accounting-officer-registration-frontend")}/start-registration"
   override val pageTitle: String =
     "What you need to start your registration - Nominated company details - Senior Accounting Officer notification and certificate - GOV.UK"
 }

@@ -22,7 +22,7 @@ import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object RegistrationCompletePage extends CommonPage with SubmissionButtonSupport {
-  override def pageUrl: String   = s"${RegistrationPage.pageUrl}/registration-complete"
+  override def pageUrl: String   = s"${RegistrationPage.pageUrl}/confirmation"
   override def pageTitle: String =
     "Registration complete - Senior Accounting Officer notification and certificate - GOV.UK"
 
