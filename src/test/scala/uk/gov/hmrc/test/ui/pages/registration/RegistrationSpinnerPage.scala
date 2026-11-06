@@ -35,7 +35,7 @@ object RegistrationSpinnerPage
   private val baseUrl: String = TestConfiguration.url("senior-accounting-officer-registration-frontend")
 
   override def pageUrl(param: String): String =
-    s"$baseUrl/registration/registering?idempotencyKey=$param"
+    s"$baseUrl/registering?idempotencyKey=$param"
 
   override def pageTitle: String =
     "Registering your nominated company - Senior Accounting Officer notification and certificate - GOV.UK"
