@@ -33,8 +33,9 @@ class ContactDetailsSpec extends BaseSpec {
 
   override def beforeEach(): Unit = {
     super.beforeEach()
-    FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
-    FeatureTogglePage.setReshuffledContactFlow(isEnabled = true)
+    RegistrationFeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
+    RegistrationFeatureTogglePage.setReshuffledContactFlow(isEnabled = true)
+    RegistrationFeatureTogglePage.setFaultToleranceEndpointAndSpinnerPage(isEnabled = true)
     AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
     RegistrationPage.clickEnterYourNominatedCompanyDetailsLink()
     assertOnPage(NominatedCompanyDetailsGuidancePage)
@@ -106,7 +107,11 @@ class ContactDetailsSpec extends BaseSpec {
       RegistrationPage.assertRegistrationPageSectionStatus(ContactDetails, Completed)
       When("the user submits the registration by clicking the submission button")
       RegistrationPage.clickSubmissionButton()
-      Then("the user is sent to the registration complete page")
+
+      Then("the user is on the loading spinner page")
+      RegistrationSpinnerPage.assertOnPage()
+
+      And("the user is sent to the registration complete page")
       assertOnPage(RegistrationCompletePage)
       And("a unique reference number is displayed")
       RegistrationCompletePage.assertReferenceNumberReturned()
@@ -129,6 +134,7 @@ class ContactDetailsSpec extends BaseSpec {
 
       When("the user submits the contact details by clicking the continue button")
       CheckYourAnswersPage.clickSubmissionButton()
+
       Then("the user is back on the registration page")
       assertOnPage(RegistrationPage)
 
@@ -138,7 +144,10 @@ class ContactDetailsSpec extends BaseSpec {
       When("the user submits the registration")
       RegistrationPage.clickSubmissionButton()
 
-      Then("the user is sent to the registration complete page")
+      Then("the user is on the loading spinner page")
+      RegistrationSpinnerPage.assertOnPage()
+
+      And("the user is sent to the registration complete page")
       assertOnPage(RegistrationCompletePage)
 
       And("a unique reference number is displayed")
@@ -173,11 +182,20 @@ class ContactDetailsSpec extends BaseSpec {
       Then("they are on the registration page")
       assertOnPage(RegistrationPage)
 
+      When("the user clicks the 'Continue' button on the 'Registration' page")
+      RegistrationPage.clickSubmissionButton()
+
+      Then("the user is on the loading spinner page")
+      RegistrationSpinnerPage.assertOnPage()
+
+      And("the user is on the 'Registration Complete' page")
+      assertOnPage(RegistrationCompletePage)
+
       When("the user clicks the 'Continue' button on the 'Registration Complete' page")
       RegistrationCompletePage.clickSubmissionButton()
 
-      Then("the user lands on the 'Account Homepage'")
-      assertOnPage(RegistrationCompletePage)
+      And("the user lands on the 'Account Homepage'")
+      assertOnPage(AccountHomePage)
     }
 
     Scenario(

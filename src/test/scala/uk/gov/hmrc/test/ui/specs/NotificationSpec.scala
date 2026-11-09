@@ -27,7 +27,7 @@ import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
 import uk.gov.hmrc.test.ui.support.InternalAuthorisationSupport.setupInternalAuthorisation
 import uk.gov.hmrc.test.ui.support.PageSupport.*
-import uk.gov.hmrc.test.ui.support.{PageSupport, TestData}
+import uk.gov.hmrc.test.ui.support.TestData
 
 import java.time.LocalDate
 
@@ -35,6 +35,7 @@ class NotificationSpec extends BaseSpec {
 
   override def beforeEach(): Unit = {
     super.beforeEach()
+    SubmissionFeatureTogglePage.setFaultToleranceEndpointAndSpinnerPage(isEnabled = true)
     AuthorityWizardPage.withAffinityGroup(Organisation).withDsaoEnrolment(TestData.subscriptionId).redirectToHomePage()
     setupInternalAuthorisation
   }
@@ -98,12 +99,20 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on the 'Submit a notification' start page")
       assertOnPage(SubmitNotificationStartPage)
 
+      When("the 'submit a notification' task is completed with default selections")
+      And("the user lands on the 'Submit a notification' complete page")
       completeSubmitANotificationFromTaskListWithDefaultSelections()
-      When("the user lands on Task list page")
+
+      Then("the user lands on Task list page")
       assertOnPage(NotificationTaskListPage)
-      And("the user clicks 'view your confirmation' button")
+
+      When("the user clicks 'view your confirmation' button")
       NotificationTaskListPage.clickSubmissionButton()
-      Then("the user is on the confirmation page")
+
+      Then("the user is on the loading spinner page")
+      NotificationSpinnerPage.assertOnPage()
+
+      And("the user is on the confirmation page")
       assertOnPage(ConfirmationPage)
     }
 
@@ -154,13 +163,16 @@ class NotificationSpec extends BaseSpec {
       And("there is a value of the additional information the usr provided")
       assertTextOnPage(CheckYourAnswersPage.additionalInformationValueElement, "Test")
 
-      And("the user confirms their answers by clicking 'Continue'")
+      When("the user confirms their answers by clicking 'Continue'")
       CheckYourAnswersPage.clickSubmissionButton()
 
       And("the user clicks the 'view your confirmation' button")
       NotificationTaskListPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Confirmation' page")
+      Then("the user is on the loading spinner page")
+      NotificationSpinnerPage.assertOnPage()
+
+      And("the user lands on the 'Confirmation' page")
       assertOnPage(ConfirmationPage)
 
       And("a unique reference number is displayed on screen")
@@ -168,6 +180,7 @@ class NotificationSpec extends BaseSpec {
 
       And("the expected 'download a pdf' link is present")
       ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.downloadPdfLink, "download a PDF")
+
       And("the expected 'print this page' link is present")
       ConfirmationPage.assertLinkHasTextOnPage(ConfirmationPage.printPageLink, "print this page")
 
@@ -408,7 +421,10 @@ class NotificationSpec extends BaseSpec {
       And("the user clicks the 'view your confirmation' button")
       NotificationTaskListPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Confirmation' page")
+      Then("the user is on the loading spinner page")
+      NotificationSpinnerPage.assertOnPage()
+
+      And("the user lands on the 'Confirmation' page")
       assertOnPage(ConfirmationPage)
     }
 
@@ -451,7 +467,10 @@ class NotificationSpec extends BaseSpec {
       And("the user clicks the 'view your confirmation' button")
       NotificationTaskListPage.clickSubmissionButton()
 
-      Then("the user lands on the 'Confirmation' page")
+      Then("the user is on the loading spinner page")
+      NotificationSpinnerPage.assertOnPage()
+
+      And("the user lands on the 'Confirmation' page")
       assertOnPage(ConfirmationPage)
     }
 
@@ -532,6 +551,7 @@ class NotificationSpec extends BaseSpec {
       When("the 'submit a notification' task is completed with default selections")
       And("the user lands on the 'Submit a notification' complete page")
       completeSubmitANotificationFromTaskListWithDefaultSelections()
+
       When("the user lands on Task list page")
       assertOnPage(NotificationTaskListPage)
       And("the 'Provide SAO Details' status is Completed")
@@ -552,8 +572,13 @@ class NotificationSpec extends BaseSpec {
       NotificationTaskListPage.assertStatusNotHighlighted(SubmitNotification)
       And("the 'Submit Notification' section name is not a hyperlink")
       NotificationTaskListPage.assertTaskListSectionNameIsNotHyperlink(SubmitNotification)
-      And("the user clicks 'view your confirmation' button")
+
+      When("the user clicks 'view your confirmation' button")
       NotificationTaskListPage.clickSubmissionButton()
+
+      Then("the user is on the loading spinner page")
+      NotificationSpinnerPage.assertOnPage()
+
       Then("the user is on the confirmation page")
       assertOnPage(ConfirmationPage)
     }
@@ -1515,14 +1540,17 @@ class NotificationSpec extends BaseSpec {
   private def completeSubmitANotificationFromTaskListWithDefaultSelections(): Unit = {
     When("the user clicks the 'Submit Notification' link")
     SubmitNotificationStartPage.clickTaskListSectionLink(SubmitNotification)
+
     Then("the user is on the 'Additional Information' page")
     assertOnPage(AdditionalInformationPage)
     When("the user clicks the skip button")
     AdditionalInformationPage.clickSkipButton()
+
     Then("the user is on the 'Confirm Notification' page")
     assertOnPage(ConfirmNotificationPage)
     When("the user clicks the continue button")
     ConfirmNotificationPage.clickSubmissionButton()
+
     Then("the user is on the 'Check Your Answers' page")
     assertOnPage(CheckYourAnswersPage)
     When("the user clicks the continue button")
