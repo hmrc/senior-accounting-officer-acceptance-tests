@@ -24,7 +24,7 @@ import uk.gov.hmrc.test.ui.support.{BackLinkSupport, SubmissionButtonSupport}
 
 object CheckYourAnswersPage extends CommonPage with SubmissionButtonSupport with BackLinkSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateCheckYourAnswers"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/check-answers"
 
   override val pageTitle: String =
     "Check your answers – Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"

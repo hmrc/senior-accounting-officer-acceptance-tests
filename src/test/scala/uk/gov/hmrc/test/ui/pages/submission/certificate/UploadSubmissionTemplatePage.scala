@@ -33,7 +33,7 @@ import java.nio.file.Paths
 object UploadSubmissionTemplatePage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
 
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/upload"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/upload-template"
 
   override val pageTitle: String =
     "Upload a submission template - Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"

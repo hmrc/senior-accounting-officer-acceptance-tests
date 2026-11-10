@@ -29,13 +29,13 @@ object CertificateWhoIsSubmittingPage
     with BackLinkSupport {
 
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate-who-is-submitting"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/officer-submit-certificate?mode=NormalMode"
 
   override val pageTitle: String =
     "Certificate submission and authorisation - Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val transactionCertificateWhoIsSubmittingPageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/transaction-certificate-who-is-submitting"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/officer-submit-certificate?mode=TransactionMode"
 
   override protected def submissionButtonLocator: By = By.className("govuk-button")
 

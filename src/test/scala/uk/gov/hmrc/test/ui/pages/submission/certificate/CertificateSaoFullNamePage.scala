@@ -26,11 +26,11 @@ object CertificateSaoFullNamePage
     with ErrorMessageSupport
     with NameInputSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/submit-certificate-sao-full-name"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/officer-name?mode=NormalMode"
 
   override val pageTitle: String =
     "What is the name of the SAO responsible for the certificate? - Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changeSaoFullNamePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/change-submit-certificate-sao-full-name"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/officer-name?mode=CheckMode"
 }

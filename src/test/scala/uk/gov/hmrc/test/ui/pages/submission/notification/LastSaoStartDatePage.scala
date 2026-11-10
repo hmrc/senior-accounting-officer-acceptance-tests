@@ -29,7 +29,7 @@ object LastSaoStartDatePage
     with DayMonthYearInputSupport {
 
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/more-sao/submit-notification-first-start-date"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/last/officer-start-date?mode=NormalMode"
 
   override val pageTitle: String =
     "What date did the last SAO become the SAO? - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"

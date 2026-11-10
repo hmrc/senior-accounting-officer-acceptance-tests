@@ -27,7 +27,7 @@ object SubmissionTemplateGuidancePage extends CommonPage with SubmissionButtonSu
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/template-guidance"
 
   val pageUrlForNewTab: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/template-guidance/new-tab"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/template-guidance"
 
   override val pageTitle: String =
     "Submission template guidance - Senior Accounting Officer notification and certificate - GOV.UK"

@@ -24,7 +24,7 @@ import uk.gov.hmrc.test.ui.support.{PageSupport, SubmissionButtonSupport}
 
 object UploadTableErrorPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateReviewQualified"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/review-qualified-certificate"
 
   override val pageTitle: String =
     "There is a problem with your submission template file - Senior Accounting Officer notification and certificate - GOV.UK"

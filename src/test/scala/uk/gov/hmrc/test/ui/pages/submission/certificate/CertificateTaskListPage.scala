@@ -31,7 +31,7 @@ import java.util.regex.Pattern
 object CertificateTaskListPage extends CommonPage with SubmissionButtonSupport {
 
   override def pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task/provide-details"
 
   case class TaskListSection(
       name: String,
@@ -45,7 +45,7 @@ object CertificateTaskListPage extends CommonPage with SubmissionButtonSupport {
     "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val taskListCompletePageUrlRegEx: String =
-    s"^${Pattern.quote(host)}/certificate/task-list/complete\\?certificateReference=(CRT[0-9]{10})$$"
+    s"^${Pattern.quote(host)}/certificate/task/complete\\?certificateReference=(CRT[0-9]{10})$$"
 
   private def statusLocator(id: String): By          = By.cssSelector(s"#$id-status")
   private def statusHighlightLocator(id: String): By = By.cssSelector(s"#$id-status .govuk-tag.govuk-tag--blue")

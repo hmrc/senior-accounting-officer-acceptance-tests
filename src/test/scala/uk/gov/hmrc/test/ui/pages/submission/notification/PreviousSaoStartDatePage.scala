@@ -30,7 +30,7 @@ object PreviousSaoStartDatePage
     with BackLinkSupport {
 
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/multi-sao-second-start-date"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/previous/officer-start-date?mode=NormalMode"
 
   override val pageTitle: String =
     "What date did the previous SAO responsibility start? - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
@@ -38,7 +38,7 @@ object PreviousSaoStartDatePage
   val pageHeadingElement: By = By.className("govuk-fieldset__heading")
 
   val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/multi-sao-second-start-date?saoIndex=1"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/previous/officer-start-date?saoIndex=1"
 
   def assertHeadingMatches(text: String): Unit = {
     assertTextOnPage(pageHeadingElement, text)

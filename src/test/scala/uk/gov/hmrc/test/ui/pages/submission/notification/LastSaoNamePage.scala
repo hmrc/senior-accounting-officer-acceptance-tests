@@ -22,7 +22,7 @@ import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, NameInputSupport, Submi
 
 object LastSaoNamePage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport with NameInputSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/more-sao/submit-notification-full-name"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/last/officer-name?mode=NormalMode"
 
   override val pageTitle: String =
     "What is the name of the SAO at the end of the financial year? - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"

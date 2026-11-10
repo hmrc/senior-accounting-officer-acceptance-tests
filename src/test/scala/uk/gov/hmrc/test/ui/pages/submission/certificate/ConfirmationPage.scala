@@ -43,7 +43,7 @@ object ConfirmationPage
     By.id("print-page-link")
 
   override protected val urlRegex: String =
-    s"^${Pattern.quote(host)}/certificate-confirmation\\?certificateIdReferenceNumber=(CRT[0-9]{10})$$"
+    s"^${Pattern.quote(host)}/certificate/confirmation\\?certificateIdReferenceNumber=(CRT[0-9]{10})$$"
 
   override def extractParams: String = {
     val UrlPattern      = urlRegex.r

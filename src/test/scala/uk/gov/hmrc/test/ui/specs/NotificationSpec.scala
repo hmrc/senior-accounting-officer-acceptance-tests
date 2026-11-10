@@ -75,7 +75,8 @@ class NotificationSpec extends BaseSpec {
       "Invalid certificate data in an upload file will not prevent a successful notification submission",
       NotificationUITests,
       SubmissionUITests,
-      ZapTests
+      ZapTests,
+      SoloTests
     ) {
       Given("an authenticated user provides details for a single SAO in a notification submission")
       assertOnPage(AccountHomePage)

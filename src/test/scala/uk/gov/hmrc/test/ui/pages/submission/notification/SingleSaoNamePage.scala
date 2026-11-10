@@ -26,12 +26,12 @@ object SingleSaoNamePage
     with ErrorMessageSupport
     with NameInputSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/one-sao/submit-notification-full-name"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/officer-name?mode=NormalMode"
 
   override val pageTitle: String = {
     "What is the name of the SAO? - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
   }
 
   val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/one-sao/change-submit-notification-full-name"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/officer-name?mode=CheckMode"
 }
