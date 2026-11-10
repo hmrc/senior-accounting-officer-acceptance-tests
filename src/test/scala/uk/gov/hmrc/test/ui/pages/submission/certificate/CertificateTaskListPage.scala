@@ -26,8 +26,6 @@ import uk.gov.hmrc.test.ui.pages.CommonPage
 import uk.gov.hmrc.test.ui.support.PageSupport.*
 import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
-import java.util.regex.Pattern
-
 object CertificateTaskListPage extends CommonPage with SubmissionButtonSupport {
 
   override def pageUrl: String =
@@ -39,13 +37,9 @@ object CertificateTaskListPage extends CommonPage with SubmissionButtonSupport {
       statusLocator: By,
       statusHighlightLocator: By
   )
-  val host: String = TestConfiguration.url("senior-accounting-officer-submission-frontend")
 
   override val pageTitle: String =
     "Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
-
-  val taskListCompletePageUrlRegEx: String =
-    s"^${Pattern.quote(host)}/certificate/task/complete\\?certificateReference=(CRT[0-9]{10})$$"
 
   private def statusLocator(id: String): By          = By.cssSelector(s"#$id-status")
   private def statusHighlightLocator(id: String): By = By.cssSelector(s"#$id-status .govuk-tag.govuk-tag--blue")
@@ -112,15 +106,10 @@ object CertificateTaskListPage extends CommonPage with SubmissionButtonSupport {
     )
   }
 
-  def assertCompleteUrl(): Unit = {
-    fluentWait.until(ExpectedConditions.urlMatches(taskListCompletePageUrlRegEx))
-  }
-
   def assertTaskListSectionStatus(section: CertificateTaskListSection, expectedStatus: PageSectionStatus): Unit = {
     val statusElement = new FluentWait(driver)
       .until(ExpectedConditions.visibilityOfElementLocated(taskListSections(section).statusLocator))
     statusElement.getText.trim mustBe expectedStatus.toString withClue
       s"Expected a status of '$expectedStatus' for the '$section' section, but found '${statusElement.getText}'"
   }
-
 }

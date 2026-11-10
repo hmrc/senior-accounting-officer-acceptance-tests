@@ -65,7 +65,7 @@ class RegistrationSpec extends BaseSpec {
       ZapTests
     ) {
       Given("a user starts the lands on the registration landing page")
-      FeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
+      RegistrationFeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
       AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
 
       When("the user clicks 'Enter nominated company details' link")
