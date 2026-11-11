@@ -26,7 +26,7 @@ import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 object UploadReviewQualifiedPage extends CommonPage with SubmissionButtonSupport {
 
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateReviewQualified?page=0"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/review-qualified-certificate?page=0"
 
   override val pageTitle: String = {
     "Review the companies with a qualified certificate - Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"

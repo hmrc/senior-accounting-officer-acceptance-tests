@@ -36,7 +36,7 @@ object SubmitNotificationStartPage extends CommonPage with SubmissionButtonSuppo
   )
 
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/start"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/task"
 
   override val pageTitle: String =
     "Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"

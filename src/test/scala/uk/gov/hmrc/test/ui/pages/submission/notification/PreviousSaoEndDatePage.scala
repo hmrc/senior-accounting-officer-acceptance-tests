@@ -30,13 +30,13 @@ object PreviousSaoEndDatePage
     with BackLinkSupport {
 
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notificationMoreSaoSecondEndDate"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/previous/officer-end-date?mode=NormalMode"
 
   override val pageTitle: String =
     "What date did the previous SAO responsibility stop? - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val pageUrlWithSaoIndexOne: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notificationMoreSaoSecondEndDate?saoIndex=1"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/previous/officer-end-date?mode=NormalMode&sao=1"
   val pageHeadingElement: By = By.className("govuk-fieldset__heading")
 
   def assertHeadingMatches(text: String): Unit = {

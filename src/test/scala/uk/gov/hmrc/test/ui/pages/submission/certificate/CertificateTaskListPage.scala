@@ -29,7 +29,7 @@ import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 object CertificateTaskListPage extends CommonPage with SubmissionButtonSupport {
 
   override def pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task-list"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/task"
 
   case class TaskListSection(
       name: String,

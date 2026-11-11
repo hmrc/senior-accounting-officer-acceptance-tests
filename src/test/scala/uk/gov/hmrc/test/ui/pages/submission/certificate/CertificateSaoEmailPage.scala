@@ -24,7 +24,7 @@ import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, PageSupport, Submission
 
 object CertificateSaoEmailPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate-only/sao-email"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/email-address?mode=NormalMode"
 
   override val pageTitle: String =
     "What is the email address for the SAO? - Submit a certificate - Senior Accounting Officer notification and certificate - GOV.UK"
@@ -36,7 +36,7 @@ object CertificateSaoEmailPage extends CommonPage with SubmissionButtonSupport w
   val saoEmailInput: By = By.id("value")
 
   val changeSaoEmailPageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate-only/change-sao-email"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/email-address?mode=CheckMode"
 
   def addEmail(emailAddress: String): Unit = {
     sendKeys(saoEmailInput, emailAddress)

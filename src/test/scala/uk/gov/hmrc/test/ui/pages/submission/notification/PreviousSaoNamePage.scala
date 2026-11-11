@@ -30,7 +30,7 @@ object PreviousSaoNamePage
     with NameInputSupport {
 
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/who-was-the-sao-before"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/previous/officer-name?mode=NormalMode"
 
   override val pageTitle: String =
     "Who was the SAO before the last SAO? - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
@@ -39,7 +39,7 @@ object PreviousSaoNamePage
   val pageHintElement: By    = By.id("value-hint")
 
   val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/who-was-the-sao-before?saoIndex=1"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/previous/officer-name?mode=NormalMode&sao=1"
 
   def assertHeadingMatches(text: String): Unit = {
     assertTextOnPage(pageHeadingElement, text)

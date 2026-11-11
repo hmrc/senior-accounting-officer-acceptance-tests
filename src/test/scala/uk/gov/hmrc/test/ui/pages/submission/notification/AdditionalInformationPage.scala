@@ -24,13 +24,13 @@ import uk.gov.hmrc.test.ui.support.{ErrorMessageSupport, SubmissionButtonSupport
 
 object AdditionalInformationPage extends CommonPage with SubmissionButtonSupport with ErrorMessageSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/additional-information"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/additional-information?mode=NormalMode"
 
   override val pageTitle: String =
     "Additional information about your notification - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/change-additional-information"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/additional-information?mode=CheckMode"
   val additionalInformationTextBox: By = By.className("govuk-textarea")
   val skipButton: By                   = By.id("skip")
 

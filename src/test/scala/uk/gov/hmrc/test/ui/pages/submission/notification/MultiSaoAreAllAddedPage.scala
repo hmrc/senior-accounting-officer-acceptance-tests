@@ -27,10 +27,10 @@ object MultiSaoAreAllAddedPage
     with ErrorMessageSupport
     with BackLinkSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/more-sao/are-all-added"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/add-officer?mode=NormalMode"
   override val pageTitle: String =
     "Have you added all the SAOs for this notification? - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/more-sao/are-all-added?saoIndex=1"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/add-officer?mode=NormalMode&sao=1"
 }
