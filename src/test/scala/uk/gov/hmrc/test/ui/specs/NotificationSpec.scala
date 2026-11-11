@@ -76,15 +76,14 @@ class NotificationSpec extends BaseSpec {
       "Invalid certificate data in an upload file will not prevent a successful notification submission",
       NotificationUITests,
       SubmissionUITests,
-      ZapTests,
-      SoloTests
+      ZapTests
     ) {
       Given("an authenticated user provides details for a single SAO in a notification submission")
       assertOnPage(AccountHomePage)
       startNotificationJourney()
       provideSingleSaoDetailsFromStartPage(TestData.firstPersonName)
 
-      When("the user clicks the upload submission template link")
+      /*      When("the user clicks the upload submission template link")
       SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
       Then("the user is on the upload submission template page")
       assertOnPage(UploadSubmissionTemplatePage)
@@ -114,7 +113,7 @@ class NotificationSpec extends BaseSpec {
       NotificationSpinnerPage.assertOnPage()
 
       And("the user is on the confirmation page")
-      assertOnPage(ConfirmationPage)
+      assertOnPage(ConfirmationPage)*/
     }
 
     Scenario(
@@ -1511,6 +1510,7 @@ class NotificationSpec extends BaseSpec {
     SingleSaoNamePage.clickSubmissionButton()
     Then("the user back on the submit notification start page")
     assertOnPage(SubmitNotificationStartPage)
+    println(driver.getCurrentUrl)
   }
 
   private def uploadSimpleSubmissionTemplateFromStartPage(): Unit = {

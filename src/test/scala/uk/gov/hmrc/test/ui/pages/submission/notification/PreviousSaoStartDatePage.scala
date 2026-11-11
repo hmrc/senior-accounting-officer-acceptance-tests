@@ -38,7 +38,7 @@ object PreviousSaoStartDatePage
   val pageHeadingElement: By = By.className("govuk-fieldset__heading")
 
   val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/previous/officer-start-date?saoIndex=1"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/previous/officer-start-date?mode=NormalMode&sao=1"
 
   def assertHeadingMatches(text: String): Unit = {
     assertTextOnPage(pageHeadingElement, text)

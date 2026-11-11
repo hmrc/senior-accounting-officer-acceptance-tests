@@ -32,5 +32,5 @@ object MultiSaoAreAllAddedPage
     "Have you added all the SAOs for this notification? - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/add-officer?saoIndex=1"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/add-officer?mode=NormalMode&sao=1"
 }

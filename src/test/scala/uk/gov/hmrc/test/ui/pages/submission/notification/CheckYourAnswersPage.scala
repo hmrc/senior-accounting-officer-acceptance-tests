@@ -24,7 +24,7 @@ import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object CheckYourAnswersPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/check-answers?mode=NormalMode"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/check-answers"
 
   override val pageTitle: String =
     "Check your answers - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"

@@ -25,7 +25,7 @@ import uk.gov.hmrc.test.ui.support.SubmissionButtonSupport
 
 object UploadReviewUnqualifiedPage extends CommonPage with SubmissionButtonSupport {
   override val pageUrl: String = {
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificateReviewUnqualified?page=0"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/certificate/review-unqualified-certificate?page=0"
   }
 
   override val pageTitle: String = {

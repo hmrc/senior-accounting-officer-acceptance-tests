@@ -39,7 +39,7 @@ object PreviousSaoNamePage
   val pageHintElement: By    = By.id("value-hint")
 
   val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/previous/officer-name?saoIndex=1"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/previous/officer-name?mode=NormalMode&sao=1"
 
   def assertHeadingMatches(text: String): Unit = {
     assertTextOnPage(pageHeadingElement, text)

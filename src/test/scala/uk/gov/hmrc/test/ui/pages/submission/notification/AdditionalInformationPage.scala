@@ -30,7 +30,7 @@ object AdditionalInformationPage extends CommonPage with SubmissionButtonSupport
     "Additional information about your notification - Submit a notification - Senior Accounting Officer notification and certificate - GOV.UK"
 
   val changePageUrl: String =
-    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/additional-information?mode=NormalMode"
+    s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/notification/additional-information?mode=CheckMode"
   val additionalInformationTextBox: By = By.className("govuk-textarea")
   val skipButton: By                   = By.id("skip")
 
