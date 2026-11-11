@@ -83,7 +83,7 @@ class NotificationSpec extends BaseSpec {
       startNotificationJourney()
       provideSingleSaoDetailsFromStartPage(TestData.firstPersonName)
 
-      /*      When("the user clicks the upload submission template link")
+      When("the user clicks the upload submission template link")
       SubmitNotificationStartPage.clickTaskListSectionLink(UploadSubmissionTemplate)
       Then("the user is on the upload submission template page")
       assertOnPage(UploadSubmissionTemplatePage)
@@ -113,7 +113,7 @@ class NotificationSpec extends BaseSpec {
       NotificationSpinnerPage.assertOnPage()
 
       And("the user is on the confirmation page")
-      assertOnPage(ConfirmationPage)*/
+      assertOnPage(ConfirmationPage)
     }
 
     Scenario(
