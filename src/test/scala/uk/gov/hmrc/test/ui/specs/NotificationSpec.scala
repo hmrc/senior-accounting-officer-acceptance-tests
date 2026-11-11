@@ -1510,7 +1510,6 @@ class NotificationSpec extends BaseSpec {
     SingleSaoNamePage.clickSubmissionButton()
     Then("the user back on the submit notification start page")
     assertOnPage(SubmitNotificationStartPage)
-    println(driver.getCurrentUrl)
   }
 
   private def uploadSimpleSubmissionTemplateFromStartPage(): Unit = {
