@@ -106,7 +106,7 @@ class NotificationSpec extends BaseSpec {
       Then("the user lands on Task list page")
       assertOnPage(NotificationTaskListPage)
 
-      When("the user clicks 'view your confirmation' button")
+      When("the user clicks 'Submit' button")
       NotificationTaskListPage.clickSubmissionButton()
 
       Then("the user is on the loading spinner page")
@@ -166,7 +166,10 @@ class NotificationSpec extends BaseSpec {
       When("the user confirms their answers by clicking 'Continue'")
       CheckYourAnswersPage.clickSubmissionButton()
 
-      And("the user clicks the 'view your confirmation' button")
+      Then("user lands on the notification task list page")
+      assertOnPage(NotificationTaskListPage)
+
+      And("the user clicks the 'Submit' button")
       NotificationTaskListPage.clickSubmissionButton()
 
       Then("the user is on the loading spinner page")
@@ -394,7 +397,7 @@ class NotificationSpec extends BaseSpec {
       Then("the user is on the 'Confirm Notification' page")
       assertOnPage(ConfirmNotificationPage)
 
-      When("the user clicks the continue button")
+      When("the user clicks the 'Continue' button")
       ConfirmNotificationPage.clickSubmissionButton()
 
       Then("the user is on the 'Check Your Answers' page")
@@ -409,7 +412,7 @@ class NotificationSpec extends BaseSpec {
       When("the user updates the SAO name")
       SingleSaoNamePage.addName("Jade Dancing")
 
-      And("the user clicks the continue button")
+      And("the user clicks the 'Continue' button")
       SingleSaoNamePage.clickSubmissionButton()
 
       Then("the user is returned to the 'Check Your Answers' page")
@@ -418,7 +421,7 @@ class NotificationSpec extends BaseSpec {
       When("the user clicks the continue button")
       CheckYourAnswersPage.clickSubmissionButton()
 
-      And("the user clicks the 'view your confirmation' button")
+      And("the user clicks the 'Submit' button")
       NotificationTaskListPage.clickSubmissionButton()
 
       Then("the user is on the loading spinner page")
@@ -461,10 +464,10 @@ class NotificationSpec extends BaseSpec {
       Then("the original SAO name is displayed on the 'Check Your Answers' page")
       assertTextOnPage(CheckYourAnswersPage.saoNameValueElement, "Cat Noir")
 
-      When("the user clicks the continue button")
+      When("the user clicks the 'Continue' button")
       CheckYourAnswersPage.clickSubmissionButton()
 
-      And("the user clicks the 'view your confirmation' button")
+      And("the user clicks the 'Submit' button")
       NotificationTaskListPage.clickSubmissionButton()
 
       Then("the user is on the loading spinner page")
@@ -573,7 +576,7 @@ class NotificationSpec extends BaseSpec {
       And("the 'Submit Notification' section name is not a hyperlink")
       NotificationTaskListPage.assertTaskListSectionNameIsNotHyperlink(SubmitNotification)
 
-      When("the user clicks 'view your confirmation' button")
+      When("the user clicks 'Submit' button")
       NotificationTaskListPage.clickSubmissionButton()
 
       Then("the user is on the loading spinner page")
@@ -1344,7 +1347,7 @@ class NotificationSpec extends BaseSpec {
       LastSaoStartDatePage.addDate(LocalDate.now().minusDays(90))
       And("the user clicks the continue button")
       LastSaoStartDatePage.clickSubmissionButton()
-      When("the user adds the seond person's name")
+      When("the user adds the second person's name")
       PreviousSaoNamePage.addName(TestData.secondPersonName)
       And("the user clicks the continue button")
       PreviousSaoNamePage.clickSubmissionButton()
