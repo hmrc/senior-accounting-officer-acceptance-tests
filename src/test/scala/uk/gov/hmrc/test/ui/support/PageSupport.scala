@@ -33,7 +33,10 @@ object PageSupport extends BrowserDriver with Matchers {
   val backLink: By       = By.className("govuk-back-link")
   val continueButton: By = By.id("continue")
 
-  inline final def fluentWait: Wait[WebDriver] = fluentWait(3.seconds, 200.milliseconds)
+  private val defaultWaitTimeout: FiniteDuration =
+    sys.env.get("UI_WAIT_SECONDS").fold(3.seconds)(_.toLong.seconds)
+
+  inline final def fluentWait: Wait[WebDriver] = fluentWait(defaultWaitTimeout, 200.milliseconds)
 
   def fluentWait(timeout: FiniteDuration, polling: FiniteDuration): FluentWait[WebDriver] =
     new FluentWait[WebDriver](driver)
