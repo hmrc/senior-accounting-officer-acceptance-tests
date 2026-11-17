@@ -34,7 +34,6 @@ class ContactDetailsSpec extends BaseSpec {
   override def beforeEach(): Unit = {
     super.beforeEach()
     RegistrationFeatureTogglePage.setGrsHost(GrsStubOnRegistrationFrontEnd)
-    RegistrationFeatureTogglePage.setReshuffledContactFlow(isEnabled = true)
     RegistrationFeatureTogglePage.setFaultToleranceEndpointAndSpinnerPage(isEnabled = true)
     AuthorityWizardPage.withAffinityGroup(Organisation).redirectToRegistration()
     RegistrationPage.clickEnterYourNominatedCompanyDetailsLink()
