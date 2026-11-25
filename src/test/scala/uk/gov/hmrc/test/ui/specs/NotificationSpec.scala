@@ -22,6 +22,10 @@ import uk.gov.hmrc.test.ui.adt.PageSectionStatus.*
 import uk.gov.hmrc.test.ui.adt.UploadFile.*
 import uk.gov.hmrc.test.ui.adt.ValidationError.*
 import uk.gov.hmrc.test.ui.pages.submission.*
+import uk.gov.hmrc.test.ui.pages.submission.SubmissionFeatureTogglePage.{
+  faultToleranceEndpointAndSpinnerPageCheckbox,
+  setToggle
+}
 import uk.gov.hmrc.test.ui.pages.submission.notification.*
 import uk.gov.hmrc.test.ui.pages.{AccountHomePage, AuthorityWizardPage}
 import uk.gov.hmrc.test.ui.specs.tags.*
@@ -35,7 +39,7 @@ class NotificationSpec extends BaseSpec {
 
   override def beforeEach(): Unit = {
     super.beforeEach()
-    SubmissionFeatureTogglePage.setFaultToleranceEndpointAndSpinnerPage(isEnabled = true)
+    setToggle(isEnabled = true, faultToleranceEndpointAndSpinnerPageCheckbox)
     AuthorityWizardPage.withAffinityGroup(Organisation).withDsaoEnrolment(TestData.subscriptionId).redirectToHomePage()
     setupInternalAuthorisation
   }
