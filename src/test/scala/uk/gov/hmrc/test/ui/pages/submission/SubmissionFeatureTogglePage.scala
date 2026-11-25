@@ -26,11 +26,12 @@ object SubmissionFeatureTogglePage extends CommonPage with SubmissionButtonSuppo
     s"${TestConfiguration.url("senior-accounting-officer-submission-frontend")}/test-only/feature-toggle"
   override val pageTitle: String = ""
 
-  private val faultToleranceEndpointAndSpinnerPageCheckbox: By = By.id("fault-tolerance")
+  val combinedJourneyCheckbox: By                      = By.id("combined")
+  val faultToleranceEndpointAndSpinnerPageCheckbox: By = By.id("fault-tolerance")
 
-  def setFaultToleranceEndpointAndSpinnerPage(isEnabled: Boolean): Unit = {
+  def setToggle(isEnabled: Boolean, id: By): Unit = {
     loadPage()
-    val checkBoxElement = driver.findElement(faultToleranceEndpointAndSpinnerPageCheckbox)
+    val checkBoxElement = driver.findElement(id)
     if checkBoxElement.isSelected != isEnabled then {
       checkBoxElement.click()
     }

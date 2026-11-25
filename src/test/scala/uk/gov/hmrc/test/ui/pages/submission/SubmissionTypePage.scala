@@ -31,6 +31,7 @@ object SubmissionTypePage extends CommonPage with SubmissionButtonSupport with E
 
   val notification: By = By.cssSelector("""input[value="notification"]""")
   val certificate: By  = By.cssSelector("""input[value="certificate"]""")
+  val combined: By     = By.cssSelector("""input[value="combined"]""")
 
   def clickNotificationRadioButton(): Unit = {
     clickRadioButton(notification)
@@ -38,5 +39,9 @@ object SubmissionTypePage extends CommonPage with SubmissionButtonSupport with E
 
   def clickCertificateRadioButton(): Unit = {
     clickRadioButton(certificate)
+  }
+
+  def clickCombinedRadioButton(): Unit = {
+    clickRadioButton(combined)
   }
 }
